@@ -1,0 +1,702 @@
+openapi: 3.0.0
+info:
+  version: 1.1.1
+  title: Common Account API
+  description: 
+    This specification defines a simple API to access information about bank accounts. The API is supposed to be used by customers who want to get information about their accounts such as current balance or transactions.
+  termsOfService: 'tbd'
+  contact:
+    email: info@common-api.ch
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+servers:
+  - url: account.common-api.ch
+externalDocs:
+  description: Find out more about SFTI API specifications
+  url: 'https://www.common-api.ch'
+security:
+  - OAuth2:
+      - read
+      - write
+paths:
+  /accounts:
+    get:
+      tags: 
+        - Account List 
+      description: Return the list of all accounts accessible for the logged in user.
+      parameters:
+        - in: query
+          name: withBalance
+          schema:
+            type: boolean
+          description: If set the balance of the accounts are included in the response.
+      responses:
+        '200':
+          description: Paginated list of all accounts.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/accountItem'
+
+  /accounts/{accountId}:
+    get:
+      tags: 
+        - Account Details 
+      description: Return the accounts details of the requested account.
+      parameters:
+        - in: path
+          name: accountId
+          required: true
+          schema:
+            type: string
+          description: The account the details are requested.
+        - in: query
+          name: withBalance
+          schema:
+            type: boolean
+          description: If set the balance of the accounts are included in the response.
+      responses:
+        '200':
+          description: Account details of the requested account.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/accountItem'
+
+  /accounts/{accountId}/balance:
+    get:
+      tags: 
+        - Account data of the specified account
+      description: Account data of the specified account.
+      parameters:
+        - in: path
+          name: accountId
+          description: The account the details are requested.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Account details of the requested account.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/accountBalanceItem'
+
+  /accounts/{accountId}/transactions:
+    get:
+      tags: 
+        - Transactions to and from the specified account
+      description: Transactions to and from the specified account.
+      parameters:
+        - in: path
+          name: accountId
+          required: true
+          schema:
+            type: string
+          description: The account the details are requested.
+        - in: query
+          name: entryReferenceFrom
+          schema:
+            type: string
+        - in: query
+          name: limit
+          schema: 
+            type: integer
+        - in: query
+          name: dateFrom
+          schema:
+            $ref: './commonDataModel.yaml#/components/schemas/Date'
+        - in: query
+          name: dateTo
+          schema:
+            $ref: './commonDataModel.yaml#/components/schemas/Date'       
+        - in: query
+          name: bookingStatus
+          required: true
+          schema:
+            type: string
+            enum:
+              - booked
+              - pending
+              - both
+      responses:
+        '200':
+          description: Account details of the requested account.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/accountTransactionReport'
+
+  /accounts/{accountId}/transactions/{transactionId}:
+    get:
+      tags: 
+        - Details of the specified transaction.
+      description: details of the specified transaction
+      parameters:
+        - in: path
+          name: accountId
+          required: true
+          schema:
+            type: string
+          description: The account the details are requested.
+        - in: path
+          name: transactionId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Account details of the requested account.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/accountTransactionEntry'
+
+# -------------------------
+# -------- Models ---------
+# -------------------------
+components:
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://example.com/oauth/authorize
+          tokenUrl: https://example.com/oauth/token
+          scopes:
+            read: Grants read access
+            write: Grants write access
+  schemas:
+    accountItem:
+      title: Account Information Item
+      type: object
+      required:
+        - id
+        - account
+        - currency
+      properties:
+        id:
+          $ref: '#/components/schemas/commonAccountId'
+        account:
+          $ref: '#/components/schemas/paymentIbanAccount'
+        currency:
+          type: string
+          minLength: 3
+          maxLength: 3
+          example: "CHF"
+        designation:
+          type: string
+          maxLength: 140
+          example: "Firmenkonto"
+        _links:
+          type: object
+          description: Contains the paths to additional resources for specific account (e.g. path to transactions resource).
+          properties:
+            self:
+              type: string
+              example: '/accounts/550e8400-e29b-11d4-a716-446655440000'
+            balance:
+              type: string
+              example: '/accounts/550e8400-e29b-11d4-a716-446655440000/balance'
+            transactions:
+              type: string
+              example: '/accounts/550e8400-e29b-11d4-a716-446655440000/transactions'
+
+    commonAccountId:
+      type: string
+      pattern: "[A-Za-z0-9](([A-Za-z0-9._]|-){0,254}[A-Za-z0-9]){0,1}"
+      maxLength: 256
+      example: "abc123_abcxyz.123789.abcxyz.abcxyz_abcxyz_abcxyz_abcxyz_ccccc_123abc"
+
+    paymentIbanAccount:
+      title: Payment IBAN Account
+      type: object
+      required:
+        - type
+        - identification
+      properties:
+        type:
+          type: string
+          description: The allowed account identification type for the creditor account depends on the payment type. The debtor account must always be an IBAN.
+          enum:
+            - "IBAN"
+        identification:
+          type: string
+          maxLength: 34
+          example: "CH9300762011623852957"
+          pattern: "[A-Z]{2,2}[0-9]{2,2}[a-zA-Z0-9]{1,30}"
+
+    accountBalanceItem:
+      title: Account Balance Item
+      type: object
+      required:
+        - date
+        - balanceType
+        - balance
+      properties:
+        date:
+          type: string
+          format: 'date'
+          example: '2010-02-15'
+        balanceType:
+          type: string
+          enum:
+            - "ITBD"
+            - "CLBD"
+          example: "CLBD"
+        balance:
+          $ref: '#/components/schemas/balanceCurrencyAmount'
+        _links:
+          type: object
+          description: Contains the paths to additional resources for specific account (e.g. path to transactions resource).
+          properties:
+            self:
+              type: string
+              example: '/accounts/550e8400-e29b-11d4-a716-446655440000/balance'
+            account:
+              type: string
+              example: '/accounts/550e8400-e29b-11d4-a716-446655440000'
+            transactions:
+              type: string
+              example: '/accounts/550e8400-e29b-11d4-a716-446655440000/transactions'
+
+    balanceCurrencyAmount:
+      title: Balance Currency-Amount
+      type: object
+      required:
+        - currency
+        - amount
+      properties:
+        currency:
+          type: string
+          minLength: 3
+          maxLength: 3
+          example: "CHF"
+        amount:
+          type: string
+          pattern: "-?[0-9]{1,12}([.][0-9]{1,5})?"
+          maxLength: 18
+          example: "10.25"
+
+    accountTransactionReport:
+      title: Account Transaction Report
+      type: object
+      required:
+        - iban
+        - entries
+      properties:
+        iban:
+          type: string
+          maxLength: 34
+          example: "CH5481230000001998736"
+        designation:
+          type: string
+          maxLength: 140
+          example: "Checking Account"
+        entries:
+          type: array
+          items:
+            $ref: '#/components/schemas/accountTransactionEntry'
+        _links:
+          type: object
+          properties:
+            self:
+              type: string
+              example: "/accounts/550e8400e29b11d4a716446655440000/statements"
+            account:
+              type: string
+              example: "/accounts/550e8400e29b11d4a716446655440000"
+            balance:
+              type: string
+              example: "/accounts/550e8400e29b11d4a716446655440000/balance"
+
+    accountTransactionEntry:
+      title: Account Transaction Entry
+      type: object
+      required:
+        - entryId
+        - transactionType
+        - bookingDate
+        - valueDate
+        - amount
+        - bankTransactionCode
+      properties:
+        entryId:
+          type: string
+          example: "ENTRY123456789"
+        transactionType:
+          $ref: '#/components/schemas/accountTransactionTransactionType'
+        entryReference:
+          type: string
+          example: 010001628
+          maxLength: 35
+        entryReferenceInternalId:
+          type: string
+          maxLength: 35
+          example: "010001628"
+        reversalIndicator:
+          type: boolean
+        bookingDate:
+          type: string
+          format: date
+          example: "2018-10-29"
+        valueDate:
+          type: string
+          format: date
+          example: "2018-10-29"
+        amount:
+          $ref: '#/components/schemas/paymentCurrencyAmount'
+        instructedAmount:
+          $ref: '#/components/schemas/accountTransactionInstructedAmount'
+        totalChargesAmount:
+          $ref: '#/components/schemas/accountTransactionItemCharges'
+        bankTransactionCode:
+          $ref: '#/components/schemas/accountTransactionBankTransactionCode'
+        additionalEntryInformation:
+          type: string
+        transactions:
+          type: array
+          items:
+            $ref: '#/components/schemas/accountTransactionItem'
+
+    accountTransactionTransactionType:
+      title: Account Transaction Transaction Type
+      type: string
+      enum:
+        - CRDT
+        - DBIT
+      example: "CRDT"
+
+    paymentCurrencyAmount:
+      title: Payment Currency-Amount
+      type: object
+      required:
+        - currency
+        - amount
+      properties:
+        currency:
+          type: string
+          maxLength: 3
+          minLength: 3
+          example: "CHF"
+        amount:
+          type: string
+          pattern: "[0-9]{1,12}([.][0-9]{1,5})?"
+          maxLength: 18
+          example: "10.25"
+
+    accountTransactionInstructedAmount:
+      title: Account Transaction Instructed Amount
+      type: object
+      required:
+        - amount
+        - sourceCurrency
+        - targetCurrency
+      properties:
+        amount:
+          type: string
+          pattern: "[0-9]{1,12}([.][0-9]{1,5})?"
+          maxLength: 18
+          example: "10.25"
+        sourceCurrency:
+          type: string
+          minLength: 3
+          maxLength: 3
+          example: "CHF"
+        targetCurrency:
+          type: string
+          minLength: 3
+          maxLength: 3
+          example: "USD"
+        exchangeRate:
+          type: string
+          example: "0.957"
+          pattern: "[0-9][.][0-9]{1,10}"
+          maxLength: 12
+        exchangeIndicator:
+          type: string
+          maxLength: 4
+          example: "MULT"
+
+    accountTransactionItemCharges:
+      title: Account Transaction Item Charges
+      type: object
+      required:
+        - amount
+        - currency
+      properties:
+        amount:
+          type: string
+          pattern: "[0-9]{1,12}([.][0-9]{1,5})?"
+          maxLength: 18
+          example: "10.25"
+        currency:
+          type: string
+          maxLength: 3
+          minLength: 3
+          example: "CHF"
+        chargeRecords:
+          type: array
+          items:
+            $ref: '#/components/schemas/accountTransactionItemChargesRecord'
+
+    accountTransactionBankTransactionCode:
+      title: Account Transaction Bank Transaction Code
+      type: object
+      required:
+        - domainCode
+        - familyCode
+        - subFamilyCode
+      properties:
+        domainCode:
+          type: string
+          maxLength: 4
+          example: "PMNT"
+        familyCode:
+          type: string
+          maxLength: 4
+          example: "RCDT"
+        subFamilyCode:
+          type: string
+          maxLength: 4
+          example: "DMCT"
+
+    accountTransactionItem:
+      title: Account Transaction Item
+      type: object
+      required:
+        - transactionId
+        - transactionType
+        - amount
+      properties:
+        transactionId:
+          type: string
+          maxLength: 35
+          example: 'TX12345A987'
+        transactionType:
+          $ref: '#/components/schemas/accountTransactionTransactionType'
+        endToEndId:
+          type: string
+          maxLength: 35
+          example: "ENDTOENDID-01"
+        bankTransactionCode:
+          $ref: '#/components/schemas/accountTransactionBankTransactionCode'
+        amount:
+          $ref: '#/components/schemas/paymentCurrencyAmount'
+        instructedAmount:
+          $ref: '#/components/schemas/accountTransactionInstructedAmount'
+        totalChargesAmount:
+          $ref: '#/components/schemas/accountTransactionItemCharges'
+        counterparty:
+          $ref: '#/components/schemas/accountTransactionCounterparty'
+        remittanceInformation:
+          $ref: '#/components/schemas/paymentRemittanceInformation'
+        remittanceReference:
+          $ref: '#/components/schemas/accountTransactionRemittanceReference'
+        additionalTransactionInformation:
+          type: string
+          maxLength: 140
+
+    accountTransactionItemChargesRecord:
+      title: Account Transaction Item Charges Record
+      type: object
+      properties:
+        amount:
+          type: string
+          pattern: "[0-9]{1,12}([.][0-9]{1,5})?"
+          maxLength: 18
+          example: "10.25"
+        currency:
+          type: string
+          minLength: 3
+          maxLength: 3
+          example: "CHF"
+        type:
+          type: string
+          maxLength: 35
+          example: "Some type of charge"
+        chargesIncludedIndicator:
+          type: boolean
+
+    accountTransactionCounterparty:
+      title: Account Transaction Counterparty
+      type: object
+      properties:
+        name:
+          type: string
+          maxLength: 140
+          example: "Hans Muster"
+        postalAddress:
+          $ref: '#/components/schemas/accountTransactionStructuredOrUnstructuredAddress'
+        account:
+          $ref: '#/components/schemas/accountTransactionCounterpartyAccount'
+        agent:
+          $ref: '#/components/schemas/accountTransactionCounterpartyAgent'
+    
+    paymentRemittanceInformation:
+      title: Payment Remittance Information
+      description: Either remittanceReference or remittanceInformation must be set.
+      type: string
+      maxLength: 140
+      example: "Rechnung Nr. 408"
+
+    accountTransactionRemittanceReference:
+      title: Account Transaction Remittance Reference
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+            - SCOR
+            - ISR
+            - QRR
+        reference:
+          type: string
+          maxLength: 35
+          example: "210000000003139471430009017"
+
+    accountTransactionStructuredOrUnstructuredAddress:
+      title: Common Structured or Unstructured Address
+      type: object
+      properties:
+        structured:
+          $ref: '#/components/schemas/accountTransactionStructuredAddress'
+        unstructured:
+          $ref: '#/components/schemas/accountTransactionUnstructuredAddress'
+
+    accountTransactionCounterpartyAccount:
+      title: Account Transaction Counterparty Account
+      type: object
+      required:
+        - type
+        - identification
+      properties:
+        type:
+          type: string
+          enum:
+            - "IBAN"
+            - "OTHER"
+        identification:
+          type: string
+          maxLength: 35
+          example: "CH9300762011623852957"
+
+    accountTransactionCounterpartyAgent:
+      title: Account Transaction Counterparty Agent
+      type: object
+      properties:
+        bic:
+          type: string
+          maxLength: 11
+        clearingSystemMemberIdentification:
+          $ref: '#/components/schemas/commonClearingSystemMemberIdentification'
+
+    accountTransactionStructuredAddress:
+      title: Structured Postal Address for Transactions
+      type: object
+      required:
+        - streetName
+        - postCode
+        - townName
+      properties:
+        streetName:
+          type: string
+          maxLength: 70
+          example: "Rue de la gare"
+        buildingNumber:
+          type: string
+          maxLength: 16
+          example: "24"
+        postCode:
+          type: string
+          maxLength: 16
+          example: "2501"
+        townName:
+          type: string
+          maxLength: 35
+          example: "Biel"
+        country:
+          type: string
+          maxLength: 2
+          example: "CH"
+
+    accountTransactionUnstructuredAddress:
+      title: Unstructured Address for Transactions
+      type: object
+      required:
+        - addressLines
+      properties:
+        addressLines:
+          type: array
+          description: max 4 lines of 70 characters
+          maxLength: 4
+          example: ["Robert Schneider SA", "Rue de la gare 24"]
+          items:
+            type: string
+            maxLength: 70
+        country:
+          type: string
+          maxLength: 2
+          example: "CH"
+
+    commonClearingSystemMemberIdentification:
+      title: Common Clearing System Member Identification
+      type: object
+      required:
+        - code
+        - memberId
+      properties:
+        code:
+          type: string
+          maxLength: 5
+          example: "CHBCC"
+        memberId:
+          type: string
+          maxLength: 35
+          example: "00230"
+
+    PortfolioListLink:
+      type: object
+      title: Partner Link
+      properties:
+      
+        rel:
+          type: string
+        
+        href:
+          type: string
+          example: /mortgage-app/api/v1/mortgages
+          description: |
+                    The machine or tenant relative URI that points to the linked resource
+        
+                    Example: 
+                    Assuming that the actual URL of the resource would be: https://machine/tenant/app/api/v1/detail-view/detailId,
+                    then the href to the detail-view would be: /app/api/v1/detail-view/detailId
+        
+        version:
+          type: string
+          example: v1
+          description: Version of the API (the same rel can appear several times for different versions that are supported)
+        
+        method:
+          $ref: "#/components/schemas/HttpVerb"
+        
+        type:
+          type: string
+          example: "application/json"
+          description: The supported http content-type when sending the request to the server. If no content is supported on an end-point (like on a typical GET) then the type will be null
+
+    HttpVerb:
+      type: string
+      example: GET
+      enum:
+        - GET
+        - POST
+        - PUT
+        - PATCH
+
+

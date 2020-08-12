@@ -1,0 +1,815 @@
+openapi: "3.0.0"
+info:
+  version: 0.9.3
+  title: Common Payment API
+  description: 
+    This specification defines a simple payment API for payment types used in Switzerland. The API is supposed to be used by customers who want to initiate a payment at their bank. Note that, consents and SCA will be handled in a dedicated specification file.
+  termsOfService: 'Tbd'
+  contact:
+    email: info@common-api.ch
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+servers:
+  - url: payment.common-api.ch
+externalDocs:
+  description: Find out more about SFTI API specifications
+  url: 'https://www.common-api.ch'
+security:
+  - OAuth2:
+      - read
+      - write
+paths:
+  /payments:
+    post:
+      tags:
+        - Payments submissions
+      summary: Initiate new payments submission
+      description: Create new payments submission
+      operationId: submitPaymentsSubmissionUsingPOST
+      requestBody:
+        description: Details of payments submission to be added
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/paymentSubmissionRequest'
+      responses:
+        '201':
+          description: created
+          headers:
+            location:
+              schema:
+                type: string
+                format: uri
+                description: Link to the created resource
+
+  /payments/{submissionId}:
+    get:
+      tags:
+        - Payments submissions
+      description: Retrieve a specific payment submission
+      summary: Get a specific payment submission
+      parameters:
+        - name: submissionId
+          in: path
+          description: ID of payment submission to be retrieved
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: The original payment submission
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/paymentSubmissionRequest'
+
+  /payments/{submissionId}/status:
+    get:
+      tags:
+        - Payments submissions
+      description: Retrieve a specific payment submission's status
+      summary: Get status information for the specific payment submission
+      parameters:
+        - name: submissionId
+          in: path
+          description: ID of chosen payment submission
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Status information for the specific payment submission
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/paymentSubmissionStatus'
+
+  /iso20022/payments:
+    post:
+      tags:
+        - iso20022
+      summary: Submit ISO20022 XML payment instruction (PAIN.001)
+      description: Submit an XML PAIN.001 payment instruction according to the ISO20022 specification.
+      requestBody:
+        description: The XML PAIN.001
+        required: true
+        content:
+          application/xml:
+            schema:
+              type: string
+      responses:
+        '201':
+          description: created
+          headers:
+            location:
+              schema:
+                type: string
+                format: uri
+                description: link to the created resource
+
+  /iso20022/payments/{submissionId}:
+    get:
+      tags:
+        - iso20022
+      summary: Retrieve a submitted ISO20022 XML PAIN.001 message.
+      parameters:
+        - in: path
+          name: submissionId
+          schema:
+            type: string
+          required: true
+          description: Unique ID of the ISO20022 payment instruction
+      responses:
+        '200':
+          description: Returns the requested ISO20022 XML PAIN.001 message
+          content:
+            application/xml:
+              schema:
+                type: string
+
+  /iso20022/payments/{submissionId}/status:
+    get:
+      tags:
+        - iso20022
+      summary: Get the ISO20022 XML status report (PAIN.002) for a specific payment instruction
+      description: The status report for the requested XML ISO20022 payment instruction (PAIN.002)
+      parameters:
+        - in: path
+          name: submissionId
+          schema:
+            type: string
+          required: true
+          description: Unique ID of the ISO20022 payment instruction
+      responses:
+        '200':
+          description: Returns the requested ISO20022 XML PAIN.001 message
+          content:
+            application/xml:
+              schema:
+                type: string
+
+  /iso20022/statements:
+    get:
+      tags:
+        - iso20022
+      summary: Get list of resource links to account statements (CAMT.053)
+      description: The resources links to available account statements (CAMT.053)
+      responses:
+        '200':
+          description: Returns a list of resource links to ISO20022 XML CAMT.053 messages
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  conditionList: 
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/iso20022ReportReference'
+
+  /iso20022/statements/{reportId}:
+    get:
+      tags:
+        - iso20022
+      summary: Retrieves a specifically requested ISO20022 XML CAMT.053 document
+      parameters:
+        - in: path
+          name: reportId
+          schema:
+            type: string
+          required: true
+          description: Unique ID of the requested ISO20022 XML CAMT.053 document
+      responses:
+        '200':
+          description: Returns the requested ISO20022 XML CAMT.053 message
+          content:
+            application/xml:
+              schema:
+                type: string 
+
+  /single-payments:
+    get:
+      tags: 
+        - Single payments
+      description: Return the list of all initiated payments of all types for the authenticated context
+      summary: Get the list of all payments (all payment types)
+      parameters:
+        - in: query
+          name: entryReferenceFrom
+          schema:
+            type: string
+          description: Number of items to skip
+        - in: query
+          name: limit
+          schema:
+            type: integer
+          description: Number of items to be returned
+        - in: query
+          name: dateFrom
+          schema:
+            $ref: './commonDataModel.yaml#/components/schemas/Date'
+        - in: query
+          name: dateTo
+          schema:
+            $ref: './commonDataModel.yaml#/components/schemas/Date'
+      responses:
+        '200':
+          description: Paginated list of all payments
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  paymentList: 
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Payment'
+                  _links:
+                    $ref: './commonDataModel.yaml#/components/schemas/Links'
+
+  /single-payments/{paymentId}:
+    get:
+      tags:
+        - Single payments
+      description: Receive payment with corresponding ID id
+      summary: Get a specific payment
+      parameters:
+        - name: paymentId
+          in: path
+          description: ID of payment to be shown
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Details on the chosen payment
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Payment'
+    put:
+      tags:
+        - Single payments
+      description: Modify payment details with ID id
+      summary: Modify a payment
+      parameters:
+        - name: paymentId
+          in: path
+          description: ID of payment to modify 
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Successful execution
+    delete:
+      tags:
+        - Single payments
+      description: Delete payment
+      summary: Delete a payment
+      parameters:
+        - name: paymentId
+          in: path
+          description: ID of payment to cancel
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Payment has been deleted
+        '201':
+          description: Payment is marked for deletion
+        '404':
+          description: Payment does not exist
+          
+# -------------------------
+# -------- Models ---------
+# -------------------------
+components:
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://example.com/oauth/authorize
+          tokenUrl: https://example.com/oauth/token
+          scopes:
+            read: Grants read access
+            write: Grants write access
+  schemas:
+
+    # ---- From SIX ----
+    paymentSubmissionRequest:
+      title: Payment Submission Request
+      type: object
+      required:
+        - messageId
+        - initiatingPartyId
+        - debtorAccount
+        - bookingInstruction
+        - transactions
+        - requestedExecutionDate
+      properties:
+        messageId:
+          type: string
+          maxLength: 35
+          example: "eb6305c91f7f49deaed016487c27b42d"
+        initiatingPartyId:
+          type: string
+          maxLength: 32
+          example: "TPP01746"
+        requestedExecutionDate:
+          type: string
+          format: date
+          example: "2018-04-07"
+        debtorAccount:
+          $ref: '#/components/schemas/paymentIbanAccount'
+        bookingInstruction:
+          $ref: '#/components/schemas/paymentBookingInstruction'
+        transactions:
+          type: array
+          items:
+            $ref: '#/components/schemas/paymentInstructionItem'
+
+    paymentIbanAccount:
+      title: Payment IBAN Account
+      type: object
+      required:
+        - type
+        - identification
+      properties:
+        type:
+          type: string
+          description: The allowed account identification type for the creditor account depends on the payment type. The debtor account must always be an IBAN.
+          enum:
+            - "IBAN"
+        identification:
+          type: string
+          maxLength: 34
+          example: "CH9300762011623852957"
+          pattern: "[A-Z]{2,2}[0-9]{2,2}[a-zA-Z0-9]{1,30}"
+
+    paymentQrIbanAccount:
+      title: Payment QR-IBAN Account
+      type: object
+      required:
+        - type
+        - identification
+      properties:
+        type:
+          type: string
+          description: IBAN or QR-IBAN of the creditor, only IBANs with CH or LI country code permitted.
+          enum:
+            - "IBAN"
+            - "QR_IBAN"
+        identification:
+          type: string
+          maxLength: 34
+          example: "CH9300762011623852957"
+          pattern: "[A-Z]{2,2}[0-9]{2,2}[a-zA-Z0-9]{1,30}"
+
+    paymentOtherAccount:
+      title: Payment Other Account
+      type: object
+      required:
+        - type
+        - identification
+      properties:
+        "type":
+          type: string
+          description: The allowed account identification type for the creditor account depends on the payment type. The debtor account must always be an IBAN.
+          enum:
+            - "OTHER"
+        identification:
+          type: string
+          maxLength: 34
+          example: "01-39139-1"
+
+    paymentBookingInstruction:
+      title: Payment Booking Instruction
+      type: string
+      enum:
+        - "SINGLEBOOKING_SIA"
+        - "SINGLEBOOKING_NOA"
+        - "BATCHBOOKING_SALA_NOA"
+        - "BATCHBOOKING_SALA_CND"
+        - "BATCHBOOKING_NOA"
+        - "BATCHBOOKING_CND"
+        - "BATCHBOOKING_CWD"
+      example: "BATCHBOOKING_SALA_CND"
+
+    paymentInstructionItem:
+      title: Payment Instruction Item
+      type: object
+      required:
+        - instructionId
+        - endToEndId
+        - instructedAmount
+      properties:
+        instructionId:
+          type: string
+          maxLength: 35
+          example: "INSTR-001"
+        endToEndId:
+          type: string
+          maxLength: 35
+          example: "ENDTOENDID-001"
+        instructedAmount:
+          $ref: '#/components/schemas/paymentCurrencyAmount'
+        ibanDetails:
+          $ref: '#/components/schemas/paymentIBANDetail'
+        isrDetails:
+          $ref: '#/components/schemas/paymentISRDetail'
+        otherDetails:
+          $ref: '#/components/schemas/paymentOtherDetail'
+        qrDetails:
+          $ref: '#/components/schemas/paymentQRDetail'
+
+    paymentCurrencyAmount:
+      title: Payment Currency-Amount
+      type: object
+      required:
+        - currency
+        - amount
+      properties:
+        currency:
+          type: string
+          maxLength: 3
+          minLength: 3
+          example: "CHF"
+        amount:
+          type: string
+          pattern: "[0-9]{1,12}([.][0-9]{1,5})?"
+          maxLength: 18
+          example: "10.25"
+
+    paymentIBANDetail:
+      title: Payment IBAN Detail
+      type: object
+      required:
+        - creditorAccount
+        - creditor
+      properties:
+        sepaIndicator:
+          type: boolean
+          example: true
+        creditorAccount:
+          $ref: '#/components/schemas/paymentIbanAccount'
+        creditorAgent:
+          $ref: '#/components/schemas/paymentCreditorAgent'
+        creditor:
+          $ref: '#/components/schemas/paymentCreditor'
+        chargeBearer:
+          $ref: '#/components/schemas/paymentChargeBearerMethod'
+        remittanceReference:
+          $ref: '#/components/schemas/paymentIbanRemittanceReference'
+        remittanceInformation:
+          $ref: '#/components/schemas/paymentRemittanceInformation'
+
+    paymentISRDetail:
+      title: Payment ISR Detail
+      type: object
+      required:
+        - remittanceReference
+      properties:
+        creditorAccount:
+          $ref: '#/components/schemas/paymentOtherAccount'
+        creditor:
+          $ref: '#/components/schemas/paymentCreditor'
+        remittanceReference:
+          $ref: '#/components/schemas/paymentIsrRemittanceReference'
+
+    paymentOtherDetail:
+      title: Payment Other Detail
+      type: object
+      required:
+        - creditorAccount
+        - creditorAgent
+        - creditor
+      properties:
+        creditorAccount:
+          $ref: '#/components/schemas/paymentOtherAccount'
+        creditorAgent:
+          $ref: '#/components/schemas/paymentCreditorAgent'
+        creditor:
+          $ref: '#/components/schemas/paymentCreditor'
+        chargeBearer:
+          $ref: '#/components/schemas/paymentChargeBearerMethod'
+        remittanceReference:
+          $ref: '#/components/schemas/paymentOtherRemittanceReference'
+
+    paymentQRDetail:
+      title: Payment QR Detail
+      type: object
+      required:
+        - creditor
+        - creditorAccount
+      properties:
+        creditorAccount:
+          $ref: '#/components/schemas/paymentQrIbanAccount'
+        creditor:
+          $ref: '#/components/schemas/paymentCreditor'
+        ultimateCreditor:
+          $ref: '#/components/schemas/paymentCreditor'
+        ultimateDebtor:
+          $ref: '#/components/schemas/paymentDebtor'
+        remittanceReference:
+          $ref: '#/components/schemas/paymentIbanRemittanceReference'
+        remittanceInformation:
+          $ref: '#/components/schemas/paymentRemittanceInformation'
+
+    paymentCreditorAgent:
+      type: object
+      properties:
+        bic:
+          type: string
+          maxLength: 11
+          example: "BDEMMXMM"
+        clearingSystemMemberIdentification:
+          $ref: '#/components/schemas/commonClearingSystemMemberIdentification'
+
+    commonClearingSystemMemberIdentification:
+      title: Common Clearing System Member Identification
+      type: object
+      required:
+        - code
+        - memberId
+      properties:
+        code:
+          type: string
+          maxLength: 5
+          example: "CHBCC"
+        memberId:
+          type: string
+          maxLength: 35
+          example: "00230"
+    
+    paymentCreditor:
+      title: Payment Creditor
+      type: object
+      required:
+        - name
+        - postalAddress
+      properties:
+        name:
+          type: string
+          maxLength: 140
+        postalAddress:
+          $ref: '#/components/schemas/paymentStructuredOrUnstructuredAddress'
+
+    paymentDebtor:
+      title: Payment Debtor
+      type: object
+      required:
+        - name
+        - postalAddress
+      properties:
+        name:
+          type: string
+        postalAddress:
+          $ref: '#/components/schemas/paymentStructuredOrUnstructuredAddress'
+
+    paymentChargeBearerMethod:
+      title: Payment Charge Bearer Method
+      type: string
+      enum:
+        - "DEBT"
+        - "CRED"
+        - "SHAR"
+        - "SLEV"
+      example: "SHAR"
+
+    paymentIbanRemittanceReference:
+      title: Payment Remittance Reference
+      description: either remittanceReference or remittanceInformation must be set
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+            - SCOR
+            - QRR
+        reference:
+          type: string
+          maxLength: 35
+          example: "210000000003139471430009017"
+
+    paymentIsrRemittanceReference:
+      title: Payment Remittance Reference
+      description: either remittanceReference or remittanceInformation must be set
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+            - ISR
+        reference:
+          type: string
+          maxLength: 35
+          example: "210000000003139471430009017"
+
+    paymentOtherRemittanceReference:
+      title: Payment Remittance Reference
+      description: either remittanceReference or remittanceInformation must be set
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+            - SCOR
+        reference:
+          type: string
+          maxLength: 35
+          example: "210000000003139471430009017"
+
+    paymentRemittanceInformation:
+      title: Payment Remittance Information
+      description: either remittanceReference or remittanceInformation must be set
+      type: string
+      maxLength: 140
+      example: "Rechnung Nr. 408"
+
+    paymentStructuredAddress:
+      title: Structured Address for Payments
+      type: object
+      required:
+        - streetName
+        - postCode
+        - townName
+        - country
+      properties:
+        streetName:
+          type: string
+          maxLength: 70
+          example: "Rue de la gare"
+        buildingNumber:
+          type: string
+          maxLength: 16
+          example: "24"
+        postCode:
+          type: string
+          maxLength: 16
+          example: "2501"
+        townName:
+          type: string
+          maxLength: 35
+          example: "Biel"
+        country:
+          type: string
+          maxLength: 2
+          example: "CH"
+
+    paymentUnstructuredAddress:
+      title: Unstructured Address for Payments
+      type: object
+      required:
+        - addressLines
+        - country
+      properties:
+        addressLines:
+          type: array
+          description: max 2 lines of 70 characters
+          maxLength: 2
+          example: ["Robert Schneider SA", "Rue de la gare 24"]
+          items:
+            type: string
+            maxLength: 70
+        country:
+          type: string
+          maxLength: 2
+          example: "CH"
+
+    paymentStructuredOrUnstructuredAddress:
+      title: Payment Structured or Unstructured Address
+      description: Either structured or unstructered must be set
+      type: object
+      properties:
+        structured:
+          $ref: '#/components/schemas/paymentStructuredAddress'
+        unstructured:
+          $ref: '#/components/schemas/paymentUnstructuredAddress'
+
+    paymentSubmissionStatus:
+      title: Payment Submission Status
+      type: object
+      required:
+        - statusCode
+      properties:
+        messageId:
+          type: string
+          example: "eb6305c91f7f49deaed016487c27b42d"
+        statusCode:
+          type: string
+          enum:
+            - ACCP
+            - RJCT
+            - PART
+          example: "PART"
+        transactions:
+          type: array
+          items:
+            $ref: '#/components/schemas/paymentInstructionItemStatus'
+
+    paymentInstructionItemStatus:
+      title: Payment Instruction Item Status
+      type: object
+      required:
+        - instructionId
+        - statusCode
+      properties:
+        instructionId:
+          type: string
+          maxLength: 35
+          example: "DNCS-20180322-IXN0-TXN0"
+        statusCode:
+          type: string
+          enum:
+            - ACCP
+            - RJCT
+          example: "RJCT"
+        reasonCode:
+          type: string
+          example: "CURR"
+        reasonInformation:
+          type: string
+          maxLength: 105
+          example: "currency USD not allowed for payment type ISR"
+
+    iso20022ReportReference:
+      title: ISO 20022 Report Reference
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        type:
+          type: string
+          enum:
+            - CAMT53
+        id:
+          type: string
+
+    # ---- Account Reference ----
+    AccountReference:
+      description: Account identifier
+      type: object
+      properties:
+        iban: 
+          $ref: '#/components/schemas/Iban'
+        currency:
+          $ref: './commonDataModel.yaml#/components/schemas/Currency'
+    # --------
+
+    # --- Account Types ---
+    Iban:
+      type: string
+      example: CH93 0076 2011 6238 5295 7
+    IsrAccountNum:
+      type: string
+      maxLength: 11
+    # ---------
+
+    # ---- Transaction Status ----
+    transactionStatus:
+      type: string
+      maxLength: 4
+      description: ISO 200222 Code
+    # --------
+
+    # ---- General Payment ----
+    Payment:
+      type: object
+      required:
+        - paymentID
+        - creditorAccount
+        - instructedAmount
+        - paymentType
+        - executionDate
+        - transactionStatus
+        - linkRef
+      properties:
+        paymentID:
+          type: string
+        creditorAccount:
+          $ref: '#/components/schemas/AccountReference'
+        instructedAmount:
+          $ref: './commonDataModel.yaml#/components/schemas/Amount'
+        paymentType:
+          type: string
+          maxLength: 20
+        executionDate:
+          $ref: './commonDataModel.yaml#/components/schemas/Date'
+        transactionStatus:
+          $ref: '#/components/schemas/transactionStatus'
+        linkRef:
+          type: string   
+    # ---------
+
