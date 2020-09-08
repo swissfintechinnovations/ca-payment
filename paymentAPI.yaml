@@ -1,9 +1,10 @@
 openapi: "3.0.0"
 info:
-  version: 0.9.3
+  version: 0.9.4
   title: Common Payment API
   description: 
     This specification defines a simple payment API for payment types used in Switzerland. The API is supposed to be used by customers who want to initiate a payment at their bank. Note that, consents and SCA will be handled in a dedicated specification file.
+    This specification uses schema definitions from the Common Data Model v1.2.0.
   termsOfService: 'Tbd'
   contact:
     email: info@common-api.ch
@@ -211,11 +212,11 @@ paths:
         - in: query
           name: dateFrom
           schema:
-            $ref: './commonDataModel.yaml#/components/schemas/Date'
+            $ref: '#/components/schemas/Date'
         - in: query
           name: dateTo
           schema:
-            $ref: './commonDataModel.yaml#/components/schemas/Date'
+            $ref: '#/components/schemas/Date'
       responses:
         '200':
           description: Paginated list of all payments
@@ -229,7 +230,7 @@ paths:
                     items:
                       $ref: '#/components/schemas/Payment'
                   _links:
-                    $ref: './commonDataModel.yaml#/components/schemas/Links'
+                    $ref: '#/components/schemas/Links'
 
   /single-payments/{paymentId}:
     get:
@@ -756,6 +757,58 @@ components:
             - CAMT53
         id:
           type: string
+    # --- End SIX -----
+
+    # ---- Common Data Model v1.2.0
+    # ---- Date Formats
+    Date:
+      type: string
+      format: date
+      example: 2018-04-13
+      
+    DateTime:
+      type: string
+      format: date-time
+      example: 2018-04-13T11:11:11Z
+    # --------
+    # ---- Links ----
+    Links:
+      description: links returned in the answer of an API call
+      type: object
+      properties:
+        self:
+          type: string
+        first:
+          type: string
+        previous:
+          type: string
+        next:
+          type: string
+        last:
+          type: string 
+    # ---------
+    # ---- Currency ----
+    Currency:
+      description: ISO 4217 code
+      type: string
+      pattern: '[A-Z]{3}'
+    # ---------
+    # ---- Amount ----
+    Amount:
+      description: amount with currency
+      type: object
+      required:
+        - currency
+        - content
+      properties:
+        currency:
+          $ref: '#/components/schemas/Currency'
+        content:
+          description: amount given with fractional digits, the separator is a dot
+          type: string
+          pattern: '-?\d{1,14}(?:\.\d{1,3})?'
+    # --------
+    # ---- End Common Data Model
 
     # ---- Account Reference ----
     AccountReference:
@@ -765,7 +818,7 @@ components:
         iban: 
           $ref: '#/components/schemas/Iban'
         currency:
-          $ref: './commonDataModel.yaml#/components/schemas/Currency'
+          $ref: '#/components/schemas/Currency'
     # --------
 
     # --- Account Types ---
@@ -801,12 +854,12 @@ components:
         creditorAccount:
           $ref: '#/components/schemas/AccountReference'
         instructedAmount:
-          $ref: './commonDataModel.yaml#/components/schemas/Amount'
+          $ref: '#/components/schemas/Amount'
         paymentType:
           type: string
           maxLength: 20
         executionDate:
-          $ref: './commonDataModel.yaml#/components/schemas/Date'
+          $ref: '#/components/schemas/Date'
         transactionStatus:
           $ref: '#/components/schemas/transactionStatus'
         linkRef:
