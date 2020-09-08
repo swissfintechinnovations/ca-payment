@@ -4,6 +4,7 @@ info:
   title: Common Account API
   description: 
     This specification defines a simple API to access information about bank accounts. The API is supposed to be used by customers who want to get information about their accounts such as current balance or transactions.
+    This specification uses schema definitions from the Common Data Model v1.2.0.
   termsOfService: 'tbd'
   contact:
     email: info@common-api.ch

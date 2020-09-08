@@ -4,6 +4,7 @@ info:
   title: Common Payment API
   description: 
     This specification defines a simple payment API for payment types used in Switzerland. The API is supposed to be used by customers who want to initiate a payment at their bank. Note that, consents and SCA will be handled in a dedicated specification file.
+    This specification uses schema definitions from the Common Data Model v1.2.0.
   termsOfService: 'Tbd'
   contact:
     email: info@common-api.ch
