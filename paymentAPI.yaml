@@ -1,6 +1,6 @@
 openapi: "3.0.0"
 info:
-  version: 0.9.4
+  version: 0.9.5
   title: Common Payment API
   description: 
     This specification defines a simple payment API for payment types used in Switzerland. The API is supposed to be used by customers who want to initiate a payment at their bank. Note that, consents and SCA will be handled in a dedicated specification file.
@@ -349,7 +349,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Payment'
-          '400':
+        '400':
           $ref: '#/components/responses/standard400'
         '401':
           $ref: '#/components/responses/standard401'
