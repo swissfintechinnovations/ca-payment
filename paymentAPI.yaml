@@ -21,6 +21,37 @@ security:
       - read
       - write
 paths:
+  /iso20022/standingorders:
+    post:
+      tags:
+        - Create Standing Order
+      summary: Create a new Standing Order based on CAMT.102
+      description: It is used to create a permanent order for the transfer of funds between two accounts belonging to the same member.
+      responses:
+        '201':
+          description: created
+          headers:
+            location:
+              schema:
+                type: string
+                format: uri
+                description: link to the created resource
+        '400':
+          $ref: '#/components/responses/standard400'
+        '401':
+          $ref: '#/components/responses/standard401'
+        '403':
+          $ref: '#/components/responses/standard403'
+        '404':
+          $ref: '#/components/responses/standard404'
+        '405':
+          $ref: '#/components/responses/standard405'
+        '500':
+          $ref: '#/components/responses/standard500'
+        '501':
+          $ref: '#/components/responses/standard501'
+        '503':
+          $ref: '#/components/responses/standard503'
   /payments:
     post:
       tags:
