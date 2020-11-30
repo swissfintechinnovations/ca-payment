@@ -179,7 +179,7 @@ paths:
           description: Unique ID of the ISO20022 payment instruction
       responses:
         '200':
-          description: Returns the requested ISO20022 XML PAIN.001 message
+          description: Returns the requested ISO20022 XML PAIN.002 message
           content:
             application/xml:
               schema:
