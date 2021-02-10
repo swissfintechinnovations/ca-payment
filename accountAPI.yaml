@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  version: 1.1.2
+  version: 1.1.3
   title: Common Account API
   description: 
     This specification defines a simple API to access information about bank accounts. The API is supposed to be used by customers who want to get information about their accounts such as current balance or transactions.
@@ -27,11 +27,9 @@ paths:
         - Account List 
       description: Return the list of all accounts accessible for the logged in user.
       parameters:
-        - in: query
-          name: withBalance
-          schema:
-            type: boolean
-          description: If set the balance of the accounts are included in the response.
+        - $ref: '#/parameters/clientid_in_header' 
+        - $ref: '#/parameters/correlation_in_header'
+        - $ref: '#/parameters/agent_in_header'
       responses:
         '200':
           description: Paginated list of all accounts.
@@ -41,6 +39,11 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/accountItem'
+          headers:
+            X-Correlation-ID:
+              schema:
+                type: string
+              description: Reflects the ID (set by the caller) from the request.
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -70,11 +73,9 @@ paths:
           schema:
             type: string
           description: The account the details are requested.
-        - in: query
-          name: withBalance
-          schema:
-            type: boolean
-          description: If set the balance of the accounts are included in the response.
+        - $ref: '#/parameters/clientid_in_header' 
+        - $ref: '#/parameters/correlation_in_header'
+        - $ref: '#/parameters/agent_in_header'
       responses:
         '200':
           description: Account details of the requested account.
@@ -82,6 +83,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/accountItem'
+          headers:
+            X-Correlation-ID:
+              schema:
+                type: string
+              description: Reflects the ID (set by the caller) from the request.
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -111,6 +117,9 @@ paths:
           required: true
           schema:
             type: string
+        - $ref: '#/parameters/clientid_in_header' 
+        - $ref: '#/parameters/correlation_in_header'
+        - $ref: '#/parameters/agent_in_header'
       responses:
         '200':
           description: Account details of the requested account.
@@ -118,6 +127,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/accountBalanceItem'
+          headers:
+            X-Correlation-ID:
+              schema:
+                type: string
+              description: Reflects the ID (set by the caller) from the request.
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -172,6 +186,9 @@ paths:
               - booked
               - pending
               - both
+        - $ref: '#/parameters/clientid_in_header' 
+        - $ref: '#/parameters/correlation_in_header'
+        - $ref: '#/parameters/agent_in_header'
       responses:
         '200':
           description: Account details of the requested account.
@@ -179,6 +196,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/accountTransactionReport'
+          headers:
+            X-Correlation-ID:
+              schema:
+                type: string
+              description: Reflects the ID (set by the caller) from the request.
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -213,6 +235,9 @@ paths:
           required: true
           schema:
             type: string
+        - $ref: '#/parameters/clientid_in_header' 
+        - $ref: '#/parameters/correlation_in_header'
+        - $ref: '#/parameters/agent_in_header'
       responses:
         '200':
           description: Account details of the requested account.
@@ -220,6 +245,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/accountTransactionEntry'
+          headers:
+            X-Correlation-ID:
+              schema:
+                type: string
+              description: Reflects the ID (set by the caller) from the request.
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -236,7 +266,6 @@ paths:
           $ref: '#/components/responses/standard501'
         '503':
           $ref: '#/components/responses/standard503'
-
 # -------------------------
 # -------- Models ---------
 # -------------------------
@@ -835,6 +864,30 @@ components:
         - PUT
         - PATCH
 
+  # ---- Global Common Header Parameters ----
+  parameters:
+    clientid_in_header:
+      in: header
+      name: X-CorAPI-Client-ID
+      schema:
+        type: string
+      description: 'ID of the client forwarded to the provider. (SCOPE: FI)'
+      required: true
+    correlation_in_header:
+      in: header
+      name: X-Correlation-ID
+      schema:
+        type: string
+      description: Unique ID (defined by the caller) which will be reflected back in the response.
+      required: true
+    agent_in_header:
+      in: header
+      name: User-Agent
+      schema:
+        type: string
+      description: Name and version of the of the Client software
+      required: true
+
   # ---- Responses - Standard Errors Common Data Model v1.2.1----
   responses:
     standard400:
@@ -997,4 +1050,3 @@ components:
           schema:
             $ref: '#/components/schemas/commonErrorResponse'
   # ---- End Responses - Standard Errors
-

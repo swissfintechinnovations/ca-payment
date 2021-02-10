@@ -1,6 +1,6 @@
 openapi: "3.0.0"
 info:
-  version: 0.9.6
+  version: 0.9.7
   title: Common Payment API
   description: 
     This specification defines a simple payment API for payment types used in Switzerland. The API is supposed to be used by customers who want to initiate a payment at their bank. Note that, consents and SCA will be handled in a dedicated specification file.
@@ -21,12 +21,23 @@ security:
       - read
       - write
 paths:
-  /iso20022/standingorders:
+  /standing-orders:
     post:
       tags:
-        - Create Standing Order
-      summary: Create a new Standing Order based on CAMT.102
-      description: It is used to create a permanent order for the transfer of funds between two accounts belonging to the same member.
+        - Standing Order
+      summary: Create a new Standing Order 
+      description: It is used to create a permanent order for the transfer of funds.
+      requestBody:
+        description: Details of standing orders submission to be added
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/standingorderSubmissionRequest'
+      parameters:
+        - $ref: '#/parameters/clientid_in_header' 
+        - $ref: '#/parameters/correlation_in_header'
+        - $ref: '#/parameters/agent_in_header'
       responses:
         '201':
           description: created
@@ -36,6 +47,10 @@ paths:
                 type: string
                 format: uri
                 description: link to the created resource
+            X-Correlation-ID:
+              schema:
+                type: string
+              description: Reflects the ID (set by the caller) from the request.
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -52,6 +67,147 @@ paths:
           $ref: '#/components/responses/standard501'
         '503':
           $ref: '#/components/responses/standard503'
+
+  /standing-orders/{submissionId}:
+    get:
+      tags:
+        - Standing Order
+      description: Retrieve a specific standing order submission
+      summary: Get a specific standing order submission
+      parameters:
+        - name: submissionId
+          in: path
+          description: ID of standing order submission to be retrieved
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - $ref: '#/parameters/clientid_in_header' 
+        - $ref: '#/parameters/correlation_in_header'
+        - $ref: '#/parameters/agent_in_header'
+      responses:
+        '200':
+          description: The original standing order submission
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/standingorderSubmissionRequest'
+          headers:
+            X-Correlation-ID:
+              schema:
+                type: string
+              description: Reflects the ID (set by the caller) from the request.
+        '400':
+          $ref: '#/components/responses/standard400'
+        '401':
+          $ref: '#/components/responses/standard401'
+        '403':
+          $ref: '#/components/responses/standard403'
+        '404':
+          $ref: '#/components/responses/standard404'
+        '405':
+          $ref: '#/components/responses/standard405'
+        '500':
+          $ref: '#/components/responses/standard500'
+        '501':
+          $ref: '#/components/responses/standard501'
+        '503':
+          $ref: '#/components/responses/standard503'      
+    delete:
+      tags:
+        - Standing Order
+      description: Delete a specific standing order submission
+      summary: Delete a specific standing order submission
+      parameters:
+        - name: submissionId
+          in: path
+          description: ID of standing order submission to be deleted
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - $ref: '#/parameters/clientid_in_header' 
+        - $ref: '#/parameters/correlation_in_header'
+        - $ref: '#/parameters/agent_in_header'
+      responses:
+        '200':
+          description: Standing order has been deleted
+          headers:
+            X-Correlation-ID:
+              schema:
+                type: string
+              description: Reflects the ID (set by the caller) from the request.
+        '201':
+          description: Standing order is marked for deletion
+          headers:
+            X-Correlation-ID:
+              schema:
+                type: string
+              description: Reflects the ID (set by the caller) from the request.
+        '400':
+          $ref: '#/components/responses/standard400'
+        '401':
+          $ref: '#/components/responses/standard401'
+        '403':
+          $ref: '#/components/responses/standard403'
+        '404':
+          $ref: '#/components/responses/standard404'
+        '405':
+          $ref: '#/components/responses/standard405'
+        '500':
+          $ref: '#/components/responses/standard500'
+        '501':
+          $ref: '#/components/responses/standard501'
+        '503':
+          $ref: '#/components/responses/standard503'      
+
+
+  /standing-orders/{submissionId}/status:
+    get:
+      tags:
+        - Standing Order
+      description: Retrieve a specific standing order submission's status
+      summary: Get status information for the specific standing order submission
+      parameters:
+        - name: submissionId
+          in: path
+          description: ID of chosen payment submission
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - $ref: '#/parameters/clientid_in_header' 
+        - $ref: '#/parameters/correlation_in_header'
+        - $ref: '#/parameters/agent_in_header'
+      responses:
+        '200':
+          description: Status information for the specific standing order submission
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/standingorderSubmissionStatus'
+          headers:
+            X-Correlation-ID:
+              schema:
+                type: string
+              description: Reflects the ID (set by the caller) from the request.
+        '400':
+          $ref: '#/components/responses/standard400'
+        '401':
+          $ref: '#/components/responses/standard401'
+        '403':
+          $ref: '#/components/responses/standard403'
+        '404':
+          $ref: '#/components/responses/standard404'
+        '405':
+          $ref: '#/components/responses/standard405'
+        '500':
+          $ref: '#/components/responses/standard500'
+        '501':
+          $ref: '#/components/responses/standard501'
+        '503':
+          $ref: '#/components/responses/standard503'
+
   /payments:
     post:
       tags:
@@ -66,6 +222,10 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/paymentSubmissionRequest'
+      parameters:
+        - $ref: '#/parameters/clientid_in_header' 
+        - $ref: '#/parameters/correlation_in_header'
+        - $ref: '#/parameters/agent_in_header'
       responses:
         '201':
           description: created
@@ -75,6 +235,26 @@ paths:
                 type: string
                 format: uri
                 description: Link to the created resource
+            X-Correlation-ID:
+              schema:
+                type: string
+              description: Reflects the ID (set by the caller) from the request.
+        '400':
+          $ref: '#/components/responses/standard400'
+        '401':
+          $ref: '#/components/responses/standard401'
+        '403':
+          $ref: '#/components/responses/standard403'
+        '404':
+          $ref: '#/components/responses/standard404'
+        '405':
+          $ref: '#/components/responses/standard405'
+        '500':
+          $ref: '#/components/responses/standard500'
+        '501':
+          $ref: '#/components/responses/standard501'
+        '503':
+          $ref: '#/components/responses/standard503'
 
   /payments/{submissionId}:
     get:
@@ -90,6 +270,9 @@ paths:
           schema:
             type: integer
             format: int64
+        - $ref: '#/parameters/clientid_in_header' 
+        - $ref: '#/parameters/correlation_in_header'
+        - $ref: '#/parameters/agent_in_header'
       responses:
         '200':
           description: The original payment submission
@@ -97,6 +280,75 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/paymentSubmissionRequest'
+          headers:
+            X-Correlation-ID:
+              schema:
+                type: string
+              description: Reflects the ID (set by the caller) from the request.
+        '400':
+          $ref: '#/components/responses/standard400'
+        '401':
+          $ref: '#/components/responses/standard401'
+        '403':
+          $ref: '#/components/responses/standard403'
+        '404':
+          $ref: '#/components/responses/standard404'
+        '405':
+          $ref: '#/components/responses/standard405'
+        '500':
+          $ref: '#/components/responses/standard500'
+        '501':
+          $ref: '#/components/responses/standard501'
+        '503':
+          $ref: '#/components/responses/standard503'
+    delete:
+      tags:
+        - Payments submissions deletion
+      description: Delete a specific payment submission before executed
+      summary: Delete a specific payment submission before executed
+      parameters:
+        - name: submissionId
+          in: path
+          description: ID of payment submission to be deleted
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - $ref: '#/parameters/clientid_in_header' 
+        - $ref: '#/parameters/correlation_in_header'
+        - $ref: '#/parameters/agent_in_header'
+      responses:
+        '200':
+          description: Payment submission has been deleted
+          headers:
+            X-Correlation-ID:
+              schema:
+                type: string
+              description: Reflects the ID (set by the caller) from the request.
+        '201':
+          description: Payment submission is marked for deletion
+          headers:
+            X-Correlation-ID:
+              schema:
+                type: string
+              description: Reflects the ID (set by the caller) from the request.
+        '400':
+          $ref: '#/components/responses/standard400'
+        '401':
+          $ref: '#/components/responses/standard401'
+        '403':
+          $ref: '#/components/responses/standard403'
+        '404':
+          $ref: '#/components/responses/standard404'
+        '405':
+          $ref: '#/components/responses/standard405'
+        '500':
+          $ref: '#/components/responses/standard500'
+        '501':
+          $ref: '#/components/responses/standard501'
+        '503':
+          $ref: '#/components/responses/standard503'
+
 
   /payments/{submissionId}/status:
     get:
@@ -112,6 +364,9 @@ paths:
           schema:
             type: integer
             format: int64
+        - $ref: '#/parameters/clientid_in_header' 
+        - $ref: '#/parameters/correlation_in_header'
+        - $ref: '#/parameters/agent_in_header'
       responses:
         '200':
           description: Status information for the specific payment submission
@@ -119,6 +374,231 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/paymentSubmissionStatus'
+          headers:
+            X-Correlation-ID:
+              schema:
+                type: string
+              description: Reflects the ID (set by the caller) from the request.
+        '400':
+          $ref: '#/components/responses/standard400'
+        '401':
+          $ref: '#/components/responses/standard401'
+        '403':
+          $ref: '#/components/responses/standard403'
+        '404':
+          $ref: '#/components/responses/standard404'
+        '405':
+          $ref: '#/components/responses/standard405'
+        '500':
+          $ref: '#/components/responses/standard500'
+        '501':
+          $ref: '#/components/responses/standard501'
+        '503':
+          $ref: '#/components/responses/standard503'
+
+  /single-payments:
+    get:
+      tags: 
+        - Single payments
+      description: Return the list of all initiated payments of all types for the authenticated context
+      summary: Get the list of all payments (all payment types)
+      parameters:
+        - in: query
+          name: entryReferenceFrom
+          schema:
+            type: string
+          description: Number of items to skip
+        - in: query
+          name: limit
+          schema:
+            type: integer
+          description: Number of items to be returned
+        - in: query
+          name: dateFrom
+          schema:
+            $ref: '#/components/schemas/Date'
+        - in: query
+          name: dateTo
+          schema:
+            $ref: '#/components/schemas/Date'
+        - $ref: '#/parameters/clientid_in_header' 
+        - $ref: '#/parameters/correlation_in_header'
+        - $ref: '#/parameters/agent_in_header'
+      responses:
+        '200':
+          description: Paginated list of all payments
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  paymentList: 
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Payment'
+                  _links:
+                    $ref: '#/components/schemas/Links'
+          headers:
+            X-Correlation-ID:
+              schema:
+                type: string
+              description: Reflects the ID (set by the caller) from the request.
+        '400':
+          $ref: '#/components/responses/standard400'
+        '401':
+          $ref: '#/components/responses/standard401'
+        '403':
+          $ref: '#/components/responses/standard403'
+        '404':
+          $ref: '#/components/responses/standard404'
+        '405':
+          $ref: '#/components/responses/standard405'
+        '500':
+          $ref: '#/components/responses/standard500'
+        '501':
+          $ref: '#/components/responses/standard501'
+        '503':
+          $ref: '#/components/responses/standard503'
+
+  /single-payments/{submissionId}:
+    get:
+      tags:
+        - Single payments
+      description: Receive payment with corresponding submissionId
+      summary: Get a specific payment
+      parameters:
+        - name: submissionId
+          in: path
+          description: ID of payment submission to be retrieved
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - $ref: '#/parameters/clientid_in_header' 
+        - $ref: '#/parameters/correlation_in_header'
+        - $ref: '#/parameters/agent_in_header'
+      responses:
+        '200':
+          description: Details on the chosen payment
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Payment'
+          headers:
+            X-Correlation-ID:
+              schema:
+                type: string
+              description: Reflects the ID (set by the caller) from the request.
+        '400':
+          $ref: '#/components/responses/standard400'
+        '401':
+          $ref: '#/components/responses/standard401'
+        '403':
+          $ref: '#/components/responses/standard403'
+        '404':
+          $ref: '#/components/responses/standard404'
+        '405':
+          $ref: '#/components/responses/standard405'
+        '500':
+          $ref: '#/components/responses/standard500'
+        '501':
+          $ref: '#/components/responses/standard501'
+        '503':
+          $ref: '#/components/responses/standard503'
+    delete:
+      tags:
+        - Single payments
+      description: Delete single payment with corresponding submissionId
+      summary: Delete a single payment
+      parameters:
+        - name: submissionId
+          in: path
+          description: ID of payment submission to be retrieved
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - $ref: '#/parameters/clientid_in_header' 
+        - $ref: '#/parameters/correlation_in_header'
+        - $ref: '#/parameters/agent_in_header'
+      responses:
+        '200':
+          description: Payment has been deleted
+          headers:
+            X-Correlation-ID:
+              schema:
+                type: string
+              description: Reflects the ID (set by the caller) from the request.
+        '201':
+          description: Payment is marked for deletion
+          headers:
+            X-Correlation-ID:
+              schema:
+                type: string
+              description: Reflects the ID (set by the caller) from the request.
+        '400':
+          $ref: '#/components/responses/standard400'
+        '401':
+          $ref: '#/components/responses/standard401'
+        '403':
+          $ref: '#/components/responses/standard403'
+        '404':
+          $ref: '#/components/responses/standard404'
+        '405':
+          $ref: '#/components/responses/standard405'
+        '500':
+          $ref: '#/components/responses/standard500'
+        '501':
+          $ref: '#/components/responses/standard501'
+        '503':
+          $ref: '#/components/responses/standard503'
+  
+  /single-payments/{submissionId}/status:
+    get:
+      tags:
+        - Single Payments status
+      description: Retrieve a specific single payment submission's status
+      summary: Get status information for the specific single payment
+      parameters:
+        - name: submissionId
+          in: path
+          description: ID of chosen payment submission
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - $ref: '#/parameters/clientid_in_header' 
+        - $ref: '#/parameters/correlation_in_header'
+        - $ref: '#/parameters/agent_in_header'
+      responses:
+        '200':
+          description: Status information for the specific payment submission
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/paymentSubmissionStatus'
+          headers:
+            X-Correlation-ID:
+              schema:
+                type: string
+              description: Reflects the ID (set by the caller) from the request.
+        '400':
+          $ref: '#/components/responses/standard400'
+        '401':
+          $ref: '#/components/responses/standard401'
+        '403':
+          $ref: '#/components/responses/standard403'
+        '404':
+          $ref: '#/components/responses/standard404'
+        '405':
+          $ref: '#/components/responses/standard405'
+        '500':
+          $ref: '#/components/responses/standard500'
+        '501':
+          $ref: '#/components/responses/standard501'
+        '503':
+          $ref: '#/components/responses/standard503'
+          
 
   /iso20022/payments:
     post:
@@ -133,6 +613,10 @@ paths:
           application/xml:
             schema:
               type: string
+      parameters:
+        - $ref: '#/parameters/clientid_in_header' 
+        - $ref: '#/parameters/correlation_in_header'
+        - $ref: '#/parameters/agent_in_header'
       responses:
         '201':
           description: created
@@ -142,6 +626,10 @@ paths:
                 type: string
                 format: uri
                 description: link to the created resource
+            X-Correlation-ID:
+              schema:
+                type: string
+              description: Reflects the ID (set by the caller) from the request.
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -171,6 +659,9 @@ paths:
             type: string
           required: true
           description: Unique ID of the ISO20022 payment instruction
+        - $ref: '#/parameters/clientid_in_header' 
+        - $ref: '#/parameters/correlation_in_header'
+        - $ref: '#/parameters/agent_in_header'
       responses:
         '200':
           description: Returns the requested ISO20022 XML PAIN.001 message
@@ -178,6 +669,56 @@ paths:
             application/xml:
               schema:
                 type: string
+          headers:
+            X-Correlation-ID:
+              schema:
+                type: string
+              description: Reflects the ID (set by the caller) from the request.
+        '400':
+          $ref: '#/components/responses/standard400'
+        '401':
+          $ref: '#/components/responses/standard401'
+        '403':
+          $ref: '#/components/responses/standard403'
+        '404':
+          $ref: '#/components/responses/standard404'
+        '405':
+          $ref: '#/components/responses/standard405'
+        '500':
+          $ref: '#/components/responses/standard500'
+        '501':
+          $ref: '#/components/responses/standard501'
+        '503':
+          $ref: '#/components/responses/standard503'
+    delete:
+      tags:
+        - iso20022
+      summary: Delete a submitted ISO20022 XML PAIN.001 message before execution.
+      parameters:
+        - in: path
+          name: submissionId
+          schema:
+            type: string
+          required: true
+          description: Unique ID of the ISO20022 payment instruction
+        - $ref: '#/parameters/clientid_in_header' 
+        - $ref: '#/parameters/correlation_in_header'
+        - $ref: '#/parameters/agent_in_header'
+      responses:
+        '200':
+          description: ISO20022 XML PAIN.001 message submission has been deleted
+          headers:
+            X-Correlation-ID:
+              schema:
+                type: string
+              description: Reflects the ID (set by the caller) from the request.
+        '201':
+          description: ISO20022 XML PAIN.001 message submission is marked for deletion
+          headers:
+            X-Correlation-ID:
+              schema:
+                type: string
+              description: Reflects the ID (set by the caller) from the request.
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -208,6 +749,9 @@ paths:
             type: string
           required: true
           description: Unique ID of the ISO20022 payment instruction
+        - $ref: '#/parameters/clientid_in_header' 
+        - $ref: '#/parameters/correlation_in_header'
+        - $ref: '#/parameters/agent_in_header'
       responses:
         '200':
           description: Returns the requested ISO20022 XML PAIN.001 message
@@ -215,6 +759,11 @@ paths:
             application/xml:
               schema:
                 type: string
+          headers:
+            X-Correlation-ID:
+              schema:
+                type: string
+              description: Reflects the ID (set by the caller) from the request.
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -238,6 +787,10 @@ paths:
         - iso20022
       summary: Get list of resource links to account statements (CAMT.053)
       description: The resources links to available account statements (CAMT.053)
+      parameters:
+        - $ref: '#/parameters/clientid_in_header' 
+        - $ref: '#/parameters/correlation_in_header'
+        - $ref: '#/parameters/agent_in_header'
       responses:
         '200':
           description: Returns a list of resource links to ISO20022 XML CAMT.053 messages
@@ -250,6 +803,11 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/iso20022ReportReference'
+          headers:
+            X-Correlation-ID:
+              schema:
+                type: string
+              description: Reflects the ID (set by the caller) from the request.
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -279,6 +837,9 @@ paths:
             type: string
           required: true
           description: Unique ID of the requested ISO20022 XML CAMT.053 document
+        - $ref: '#/parameters/clientid_in_header' 
+        - $ref: '#/parameters/correlation_in_header'
+        - $ref: '#/parameters/agent_in_header'
       responses:
         '200':
           description: Returns the requested ISO20022 XML CAMT.053 message
@@ -286,6 +847,11 @@ paths:
             application/xml:
               schema:
                 type: string 
+          headers:
+            X-Correlation-ID:
+              schema:
+                type: string
+              description: Reflects the ID (set by the caller) from the request.
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -773,6 +1339,204 @@ components:
           type: string
     # --- End SIX -----
 
+    # ---- Payment Data Model
+    standingorderSubmissionRequest:
+      title: Standing Order Submission Request
+      type: object
+      required:
+        - messageId
+        - initiatingPartyId
+        - debtorAccount
+        - instructionId
+        - endToEndId
+        - instructedAmount
+        - startDate
+        - frequency
+      properties:
+        messageId:
+          type: string
+          maxLength: 35
+          example: "eb6305c91f7f49deaed016487c27b42d"
+        initiatingPartyId:
+          type: string
+          maxLength: 32
+          example: "TPP01746"
+        requestedExecutionDate:
+          type: string
+          format: date
+          example: "2018-04-07"
+        debtorAccount:
+          $ref: '#/components/schemas/paymentIbanAccount'
+        instructionId:
+          type: string
+          maxLength: 35
+          example: "INSTR-001"
+        endToEndId:
+          type: string
+          maxLength: 35
+          example: "ENDTOENDID-001"
+        instructedAmount:
+          $ref: '#/components/schemas/paymentCurrencyAmount'
+        ibanDetails:
+          $ref: '#/components/schemas/paymentIBANDetail'
+        isrDetails:
+          $ref: '#/components/schemas/paymentISRDetail'
+        otherDetails:
+          $ref: '#/components/schemas/paymentOtherDetail'
+        qrDetails:
+          $ref: '#/components/schemas/paymentQRDetail'
+        #Additional Information according NextGenPSD2 for periodic orders
+        startDate:
+          $ref: "#/components/schemas/startDate"
+        endDate:
+          $ref: "#/components/schemas/endDate"
+        executionRule:
+          $ref: "#/components/schemas/executionRule"
+        frequency:
+          $ref: "#/components/schemas/frequencyCode"
+        dayOfExecution:
+          $ref: "#/components/schemas/dayOfExecution"
+        #Additional Optional Information Standing Orders
+        executionMode:
+          type: string
+          description: The code of execution mode defines when or how standing order will be cancelled, processed the last time. UNTIL_DATE - standing order is valid until specific date - field endDate. UNTIL_CANCELLATION - standing order is valid forever and must be cancelled by client.
+          example: UNTIL_DATE
+          enum:
+            - UNTIL_DATE
+            - UNTIL_CANCELLATION
+        executionBreaks:
+          description: List of break periods.  
+          type: array
+          items:
+            type: object
+            properties:
+              validFromDate:
+                type: string
+                description: Start date of one break period. Standing order will not be processed from this date. Date format YYYY-MM-DD.
+                format: date
+                example: "2021-01-01"
+              validToDate:
+                type: string
+                description: End date of one break period. Standing order will not be processed to this date. Date format YYYY-MM-DD.
+                format: date
+                example: "2021-02-01"
+
+    # Schemas Information NextGenPSD2 for periodic orders
+    startDate:
+      description: |
+        The first applicable day of execution starting from this date is the first payment.
+      type: string
+      format: date
+
+    endDate:
+      description: |
+        The last applicable day of execution
+        If not given, it is an infinite standing order.
+      type: string
+      format: date
+
+    executionRule:
+      description: |
+        "following" or "preceding" supported as values.
+        This data attribute defines the behaviour when recurring payment dates falls on a weekend or bank holiday.
+        The payment is then executed either the "preceding" or "following" working day.
+        ASPSP might reject the request due to the communicated value, if rules in Online-Banking are not supporting
+        this execution rule.
+      type: string
+      enum:
+        - "following"
+        - "preceding"
+
+    frequencyCode:
+      description: |
+        The following codes from the "EventFrequency7Code" of ISO 20022 are supported.
+        - "Daily"
+        - "Weekly"
+        - "EveryTwoWeeks"
+        - "Monthly"
+        - "EveryTwoMonths"
+        - "Quarterly"
+        - "SemiAnnual"
+        - "Annual"
+      type: string
+      enum:
+        - "Daily"
+        - "Weekly"
+        - "EveryTwoWeeks"
+        - "Monthly"
+        - "EveryTwoMonths"
+        - "Quarterly"
+        - "SemiAnnual"
+        - "Annual"
+
+    dayOfExecution:
+      description: |
+        Day of execution as string.
+
+        This string consists of up two characters.
+        Leading zeroes are not allowed.
+
+        31 is ultimo of the month.
+      type: string
+      maxLength: 2
+      enum:
+        - "1"
+        - "2"
+        - "3"
+        - "4"
+        - "5"
+        - "6"
+        - "7"
+        - "8"
+        - "9"
+        - "10"
+        - "11"
+        - "12"
+        - "13"
+        - "14"
+        - "15"
+        - "16"
+        - "17"
+        - "18"
+        - "19"
+        - "20"
+        - "21"
+        - "22"
+        - "23"
+        - "24"
+        - "25"
+        - "26"
+        - "27"
+        - "28"
+        - "29"
+        - "30"
+        - "31"
+    # End Schemas Information NextGenPSD2 for periodic orders
+
+    standingorderSubmissionStatus:
+      title: Standing Order Submission Status
+      type: object
+      required:
+        - statusCode
+      properties:
+        messageId:
+          type: string
+          example: "eb6305c91f7f49deaed016487c27b42d"
+        statusCode:
+          type: string
+          enum:
+            - ACCP
+            - RJCT
+            - PART
+          example: "PART"
+        transactions:
+          type: array
+          items:
+            $ref: '#/components/schemas/paymentInstructionItemStatus'
+
+
+    # ---- End Payment Data Model
+
     # ---- Common Data Model v1.2.0
     # ---- Date Formats
     Date:
@@ -864,6 +1628,30 @@ components:
       example: '/problems/TECHNICAL_ERROR'
     # ---- End Error Response
     # ---- End Common Data Model
+
+  # ---- Global Common Header Parameters ----
+  parameters:
+    clientid_in_header:
+      in: header
+      name: X-CorAPI-Client-ID
+      schema:
+        type: string
+      description: 'ID of the client forwarded to the provider. (SCOPE: FI)'
+      required: true
+    correlation_in_header:
+      in: header
+      name: X-Correlation-ID
+      schema:
+        type: string
+      description: Unique ID (defined by the caller) which will be reflected back in the response.
+      required: true
+    agent_in_header:
+      in: header
+      name: User-Agent
+      schema:
+        type: string
+      description: Name and version of the of the Client software
+      required: true
 
   # ---- Responses - Standard Errors Common Data Model v1.2.1----
   responses:
