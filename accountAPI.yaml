@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  version: 1.1.3
+  version: 1.1.4
   title: Common Account API
   description: 
     This specification defines a simple API to access information about bank accounts. The API is supposed to be used by customers who want to get information about their accounts such as current balance or transactions.
@@ -27,9 +27,9 @@ paths:
         - Account List 
       description: Return the list of all accounts accessible for the logged in user.
       parameters:
-        - $ref: '#/parameters/clientid_in_header' 
-        - $ref: '#/parameters/correlation_in_header'
-        - $ref: '#/parameters/agent_in_header'
+        - $ref: '#/components/parameters/clientid_in_header' 
+        - $ref: '#/components/parameters/correlation_in_header'
+        - $ref: '#/components/parameters/agent_in_header'
       responses:
         '200':
           description: Paginated list of all accounts.
@@ -73,9 +73,9 @@ paths:
           schema:
             type: string
           description: The account the details are requested.
-        - $ref: '#/parameters/clientid_in_header' 
-        - $ref: '#/parameters/correlation_in_header'
-        - $ref: '#/parameters/agent_in_header'
+        - $ref: '#/components/parameters/clientid_in_header' 
+        - $ref: '#/components/parameters/correlation_in_header'
+        - $ref: '#/components/parameters/agent_in_header'
       responses:
         '200':
           description: Account details of the requested account.
@@ -117,9 +117,9 @@ paths:
           required: true
           schema:
             type: string
-        - $ref: '#/parameters/clientid_in_header' 
-        - $ref: '#/parameters/correlation_in_header'
-        - $ref: '#/parameters/agent_in_header'
+        - $ref: '#/components/parameters/clientid_in_header' 
+        - $ref: '#/components/parameters/correlation_in_header'
+        - $ref: '#/components/parameters/agent_in_header'
       responses:
         '200':
           description: Account details of the requested account.
@@ -165,10 +165,12 @@ paths:
           name: entryReferenceFrom
           schema:
             type: string
+          description: Get all objects after the one with the given ID.
         - in: query
           name: limit
           schema: 
             type: integer
+          description: Number of items to be returned
         - in: query
           name: dateFrom
           schema:
@@ -186,9 +188,9 @@ paths:
               - booked
               - pending
               - both
-        - $ref: '#/parameters/clientid_in_header' 
-        - $ref: '#/parameters/correlation_in_header'
-        - $ref: '#/parameters/agent_in_header'
+        - $ref: '#/components/parameters/clientid_in_header' 
+        - $ref: '#/components/parameters/correlation_in_header'
+        - $ref: '#/components/parameters/agent_in_header'
       responses:
         '200':
           description: Account details of the requested account.
@@ -235,9 +237,9 @@ paths:
           required: true
           schema:
             type: string
-        - $ref: '#/parameters/clientid_in_header' 
-        - $ref: '#/parameters/correlation_in_header'
-        - $ref: '#/parameters/agent_in_header'
+        - $ref: '#/components/parameters/clientid_in_header' 
+        - $ref: '#/components/parameters/correlation_in_header'
+        - $ref: '#/components/parameters/agent_in_header'
       responses:
         '200':
           description: Account details of the requested account.
