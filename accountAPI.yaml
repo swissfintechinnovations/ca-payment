@@ -918,6 +918,7 @@ components:
       schema:
         type: integer
         format: int32
+        example: 25
         minimum: 0
     limit: 
       name: limit
@@ -927,6 +928,7 @@ components:
       schema:
         type: integer
         format: int32
+        example: 25
         minimum: 1
     cursor:
       name: cursor
