@@ -190,7 +190,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/accountTransactionReport'
-          $ref: '#/components/schemas/Links'
           headers:
             X-Correlation-ID:
               schema:
@@ -330,8 +329,9 @@ components:
       example: '/problems/TECHNICAL_ERROR'
     # ---- End Error Response
     # ---- End Common Data Model
-    # ---- Links ----
-    Links:
+
+    # ---- Links for Pagination----
+    linksPagination:
       description: Links (or cursors) returned in the answer of an API call.
       type: object
       properties:
@@ -487,6 +487,8 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/accountTransactionEntry'
+        linksPagination:
+          $ref: '#/components/schemas/linksPagination'
         _links:
           type: object
           properties:
