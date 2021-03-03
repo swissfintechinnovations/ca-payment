@@ -1,6 +1,6 @@
 openapi: "3.0.0"
 info:
-  version: 0.9.8
+  version: 1.0.0
   title: Common Payment API
   description: 
     This specification defines a simple payment API for payment types used in Switzerland. The API is supposed to be used by customers who want to initiate a payment at their bank. Note that, consents and SCA will be handled in a dedicated specification file.
@@ -14,7 +14,7 @@ info:
 servers:
   - url: payment.common-api.ch
 externalDocs:
-  description: Find out more about SFTI API specifications
+  description: Find out more about SFTI API specifications.
   url: 'https://www.common-api.ch'
 security:
   - OAuth2:
@@ -25,10 +25,10 @@ paths:
     post:
       tags:
         - Standing Orders
-      summary: Create a new Standing Order 
+      summary: Create a new Standing Order. 
       description: It is used to create a permanent order for the transfer of funds.
       requestBody:
-        description: Details of standing orders submission to be added
+        description: Details of standing orders submission to be added.
         required: true
         content:
           application/json:
@@ -46,7 +46,7 @@ paths:
               schema:
                 type: string
                 format: uri
-                description: link to the created resource
+                description: Link to the created resource.
             X-Correlation-ID:
               schema:
                 type: string
@@ -72,12 +72,12 @@ paths:
     get:
       tags:
         - Standing Orders
-      description: Retrieve a specific standing order submission
-      summary: Get a specific standing order submission
+      description: Retrieve a specific standing order submission.
+      summary: Get a specific standing order submission.
       parameters:
         - name: submissionId
           in: path
-          description: ID of standing order submission to be retrieved
+          description: ID of standing order submission to be retrieved.
           required: true
           schema:
             type: integer
@@ -87,7 +87,7 @@ paths:
         - $ref: '#/components/parameters/agent_in_header'
       responses:
         '200':
-          description: The original standing order submission
+          description: The original standing order submission.
           content:
             application/json:
               schema:
@@ -116,12 +116,12 @@ paths:
     delete:
       tags:
         - Standing Orders
-      description: Delete a specific standing order submission
-      summary: Delete a specific standing order submission
+      description: Delete a specific standing order submission.
+      summary: Delete a specific standing order submission.
       parameters:
         - name: submissionId
           in: path
-          description: ID of standing order submission to be deleted
+          description: ID of standing order submission to be deleted.
           required: true
           schema:
             type: integer
@@ -131,14 +131,14 @@ paths:
         - $ref: '#/components/parameters/agent_in_header'
       responses:
         '200':
-          description: Standing order has been deleted
+          description: Standing order has been deleted.
           headers:
             X-Correlation-ID:
               schema:
                 type: string
               description: Reflects the ID (set by the caller) from the request.
         '201':
-          description: Standing order is marked for deletion
+          description: Standing order is marked for deletion.
           headers:
             X-Correlation-ID:
               schema:
@@ -166,12 +166,12 @@ paths:
     get:
       tags:
         - Standing Orders
-      description: Retrieve a specific standing order submission's status
-      summary: Get status information for the specific standing order submission
+      description: Retrieve a specific standing order submission's status.
+      summary: Get status information for the specific standing order submission.
       parameters:
         - name: submissionId
           in: path
-          description: ID of chosen payment submission
+          description: ID of chosen payment submission.
           required: true
           schema:
             type: integer
@@ -181,7 +181,7 @@ paths:
         - $ref: '#/components/parameters/agent_in_header'
       responses:
         '200':
-          description: Status information for the specific standing order submission
+          description: Status information for the specific standing order submission.
           content:
             application/json:
               schema:
@@ -212,11 +212,11 @@ paths:
     post:
       tags:
         - Payments
-      summary: Initiate new payments submission
-      description: Create new payments submission
+      summary: Initiate new payments submission.
+      description: Create new payments submission.
       operationId: submitPaymentsSubmissionUsingPOST
       requestBody:
-        description: Details of payments submission to be added
+        description: Details of payments submission to be added.
         required: true
         content:
           application/json:
@@ -234,7 +234,7 @@ paths:
               schema:
                 type: string
                 format: uri
-                description: Link to the created resource
+                description: Link to the created resource.
             X-Correlation-ID:
               schema:
                 type: string
@@ -260,12 +260,12 @@ paths:
     get:
       tags:
         - Payments
-      description: Retrieve a specific payment submission
-      summary: Get a specific payment submission
+      description: Retrieve a specific payment submission.
+      summary: Get a specific payment submission.
       parameters:
         - name: submissionId
           in: path
-          description: ID of payment submission to be retrieved
+          description: ID of payment submission to be retrieved.
           required: true
           schema:
             type: integer
@@ -275,7 +275,7 @@ paths:
         - $ref: '#/components/parameters/agent_in_header'
       responses:
         '200':
-          description: The original payment submission
+          description: The original payment submission.
           content:
             application/json:
               schema:
@@ -304,12 +304,12 @@ paths:
     delete:
       tags:
         - Payments
-      description: Delete a specific payment submission before executed
-      summary: Delete a specific payment submission before executed
+      description: Delete a specific payment submission before executed.
+      summary: Delete a specific payment submission before executed.
       parameters:
         - name: submissionId
           in: path
-          description: ID of payment submission to be deleted
+          description: ID of payment submission to be deleted.
           required: true
           schema:
             type: integer
@@ -319,14 +319,14 @@ paths:
         - $ref: '#/components/parameters/agent_in_header'
       responses:
         '200':
-          description: Payment submission has been deleted
+          description: Payment submission has been deleted.
           headers:
             X-Correlation-ID:
               schema:
                 type: string
               description: Reflects the ID (set by the caller) from the request.
         '201':
-          description: Payment submission is marked for deletion
+          description: Payment submission is marked for deletion.
           headers:
             X-Correlation-ID:
               schema:
@@ -354,12 +354,12 @@ paths:
     get:
       tags:
         - Payments
-      description: Retrieve a specific payment submission's status
-      summary: Get status information for the specific payment submission
+      description: Retrieve a specific payment submission's status.
+      summary: Get status information for the specific payment submission.
       parameters:
         - name: submissionId
           in: path
-          description: ID of chosen payment submission
+          description: ID of chosen payment submission.
           required: true
           schema:
             type: integer
@@ -369,7 +369,7 @@ paths:
         - $ref: '#/components/parameters/agent_in_header'
       responses:
         '200':
-          description: Status information for the specific payment submission
+          description: Status information for the specific payment submission.
           content:
             application/json:
               schema:
@@ -400,11 +400,11 @@ paths:
     post:
       tags:
         - Single Payments
-      summary: Initiate new single payments submission
-      description: Create new single payments submission
+      summary: Initiate new single payments submission.
+      description: Create new single payments submission.
       operationId: submitSinglePaymentsSubmissionUsingPOST
       requestBody:
-        description: Details of single payments submission to be added
+        description: Details of single payments submission to be added.
         required: true
         content:
           application/json:
@@ -422,7 +422,7 @@ paths:
               schema:
                 type: string
                 format: uri
-                description: Link to the created resource
+                description: Link to the created resource.
             X-Correlation-ID:
               schema:
                 type: string
@@ -447,8 +447,8 @@ paths:
     get:
       tags: 
         - Single Payments
-      description: Return the list of all initiated payments of all types for the authenticated context
-      summary: Get the list of all payments (all payment types)
+      description: Return the list of all initiated payments of all types for the authenticated context.
+      summary: Get the list of all payments (all payment types).
       parameters:
         - in: query
           name: entryReferenceFrom
@@ -459,7 +459,7 @@ paths:
           name: limit
           schema:
             type: integer
-          description: Number of items to be returned
+          description: Number of items to be returned.
         - in: query
           name: dateFrom
           schema:
@@ -473,7 +473,7 @@ paths:
         - $ref: '#/components/parameters/agent_in_header'
       responses:
         '200':
-          description: Paginated list of all payments
+          description: Paginated list of all payments.
           content:
             application/json:
               schema:
@@ -511,12 +511,12 @@ paths:
     get:
       tags:
         - Single Payments
-      description: Receive payment with corresponding submissionId
-      summary: Get a specific payment
+      description: Receive payment with corresponding submissionId.
+      summary: Get a specific payment.
       parameters:
         - name: submissionId
           in: path
-          description: ID of payment submission to be retrieved
+          description: ID of payment submission to be retrieved.
           required: true
           schema:
             type: integer
@@ -526,7 +526,7 @@ paths:
         - $ref: '#/components/parameters/agent_in_header'
       responses:
         '200':
-          description: Details on the chosen payment
+          description: Details on the chosen payment.
           content:
             application/json:
               schema:
@@ -555,12 +555,12 @@ paths:
     delete:
       tags:
         - Single Payments
-      description: Delete single payment with corresponding submissionId
-      summary: Delete a single payment
+      description: Delete single payment with corresponding submissionId.
+      summary: Delete a single payment.
       parameters:
         - name: submissionId
           in: path
-          description: ID of payment submission to be retrieved
+          description: ID of payment submission to be retrieved.
           required: true
           schema:
             type: integer
@@ -570,14 +570,14 @@ paths:
         - $ref: '#/components/parameters/agent_in_header'
       responses:
         '200':
-          description: Payment has been deleted
+          description: Payment has been deleted.
           headers:
             X-Correlation-ID:
               schema:
                 type: string
               description: Reflects the ID (set by the caller) from the request.
         '201':
-          description: Payment is marked for deletion
+          description: Payment is marked for deletion.
           headers:
             X-Correlation-ID:
               schema:
@@ -604,12 +604,12 @@ paths:
     get:
       tags:
         - Single Payments
-      description: Retrieve a specific single payment submission's status
-      summary: Get status information for the specific single payment
+      description: Retrieve a specific single payment submission's status.
+      summary: Get status information for the specific single payment.
       parameters:
         - name: submissionId
           in: path
-          description: ID of chosen payment submission
+          description: ID of chosen payment submission.
           required: true
           schema:
             type: integer
@@ -619,7 +619,7 @@ paths:
         - $ref: '#/components/parameters/agent_in_header'
       responses:
         '200':
-          description: Status information for the specific payment submission
+          description: Status information for the specific payment submission.
           content:
             application/json:
               schema:
@@ -651,10 +651,10 @@ paths:
     post:
       tags:
         - iso20022
-      summary: Submit ISO20022 XML payment instruction (PAIN.001)
+      summary: Submit ISO20022 XML payment instruction (PAIN.001).
       description: Submit an XML PAIN.001 payment instruction according to the ISO20022 specification.
       requestBody:
-        description: The XML PAIN.001
+        description: The XML PAIN.001.
         required: true
         content:
           application/xml:
@@ -672,7 +672,7 @@ paths:
               schema:
                 type: string
                 format: uri
-                description: link to the created resource
+                description: link to the created resource.
             X-Correlation-ID:
               schema:
                 type: string
@@ -705,13 +705,13 @@ paths:
           schema:
             type: string
           required: true
-          description: Unique ID of the ISO20022 payment instruction
+          description: Unique ID of the ISO20022 payment instruction.
         - $ref: '#/components/parameters/clientid_in_header' 
         - $ref: '#/components/parameters/correlation_in_header'
         - $ref: '#/components/parameters/agent_in_header'
       responses:
         '200':
-          description: Returns the requested ISO20022 XML PAIN.001 message
+          description: Returns the requested ISO20022 XML PAIN.001 message.
           content:
             application/xml:
               schema:
@@ -747,20 +747,20 @@ paths:
           schema:
             type: string
           required: true
-          description: Unique ID of the ISO20022 payment instruction
+          description: Unique ID of the ISO20022 payment instruction.
         - $ref: '#/components/parameters/clientid_in_header' 
         - $ref: '#/components/parameters/correlation_in_header'
         - $ref: '#/components/parameters/agent_in_header'
       responses:
         '200':
-          description: ISO20022 XML PAIN.001 message submission has been deleted
+          description: ISO20022 XML PAIN.001 message submission has been deleted.
           headers:
             X-Correlation-ID:
               schema:
                 type: string
               description: Reflects the ID (set by the caller) from the request.
         '201':
-          description: ISO20022 XML PAIN.001 message submission is marked for deletion
+          description: ISO20022 XML PAIN.001 message submission is marked for deletion.
           headers:
             X-Correlation-ID:
               schema:
@@ -787,21 +787,21 @@ paths:
     get:
       tags:
         - iso20022
-      summary: Get the ISO20022 XML status report (PAIN.002) for a specific payment instruction
-      description: The status report for the requested XML ISO20022 payment instruction (PAIN.002)
+      summary: Get the ISO20022 XML status report (PAIN.002) for a specific payment instruction.
+      description: The status report for the requested XML ISO20022 payment instruction (PAIN.002).
       parameters:
         - in: path
           name: submissionId
           schema:
             type: string
           required: true
-          description: Unique ID of the ISO20022 payment instruction
+          description: Unique ID of the ISO20022 payment instruction.
         - $ref: '#/components/parameters/clientid_in_header' 
         - $ref: '#/components/parameters/correlation_in_header'
         - $ref: '#/components/parameters/agent_in_header'
       responses:
         '200':
-          description: Returns the requested ISO20022 XML PAIN.002 message
+          description: Returns the requested ISO20022 XML PAIN.002 message.
           content:
             application/xml:
               schema:
@@ -832,15 +832,15 @@ paths:
     get:
       tags:
         - iso20022
-      summary: Get list of resource links to account statements (CAMT.053)
-      description: The resources links to available account statements (CAMT.053)
+      summary: Get list of resource links to account statements (CAMT.053).
+      description: The resources links to available account statements (CAMT.053).
       parameters:
         - $ref: '#/components/parameters/clientid_in_header' 
         - $ref: '#/components/parameters/correlation_in_header'
         - $ref: '#/components/parameters/agent_in_header'
       responses:
         '200':
-          description: Returns a list of resource links to ISO20022 XML CAMT.053 messages
+          description: Returns a list of resource links to ISO20022 XML CAMT.053 messages.
           content:
             application/json:
               schema:
@@ -876,20 +876,20 @@ paths:
     get:
       tags:
         - iso20022
-      summary: Retrieves a specifically requested ISO20022 XML CAMT.053 document
+      summary: Retrieves a specifically requested ISO20022 XML CAMT.053 document.
       parameters:
         - in: path
           name: reportId
           schema:
             type: string
           required: true
-          description: Unique ID of the requested ISO20022 XML CAMT.053 document
+          description: Unique ID of the requested ISO20022 XML CAMT.053 document.
         - $ref: '#/components/parameters/clientid_in_header' 
         - $ref: '#/components/parameters/correlation_in_header'
         - $ref: '#/components/parameters/agent_in_header'
       responses:
         '200':
-          description: Returns the requested ISO20022 XML CAMT.053 message
+          description: Returns the requested ISO20022 XML CAMT.053 message.
           content:
             application/xml:
               schema:

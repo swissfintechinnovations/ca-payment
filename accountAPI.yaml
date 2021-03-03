@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  version: 1.1.4
+  version: 1.1.5
   title: Common Account API
   description: 
     This specification defines a simple API to access information about bank accounts. The API is supposed to be used by customers who want to get information about their accounts such as current balance or transactions.
@@ -162,16 +162,6 @@ paths:
             type: string
           description: The account the details are requested.
         - in: query
-          name: entryReferenceFrom
-          schema:
-            type: string
-          description: Get all objects after the one with the given ID.
-        - in: query
-          name: limit
-          schema: 
-            type: integer
-          description: Number of items to be returned
-        - in: query
           name: dateFrom
           schema:
             $ref: '#/components/schemas/Date'
@@ -188,6 +178,8 @@ paths:
               - booked
               - pending
               - both
+        - $ref: '#/components/parameters/cursor'
+        - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/clientid_in_header' 
         - $ref: '#/components/parameters/correlation_in_header'
         - $ref: '#/components/parameters/agent_in_header'
@@ -198,6 +190,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/accountTransactionReport'
+          $ref: '#/components/schemas/Links'
           headers:
             X-Correlation-ID:
               schema:
@@ -337,6 +330,32 @@ components:
       example: '/problems/TECHNICAL_ERROR'
     # ---- End Error Response
     # ---- End Common Data Model
+    # ---- Links ----
+    Links:
+      description: Links (or cursors) returned in the answer of an API call.
+      type: object
+      properties:
+        self:
+          type: string
+          description: Link / cursor to the current result set (based on the submitted pagination approach)
+          example: /payment-app/api/v1/accounts/accountIDXY/transactions?offset=75&limit=25
+        first:
+          type: string
+          description: Link / cursor to the first result set (based on the submitted pagination approach)
+          example: /payment-app/api/v1/accounts/accountIDXY/transactions?offset=0&limit=25
+        previous:
+          type: string
+          description: Link / cursor to the previous result set (based on the submitted pagination approach)
+          example: /payment-app/api/v1/accounts/accountIDXY/transactions?offset=50&limit=25          
+        next:
+          type: string
+          description: Link / cursor to the next result set (based on the submitted pagination approach)
+          example: /payment-app/api/v1/accounts/accountIDXY/transactions?offset=100&limit=25          
+        last:
+          type: string 
+          description: Link / cursor to the last result set (based on the submitted pagination approach)
+          example: /payment-app/api/v1/accounts/accountIDXY/transactions?offset=150&limit=25          
+    # ---------
 
     accountItem:
       title: Account Information Item
@@ -887,8 +906,34 @@ components:
       name: User-Agent
       schema:
         type: string
-      description: Name and version of the of the Client software
+      description: Name and version of the of the Client software.
       required: true
+    offset: 
+      name: offset
+      in: query
+      description: Optional parameter for pagination. The number of items to skip before starting to collect the result set.
+      required: false
+      schema:
+        type: integer
+        format: int32
+        minimum: 0
+    limit: 
+      name: limit
+      in: query
+      description: Optional parameter for pagination. Maximum number of entries to be returned.
+      required: false
+      schema:
+        type: integer
+        format: int32
+        minimum: 1
+    cursor:
+      name: cursor
+      in: query
+      description: Optional parameter for pagination. An opaque string value used for pagination.
+      required: false
+      schema:
+        type: string
+        example: cursorIDxyz
 
   # ---- Responses - Standard Errors Common Data Model v1.2.1----
   responses:
