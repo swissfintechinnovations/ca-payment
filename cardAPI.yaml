@@ -1,6 +1,6 @@
 openapi: "3.0.2"
 info:
-  version: "0.2"
+  version: "0.3"
   title: Common Card API (Public)
   description:
     This specification defines a common card API for payment cards used in Switzerland. The API is supposed to be used to manage payment cards (read information, do actions) and concerns FI, Issuer and TPP.
@@ -41,15 +41,12 @@ paths:
     get:
       tags:
         - Cards
-      description: List of cards for the authenticated context including all related information, filtered by query, sorted by cardId.
+      description: List of cards for the authenticated context including all related information, optional filtered by cardholderId / cardContractId / cardAccountId, sorted by cardId.
       summary: Return the list of all cards for the authenticated context (filtered and sorted)
       parameters:
-        - in: query
-          name: exemplary-query
-          schema:
-            type: boolean
-          example: true
-          description: Whether yes or no. More query parameters to add.
+        - $ref: '#/components/parameters/cardholderId'
+        - $ref: '#/components/parameters/cardContractId'
+        - $ref: '#/components/parameters/cardAccountId'
         - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/offset'
         - $ref: '#/components/parameters/clientid_in_header'
@@ -204,12 +201,14 @@ paths:
       description: List of card accounts for the authenticated context including all related information, filtered by query, sorted by cardAccountId.
       summary: Return the list of all card accounts for the authenticated context (filtered and sorted)
       parameters:
+        - $ref: '#/components/parameters/cardholderId'
+        - $ref: '#/components/parameters/cardContractId'
         - in: query
-          name: exemplary-query
+          name: IBAN
+          description: International Bank Account Number that is associated with the payment card account. Note, that one IBAN can be associated to multiple card accounts.
+          required: false
           schema:
-            type: boolean
-          example: true
-          description: Whether yes or no. More query parameters to add.
+            type: string
         - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/offset'
         - $ref: '#/components/parameters/clientid_in_header'
@@ -1215,16 +1214,92 @@ components:
         - cardAccountId
       properties:
         cardAccountId:
+          $ref: '#/components/schemas/entityId'
+        cards:
+          type: array
+          description: List of card_uids linked to this account
+          items:
+            $ref: '#/components/schemas/card'
+        currency:
+          $ref: '#/components/schemas/currency'
+        ibanAccount:
+          $ref: '#/components/schemas/paymentQrIbanAccount'
+        billingCycle:
           type: string
-          format: uuid
-          description: 'The card account object identifier (UUID v4) defined by TPP.'
-          example: '9343dd26-4b54-4808-8978-538f8e869d0e'
+          description: code that determines the billing cycle
+          example: monthly
+          enum:
+          - weekly
+          - monthly
+          - quarterly
+          - halfyearly
+          - yearly
+        cardAccountStatus:
+          $ref: '#/components/schemas/genericStatus'
+        cardLoyality:
+          $ref: '#/components/schemas/cardLoyality'
+        paymentDetails:
+          type: object
+          properties:
+            paymentType:
+              type: string
+              example: lsv
+              description: Identifier of the payment method selected by the cardholder to settle the account. 
+              enum:
+              - lsv
+              - debit_direct
+              - esr
+              - ipi
+              - pos
+            paymentOption:
+              type: string
+              example: full
+              description: Identifier of the payment plan selected by the cardholder to pay for a bill. 
+              enum:
+              - full
+              - instalment
+              - revolving
+        statementDetails:
+          type: object
+          properties:
+            deliveryType:
+              type: string
+              example: paper
+              description: Description of the delivery format of the statement. 
+              enum:
+              - paper
+              - paperless
+              - estatement
+              - other
+            activeDeliveryFee:
+              type: number
+              example: 1.0
+              description: Amount charged to the customer for each statement delivery. Typically, paperless is free.
+            nextStatementDate:
+              $ref: '#/components/schemas/genericStatus'
+    # ---------
+
+    # ---- Card Loyality Object ----
+    cardLoyality:
+      description: The representation of a card loyality object
+      type: object
+      required:
+        - cardLoyalityId
+      properties:
+        cardLoyalityId:
+          $ref: '#/components/schemas/entityId'
         name:
           type: string
-          description: User-defined card account name
-          example: Expenses account
+          description: Program name
+          example: surprize
+        reference:
+          type: string
+          example: "2501021032295"
+          description: Additional reference number if available
+        enrollment_date:
+          $ref: '#/components/schemas/date'
     # ---------
-    
+
     # ---- Card Consent Object ----
     cardConsent:
       description: The representation of a card consent object
@@ -1251,14 +1326,109 @@ components:
         - cardId
       properties:
         cardId:
-          type: string
-          format: uuid
-          description: 'The card object identifier (UUID v4) defined by TPP.'
-          example: '9343dd26-4b54-4808-8978-538f8e869d0e'
-        name:
-          type: string
-          description: User-defined card name
-          example: My 2nd credit card
+          $ref: '#/components/schemas/entityId'
+        cardholderId:
+          $ref: '#/components/schemas/entityId'
+        contractId:
+          $ref: '#/components/schemas/entityId'      
+        cardAccountId:
+          $ref: '#/components/schemas/entityId'     
+        issuingPartnerId:
+          $ref: '#/components/schemas/entityIdName'        
+        issuerId:
+          $ref: '#/components/schemas/entityIdName'       
+        cardDetail:
+          type: object
+          properties:
+            cardNumber:
+              type: string
+              example: 4566549683425654
+              maxLength: 19
+              description: Card number
+            flexReferenceCardId:
+              $ref: '#/components/schemas/entityId'
+            initialCreationDate:
+              $ref: '#/components/schemas/date'
+            expiryDate:
+              type: string
+              example: 05/19
+              description: Card expiry date in the format MM/YY
+            embossingLine1:
+              type: string
+              example: FRANZ MUSTERMANN
+              description: Embossing Line 1 contains the cardholder name as visible on the card plastic
+            embossingLine2:
+              type: string
+              example: VISECA CARD SERVICES
+              description: Embossing Line 2 may contain a cardholder-specified or product-specific value, as visible on the card plastic
+            purgedDate:
+              $ref: '#/components/schemas/date'
+            currency:
+              $ref: '#/components/schemas/currency'
+            card_scheme:
+              type: string
+              example: visa
+              description: Card payment scheme
+              enum:
+              - mastercard
+              - visa
+              - other
+            productId:
+              type: string
+              example: "1010101"
+              description: Issuer identifier of a card product
+            productType:
+              type: string
+              example: prepaid
+              description: States if the card is credit or debit. Prepaid cards are labelled as credit in this operation
+              enum:
+              - credit
+              - debit
+              - prepaid
+            productCategory:
+              type: string
+              example: gold
+              description: 'Product category corresponds to the tier of card: gold, platinum, basic etc.'
+            productLine:
+              $ref: '#/components/schemas/contractType'
+            productName:
+              type: string
+              maxLength: 50
+              example: World Mastercard Gold CHF
+              description: Commercial name of the card product as defined by the bank
+            plasticType:
+              type: string
+              example: "10"
+              description: Identifier of the plastic type. This number is required to uniquely identify a card product variant.
+            cardImage:
+              type: string
+              example: "https://bank.ch/images/cardImage.png"
+              description: URL to the (png) card image corresponding to the card
+            cardRelationship:
+              type: string
+              example: main_card
+              description: 'Identifies the nature of the card in regards to the overall account: main card or additional card'
+              enum:
+              - main_card
+              - additional_card
+            previousCardId:
+              $ref: '#/components/schemas/entityId'
+            previousReplacementDate:
+              $ref: '#/components/schemas/date'
+            replacementReason:
+              type: string
+              example: other
+              description: Reason for the replacement of this card
+            nextCardId:
+              $ref: '#/components/schemas/entityId'
+            nextReplacementDate:
+              $ref: '#/components/schemas/date'
+            atmDirectDebit:
+              type: boolean
+              description: A flag indicating if the ATM Direct Debit functionality is enabled
+              example: true
+            cardStatus:
+              $ref: '#/components/schemas/genericStatus'  
     # ---------
 
     # ---- Card Account Statement ----
@@ -1663,6 +1833,28 @@ components:
           description: Link / cursor to the last result set (based on the submitted pagination approach)
           example: /card-app/api/v1/cards?offset=150&limit=25
     # ---------
+
+    # ---- Account objects from payment API ----
+    paymentQrIbanAccount:
+      title: Payment QR-IBAN Account
+      type: object
+      required:
+        - type
+        - identification
+      properties:
+        type:
+          type: string
+          description: IBAN or QR-IBAN of the creditor.
+          enum:
+            - "IBAN"
+            - "QR_IBAN"
+        identification:
+          type: string
+          maxLength: 34
+          example: "CH9300762011623852957"
+          pattern: "[A-Z]{2,2}[0-9]{2,2}[a-zA-Z0-9]{1,30}"
+    # ---------
+
     # ---- Currency ----
     currency:
       description: ISO 4217 code
@@ -1809,6 +2001,24 @@ components:
         format: uuid
         example: 73065f9b-8cf5-4f68-9d03-2c3674f48086
       description: Cardholder ID
+    cardAccountId:
+      name: cardAccountId
+      in: query
+      description: Uuid v4 of a specific existing card account
+      required: false
+      example: bcb5d762-8d28-43a2-9398-393b2e8d56ba
+      schema:
+        type: string
+        format: uuid
+    cardContractId:
+      name: cardContractId
+      in: query
+      description: Uuid v4 of a specific existing card contract
+      required: false
+      example: bcb5d762-8d28-43a2-9398-393b2e8d56ba
+      schema:
+        type: string
+        format: uuid
     limit:
       name: limit
       in: query
