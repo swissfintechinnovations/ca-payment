@@ -1,6 +1,6 @@
 openapi: "3.0.2"
 info:
-  version: "0.3"
+  version: "0.4"
   title: Common Card API (Public)
   description:
     This specification defines a common card API for payment cards used in Switzerland. The API is supposed to be used to manage payment cards (read information, do actions) and concerns FI, Issuer and TPP.
@@ -60,7 +60,7 @@ paths:
               schema:
                 type: object
                 properties:
-                  CardList:
+                  cardList:
                     type: array
                     items:
                       $ref: '#/components/schemas/card'
@@ -114,7 +114,7 @@ paths:
               schema:
                 type: object
                 properties:
-                  Card:
+                  card:
                     $ref: '#/components/schemas/card'
           headers:
             X-Correlation-ID:
@@ -222,7 +222,7 @@ paths:
               schema:
                 type: object
                 properties:
-                  CardAccountList:
+                  cardAccountList:
                     type: array
                     items:
                       $ref: '#/components/schemas/cardAccount'
@@ -276,7 +276,7 @@ paths:
               schema:
                 type: object
                 properties:
-                  Card:
+                  cardAccount:
                     $ref: '#/components/schemas/cardAccount'
           headers:
             X-Correlation-ID:
@@ -356,19 +356,32 @@ paths:
         '503':
           $ref: '#/components/responses/standard503'
 
-  /card-accounts/statements:
+  /card-accounts/{cardAccountId}/statements:
     get:
       tags:
         - Card Account Statements
       description: List of card account statements for the authenticated context including all related information, filtered by query, sorted by cardAccountStatementId.
       summary: Return the list of all card account statements for the authenticated context (filtered and sorted)
       parameters:
-        - in: query
-          name: exemplary-query
+        - name: cardAccountId
+          in: path
+          description: Uuid v4 of a specific existing card account
+          required: true
+          example: bcb5d762-8d28-43a2-9398-393b2e8d56ba
           schema:
-            type: boolean
-          example: true
-          description: Whether yes or no. More query parameters to add.
+            $ref: '#/components/schemas/entityId'
+        - in: query
+          name: fromDate
+          description: Date from which statement entries should be retrieved
+          required: false
+          schema:
+            $ref: '#/components/schemas/date'
+        - in: query
+          name: untilDate
+          description: Date until which statement entries should be retrieved
+          required: false
+          schema:
+            $ref: '#/components/schemas/date'
         - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/offset'
         - $ref: '#/components/parameters/clientid_in_header'
@@ -382,7 +395,7 @@ paths:
               schema:
                 type: object
                 properties:
-                  CardAccountStatementList:
+                  cardAccountStatementList:
                     type: array
                     items:
                       $ref: '#/components/schemas/cardAccountStatement'
@@ -410,13 +423,21 @@ paths:
         '503':
           $ref: '#/components/responses/standard503'
 
-  /card-accounts/statements/{cardAccountStatementId}:
+  /card-accounts/{cardAccountId}/statements/{cardAccountStatementId}:
     get:
       tags:
         - Card Account Statements
-      description: A specific existing card account statement including all related information.
+      description: A specific existing card account statement including all related information including a pdf.
       summary: Return a specific existing card account statement
       parameters:
+        - name: cardAccountId
+          in: path
+          description: Uuid v4 of a specific existing card account
+          required: true
+          example: bcb5d762-8d28-43a2-9398-393b2e8d56ba
+          schema:
+            type: string
+            format: uuid
         - name: cardAccountStatementId
           in: path
           description: Uuid v4 of a specific existing card account statement
@@ -430,14 +451,18 @@ paths:
         - $ref: '#/components/parameters/agent_in_header'
       responses:
         '200':
-          description: Card account details with all related information.
+          description: Card account details with all related information including a pdf in base64 encoding.
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  CardAccountStatement:
+                  cardAccountStatement:
                     $ref: '#/components/schemas/cardAccountStatement'
+                  documentPdf:          # <-- pdf embedded into JSON
+                    type: string
+                    format: byte
+                    description: Base64-encoded contents of the PDF
           headers:
             X-Correlation-ID:
               schema:
@@ -475,12 +500,40 @@ paths:
           schema:
             type: string
             format: uuid
+        - $ref: '#/components/parameters/cardId'
         - in: query
-          name: exemplary-query
+          name: inclName
+          description: Only retrieve transactions that include this text in as a merchant name
+          required: false
+          example: Hotel
           schema:
-            type: boolean
-          example: true
-          description: Whether yes or no. More query parameters to add.
+            type: string
+        - name: inclLocation
+          in: query
+          description: Only retrieve transactions that include this text in as a merchant location
+          required: false
+          example: London
+          schema:
+            type: string
+        - name: inclCountry
+          in: query
+          description: Only retrieve transactions that include this text in as a merchant country
+          required: false
+          example: Italien
+          schema:
+            type: string
+        - name: fromDate
+          in: query
+          description: Only retrieve transactions starting from this date (YYYY-MM-DD)
+          required: false
+          schema:
+            $ref: '#/components/schemas/date'
+        - name: untilDate
+          in: query
+          description: Only retrieve transactions up until this date (YYYY-MM-DD)
+          required: false
+          schema:
+            $ref: '#/components/schemas/date'
         - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/offset'
         - $ref: '#/components/parameters/clientid_in_header'
@@ -494,7 +547,7 @@ paths:
               schema:
                 type: object
                 properties:
-                  CardTransactionList:
+                  cardTransactionList:
                     type: array
                     items:
                       $ref: '#/components/schemas/cardTransaction'
@@ -556,7 +609,7 @@ paths:
               schema:
                 type: object
                 properties:
-                  CardTransaction:
+                  cardTransaction:
                     $ref: '#/components/schemas/cardTransaction'
           headers:
             X-Correlation-ID:
@@ -695,7 +748,7 @@ paths:
               schema:
                 type: object
                 properties:
-                  Card:
+                  cardholder:
                     $ref: '#/components/schemas/cardholder'
           headers:
             X-Correlation-ID:
@@ -796,7 +849,7 @@ paths:
               schema:
                 type: object
                 properties:
-                  CardContractList:
+                  cardContractList:
                     type: array
                     items:
                       $ref: '#/components/schemas/cardContract'
@@ -850,7 +903,7 @@ paths:
               schema:
                 type: object
                 properties:
-                  Card:
+                  cardContract:
                     $ref: '#/components/schemas/cardContract'
           headers:
             X-Correlation-ID:
@@ -929,7 +982,55 @@ paths:
           $ref: '#/components/responses/standard501'
         '503':
           $ref: '#/components/responses/standard503'
-
+  
+  /card-consents/apis:
+    get:
+      tags:
+        - Card Consents API
+      description: Retrieve list of enabled APIs for an API Consumer.
+      summary: Return the list of enabled APIs for an API Consumer.
+      parameters:
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/offset'
+        - $ref: '#/components/parameters/clientid_in_header'
+        - $ref: '#/components/parameters/correlation_in_header'
+        - $ref: '#/components/parameters/agent_in_header'
+      responses:
+        '200':
+          description: Paginated list of all card consent apis the API consumer has access
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  cardApiList:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/cardApi'
+                  _links:
+                    $ref: '#/components/schemas/linksPagination'
+          headers:
+            X-Correlation-ID:
+              schema:
+                type: string
+              description: Reflects the ID (set by the caller) from the request.
+        '400':
+          $ref: '#/components/responses/standard400'
+        '401':
+          $ref: '#/components/responses/standard401'
+        '403':
+          $ref: '#/components/responses/standard403'
+        '404':
+          $ref: '#/components/responses/standard404'
+        '405':
+          $ref: '#/components/responses/standard405'
+        '500':
+          $ref: '#/components/responses/standard500'
+        '501':
+          $ref: '#/components/responses/standard501'
+        '503':
+          $ref: '#/components/responses/standard503'
+  
   /card-consents:
     get:
       tags:
@@ -956,7 +1057,7 @@ paths:
               schema:
                 type: object
                 properties:
-                  CardList:
+                  cardConsentList:
                     type: array
                     items:
                       $ref: '#/components/schemas/cardConsent'
@@ -1055,7 +1156,7 @@ paths:
               schema:
                 type: object
                 properties:
-                  Card:
+                  cardConsent:
                     $ref: '#/components/schemas/cardConsent'
           headers:
             X-Correlation-ID:
@@ -1242,23 +1343,9 @@ components:
           type: object
           properties:
             paymentType:
-              type: string
-              example: lsv
-              description: Identifier of the payment method selected by the cardholder to settle the account. 
-              enum:
-              - lsv
-              - debit_direct
-              - esr
-              - ipi
-              - pos
+                $ref: '#/components/schemas/paymentType'          
             paymentOption:
-              type: string
-              example: full
-              description: Identifier of the payment plan selected by the cardholder to pay for a bill. 
-              enum:
-              - full
-              - instalment
-              - revolving
+                $ref: '#/components/schemas/paymentOption'  
         statementDetails:
           type: object
           properties:
@@ -1300,22 +1387,39 @@ components:
           $ref: '#/components/schemas/date'
     # ---------
 
+    # ---- Card API Object ----
+    cardApi:
+      description: List of APIs supported for a API consumer
+      type: string
+      example: get:cards
+    # ---------
+
+
     # ---- Card Consent Object ----
     cardConsent:
       description: The representation of a card consent object
       type: object
       required:
         - cardConsentId
+        - cardApiList
+        - identificationType
+        - identificationValue
       properties:
         cardConsentId:
+          $ref: '#/components/schemas/entityId'
+        identificationType:
           type: string
-          format: uuid
-          description: 'The card consent object identifier (UUID v4) defined by TPP.'
-          example: '9343dd26-4b54-4808-8978-538f8e869d0e'
-        name:
+          example: card_uid
+          description: Audit type field in order to identify the actual user who granted the consent. This field contains the type of identifier.
+        identificationValue:
           type: string
-          description: User-defined card consent name
-          example: Card 2 Expenses View Consent
+          example: 404003004CCL50000
+          description: Audit type field in order to identify the actual user who granted the consent. This field contains the actual identifier of the type defined before.
+        cardApiList:
+          type: array
+          description: List of the APIs to which access is requested.
+          items:
+            $ref: '#/components/schemas/cardApi'
     # ---------
     
     # ---- Card Object ----
@@ -1439,32 +1543,25 @@ components:
         - cardAccountStatementId
       properties:
         cardAccountStatementId:
-          type: string
-          format: uuid
-          example: d452083f-8316-410d-a609-d49463687329
-          description: Uuid v4 of the specific statement
-        transactionList:
-          type: array
-          items:
-            $ref: '#/components/schemas/cardAccountStatementItem'          
+            $ref: '#/components/schemas/entityId'          
+        cardAccountId:
+            $ref: '#/components/schemas/entityId'          
+        statementCreationDate:
+            $ref: '#/components/schemas/date'          
+        statementAmount:
+            $ref: '#/components/schemas/paymentCurrencyAmount'          
+        paymentDueDate:
+            $ref: '#/components/schemas/date'          
+        statementMinimalDueAmount:
+            $ref: '#/components/schemas/paymentCurrencyAmount'          
+        paymentType:
+            $ref: '#/components/schemas/paymentType'          
+        paymentOption:
+            $ref: '#/components/schemas/paymentOption'          
     # ---------
-    # ---- Card Account Statement Item ----
-    cardAccountStatementItem:
-      description: xy
-      type: object
-      required:
-        - cardAccountStatementItemId
-      properties:
-        cardAccountStatementItemId:
-          type: string
-          format: uuid
-          example: d452083f-8316-410d-a609-d49463687329
-          description: Uuid v4 of the specific item
-    # ---------
-
     # ---- Card Transaction ----
     cardTransaction:
-      description: xy
+      description: Transaction object adapted for card use
       type: object
       required:
         - cardTransactionId
@@ -1474,25 +1571,208 @@ components:
           format: uuid
           example: d452083f-8316-410d-a609-d49463687329
           description: Uuid v4 of the specific transaction
-        transactionList:
-          type: array
-          items:
-            $ref: '#/components/schemas/cardTransactionItem'          
-    # ---------
-    # ---- Card Transaction Item ----
-    cardTransactionItem:
-      description: xy
-      type: object
-      required:
-        - cardTransactionItemId
-      properties:
-        cardTransactionItemId:
+        approvalCode:
           type: string
-          format: uuid
-          example: d452083f-8316-410d-a609-d49463687329
-          description: Uuid v4 of the specific item
-    # ---------
+          example: Please-Provide-Example-and-MaxLength
+          description: Additional transaction identifier provided by schemes or processing system
+        transactionTimestamp:
+          $ref: '#/components/schemas/dateTime'
+        originalCurrencyAmount:
+          $ref: '#/components/schemas/paymentCurrencyAmount'
+        targetCurrencyAmountt:
+          $ref: '#/components/schemas/paymentCurrencyAmount'
+        exchangeRate:
+          type: string
+          example: "0.957"
+          pattern: "[0-9][.][0-9]{1,10}"
+          maxLength: 12
+        exchangeRateDate:
+          $ref: '#/components/schemas/date'
+        merchant:
+          type: object
+          description: Merchant information of the card transaction
+          properties:
+            merchantName:
+              type: string
+              example: COOP PRONTO
+              description: Value that contains the merchant name and location
+            merchantLocation:
+              type: string
+              example: Zurich
+              # Please maxLength
+              description: Value that contains the merchant name and location
+            merchantLocationLatitude:
+              type: string
+              example: "-35.253252"
+              # Please regex
+              description: Value that contains the merchant name and location
+            merchantLocationLongitude:
+              type: string
+              example: "174.071674"
+              # Please regex
+              description: Value that contains the merchant name and location
+            merchantCountry:
+              $ref: '#/components/schemas/country'
+            merchangeCategoryCode:
+              type: string
+              example: "5411"
+              description: Value that contains the merchant category code as defined by ISO 18245
+        posEntryMode:
+          $ref: '#/components/schemas/posEntryMode'
+        terminalId:
+          type: string
+          description: Identifier of the point of sale terminal
+          #Please add example and regex
+        channel:
+          type: string
+          description: Showing if it was a eCommerce transaction or not
+          enum:
+          - ecom
+          - other
+        offline:
+          type: string
+          description: Indicator if the transaction was offline authorized
+          #Please add example and regex
+        statementDate:
+          type: string
+          format: date
+          example: '2018-08-03'
+          description: Settlement date
+        fees:
+          type: array
+          description: |-
+            This array shows individual fee objects that are associated with the
+            transaction. Please note that multiple fee objects can be transmitted.
+          items:
+             $ref: '#/components/schemas/cardTransactionFee'
+        state:
+          type: string
+          example: authorised
+          description: Used to identify if a transactions has been settled (booked) or just authorised
+        transactionCategory:
+          type: string
+          example: merchant
+          description: Transaction type identifying merchant to non-merchant entries
+          enum:
+          - merchant
+          - fee
+          - atm
+        transactionType:
+          $ref: '#/components/schemas/cardTransactionType'
+        cardholderId:
+          $ref: '#/components/schemas/entityId'
+        cardholderName:
+          type: object
+          description: Name of the cardholder
+          properties:
+            company:
+              $ref: '#/components/schemas/entityName'
+            name:
+              $ref: '#/components/schemas/personName'
+            surName:
+              $ref: '#/components/schemas/personSurName'
+        cardAccountId:
+          $ref: '#/components/schemas/entityId'
+        cardId:
+          $ref: '#/components/schemas/entityId'
+        walletProvider:
+          type: string
+          example: Apple Pay
+          description: Identifier of the wallet provider if transaction was perfomred with a payment token (e.g. mobile payment such as Apple Pay)
+        token:
+          type: string
+          example: "1234"
+          maxLength: 4
+          description: last 4 digits of the token
+        tokenRequestorId:
+          type: string
+          example: "1234"
+          maxLength: 4
+          description: last 4 digits of the token
+          # Is this a duplicate of token?
+        securityLevelIndicator:
+          type: string
+          # Please provide example and regex
+          description: Security Level Indicator provides additional information about 3DS, recurring transactions and other authentication related information
+        actionCode:
+          type: string
+          example: "121"
+          description: The Action Code provides information about the why a transaction was approved or declined
 
+    # ---------
+    # ---- Card Transaction Fee ----
+    cardTransactionFee:
+      description: Individual fee objects that are associated with the transaction
+      type: object
+      properties:
+        type:
+          type: string
+          example: Bearbeitungsgebühr 1.75%
+          description: Name of the fee
+        amount:
+          $ref: '#/components/schemas/amount'
+        currency:
+          $ref: '#/components/schemas/currency'
+    # ---------
+    # ---- Card Transaction Type ----
+    cardTransactionType:
+      type: object
+      properties:
+        acquiringType:
+          type: string
+          # Please provide example
+          description: Provides further insight into the interface used
+        financialMeaning:
+          type: string
+          # Please provide example
+          description: Additional functional information about a transaction
+        transactionReference:
+          type: string
+          # Please provide example
+          description: Provides information about connecting a transaction to a previous occurred transaction. E.g. Storno
+    # -------
+
+    # ---- Card POS Entry Mode ----
+    posEntryMode:
+      type: object
+      description: The POS Entry Mode object contain multiple fields that further define how the transaction was captured at its point of origin including information about authentication, payment infrastructure and other related topics.
+      properties:
+        cardDataInputCapability:
+          type: string
+          description: Please_Add_Description_and_Example_and_Regex-MaxLength
+        cardholderAuthenticationCapability:
+          type: string
+          description: Please_Add_Description_and_Example_and_Regex-MaxLength
+        cardCaptureCapability:
+          type: string
+          description: Please_Add_Description_and_Example_and_Regex-MaxLength
+        operatingEnvironment:
+          type: string
+          description: Please_Add_Description_and_Example_and_Regex-MaxLength
+        cardholderPresent:
+          type: string
+          description: Please_Add_Description_and_Example_and_Regex-MaxLength
+        cardPresent:
+          type: string
+          description: Please_Add_Description_and_Example_and_Regex-MaxLength
+        cardDataInputMode:
+          type: string
+          description: Please_Add_Description_and_Example_and_Regex-MaxLength
+        cardholderAuthenticationMethod:
+          type: string
+          description: Please_Add_Description_and_Example_and_Regex-MaxLength
+        cardholderAuthenticationEntity:
+          type: string
+          description: Please_Add_Description_and_Example_and_Regex-MaxLength
+        cardDataOutputCapability:
+          type: string
+          description: Please_Add_Description_and_Example_and_Regex-MaxLength
+        terminalOutputCapability:
+          type: string
+          description: Please_Add_Description_and_Example_and_Regex-MaxLength
+        pinCaptureCapability:
+          type: string
+          description: Please_Add_Description_and_Example_and_Regex-MaxLength
 
     # ---- Cardholder ----
     cardholder:
@@ -1754,6 +2034,25 @@ components:
         name:
           $ref: '#/components/schemas/entityName'
 
+    paymentType:
+      type: string
+      example: lsv
+      description: Identifier of the payment method selected by the cardholder to settle the account. 
+      enum:
+      - lsv
+      - debit_direct
+      - esr
+      - ipi
+      - pos
+    paymentOption:
+      type: string
+      example: full
+      description: Identifier of the payment plan selected by the cardholder to pay for a bill. 
+      enum:
+      - full
+      - instalment
+      - revolving
+
     genericStatus:
       description: 
         'Describes the status of a card object.
@@ -1862,22 +2161,29 @@ components:
       pattern: '[A-Z]{3}'
       example: CHF
     # ---------
-    # ---- Amount ----
-    amount:
-      description: amount with currency
+
+    # ---- Payment Currency Amount compatible to SFTI XS2A API----
+    paymentCurrencyAmount:
+      title: Payment Currency-Amount
       type: object
       required:
         - currency
-        - content
+        - amount
       properties:
         currency:
           $ref: '#/components/schemas/currency'
-        content:
-          description: amount given with fractional digits, the separator is a dot
-          type: string
-          pattern: '-?\d{1,14}(?:\.\d{1,3})?'
-          example: 235.45
+        amount:
+          $ref: '#/components/schemas/amount'
+
+    # ---- Amount ----
+    amount:
+      type: string
+      description: Amount given with fractional digits, the separator is a dot
+      pattern: "[0-9]{1,12}([.][0-9]{1,5})?"
+      maxLength: 18
+      example: "10.25"
     # --------
+
     # ---- Address compliant to payment address (b.Link & ISO20022)----
     structuredAddress:
       title: Structured Address
@@ -1961,6 +2267,13 @@ components:
 
   # ---- Global Common Header Parameters ----
   parameters:
+    cardConsentId:
+      in: header
+      name: cardConsentId
+      description: Identifier for a consent that must have been given to allow data access.
+      required: true
+      schema:
+        type: string
     clientid_in_header:
       in: header
       name: X-CorAPI-Client-ID
@@ -1992,6 +2305,15 @@ components:
         format: int32
         example: 25
         minimum: 0
+    cardId:
+      name: cardId
+      in: query
+      required: false
+      schema:
+        type: string
+        format: uuid
+        example: 7306fd9b-9df5-4f68-9d03-2c3674f48086
+      description: Card ID
     cardholderId:
       name: cardholderId
       in: query
