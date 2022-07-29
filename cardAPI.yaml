@@ -1,7 +1,7 @@
 openapi: "3.0.2"
 info:
-  version: "0.4"
-  title: Common Card API (Public)
+  version: "0.45"
+  title: Common Card Info API (Public)
   description:
     This specification defines a common card API for payment cards used in Switzerland. The API is supposed to be used to manage payment cards (read information, do actions) and concerns FI, Issuer and TPP.
     This specification uses schema definitions from the Common Data Model v1.2.2.
