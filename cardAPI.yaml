@@ -1363,7 +1363,7 @@ components:
               example: 1.0
               description: Amount charged to the customer for each statement delivery. Typically, paperless is free.
             nextStatementDate:
-              $ref: '#/components/schemas/genericStatus'
+              $ref: '#/components/schemas/date'
     # ---------
 
     # ---- Card Loyality Object ----
@@ -1570,7 +1570,7 @@ components:
           type: string
           format: uuid
           example: d452083f-8316-410d-a609-d49463687329
-          description: Uuid v4 of the specific transaction
+          description: Uuid v4 of the specific transaction. Must not change when the status (approved, booked, etc.) is changed.
         approvalCode:
           type: string
           example: Please-Provide-Example-and-MaxLength
