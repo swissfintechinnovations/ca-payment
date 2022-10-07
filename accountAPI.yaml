@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  version: 1.1.5
+  version: 1.2.0
   title: Common Account API
   description: 
     This specification defines a simple API to access information about bank accounts. The API is supposed to be used by customers who want to get information about their accounts such as current balance or transactions.
@@ -127,6 +127,94 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/accountBalanceItem'
+          headers:
+            X-Correlation-ID:
+              schema:
+                type: string
+              description: Reflects the ID (set by the caller) from the request.
+        '400':
+          $ref: '#/components/responses/standard400'
+        '401':
+          $ref: '#/components/responses/standard401'
+        '403':
+          $ref: '#/components/responses/standard403'
+        '404':
+          $ref: '#/components/responses/standard404'
+        '405':
+          $ref: '#/components/responses/standard405'
+        '500':
+          $ref: '#/components/responses/standard500'
+        '501':
+          $ref: '#/components/responses/standard501'
+        '503':
+          $ref: '#/components/responses/standard503'
+
+  /iso20022/statements:
+    get:
+      tags:
+        - iso20022
+      summary: Get list of resource links to account statements (CAMT.053).
+      description: The resources links to available account statements (CAMT.053).
+      parameters:
+        - $ref: '#/components/parameters/clientid_in_header' 
+        - $ref: '#/components/parameters/correlation_in_header'
+        - $ref: '#/components/parameters/agent_in_header'
+      responses:
+        '200':
+          description: Returns a list of resource links to ISO20022 XML CAMT.053 messages.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  conditionList: 
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/iso20022ReportReference'
+          headers:
+            X-Correlation-ID:
+              schema:
+                type: string
+              description: Reflects the ID (set by the caller) from the request.
+        '400':
+          $ref: '#/components/responses/standard400'
+        '401':
+          $ref: '#/components/responses/standard401'
+        '403':
+          $ref: '#/components/responses/standard403'
+        '404':
+          $ref: '#/components/responses/standard404'
+        '405':
+          $ref: '#/components/responses/standard405'
+        '500':
+          $ref: '#/components/responses/standard500'
+        '501':
+          $ref: '#/components/responses/standard501'
+        '503':
+          $ref: '#/components/responses/standard503'
+
+  /iso20022/statements/{reportId}:
+    get:
+      tags:
+        - iso20022
+      summary: Retrieves a specifically requested ISO20022 XML CAMT.053 document.
+      parameters:
+        - in: path
+          name: reportId
+          schema:
+            type: string
+          required: true
+          description: Unique ID of the requested ISO20022 XML CAMT.053 document.
+        - $ref: '#/components/parameters/clientid_in_header' 
+        - $ref: '#/components/parameters/correlation_in_header'
+        - $ref: '#/components/parameters/agent_in_header'
+      responses:
+        '200':
+          description: Returns the requested ISO20022 XML CAMT.053 message.
+          content:
+            application/xml:
+              schema:
+                type: string 
           headers:
             X-Correlation-ID:
               schema:
@@ -287,6 +375,21 @@ components:
       format: date-time
       example: 2018-04-13T11:11:11Z
     # --------
+    iso20022ReportReference:
+      title: ISO 20022 Report Reference
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        type:
+          type: string
+          enum:
+            - CAMT53
+        id:
+          type: string
+
     # ---- Error Response (compliant to SIX b.Link)
     commonErrorResponse:
       title: Common Error Response
