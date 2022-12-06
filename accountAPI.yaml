@@ -5,17 +5,17 @@ info:
   description: 
     This specification defines a simple API to access information about bank accounts. The API is supposed to be used by customers who want to get information about their accounts such as current balance or transactions.
     This specification uses schema definitions from the Common Data Model v1.2.1.
-  termsOfService: 'tbd'
+  termsOfService: tbd
   contact:
     email: info@common-api.ch
   license:
     name: Apache 2.0
-    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
 servers:
   - url: account.common-api.ch
 externalDocs:
   description: Find out more about SFTI API specifications
-  url: 'https://www.common-api.ch'
+  url: https://www.common-api.ch
 security:
   - OAuth2:
       - read
@@ -429,7 +429,7 @@ components:
         - /problems/TECHNICAL_ERROR
         - /problems/NOT_IMPLEMENTED
         - /problems/SERVICE_UNAVAILABLE
-      example: '/problems/TECHNICAL_ERROR'
+      example: /problems/TECHNICAL_ERROR
     # ---- End Error Response
     # ---- End Common Data Model
 
@@ -476,30 +476,30 @@ components:
           type: string
           minLength: 3
           maxLength: 3
-          example: "CHF"
+          example: CHF
         designation:
           type: string
           maxLength: 140
-          example: "Firmenkonto"
+          example: Firmenkonto
         _links:
           type: object
           description: Contains the paths to additional resources for specific account (e.g. path to transactions resource).
           properties:
             self:
               type: string
-              example: '/accounts/550e8400-e29b-11d4-a716-446655440000'
+              example: /accounts/550e8400-e29b-11d4-a716-446655440000
             balance:
               type: string
-              example: '/accounts/550e8400-e29b-11d4-a716-446655440000/balance'
+              example: /accounts/550e8400-e29b-11d4-a716-446655440000/balance
             transactions:
               type: string
-              example: '/accounts/550e8400-e29b-11d4-a716-446655440000/transactions'
+              example: /accounts/550e8400-e29b-11d4-a716-446655440000/transactions
 
     commonAccountId:
       type: string
-      pattern: "[A-Za-z0-9](([A-Za-z0-9._]|-){0,254}[A-Za-z0-9]){0,1}"
+      pattern: '[A-Za-z0-9](([A-Za-z0-9._]|-){0,254}[A-Za-z0-9]){0,1}'
       maxLength: 256
-      example: "abc123_abcxyz.123789.abcxyz.abcxyz_abcxyz_abcxyz_abcxyz_ccccc_123abc"
+      example: abc123_abcxyz.123789.abcxyz.abcxyz_abcxyz_abcxyz_abcxyz_ccccc_123abc
 
     paymentIbanAccount:
       title: Payment IBAN Account
@@ -512,12 +512,12 @@ components:
           type: string
           description: The allowed account identification type for the creditor account depends on the payment type. The debtor account must always be an IBAN.
           enum:
-            - "IBAN"
+            - IBAN
         identification:
           type: string
           maxLength: 34
-          example: "CH9300762011623852957"
-          pattern: "[A-Z]{2,2}[0-9]{2,2}[a-zA-Z0-9]{1,30}"
+          example: CH9300762011623852957
+          pattern: '[A-Z]{2,2}[0-9]{2,2}[a-zA-Z0-9]{1,30}'
 
     accountBalanceItem:
       title: Account Balance Item
@@ -529,14 +529,14 @@ components:
       properties:
         date:
           type: string
-          format: 'date'
-          example: '2010-02-15'
+          format: date
+          example: 2010-02-15
         balanceType:
           type: string
           enum:
-            - "ITBD"
-            - "CLBD"
-          example: "CLBD"
+            - ITBD
+            - CLBD
+          example: CLBD
         balance:
           $ref: '#/components/schemas/balanceCurrencyAmount'
         _links:
@@ -545,13 +545,13 @@ components:
           properties:
             self:
               type: string
-              example: '/accounts/550e8400-e29b-11d4-a716-446655440000/balance'
+              example: /accounts/550e8400-e29b-11d4-a716-446655440000/balance
             account:
               type: string
-              example: '/accounts/550e8400-e29b-11d4-a716-446655440000'
+              example: /accounts/550e8400-e29b-11d4-a716-446655440000
             transactions:
               type: string
-              example: '/accounts/550e8400-e29b-11d4-a716-446655440000/transactions'
+              example: /accounts/550e8400-e29b-11d4-a716-446655440000/transactions
 
     balanceCurrencyAmount:
       title: Balance Currency-Amount
@@ -564,12 +564,12 @@ components:
           type: string
           minLength: 3
           maxLength: 3
-          example: "CHF"
+          example: CHF
         amount:
           type: string
-          pattern: "-?[0-9]{1,12}([.][0-9]{1,5})?"
+          pattern: '-?[0-9]{1,12}([.][0-9]{1,5})?'
           maxLength: 18
-          example: "10.25"
+          example: 10.25
 
     accountTransactionReport:
       title: Account Transaction Report
@@ -581,11 +581,11 @@ components:
         iban:
           type: string
           maxLength: 34
-          example: "CH5481230000001998736"
+          example: CH5481230000001998736
         designation:
           type: string
           maxLength: 140
-          example: "Checking Account"
+          example: Checking Account
         entries:
           type: array
           items:
@@ -597,13 +597,13 @@ components:
           properties:
             self:
               type: string
-              example: "/accounts/550e8400e29b11d4a716446655440000/statements"
+              example: /accounts/550e8400e29b11d4a716446655440000/statements
             account:
               type: string
-              example: "/accounts/550e8400e29b11d4a716446655440000"
+              example: /accounts/550e8400e29b11d4a716446655440000
             balance:
               type: string
-              example: "/accounts/550e8400e29b11d4a716446655440000/balance"
+              example: /accounts/550e8400e29b11d4a716446655440000/balance
 
     accountTransactionEntry:
       title: Account Transaction Entry
@@ -618,7 +618,7 @@ components:
       properties:
         entryId:
           type: string
-          example: "ENTRY123456789"
+          example: ENTRY123456789
         transactionType:
           $ref: '#/components/schemas/accountTransactionTransactionType'
         entryReference:
@@ -628,17 +628,17 @@ components:
         entryReferenceInternalId:
           type: string
           maxLength: 35
-          example: "010001628"
+          example: 010001628
         reversalIndicator:
           type: boolean
         bookingDate:
           type: string
           format: date
-          example: "2018-10-29"
+          example: 2018-10-29
         valueDate:
           type: string
           format: date
-          example: "2018-10-29"
+          example: 2018-10-29
         amount:
           $ref: '#/components/schemas/paymentCurrencyAmount'
         instructedAmount:
@@ -660,7 +660,7 @@ components:
       enum:
         - CRDT
         - DBIT
-      example: "CRDT"
+      example: CRDT
 
     paymentCurrencyAmount:
       title: Payment Currency-Amount
@@ -673,12 +673,12 @@ components:
           type: string
           maxLength: 3
           minLength: 3
-          example: "CHF"
+          example: CHF
         amount:
           type: string
-          pattern: "[0-9]{1,12}([.][0-9]{1,5})?"
+          pattern: '[0-9]{1,12}([.][0-9]{1,5})?'
           maxLength: 18
-          example: "10.25"
+          example: 10.25
 
     accountTransactionInstructedAmount:
       title: Account Transaction Instructed Amount
@@ -690,28 +690,28 @@ components:
       properties:
         amount:
           type: string
-          pattern: "[0-9]{1,12}([.][0-9]{1,5})?"
+          pattern: '[0-9]{1,12}([.][0-9]{1,5})?'
           maxLength: 18
-          example: "10.25"
+          example: 10.25
         sourceCurrency:
           type: string
           minLength: 3
           maxLength: 3
-          example: "CHF"
+          example: CHF
         targetCurrency:
           type: string
           minLength: 3
           maxLength: 3
-          example: "USD"
+          example: USD
         exchangeRate:
           type: string
-          example: "0.957"
-          pattern: "[0-9][.][0-9]{1,10}"
+          example: 0.957
+          pattern: '[0-9][.][0-9]{1,10}'
           maxLength: 12
         exchangeIndicator:
           type: string
           maxLength: 4
-          example: "MULT"
+          example: MULT
 
     accountTransactionItemCharges:
       title: Account Transaction Item Charges
@@ -722,14 +722,14 @@ components:
       properties:
         amount:
           type: string
-          pattern: "[0-9]{1,12}([.][0-9]{1,5})?"
+          pattern: '[0-9]{1,12}([.][0-9]{1,5})?'
           maxLength: 18
-          example: "10.25"
+          example: 10.25
         currency:
           type: string
           maxLength: 3
           minLength: 3
-          example: "CHF"
+          example: CHF
         chargeRecords:
           type: array
           items:
@@ -746,15 +746,15 @@ components:
         domainCode:
           type: string
           maxLength: 4
-          example: "PMNT"
+          example: PMNT
         familyCode:
           type: string
           maxLength: 4
-          example: "RCDT"
+          example: RCDT
         subFamilyCode:
           type: string
           maxLength: 4
-          example: "DMCT"
+          example: DMCT
 
     accountTransactionItem:
       title: Account Transaction Item
@@ -767,13 +767,13 @@ components:
         transactionId:
           type: string
           maxLength: 35
-          example: 'TX12345A987'
+          example: TX12345A987
         transactionType:
           $ref: '#/components/schemas/accountTransactionTransactionType'
         endToEndId:
           type: string
           maxLength: 35
-          example: "ENDTOENDID-01"
+          example: ENDTOENDID-01
         bankTransactionCode:
           $ref: '#/components/schemas/accountTransactionBankTransactionCode'
         amount:
@@ -798,18 +798,18 @@ components:
       properties:
         amount:
           type: string
-          pattern: "[0-9]{1,12}([.][0-9]{1,5})?"
+          pattern: '[0-9]{1,12}([.][0-9]{1,5})?'
           maxLength: 18
-          example: "10.25"
+          example: 10.25
         currency:
           type: string
           minLength: 3
           maxLength: 3
-          example: "CHF"
+          example: CHF
         type:
           type: string
           maxLength: 35
-          example: "Some type of charge"
+          example: Some type of charge
         chargesIncludedIndicator:
           type: boolean
 
@@ -820,7 +820,7 @@ components:
         name:
           type: string
           maxLength: 140
-          example: "Hans Muster"
+          example: Hans Muster
         postalAddress:
           $ref: '#/components/schemas/accountTransactionStructuredOrUnstructuredAddress'
         account:
@@ -833,7 +833,7 @@ components:
       description: Either remittanceReference or remittanceInformation must be set.
       type: string
       maxLength: 140
-      example: "Rechnung Nr. 408"
+      example: Rechnung Nr. 408
 
     accountTransactionRemittanceReference:
       title: Account Transaction Remittance Reference
@@ -848,7 +848,7 @@ components:
         reference:
           type: string
           maxLength: 35
-          example: "210000000003139471430009017"
+          example: 210000000003139471430009017
 
     accountTransactionStructuredOrUnstructuredAddress:
       title: Common Structured or Unstructured Address
@@ -869,12 +869,12 @@ components:
         type:
           type: string
           enum:
-            - "IBAN"
-            - "OTHER"
+            - IBAN
+            - OTHER
         identification:
           type: string
           maxLength: 35
-          example: "CH9300762011623852957"
+          example: CH9300762011623852957
 
     accountTransactionCounterpartyAgent:
       title: Account Transaction Counterparty Agent
@@ -897,23 +897,23 @@ components:
         streetName:
           type: string
           maxLength: 70
-          example: "Rue de la gare"
+          example: Rue de la gare
         buildingNumber:
           type: string
           maxLength: 16
-          example: "24"
+          example: 24
         postCode:
           type: string
           maxLength: 16
-          example: "2501"
+          example: 2501
         townName:
           type: string
           maxLength: 35
-          example: "Biel"
+          example: Biel
         country:
           type: string
           maxLength: 2
-          example: "CH"
+          example: CH
 
     accountTransactionUnstructuredAddress:
       title: Unstructured Address for Transactions
@@ -925,14 +925,14 @@ components:
           type: array
           description: max 4 lines of 70 characters
           maxLength: 4
-          example: ["Robert Schneider SA", "Rue de la gare 24"]
+          example: [Robert Schneider SA, Rue de la gare 24]
           items:
             type: string
             maxLength: 70
         country:
           type: string
           maxLength: 2
-          example: "CH"
+          example: CH
 
     commonClearingSystemMemberIdentification:
       title: Common Clearing System Member Identification
@@ -944,11 +944,11 @@ components:
         code:
           type: string
           maxLength: 5
-          example: "CHBCC"
+          example: CHBCC
         memberId:
           type: string
           maxLength: 35
-          example: "00230"
+          example: 00230
 
     PortfolioListLink:
       type: object
@@ -961,12 +961,12 @@ components:
         href:
           type: string
           example: /mortgage-app/api/v1/mortgages
-          description: |
-                    The machine or tenant relative URI that points to the linked resource
+          description:
+                    'The machine or tenant relative URI that points to the linked resource
         
                     Example: 
                     Assuming that the actual URL of the resource would be: https://machine/tenant/app/api/v1/detail-view/detailId,
-                    then the href to the detail-view would be: /app/api/v1/detail-view/detailId
+                    then the href to the detail-view would be: /app/api/v1/detail-view/detailId'
         
         version:
           type: string
@@ -974,11 +974,11 @@ components:
           description: Version of the API (the same rel can appear several times for different versions that are supported)
         
         method:
-          $ref: "#/components/schemas/HttpVerb"
+          $ref: '#/components/schemas/HttpVerb'
         
         type:
           type: string
-          example: "application/json"
+          example: application/json
           description: The supported http content-type when sending the request to the server. If no content is supported on an end-point (like on a typical GET) then the type will be null
 
     HttpVerb:
@@ -1049,11 +1049,11 @@ components:
         Content-Type:
           schema:
             type: string
-            description: 'application/problem+json; charset=utf-8 according to RFC7807'
+            description: application/problem+json; charset=utf-8 according to RFC7807
         Content-Language:
           schema:
             type: string
-            description: 'Response language - always en'
+            description: Response language - always en
         X-Correlation-ID:
           schema:
             type: string
@@ -1069,11 +1069,11 @@ components:
         Content-Type:
           schema:
             type: string
-            description: 'application/problem+json; charset=utf-8 according to RFC7807'
+            description: application/problem+json; charset=utf-8 according to RFC7807
         Content-Language:
           schema:
             type: string
-            description: 'Response language - always en'
+            description: Response language - always en
         X-Correlation-ID:
           schema:
             type: string
@@ -1089,11 +1089,11 @@ components:
         Content-Type:
           schema:
             type: string
-            description: 'application/problem+json; charset=utf-8 according to RFC7807'
+            description: application/problem+json; charset=utf-8 according to RFC7807
         Content-Language:
           schema:
             type: string
-            description: 'Response language - always en'
+            description: Response language - always en
         X-Correlation-ID:
           schema:
             type: string
@@ -1109,11 +1109,11 @@ components:
         Content-Type:
           schema:
             type: string
-            description: 'application/problem+json; charset=utf-8 according to RFC7807'
+            description: application/problem+json; charset=utf-8 according to RFC7807
         Content-Language:
           schema:
             type: string
-            description: 'Response language - always en'
+            description: Response language - always en
         X-Correlation-ID:
           schema:
             type: string
@@ -1129,11 +1129,11 @@ components:
         Content-Type:
           schema:
             type: string
-            description: 'application/problem+json; charset=utf-8 according to RFC7807'
+            description: application/problem+json; charset=utf-8 according to RFC7807
         Content-Language:
           schema:
             type: string
-            description: 'Response language - always en'
+            description: Response language - always en
         X-Correlation-ID:
           schema:
             type: string
@@ -1149,11 +1149,11 @@ components:
         Content-Type:
           schema:
             type: string
-            description: 'application/problem+json; charset=utf-8 according to RFC7807'
+            description: application/problem+json; charset=utf-8 according to RFC7807
         Content-Language:
           schema:
             type: string
-            description: 'Response language - always en'
+            description: Response language - always en
         X-Correlation-ID:
           schema:
             type: string
@@ -1169,11 +1169,11 @@ components:
         Content-Type:
           schema:
             type: string
-            description: 'application/problem+json; charset=utf-8 according to RFC7807'
+            description: application/problem+json; charset=utf-8 according to RFC7807
         Content-Language:
           schema:
             type: string
-            description: 'Response language - always en'
+            description: Response language - always en
         X-Correlation-ID:
           schema:
             type: string
@@ -1189,11 +1189,11 @@ components:
         Content-Type:
           schema:
             type: string
-            description: 'application/problem+json; charset=utf-8 according to RFC7807'
+            description: application/problem+json; charset=utf-8 according to RFC7807
         Content-Language:
           schema:
             type: string
-            description: 'Response language - always en'
+            description: Response language - always en
         X-Correlation-ID:
           schema:
             type: string
