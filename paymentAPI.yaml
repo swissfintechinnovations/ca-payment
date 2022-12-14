@@ -828,6 +828,152 @@ paths:
         '503':
           $ref: '#/components/responses/standard503'
 
+  /health/ping: # is there a possible solution to avoid DoS attacks? -> probably not
+    get:
+      tags:
+        - healthcheck
+      summary: Simple ping healthcheck.
+      description: This endpoint provides a service to ping the API. If the API is live, you receive an 200 Health check OK response
+      # need of authentication??
+      # security:
+      #   - OAuth2: [read]
+      responses:
+        '200':
+          description: Health check response. Returns status code 200 OK and request time, if API is ready.
+          content: 
+            application/json:
+              schema:
+                type: object
+                required:
+                  - message
+                  - dateTime
+                properties:
+                  message:
+                    type: string
+                    example: Health Check Ping OK
+                  dateTime:
+                    $ref: '#/components/schemas/DateTime'
+        '503':
+          description: Health check response. Returns status code 503 Service Unavailable and request time, if API is down.
+          content: 
+            application/json:
+              schema:
+                type: object
+                required:
+                  - message
+                  - dateTime
+                properties:
+                  message:
+                    type: string
+                    example: Health Check Ping Error
+                  dateTime:
+                    $ref: '#/components/schemas/DateTime'
+    
+  /health/live:
+    get:
+      tags:
+        - healthcheck
+      summary: Simple healthcheck.
+      description: This endpoint provides a service to test the API with parameters. The API reflects all received parameters without further processing.
+      security:
+        - OAuth2: [read]
+      parameters:
+        - name: test # maybe omit path parameter? optional path parameter isn't supported
+          in: path
+          description: Test parameter.
+          required: true
+          schema:
+            type: string
+        - $ref: '#/components/parameters/clientid_in_header' 
+        - $ref: '#/components/parameters/correlation_in_header'
+        - $ref: '#/components/parameters/agent_in_header'
+      responses:
+        '200':
+          description: Health check response. Returns status code 200 OK and reflects all provided parameters.
+          content: 
+            application/json:
+              schema:
+                type: object
+                required:
+                  - message
+                  - reflectedHeaders
+                properties:
+                  message:
+                    type: string
+                    example: Health Check Parameters OK
+                  reflectedHeaders:
+                    type: array
+                    example: [clientId, correlation, agent]
+        '503':
+          description: Health check response. Returns status code 503 Service Unavailable and request time, if API can not read and reflect headers.
+          content: 
+            application/json:
+              schema:
+                type: object
+                required:
+                  - message
+                  - dateTime
+                properties:
+                  message:
+                    type: string
+                    example: Health Check Error
+                  dateTime:
+                    $ref: '#/components/schemas/DateTime'
+
+  /health/check:
+    get:
+      tags:
+        - healthcheck
+      summary: Detailed healthcheck with diagnostics.
+      description: This endpoint provides a service to test components connected to this API (e.g. downstream APIs, Database,..). This endpoint runs various tests/checkers and returns the healthiness of the API.
+      security:
+        - OAuth2: [read]
+      responses:
+        '200':
+          description: Health check response. All health checks are passed.
+          content: 
+            application/json:
+              schema:
+                type: object
+                required:
+                  - message
+                  - passedTests
+                  - dateTime
+                properties:
+                  message:
+                    type: string
+                    example: Health Check Tests OK.
+                  passedTests:
+                    type: array
+                    description: List of all passed tests.
+                  failedTests:
+                    type: array
+                    description: Empty.
+                  dateTime:
+                    $ref: '#/components/schemas/DateTime'
+        '500':
+          description: Health check response. Returns status code 500 Internal Server Error and request time, if at least one internal check failed.
+          content: 
+            application/json:
+              schema:
+                type: object
+                required:
+                  - message
+                  - failedTests
+                  - dateTime
+                properties:
+                  message:
+                    type: string
+                    example: Description of failed tests.
+                  passedTests:
+                    type: array
+                    description: List of all passed tests.
+                  failedTests:
+                    type: array
+                    description: List of all failed tests.
+                  dateTime:
+                    $ref: '#/components/schemas/DateTime'
+        
           
 # -------------------------
 # -------- Models ---------
