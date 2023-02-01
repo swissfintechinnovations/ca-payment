@@ -24,12 +24,16 @@ paths:
   /accounts:
     get:
       tags: 
-        - Account List 
+        - accounts
       description: Return the list of all accounts accessible for the logged in user.
       parameters:
+        - $ref: '#/components/parameters/authorization_in_header'
         - $ref: '#/components/parameters/clientid_in_header' 
         - $ref: '#/components/parameters/correlation_in_header'
         - $ref: '#/components/parameters/agent_in_header'
+        - $ref: '#/components/parameters/optional_targetid_in_header' 
+        - $ref: '#/components/parameters/optional_psu_ip_in_header' 
+        - $ref: '#/components/parameters/optional_psu_user_agent_in_header' 
       responses:
         '200':
           description: Paginated list of all accounts.
@@ -64,18 +68,17 @@ paths:
   /accounts/{accountId}:
     get:
       tags: 
-        - Account Details 
+        - accounts
       description: Return the accounts details of the requested account.
       parameters:
-        - in: path
-          name: accountId
-          required: true
-          schema:
-            type: string
-          description: The account the details are requested.
+        - $ref: '#/components/parameters/path_accountId'
+        - $ref: '#/components/parameters/authorization_in_header'
         - $ref: '#/components/parameters/clientid_in_header' 
         - $ref: '#/components/parameters/correlation_in_header'
         - $ref: '#/components/parameters/agent_in_header'
+        - $ref: '#/components/parameters/optional_targetid_in_header' 
+        - $ref: '#/components/parameters/optional_psu_ip_in_header' 
+        - $ref: '#/components/parameters/optional_psu_user_agent_in_header' 
       responses:
         '200':
           description: Account details of the requested account.
@@ -108,18 +111,18 @@ paths:
   /accounts/{accountId}/balance:
     get:
       tags: 
-        - Account data of the specified account
+        - accounts
       description: Account data of the specified account.
       parameters:
-        - in: path
-          name: accountId
-          description: The account the details are requested.
-          required: true
-          schema:
-            type: string
+        - $ref: '#/components/parameters/authorization_in_header'
+        - $ref: '#/components/parameters/path_accountId'
+        - $ref: '#/components/parameters/query_date'
         - $ref: '#/components/parameters/clientid_in_header' 
         - $ref: '#/components/parameters/correlation_in_header'
         - $ref: '#/components/parameters/agent_in_header'
+        - $ref: '#/components/parameters/optional_targetid_in_header' 
+        - $ref: '#/components/parameters/optional_psu_ip_in_header' 
+        - $ref: '#/components/parameters/optional_psu_user_agent_in_header' 
       responses:
         '200':
           description: Account details of the requested account.
@@ -149,6 +152,117 @@ paths:
         '503':
           $ref: '#/components/responses/standard503'
 
+  /accounts/{accountId}/transactions:
+    get:
+      tags: 
+        - accounts
+      description: Transactions to and from the specified account.
+      parameters:
+        - $ref: '#/components/parameters/authorization_in_header'
+        - $ref: '#/components/parameters/path_accountId'
+        - in: query
+          name: dateFrom
+          schema:
+            $ref: '#/components/schemas/Date'
+        - in: query
+          name: dateTo
+          schema:
+            $ref: '#/components/schemas/Date'       
+        - in: query
+          name: bookingStatus
+          required: true
+          schema:
+            type: string
+            enum:
+              - booked
+              - pending
+              - both
+        - $ref: '#/components/parameters/cursor'
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/clientid_in_header' 
+        - $ref: '#/components/parameters/correlation_in_header'
+        - $ref: '#/components/parameters/agent_in_header'
+        - $ref: '#/components/parameters/optional_targetid_in_header' 
+        - $ref: '#/components/parameters/optional_psu_ip_in_header' 
+        - $ref: '#/components/parameters/optional_psu_user_agent_in_header' 
+      responses:
+        '200':
+          description: Account details of the requested account.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/accountTransactionReport'
+          headers:
+            X-Correlation-ID:
+              schema:
+                type: string
+              description: Reflects the ID (set by the caller) from the request.
+        '400':
+          $ref: '#/components/responses/standard400'
+        '401':
+          $ref: '#/components/responses/standard401'
+        '403':
+          $ref: '#/components/responses/standard403'
+        '404':
+          $ref: '#/components/responses/standard404'
+        '405':
+          $ref: '#/components/responses/standard405'
+        '500':
+          $ref: '#/components/responses/standard500'
+        '501':
+          $ref: '#/components/responses/standard501'
+        '503':
+          $ref: '#/components/responses/standard503'
+
+  /accounts/{accountId}/transactions/{transactionId}:
+    get:
+      tags: 
+        - accounts
+      description: details of the specified transaction
+      parameters:
+        - in: path
+          name: accountId
+          required: true
+          schema:
+            type: string
+          description: The account the details are requested.
+        - in: path
+          name: transactionId
+          required: true
+          schema:
+            type: string
+        - $ref: '#/components/parameters/clientid_in_header' 
+        - $ref: '#/components/parameters/correlation_in_header'
+        - $ref: '#/components/parameters/agent_in_header'
+      responses:
+        '200':
+          description: Account details of the requested account.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/accountTransactionEntry'
+          headers:
+            X-Correlation-ID:
+              schema:
+                type: string
+              description: Reflects the ID (set by the caller) from the request.
+        '400':
+          $ref: '#/components/responses/standard400'
+        '401':
+          $ref: '#/components/responses/standard401'
+        '403':
+          $ref: '#/components/responses/standard403'
+        '404':
+          $ref: '#/components/responses/standard404'
+        '405':
+          $ref: '#/components/responses/standard405'
+        '500':
+          $ref: '#/components/responses/standard500'
+        '501':
+          $ref: '#/components/responses/standard501'
+        '503':
+          $ref: '#/components/responses/standard503'
+
   /iso20022/statements:
     get:
       tags:
@@ -156,9 +270,13 @@ paths:
       summary: Get list of resource links to account statements (CAMT.053).
       description: The resources links to available account statements (CAMT.053).
       parameters:
+        - $ref: '#/components/parameters/authorization_in_header'
         - $ref: '#/components/parameters/clientid_in_header' 
         - $ref: '#/components/parameters/correlation_in_header'
         - $ref: '#/components/parameters/agent_in_header'
+        - $ref: '#/components/parameters/optional_targetid_in_header' 
+        - $ref: '#/components/parameters/optional_psu_ip_in_header' 
+        - $ref: '#/components/parameters/optional_psu_user_agent_in_header' 
       responses:
         '200':
           description: Returns a list of resource links to ISO20022 XML CAMT.053 messages.
@@ -205,9 +323,13 @@ paths:
             type: string
           required: true
           description: Unique ID of the requested ISO20022 XML CAMT.053 document.
+        - $ref: '#/components/parameters/authorization_in_header'
         - $ref: '#/components/parameters/clientid_in_header' 
         - $ref: '#/components/parameters/correlation_in_header'
         - $ref: '#/components/parameters/agent_in_header'
+        - $ref: '#/components/parameters/optional_targetid_in_header' 
+        - $ref: '#/components/parameters/optional_psu_ip_in_header' 
+        - $ref: '#/components/parameters/optional_psu_user_agent_in_header'
       responses:
         '200':
           description: Returns the requested ISO20022 XML CAMT.053 message.
@@ -237,117 +359,6 @@ paths:
         '503':
           $ref: '#/components/responses/standard503'
 
-  /accounts/{accountId}/transactions:
-    get:
-      tags: 
-        - Transactions to and from the specified account
-      description: Transactions to and from the specified account.
-      parameters:
-        - in: path
-          name: accountId
-          required: true
-          schema:
-            type: string
-          description: The account the details are requested.
-        - in: query
-          name: dateFrom
-          schema:
-            $ref: '#/components/schemas/Date'
-        - in: query
-          name: dateTo
-          schema:
-            $ref: '#/components/schemas/Date'       
-        - in: query
-          name: bookingStatus
-          required: true
-          schema:
-            type: string
-            enum:
-              - booked
-              - pending
-              - both
-        - $ref: '#/components/parameters/cursor'
-        - $ref: '#/components/parameters/limit'
-        - $ref: '#/components/parameters/clientid_in_header' 
-        - $ref: '#/components/parameters/correlation_in_header'
-        - $ref: '#/components/parameters/agent_in_header'
-      responses:
-        '200':
-          description: Account details of the requested account.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/accountTransactionReport'
-          headers:
-            X-Correlation-ID:
-              schema:
-                type: string
-              description: Reflects the ID (set by the caller) from the request.
-        '400':
-          $ref: '#/components/responses/standard400'
-        '401':
-          $ref: '#/components/responses/standard401'
-        '403':
-          $ref: '#/components/responses/standard403'
-        '404':
-          $ref: '#/components/responses/standard404'
-        '405':
-          $ref: '#/components/responses/standard405'
-        '500':
-          $ref: '#/components/responses/standard500'
-        '501':
-          $ref: '#/components/responses/standard501'
-        '503':
-          $ref: '#/components/responses/standard503'
-
-  /accounts/{accountId}/transactions/{transactionId}:
-    get:
-      tags: 
-        - Details of the specified transaction.
-      description: details of the specified transaction
-      parameters:
-        - in: path
-          name: accountId
-          required: true
-          schema:
-            type: string
-          description: The account the details are requested.
-        - in: path
-          name: transactionId
-          required: true
-          schema:
-            type: string
-        - $ref: '#/components/parameters/clientid_in_header' 
-        - $ref: '#/components/parameters/correlation_in_header'
-        - $ref: '#/components/parameters/agent_in_header'
-      responses:
-        '200':
-          description: Account details of the requested account.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/accountTransactionEntry'
-          headers:
-            X-Correlation-ID:
-              schema:
-                type: string
-              description: Reflects the ID (set by the caller) from the request.
-        '400':
-          $ref: '#/components/responses/standard400'
-        '401':
-          $ref: '#/components/responses/standard401'
-        '403':
-          $ref: '#/components/responses/standard403'
-        '404':
-          $ref: '#/components/responses/standard404'
-        '405':
-          $ref: '#/components/responses/standard405'
-        '500':
-          $ref: '#/components/responses/standard500'
-        '501':
-          $ref: '#/components/responses/standard501'
-        '503':
-          $ref: '#/components/responses/standard503'
 # -------------------------
 # -------- Models ---------
 # -------------------------
@@ -362,104 +373,9 @@ components:
           scopes:
             read: Grants read access
             write: Grants write access
+  
   schemas:
-    # ---- Common Data Model v1.2.1
-    # ---- Date Formats
-    Date:
-      type: string
-      format: date
-      example: 2018-04-13
-      
-    DateTime:
-      type: string
-      format: date-time
-      example: 2018-04-13T11:11:11Z
-    # --------
-    iso20022ReportReference:
-      title: ISO 20022 Report Reference
-      type: object
-      properties:
-        name:
-          type: string
-        description:
-          type: string
-        type:
-          type: string
-          enum:
-            - CAMT53
-        id:
-          type: string
-
-    # ---- Error Response (compliant to SIX b.Link)
-    commonErrorResponse:
-      title: Common Error Response
-      type: object
-      properties:
-        type:
-          $ref: '#/components/schemas/commonErrorType'
-        title:
-          type: string
-          example:
-            This is the general problem description
-        detail:
-          type: string
-          example:
-            Detailed problem description with respect to the current request
-        instance:
-          type: string
-          example:
-            path/to/corresponding/resource
-
-    commonErrorType:
-      title: Common Error Type
-      description: Error Types for commonErrorResponse.
-      type: string
-      enum:
-        - /problems/INVALID_PAYLOAD
-        - /problems/MALFORMED_PAYLOAD
-        - /problems/INVALID_TOKEN
-        - /problems/EXPIRED_TOKEN
-        - /problems/INSUFFICIENT_PRIVILEGES
-        - /problems/NO_ACCESS_TO_RESOURCE
-        - /problems/RESOURCE_DOES_NOT_EXIST
-        - /problems/RESOURCE_NOT_READY
-        - /problems/RESOURCE_TOO_LARGE
-        - /problems/WRONG_METHOD
-        - /problems/OPERATION_NOT_ALLOWED
-        - /problems/TECHNICAL_ERROR
-        - /problems/NOT_IMPLEMENTED
-        - /problems/SERVICE_UNAVAILABLE
-      example: '/problems/TECHNICAL_ERROR'
-    # ---- End Error Response
-    # ---- End Common Data Model
-
-    # ---- Links for Pagination----
-    linksPagination:
-      description: Links (or cursors) returned in the answer of an API call.
-      type: object
-      properties:
-        self:
-          type: string
-          description: Link / cursor to the current result set (based on the submitted pagination approach)
-          example: /payment-app/api/v1/accounts/accountIDXY/transactions?offset=75&limit=25
-        first:
-          type: string
-          description: Link / cursor to the first result set (based on the submitted pagination approach)
-          example: /payment-app/api/v1/accounts/accountIDXY/transactions?offset=0&limit=25
-        previous:
-          type: string
-          description: Link / cursor to the previous result set (based on the submitted pagination approach)
-          example: /payment-app/api/v1/accounts/accountIDXY/transactions?offset=50&limit=25          
-        next:
-          type: string
-          description: Link / cursor to the next result set (based on the submitted pagination approach)
-          example: /payment-app/api/v1/accounts/accountIDXY/transactions?offset=100&limit=25          
-        last:
-          type: string 
-          description: Link / cursor to the last result set (based on the submitted pagination approach)
-          example: /payment-app/api/v1/accounts/accountIDXY/transactions?offset=150&limit=25          
-    # ---------
-
+    ## /accounts
     accountItem:
       title: Account Information Item
       type: object
@@ -487,37 +403,19 @@ components:
           properties:
             self:
               type: string
-              example: '/accounts/550e8400-e29b-11d4-a716-446655440000'
+              example: /accounts/550e8400-e29b-11d4-a716-446655440000
             balance:
               type: string
-              example: '/accounts/550e8400-e29b-11d4-a716-446655440000/balance'
+              example: /accounts/550e8400-e29b-11d4-a716-446655440000/balance
             transactions:
               type: string
-              example: '/accounts/550e8400-e29b-11d4-a716-446655440000/transactions'
+              example: /accounts/550e8400-e29b-11d4-a716-446655440000/transactions
 
     commonAccountId:
       type: string
-      pattern: "[A-Za-z0-9](([A-Za-z0-9._]|-){0,254}[A-Za-z0-9]){0,1}"
+      pattern: '[A-Za-z0-9](([A-Za-z0-9._]|-){0,254}[A-Za-z0-9]){0,1}'
       maxLength: 256
-      example: "abc123_abcxyz.123789.abcxyz.abcxyz_abcxyz_abcxyz_abcxyz_ccccc_123abc"
-
-    paymentIbanAccount:
-      title: Payment IBAN Account
-      type: object
-      required:
-        - type
-        - identification
-      properties:
-        type:
-          type: string
-          description: The allowed account identification type for the creditor account depends on the payment type. The debtor account must always be an IBAN.
-          enum:
-            - "IBAN"
-        identification:
-          type: string
-          maxLength: 34
-          example: "CH9300762011623852957"
-          pattern: "[A-Z]{2,2}[0-9]{2,2}[a-zA-Z0-9]{1,30}"
+      example: abc123_abcxyz.123789.abcxyz.abcxyz_abcxyz_abcxyz_abcxyz_ccccc_123abc
 
     accountBalanceItem:
       title: Account Balance Item
@@ -529,14 +427,14 @@ components:
       properties:
         date:
           type: string
-          format: 'date'
-          example: '2010-02-15'
+          format: date
+          example: 2010-02-15
         balanceType:
           type: string
           enum:
-            - "ITBD"
-            - "CLBD"
-          example: "CLBD"
+            - ITBD
+            - CLBD
+          example: CLBD
         balance:
           $ref: '#/components/schemas/balanceCurrencyAmount'
         _links:
@@ -545,31 +443,13 @@ components:
           properties:
             self:
               type: string
-              example: '/accounts/550e8400-e29b-11d4-a716-446655440000/balance'
+              example: /accounts/550e8400-e29b-11d4-a716-446655440000/balance
             account:
               type: string
-              example: '/accounts/550e8400-e29b-11d4-a716-446655440000'
+              example: /accounts/550e8400-e29b-11d4-a716-446655440000
             transactions:
               type: string
-              example: '/accounts/550e8400-e29b-11d4-a716-446655440000/transactions'
-
-    balanceCurrencyAmount:
-      title: Balance Currency-Amount
-      type: object
-      required:
-        - currency
-        - amount
-      properties:
-        currency:
-          type: string
-          minLength: 3
-          maxLength: 3
-          example: "CHF"
-        amount:
-          type: string
-          pattern: "-?[0-9]{1,12}([.][0-9]{1,5})?"
-          maxLength: 18
-          example: "10.25"
+              example: /accounts/550e8400-e29b-11d4-a716-446655440000/transactions
 
     accountTransactionReport:
       title: Account Transaction Report
@@ -581,11 +461,12 @@ components:
         iban:
           type: string
           maxLength: 34
-          example: "CH5481230000001998736"
+          pattern: '[A-Z]{2,2}[0-9]{2,2}[a-zA-Z0-9]{1,30}'
+          example: CH5481230000001998736
         designation:
           type: string
           maxLength: 140
-          example: "Checking Account"
+          example: Checking Account
         entries:
           type: array
           items:
@@ -597,13 +478,13 @@ components:
           properties:
             self:
               type: string
-              example: "/accounts/550e8400e29b11d4a716446655440000/statements"
+              example: /accounts/550e8400e29b11d4a716446655440000/statements
             account:
               type: string
-              example: "/accounts/550e8400e29b11d4a716446655440000"
+              example: /accounts/550e8400e29b11d4a716446655440000
             balance:
               type: string
-              example: "/accounts/550e8400e29b11d4a716446655440000/balance"
+              example: /accounts/550e8400e29b11d4a716446655440000/balance
 
     accountTransactionEntry:
       title: Account Transaction Entry
@@ -618,7 +499,7 @@ components:
       properties:
         entryId:
           type: string
-          example: "ENTRY123456789"
+          example: ENTRY123456789
         transactionType:
           $ref: '#/components/schemas/accountTransactionTransactionType'
         entryReference:
@@ -628,17 +509,17 @@ components:
         entryReferenceInternalId:
           type: string
           maxLength: 35
-          example: "010001628"
+          example: 010001628
         reversalIndicator:
           type: boolean
         bookingDate:
           type: string
           format: date
-          example: "2018-10-29"
+          example: 2018-10-29
         valueDate:
           type: string
           format: date
-          example: "2018-10-29"
+          example: 2018-10-29
         amount:
           $ref: '#/components/schemas/paymentCurrencyAmount'
         instructedAmount:
@@ -653,108 +534,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/accountTransactionItem'
-
-    accountTransactionTransactionType:
-      title: Account Transaction Transaction Type
-      type: string
-      enum:
-        - CRDT
-        - DBIT
-      example: "CRDT"
-
-    paymentCurrencyAmount:
-      title: Payment Currency-Amount
-      type: object
-      required:
-        - currency
-        - amount
-      properties:
-        currency:
-          type: string
-          maxLength: 3
-          minLength: 3
-          example: "CHF"
-        amount:
-          type: string
-          pattern: "[0-9]{1,12}([.][0-9]{1,5})?"
-          maxLength: 18
-          example: "10.25"
-
-    accountTransactionInstructedAmount:
-      title: Account Transaction Instructed Amount
-      type: object
-      required:
-        - amount
-        - sourceCurrency
-        - targetCurrency
-      properties:
-        amount:
-          type: string
-          pattern: "[0-9]{1,12}([.][0-9]{1,5})?"
-          maxLength: 18
-          example: "10.25"
-        sourceCurrency:
-          type: string
-          minLength: 3
-          maxLength: 3
-          example: "CHF"
-        targetCurrency:
-          type: string
-          minLength: 3
-          maxLength: 3
-          example: "USD"
-        exchangeRate:
-          type: string
-          example: "0.957"
-          pattern: "[0-9][.][0-9]{1,10}"
-          maxLength: 12
-        exchangeIndicator:
-          type: string
-          maxLength: 4
-          example: "MULT"
-
-    accountTransactionItemCharges:
-      title: Account Transaction Item Charges
-      type: object
-      required:
-        - amount
-        - currency
-      properties:
-        amount:
-          type: string
-          pattern: "[0-9]{1,12}([.][0-9]{1,5})?"
-          maxLength: 18
-          example: "10.25"
-        currency:
-          type: string
-          maxLength: 3
-          minLength: 3
-          example: "CHF"
-        chargeRecords:
-          type: array
-          items:
-            $ref: '#/components/schemas/accountTransactionItemChargesRecord'
-
-    accountTransactionBankTransactionCode:
-      title: Account Transaction Bank Transaction Code
-      type: object
-      required:
-        - domainCode
-        - familyCode
-        - subFamilyCode
-      properties:
-        domainCode:
-          type: string
-          maxLength: 4
-          example: "PMNT"
-        familyCode:
-          type: string
-          maxLength: 4
-          example: "RCDT"
-        subFamilyCode:
-          type: string
-          maxLength: 4
-          example: "DMCT"
 
     accountTransactionItem:
       title: Account Transaction Item
@@ -792,6 +571,54 @@ components:
           type: string
           maxLength: 140
 
+    linksPagination:
+      title: Pagination Links
+      description: Links (or cursors) returned in the answer of an API call.
+      type: object
+      properties:
+        self:
+          type: string
+          description: Link / cursor to the current result set (based on the submitted pagination approach)
+          example: /payment-app/api/v1/accounts/accountIDXY/transactions?offset=75&limit=25
+        first:
+          type: string
+          description: Link / cursor to the first result set (based on the submitted pagination approach)
+          example: /payment-app/api/v1/accounts/accountIDXY/transactions?offset=0&limit=25
+        previous:
+          type: string
+          description: Link / cursor to the previous result set (based on the submitted pagination approach)
+          example: /payment-app/api/v1/accounts/accountIDXY/transactions?offset=50&limit=25          
+        next:
+          type: string
+          description: Link / cursor to the next result set (based on the submitted pagination approach)
+          example: /payment-app/api/v1/accounts/accountIDXY/transactions?offset=100&limit=25          
+        last:
+          type: string 
+          description: Link / cursor to the last result set (based on the submitted pagination approach)
+          example: /payment-app/api/v1/accounts/accountIDXY/transactions?offset=150&limit=25  
+
+    accountTransactionItemCharges:
+      title: Account Transaction Item Charges
+      type: object
+      required:
+        - amount
+        - currency
+      properties:
+        amount:
+          type: string
+          pattern: '[0-9]{1,12}([.][0-9]{1,5})?'
+          maxLength: 18
+          example: 10.25
+        currency:
+          type: string
+          maxLength: 3
+          minLength: 3
+          example: CHF
+        chargeRecords:
+          type: array
+          items:
+            $ref: '#/components/schemas/accountTransactionItemChargesRecord'
+
     accountTransactionItemChargesRecord:
       title: Account Transaction Item Charges Record
       type: object
@@ -820,20 +647,102 @@ components:
         name:
           type: string
           maxLength: 140
-          example: "Hans Muster"
+          example: Hans Muster
         postalAddress:
           $ref: '#/components/schemas/accountTransactionStructuredOrUnstructuredAddress'
         account:
           $ref: '#/components/schemas/accountTransactionCounterpartyAccount'
         agent:
           $ref: '#/components/schemas/accountTransactionCounterpartyAgent'
-    
-    paymentRemittanceInformation:
-      title: Payment Remittance Information
-      description: Either remittanceReference or remittanceInformation must be set.
+
+    accountTransactionCounterpartyAgent:
+      title: Account Transaction Counterparty Agent
+      type: object
+      properties:
+        bic:
+          type: string
+          maxLength: 11
+        clearingSystemMemberIdentification:
+          $ref: '#/components/schemas/commonClearingSystemMemberIdentification'
+
+    accountTransactionInstructedAmount:
+      title: Account Transaction Instructed Amount
+      type: object
+      required:
+        - amount
+        - sourceCurrency
+        - targetCurrency
+      properties:
+        amount:
+          type: string
+          pattern: '[0-9]{1,12}([.][0-9]{1,5})?'
+          maxLength: 18
+          example: 10.25
+        sourceCurrency:
+          type: string
+          minLength: 3
+          maxLength: 3
+          example: CHF
+        targetCurrency:
+          type: string
+          minLength: 3
+          maxLength: 3
+          example: USD
+        exchangeRate:
+          type: string
+          example: 0.957
+          pattern: '[0-9][.][0-9]{1,10}'
+          maxLength: 12
+        exchangeIndicator:
+          type: string
+          maxLength: 4
+          example: MULT
+
+    accountTransactionBankTransactionCode:
+      title: Account Transaction Bank Transaction Code
+      type: object
+      required:
+        - domainCode
+        - familyCode
+        - subFamilyCode
+      properties:
+        domainCode:
+          type: string
+          maxLength: 4
+          example: PMNT
+        familyCode:
+          type: string
+          maxLength: 4
+          example: RCDT
+        subFamilyCode:
+          type: string
+          maxLength: 4
+          example: DMCT
+
+    accountTransactionTransactionType:
+      title: Account Transaction Transaction Type
       type: string
-      maxLength: 140
-      example: "Rechnung Nr. 408"
+      enum:
+        - CRDT
+        - DBIT
+      example: CRDT
+
+    accountTransactionCounterpartyAccount:
+      title: Account Transaction Counterparty Account
+      type: object
+      required:
+        - type
+        - identification
+      properties:
+        type:
+          type: string
+          enum:
+            - IBAN
+            - OTHER
+        identification:
+          type: string
+          maxLength: 35
+          example: CH9300762011623852957
 
     accountTransactionRemittanceReference:
       title: Account Transaction Remittance Reference
@@ -848,43 +757,7 @@ components:
         reference:
           type: string
           maxLength: 35
-          example: "210000000003139471430009017"
-
-    accountTransactionStructuredOrUnstructuredAddress:
-      title: Common Structured or Unstructured Address
-      type: object
-      properties:
-        structured:
-          $ref: '#/components/schemas/accountTransactionStructuredAddress'
-        unstructured:
-          $ref: '#/components/schemas/accountTransactionUnstructuredAddress'
-
-    accountTransactionCounterpartyAccount:
-      title: Account Transaction Counterparty Account
-      type: object
-      required:
-        - type
-        - identification
-      properties:
-        type:
-          type: string
-          enum:
-            - "IBAN"
-            - "OTHER"
-        identification:
-          type: string
-          maxLength: 35
-          example: "CH9300762011623852957"
-
-    accountTransactionCounterpartyAgent:
-      title: Account Transaction Counterparty Agent
-      type: object
-      properties:
-        bic:
-          type: string
-          maxLength: 11
-        clearingSystemMemberIdentification:
-          $ref: '#/components/schemas/commonClearingSystemMemberIdentification'
+          example: 210000000003139471430009017
 
     accountTransactionStructuredAddress:
       title: Structured Postal Address for Transactions
@@ -897,23 +770,23 @@ components:
         streetName:
           type: string
           maxLength: 70
-          example: "Rue de la gare"
+          example: Rue de la gare
         buildingNumber:
           type: string
           maxLength: 16
-          example: "24"
+          example: 24
         postCode:
           type: string
           maxLength: 16
-          example: "2501"
+          example: 2501
         townName:
           type: string
           maxLength: 35
-          example: "Biel"
+          example: Biel
         country:
           type: string
           maxLength: 2
-          example: "CH"
+          example: CH
 
     accountTransactionUnstructuredAddress:
       title: Unstructured Address for Transactions
@@ -924,15 +797,101 @@ components:
         addressLines:
           type: array
           description: max 4 lines of 70 characters
-          maxLength: 4
-          example: ["Robert Schneider SA", "Rue de la gare 24"]
+          maxItems: 4
+          example: [Robert Schneider SA, Rue de la gare 24]
           items:
             type: string
             maxLength: 70
         country:
           type: string
           maxLength: 2
-          example: "CH"
+          example: CH
+
+    accountTransactionStructuredOrUnstructuredAddress:
+      title: Common Structured or Unstructured Address
+      type: object
+      properties:
+        structured:
+          $ref: '#/components/schemas/accountTransactionStructuredAddress'
+        unstructured:
+          $ref: '#/components/schemas/accountTransactionUnstructuredAddress'
+
+    balanceCurrencyAmount:
+      title: Balance Currency-Amount
+      type: object
+      required:
+        - currency
+        - amount
+      properties:
+        currency:
+          type: string
+          minLength: 3
+          maxLength: 3
+          example: CHF
+        amount:
+          type: string
+          pattern: '-?[0-9]{1,12}([.][0-9]{1,5})?'
+          maxLength: 18
+          example: 10.25
+
+    iso20022ReportReference:
+      title: ISO 20022 Report Reference
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        type:
+          type: string
+          enum:
+            - CAMT53
+        id:
+          type: string
+
+## Shared with payments module
+    paymentIbanAccount:
+      title: Payment IBAN Account
+      type: object
+      required:
+        - type
+        - identification
+      properties:
+        type:
+          type: string
+          description: The allowed account identification type for the creditor account depends on the payment type. The debtor account must always be an IBAN.
+          enum:
+            - IBAN
+        identification:
+          type: string
+          maxLength: 34
+          pattern: '[A-Z]{2,2}[0-9]{2,2}[a-zA-Z0-9]{1,30}'
+          example: CH9300762011623852957
+
+    paymentCurrencyAmount:
+      title: Payment Currency-Amount
+      type: object
+      required:
+        - currency
+        - amount
+      properties:
+        currency:
+          type: string
+          maxLength: 3
+          minLength: 3
+          example: CHF
+        amount:
+          type: string
+          pattern: '[0-9]{1,12}([.][0-9]{1,5})?'
+          maxLength: 18
+          example: 10.25
+    
+    paymentRemittanceInformation:
+      title: Payment Remittance Information
+      description: Either remittanceReference or remittanceInformation must be set.
+      type: string
+      maxLength: 140
+      example: Rechnung Nr. 408
 
     commonClearingSystemMemberIdentification:
       title: Common Clearing System Member Identification
@@ -944,54 +903,80 @@ components:
         code:
           type: string
           maxLength: 5
-          example: "CHBCC"
+          example: CHBCC
         memberId:
           type: string
           maxLength: 35
-          example: "00230"
+          example: 00230
 
-    PortfolioListLink:
+    # ---- Common Error Response
+    commonErrorResponse:
+      title: Common Error Response
       type: object
-      title: Partner Link
       properties:
-      
-        rel:
-          type: string
-        
-        href:
-          type: string
-          example: /mortgage-app/api/v1/mortgages
-          description: |
-                    The machine or tenant relative URI that points to the linked resource
-        
-                    Example: 
-                    Assuming that the actual URL of the resource would be: https://machine/tenant/app/api/v1/detail-view/detailId,
-                    then the href to the detail-view would be: /app/api/v1/detail-view/detailId
-        
-        version:
-          type: string
-          example: v1
-          description: Version of the API (the same rel can appear several times for different versions that are supported)
-        
-        method:
-          $ref: "#/components/schemas/HttpVerb"
-        
         type:
+          $ref: '#/components/schemas/commonErrorType'
+        title:
           type: string
-          example: "application/json"
-          description: The supported http content-type when sending the request to the server. If no content is supported on an end-point (like on a typical GET) then the type will be null
+          example: This is the general problem description
+        detail:
+          type: string
+          example: Detailed problem description with respect to the current request, e.g., invalid account number format
+        instance:
+          type: string
+          example: path/to/corresponding/resource
 
-    HttpVerb:
+    commonErrorType:
+      title: Common Error Type
       type: string
-      example: GET
+      description: Error Types for commonErrorResponse.
       enum:
-        - GET
-        - POST
-        - PUT
-        - PATCH
+        - /problems/INVALID_PAYLOAD
+        - /problems/MALFORMED_PAYLOAD
+        - /problems/INVALID_TOKEN
+        - /problems/EXPIRED_TOKEN
+        - /problems/INSUFFICIENT_PRIVILEGES
+        - /problems/NO_ACCESS_TO_RESOURCE
+        - /problems/RESOURCE_DOES_NOT_EXIST
+        - /problems/RESOURCE_NOT_READY
+        - /problems/RESOURCE_TOO_LARGE
+        - /problems/WRONG_METHOD
+        - /problems/OPERATION_NOT_ALLOWED
+        - /problems/TECHNICAL_ERROR
+        - /problems/NOT_IMPLEMENTED
+        - /problems/SERVICE_UNAVAILABLE
+      example: /problems/TECHNICAL_ERROR
+
+    # ---- Date Formats
+    Date:
+      type: string
+      format: date
+      example: 2018-04-13
+      
+    DateTime:
+      type: string
+      format: date-time
+      example: 2018-04-13T11:11:11Z
+    # --------
 
   # ---- Global Common Header Parameters ----
   parameters:
+    path_accountId:
+      name: accountId
+      in: path
+      description: id of account
+      required: true
+      schema:
+        maxLength: 256
+        pattern: '[A-Za-z0-9](([A-Za-z0-9._]|-){0,254}[A-Za-z0-9]){0,1}'
+        type: string
+    query_date:
+      name: date
+      in: query
+      description: 'The date to query, formatted as yyyy-mm-dd. Default value: current date'
+      schema:
+        type: string
+        format: date        
     clientid_in_header:
       in: header
       name: X-CorAPI-Client-ID
@@ -999,6 +984,13 @@ components:
         type: string
       description: 'ID of the client forwarded to the provider. (SCOPE: FI)'
       required: true
+    authorization_in_header:
+      name: Authorization
+      in: header
+      description: Bearer followed by a base64 encoded OAuth access token
+      required: true
+      schema:
+        type: string
     correlation_in_header:
       in: header
       name: X-Correlation-ID
@@ -1013,6 +1005,27 @@ components:
         type: string
       description: Name and version of the of the Client software.
       required: true
+    optional_targetid_in_header:
+      name: X-CorAPI-Target-ID
+      in: header
+      description: 'ID of the target, e.g., a financial institution. (SCOPE: FI - optional)'
+      required: false
+      schema:
+        type: string
+    optional_psu_ip_in_header:
+      name: X-PSU-IP-Address
+      in: header
+      description: 'IP address of the user initiating the operation (SCOPE: FI - optional)'
+      required: false
+      schema:
+        type: string
+    optional_psu_user_agent_in_header:
+      name: X-PSU-User-Agent
+      in: header
+      description: 'User of the client software (SCOPE: FI - optional)'
+      required: false
+      schema:
+        type: string
     offset: 
       name: offset
       in: query
@@ -1042,23 +1055,33 @@ components:
         type: string
         example: cursorIDxyz
 
+  # --- Response Headers - used by Standard Responses ---
+  headers:
+    Content-Language:
+      description: Response language - always en
+      schema:
+        type: string
+    Content-Type:
+      description: 'application/problem+json; charset=utf-8 according to RFC7807'
+      schema:
+        type: string
+    X-Correlation-ID:
+      description: Client defined ID from request to correlates HTTP requests between a client and server
+      schema:
+        type: string
+        example: f058ebd6-02f7-4d3f-942e-904344e8cde5
+
   # ---- Responses - Standard Errors Common Data Model v1.2.1----
   responses:
     standard400:
       headers:
         Content-Type:
-          schema:
-            type: string
-            description: 'application/problem+json; charset=utf-8 according to RFC7807'
+          $ref: '#/components/headers/Content-Type'
         Content-Language:
-          schema:
-            type: string
-            description: 'Response language - always en'
+          $ref: '#/components/headers/Content-Language'
         X-Correlation-ID:
-          schema:
-            type: string
-            description: Client defined ID from request to correlates HTTP requests between a client and server.
-      description: Bad Request - The server cannot or will not process the request due to something that is perceived to be a client error as malformed request syntax.
+          $ref: '#/components/headers/X-Correlation-ID'
+      description: Bad Request - The format of the request was invalid.
       content:
         application/problem+json:
           schema:
@@ -1067,18 +1090,12 @@ components:
     standard401:
       headers:
         Content-Type:
-          schema:
-            type: string
-            description: 'application/problem+json; charset=utf-8 according to RFC7807'
+          $ref: '#/components/headers/Content-Type'
         Content-Language:
-          schema:
-            type: string
-            description: 'Response language - always en'
+          $ref: '#/components/headers/Content-Language'
         X-Correlation-ID:
-          schema:
-            type: string
-            description: Client defined ID from request to correlates HTTP requests between a client and server.
-      description: Unauthorized - The request has not been applied because it lacks valid authentication credentials for the target resource.
+          $ref: '#/components/headers/X-Correlation-ID'
+      description: Unauthorized - The request has not been applied because it provides no valid authentication credentials for the target resource.
       content:
         application/problem+json:
           schema:
@@ -1087,18 +1104,12 @@ components:
     standard403:
       headers:
         Content-Type:
-          schema:
-            type: string
-            description: 'application/problem+json; charset=utf-8 according to RFC7807'
+          $ref: '#/components/headers/Content-Type'
         Content-Language:
-          schema:
-            type: string
-            description: 'Response language - always en'
+          $ref: '#/components/headers/Content-Language'
         X-Correlation-ID:
-          schema:
-            type: string
-            description: Client defined ID from request to correlates HTTP requests between a client and server.
-      description: Forbidden - The server understood the request but refuses to authorize it. 
+          $ref: '#/components/headers/X-Correlation-ID'
+      description: Forbidden - A valid OAuth Token was received, but access was denied. (Depending on the security requirements, providers can return 404 instead)
       content:
         application/problem+json:
           schema:
@@ -1107,18 +1118,12 @@ components:
     standard404:
       headers:
         Content-Type:
-          schema:
-            type: string
-            description: 'application/problem+json; charset=utf-8 according to RFC7807'
+          $ref: '#/components/headers/Content-Type'
         Content-Language:
-          schema:
-            type: string
-            description: 'Response language - always en'
+          $ref: '#/components/headers/Content-Language'
         X-Correlation-ID:
-          schema:
-            type: string
-            description: Client defined ID from request to correlates HTTP requests between a client and server.
-      description: Not Found - The origin server did not find a current representation for the target resource or is not willing to disclose that one exists.
+          $ref: '#/components/headers/X-Correlation-ID'
+      description: Not Found - Either the endpoint does not exist or a requested resource is not yet available (e.g., account statements)
       content:
         application/problem+json:
           schema:
@@ -1127,17 +1132,11 @@ components:
     standard405:
       headers:
         Content-Type:
-          schema:
-            type: string
-            description: 'application/problem+json; charset=utf-8 according to RFC7807'
+          $ref: '#/components/headers/Content-Type'
         Content-Language:
-          schema:
-            type: string
-            description: 'Response language - always en'
+          $ref: '#/components/headers/Content-Language'
         X-Correlation-ID:
-          schema:
-            type: string
-            description: Client defined ID from request to correlates HTTP requests between a client and server.
+          $ref: '#/components/headers/X-Correlation-ID'
       description: Method Not Allowed - The method received in the request-line is known by the origin server but not supported by the target resource.
       content:
         application/problem+json:
@@ -1147,17 +1146,11 @@ components:
     standard500:
       headers:
         Content-Type:
-          schema:
-            type: string
-            description: 'application/problem+json; charset=utf-8 according to RFC7807'
+          $ref: '#/components/headers/Content-Type'
         Content-Language:
-          schema:
-            type: string
-            description: 'Response language - always en'
+          $ref: '#/components/headers/Content-Language'
         X-Correlation-ID:
-          schema:
-            type: string
-            description: Client defined ID from request to correlates HTTP requests between a client and server.
+          $ref: '#/components/headers/X-Correlation-ID'
       description: Internal Server Error - The server encountered an unexpected condition that prevented it from fulfilling the request.
       content:
         application/problem+json:
@@ -1167,17 +1160,11 @@ components:
     standard501:
       headers:
         Content-Type:
-          schema:
-            type: string
-            description: 'application/problem+json; charset=utf-8 according to RFC7807'
+          $ref: '#/components/headers/Content-Type'
         Content-Language:
-          schema:
-            type: string
-            description: 'Response language - always en'
+          $ref: '#/components/headers/Content-Language'
         X-Correlation-ID:
-          schema:
-            type: string
-            description: Client defined ID from request to correlates HTTP requests between a client and server.
+          $ref: '#/components/headers/X-Correlation-ID'
       description: Not Implemented - The server does not support the functionality required to fulfill the request.
       content:
         application/problem+json:
@@ -1187,18 +1174,12 @@ components:
     standard503:
       headers:
         Content-Type:
-          schema:
-            type: string
-            description: 'application/problem+json; charset=utf-8 according to RFC7807'
+          $ref: '#/components/headers/Content-Type'
         Content-Language:
-          schema:
-            type: string
-            description: 'Response language - always en'
+          $ref: '#/components/headers/Content-Language'
         X-Correlation-ID:
-          schema:
-            type: string
-            description: Client defined ID from request to correlates HTTP requests between a client and server.
-      description: Service Unavailable. The server is currently unable to handle the request due to a temporary overload or scheduled maintenance.
+          $ref: '#/components/headers/X-Correlation-ID'
+      description: Service Unavailable - The server is currently unable to handle the request due to a temporary overload or scheduled maintenance.
       content:
         application/problem+json:
           schema:
