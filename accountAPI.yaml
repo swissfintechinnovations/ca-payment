@@ -45,9 +45,7 @@ paths:
                   $ref: '#/components/schemas/accountItem'
           headers:
             X-Correlation-ID:
-              schema:
-                type: string
-              description: Reflects the ID (set by the caller) from the request.
+              $ref: '#/components/headers/X-Correlation-ID'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -88,9 +86,7 @@ paths:
                 $ref: '#/components/schemas/accountItem'
           headers:
             X-Correlation-ID:
-              schema:
-                type: string
-              description: Reflects the ID (set by the caller) from the request.
+              $ref: '#/components/headers/X-Correlation-ID'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -132,9 +128,7 @@ paths:
                 $ref: '#/components/schemas/accountBalanceItem'
           headers:
             X-Correlation-ID:
-              schema:
-                type: string
-              description: Reflects the ID (set by the caller) from the request.
+              $ref: '#/components/headers/X-Correlation-ID'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -194,9 +188,7 @@ paths:
                 $ref: '#/components/schemas/accountTransactionReport'
           headers:
             X-Correlation-ID:
-              schema:
-                type: string
-              description: Reflects the ID (set by the caller) from the request.
+              $ref: '#/components/headers/X-Correlation-ID'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -243,9 +235,7 @@ paths:
                 $ref: '#/components/schemas/accountTransactionEntry'
           headers:
             X-Correlation-ID:
-              schema:
-                type: string
-              description: Reflects the ID (set by the caller) from the request.
+              $ref: '#/components/headers/X-Correlation-ID'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -291,9 +281,7 @@ paths:
                       $ref: '#/components/schemas/iso20022ReportReference'
           headers:
             X-Correlation-ID:
-              schema:
-                type: string
-              description: Reflects the ID (set by the caller) from the request.
+              $ref: '#/components/headers/X-Correlation-ID'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -339,9 +327,7 @@ paths:
                 type: string 
           headers:
             X-Correlation-ID:
-              schema:
-                type: string
-              description: Reflects the ID (set by the caller) from the request.
+              $ref: '#/components/headers/X-Correlation-ID'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -970,13 +956,15 @@ components:
         maxLength: 256
         pattern: '[A-Za-z0-9](([A-Za-z0-9._]|-){0,254}[A-Za-z0-9]){0,1}'
         type: string
+
     query_date:
       name: date
       in: query
       description: 'The date to query, formatted as yyyy-mm-dd. Default value: current date'
       schema:
         type: string
-        format: date        
+        format: date
+        
     clientid_in_header:
       in: header
       name: X-CorAPI-Client-ID
@@ -984,6 +972,7 @@ components:
         type: string
       description: 'ID of the client forwarded to the provider. (SCOPE: FI)'
       required: true
+
     authorization_in_header:
       name: Authorization
       in: header
@@ -991,6 +980,7 @@ components:
       required: true
       schema:
         type: string
+
     correlation_in_header:
       in: header
       name: X-Correlation-ID
@@ -998,6 +988,7 @@ components:
         type: string
       description: Unique ID (defined by the caller) which will be reflected back in the response.
       required: true
+      
     agent_in_header:
       in: header
       name: User-Agent
@@ -1005,6 +996,7 @@ components:
         type: string
       description: Name and version of the of the Client software.
       required: true
+
     optional_targetid_in_header:
       name: X-CorAPI-Target-ID
       in: header
@@ -1012,6 +1004,7 @@ components:
       required: false
       schema:
         type: string
+
     optional_psu_ip_in_header:
       name: X-PSU-IP-Address
       in: header
@@ -1019,6 +1012,7 @@ components:
       required: false
       schema:
         type: string
+
     optional_psu_user_agent_in_header:
       name: X-PSU-User-Agent
       in: header
@@ -1026,6 +1020,7 @@ components:
       required: false
       schema:
         type: string
+
     offset: 
       name: offset
       in: query
@@ -1036,6 +1031,7 @@ components:
         format: int32
         example: 25
         minimum: 0
+
     limit: 
       name: limit
       in: query
@@ -1046,6 +1042,7 @@ components:
         format: int32
         example: 25
         minimum: 1
+
     cursor:
       name: cursor
       in: query
@@ -1061,10 +1058,12 @@ components:
       description: Response language - always en
       schema:
         type: string
+
     Content-Type:
       description: 'application/problem+json; charset=utf-8 according to RFC7807'
       schema:
         type: string
+
     X-Correlation-ID:
       description: Client defined ID from request to correlates HTTP requests between a client and server
       schema:
