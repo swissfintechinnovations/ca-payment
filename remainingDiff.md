@@ -5,12 +5,8 @@ Remaining differences to SIX bLink
 -  missing /consents
 -  missing /healthcheck: PR in progress
 
-
-
 **general:**
-not used ref:
-
-
+- not used references (deleted):
 PortfolioListLink:
       type: object
       title: Partner Link
@@ -51,3 +47,19 @@ HttpVerb:
     - POST
     - PUT
     - PATCH
+
+**payment API:**
+- missing /consents
+- missing /healthcheck: PR in progress
+- add parameters to standing orders, single payments? 
+- /iso20022/payments: response 202 missing
+- '#/components/schemas/paymentOtherDetail': additonal creditorAgent property
+- '#/components/schemas/paymentCreditor': additonal postalAddress property 
+- '#/components/schemas/paymentStructuredAddress': additional required: streetName, postCode, townName, country
+- '#/components/schemas/paymentUnstructuredAddress': additional required: addressLines, country
+
+
+- no use of: dateTime, amount, currency
+
+**further observations**
+paymentAPI uses operationId, accountAPI not (deleted now)
