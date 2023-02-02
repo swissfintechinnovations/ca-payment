@@ -974,7 +974,7 @@ components:
   # ---- Global Common Header Parameters ----
   parameters:
     path_accountId:
-      name: accountId
+      name: Account ID
       in: path
       description: id of account
       required: true
@@ -982,6 +982,7 @@ components:
         maxLength: 256
         pattern: '[A-Za-z0-9](([A-Za-z0-9._]|-){0,254}[A-Za-z0-9]){0,1}'
         type: string
+        example: accountId
 
     query_date:
       name: date

@@ -2,8 +2,10 @@ openapi: 3.0.0
 info:
   version: 1.1.0
   title: Common Payment API
-  description: 
-    This specification defines a simple payment API for payment types used in Switzerland. The API is supposed to be used by customers who want to initiate a payment at their bank. Note that, consents and SCA will be handled in a dedicated specification file.
+  description: >
+    This specification defines a simple payment API for payment types used in Switzerland. 
+    The API is supposed to be used by customers who want to initiate a payment at their bank. 
+    Note that, consents and SCA will be handled in a dedicated specification file.
     This specification uses schema definitions from the Common Data Model v1.2.1.
   termsOfService: 'Tbd'
   contact:
@@ -34,7 +36,7 @@ paths:
     post:
       tags:
         - standing orders
-      summary: Create a new Standing Order. 
+      summary: Create a new Standing Order
       description: It is used to create a permanent order for the transfer of funds.
       parameters:
         - $ref: '#/components/parameters/authorization_in_header'
@@ -80,8 +82,8 @@ paths:
     get:
       tags:
         - standing orders
+      summary: Get a specific standing order submission
       description: Retrieve a specific standing order submission.
-      summary: Get a specific standing order submission.
       parameters:
         - $ref: '#/components/parameters/path_submissionId'
         - $ref: '#/components/parameters/authorization_in_header'
@@ -121,8 +123,8 @@ paths:
     delete:
       tags:
         - standing orders
+      summary: Delete a specific standing order submission
       description: Delete a specific standing order submission.
-      summary: Delete a specific standing order submission.
       parameters:
         - $ref: '#/components/parameters/path_submissionId'
         - $ref: '#/components/parameters/authorization_in_header'
@@ -165,8 +167,8 @@ paths:
     get:
       tags:
         - standing orders
+      summary: Get status information for the specific standing order submission
       description: Retrieve a specific standing order submission's status.
-      summary: Get status information for the specific standing order submission.
       parameters:
         - $ref: '#/components/parameters/path_submissionId'
         - $ref: '#/components/parameters/authorization_in_header'
@@ -207,7 +209,7 @@ paths:
     post:
       tags:
         - payments
-      summary: Initiate new payments submission.
+      summary: Initiate new payments submission
       description: Create new payments submission.
       requestBody:
         description: Details of payments submission to be added.
@@ -253,8 +255,8 @@ paths:
     get:
       tags:
         - payments
+      summary: Get a specific payment submission
       description: Retrieve a specific payment submission.
-      summary: Get a specific payment submission.
       parameters:
         - $ref: '#/components/parameters/path_submissionId'
         - $ref: '#/components/parameters/authorization_in_header'
@@ -294,8 +296,8 @@ paths:
     delete:
       tags:
         - payments
+      summary: Delete a specific payment submission before executed
       description: Delete a specific payment submission before executed.
-      summary: Delete a specific payment submission before executed.
       parameters:
         - $ref: '#/components/parameters/path_submissionId'
         - $ref: '#/components/parameters/authorization_in_header'
@@ -337,8 +339,8 @@ paths:
     get:
       tags:
         - payments
+      summary: Get status information for the specific payment submission
       description: Retrieve a specific payment submission's status.
-      summary: Get status information for the specific payment submission.
       parameters:
         - $ref: '#/components/parameters/path_submissionId'
         - $ref: '#/components/parameters/authorization_in_header'
@@ -379,8 +381,8 @@ paths:
     get:
       tags: 
         - single payments
+      summary: Get the list of all payments (all payment types)
       description: Return the list of all initiated payments of all types for the authenticated context.
-      summary: Get the list of all payments (all payment types).
       parameters:
         - in: query
           name: entryReferenceFrom
@@ -444,7 +446,7 @@ paths:
     post:
       tags:
         - single payments
-      summary: Initiate new single payments submission.
+      summary: Initiate new single payments submission
       description: Create new single payments submission.
       parameters:
         - $ref: '#/components/parameters/authorization_in_header'
@@ -490,9 +492,10 @@ paths:
     get:
       tags:
         - single payments
+      summary: Get a specific payment
       description: Receive payment with corresponding submissionId.
-      summary: Get a specific payment.
       parameters:
+        - $ref: '#/components/parameters/path_submissionId'
         - $ref: '#/components/parameters/authorization_in_header'
         - $ref: '#/components/parameters/clientid_in_header' 
         - $ref: '#/components/parameters/correlation_in_header'
@@ -530,9 +533,10 @@ paths:
     delete:
       tags:
         - single payments
+      summary: Delete a single payment
       description: Delete single payment with corresponding submissionId.
-      summary: Delete a single payment.
       parameters:
+        - $ref: '#/components/parameters/path_submissionId'
         - $ref: '#/components/parameters/authorization_in_header'
         - $ref: '#/components/parameters/clientid_in_header' 
         - $ref: '#/components/parameters/correlation_in_header'
@@ -572,8 +576,8 @@ paths:
     get:
       tags:
         - single payments
+      summary: Get status information for the specific single payment
       description: Retrieve a specific single payment submission's status.
-      summary: Get status information for the specific single payment.
       parameters:
         - $ref: '#/components/parameters/path_submissionId'
         - $ref: '#/components/parameters/authorization_in_header'
@@ -615,7 +619,7 @@ paths:
     post:
       tags:
         - iso20022
-      summary: Submit ISO20022 XML payment instruction (PAIN.001).
+      summary: Submit ISO20022 XML payment instruction (PAIN.001)
       description: Submit an XML PAIN.001 payment instruction according to the ISO20022 specification.
       parameters:
         - $ref: '#/components/parameters/authorization_in_header'
@@ -661,8 +665,9 @@ paths:
     get:
       tags:
         - iso20022
-      summary: Retrieve a submitted ISO20022 XML PAIN.001 message.
+      summary: Retrieve a submitted ISO20022 XML PAIN.001 message
       parameters:
+        - $ref: '#/components/parameters/path_submissionId'
         - $ref: '#/components/parameters/authorization_in_header'
         - $ref: '#/components/parameters/clientid_in_header' 
         - $ref: '#/components/parameters/correlation_in_header'
@@ -700,7 +705,7 @@ paths:
     delete:
       tags:
         - iso20022
-      summary: Delete a submitted ISO20022 XML PAIN.001 message before execution.
+      summary: Delete a submitted ISO20022 XML PAIN.001 message before execution
       parameters:
         - $ref: '#/components/parameters/path_submissionId'
         - $ref: '#/components/parameters/authorization_in_header'
@@ -742,7 +747,7 @@ paths:
     get:
       tags:
         - iso20022
-      summary: Get the ISO20022 XML status report (PAIN.002) for a specific payment instruction.
+      summary: Get the ISO20022 XML status report (PAIN.002) for a specific payment instruction
       description: The status report for the requested XML ISO20022 payment instruction (PAIN.002).
       parameters:
         - $ref: '#/components/parameters/path_submissionId'
@@ -1343,7 +1348,10 @@ components:
         #Additional Optional Information Standing Orders
         executionMode:
           type: string
-          description: The code of execution mode defines when or how standing order will be cancelled, processed the last time. UNTIL_DATE - standing order is valid until specific date - field endDate. UNTIL_CANCELLATION - standing order is valid forever and must be cancelled by client.
+          description: |
+            The code of execution mode defines when or how standing order will be cancelled, processed the last time.  
+            * UNTIL_DATE - standing order is valid until specific date - field endDate. 
+            * UNTIL_CANCELLATION - standing order is valid forever and must be cancelled by client.
           example: UNTIL_DATE
           enum:
             - UNTIL_DATE
@@ -1355,11 +1363,19 @@ components:
             type: object
             properties:
               validFromDate:
-                description: Start date of one break period. Standing order will not be processed from this date. Date format YYYY-MM-DD.
-                $ref: '#/components/schemas/date'
+                description: >
+                  Start date of one break period. Standing order will not be processed from this date. 
+                  Date format YYYY-MM-DD.
+                type: string
+                format: date
+                example: 2018-04-13
               validToDate:
-                description: End date of one break period. Standing order will not be processed to this date. Date format YYYY-MM-DD.
-                $ref: '#/components/schemas/date'
+                description: >
+                  End date of one break period. Standing order will not be processed to this date. 
+                  Date format YYYY-MM-DD.
+                type: string
+                format: date
+                example: 2018-04-13
     
     standingorderSubmissionStatus:
       title: Standing Order Submission Status
@@ -1387,19 +1403,21 @@ components:
       title: Start Date
       description: |
         The first applicable day of execution starting from this date is the first payment.
-      $ref: '#/components/schemas/date'
+      type: string
+      format: date
+      example: 2018-04-13
 
     endDate:
       title: End Date
-      description: |
-        The last applicable day of execution
-        If not given, it is an infinite standing order.
-      $ref: '#/components/schemas/date'
+      description: The last applicable day of execution. If not given, it is an infinite standing order.
+      type: string
+      format: date
+      example: 2018-04-13
 
     executionRule:
       title: Execution Rule
       description: |
-        *following* or *preceding* supported as values.
+        *following* or *preceding* supported as values.  
         This data attribute defines the behaviour when recurring payment dates falls on a weekend or bank holiday.
         The payment is then executed either the *preceding* or *following* working day.
         ASPSP might reject the request due to the communicated value, if rules in Online-Banking are not supporting
@@ -1573,13 +1591,14 @@ components:
   # ---- Global Common Header Parameters ----
   parameters:
     path_submissionId:
-      name: submissionId
+      name: Submission ID
       in: path
       description: ID of payment submission to be retrieved.
       required: true
       schema:
         maxLength: 35
         type: string
+        example: submissionId
 
     clientid_in_header:
       in: header
