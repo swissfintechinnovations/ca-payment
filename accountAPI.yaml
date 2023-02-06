@@ -48,15 +48,15 @@ paths:
       responses:
         '200':
           description: Paginated list of all accounts.
+          headers:
+            X-Correlation-ID:
+              $ref: '#/components/headers/X-Correlation-ID'
           content:
             application/json:
               schema:
                 type: array
                 items:
                   $ref: '#/components/schemas/accountItem'
-          headers:
-            X-Correlation-ID:
-              $ref: '#/components/headers/X-Correlation-ID'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -92,13 +92,13 @@ paths:
       responses:
         '200':
           description: Account details of the requested account.
+          headers:
+            X-Correlation-ID:
+              $ref: '#/components/headers/X-Correlation-ID'
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/accountItem'
-          headers:
-            X-Correlation-ID:
-              $ref: '#/components/headers/X-Correlation-ID'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -139,13 +139,13 @@ paths:
       responses:
         '200':
           description: Account details of the requested account.
+          headers:
+            X-Correlation-ID:
+              $ref: '#/components/headers/X-Correlation-ID'
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/accountBalanceItem'
-          headers:
-            X-Correlation-ID:
-              $ref: '#/components/headers/X-Correlation-ID'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -204,13 +204,13 @@ paths:
       responses:
         '200':
           description: Account details of the requested account.
+          headers:
+            X-Correlation-ID:
+              $ref: '#/components/headers/X-Correlation-ID'
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/accountTransactionReport'
-          headers:
-            X-Correlation-ID:
-              $ref: '#/components/headers/X-Correlation-ID'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -235,30 +235,25 @@ paths:
       summary: Retrieve details of a specific transaction
       description: Details of the specified transaction.
       parameters:
-        - in: path
-          name: accountId
-          required: true
-          schema:
-            type: string
-          description: The account the details are requested.
-        - in: path
-          name: transactionId
-          required: true
-          schema:
-            type: string
+        - $ref: '#/components/parameters/path_accountId'
+        - $ref: '#/components/parameters/path_transactionId'
+        - $ref: '#/components/parameters/authorization_in_header'
         - $ref: '#/components/parameters/clientid_in_header' 
         - $ref: '#/components/parameters/correlation_in_header'
         - $ref: '#/components/parameters/agent_in_header'
+        - $ref: '#/components/parameters/optional_targetid_in_header' 
+        - $ref: '#/components/parameters/optional_psu_ip_in_header' 
+        - $ref: '#/components/parameters/optional_psu_user_agent_in_header'
       responses:
         '200':
           description: Account details of the requested account.
+          headers:
+            X-Correlation-ID:
+              $ref: '#/components/headers/X-Correlation-ID'
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/accountTransactionEntry'
-          headers:
-            X-Correlation-ID:
-              $ref: '#/components/headers/X-Correlation-ID'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -296,6 +291,9 @@ paths:
       responses:
         '200':
           description: Returns a list of resource links to ISO20022 XML CAMT.053 messages.
+          headers:
+            X-Correlation-ID:
+              $ref: '#/components/headers/X-Correlation-ID'
           content:
             application/json:
               schema:
@@ -305,9 +303,6 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/iso20022ReportReference'
-          headers:
-            X-Correlation-ID:
-              $ref: '#/components/headers/X-Correlation-ID'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -331,12 +326,7 @@ paths:
         - iso20022
       summary: Retrieves the designated ISO20022 XML CAMT.053 document.
       parameters:
-        - in: path
-          name: reportId
-          schema:
-            type: string
-          required: true
-          description: Unique ID of the requested ISO20022 XML CAMT.053 document.
+        - $ref: '#/components/parameters/path_reportId'
         - $ref: '#/components/parameters/authorization_in_header'
         - $ref: '#/components/parameters/clientid_in_header' 
         - $ref: '#/components/parameters/correlation_in_header'
@@ -347,13 +337,13 @@ paths:
       responses:
         '200':
           description: Returns the requested ISO20022 XML CAMT.053 message.
-          content:
-            application/xml:
-              schema:
-                type: string 
           headers:
             X-Correlation-ID:
               $ref: '#/components/headers/X-Correlation-ID'
+          content:
+            application/xml:
+              schema:
+                type: string
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -983,6 +973,22 @@ components:
         pattern: '[A-Za-z0-9](([A-Za-z0-9._]|-){0,254}[A-Za-z0-9]){0,1}'
         type: string
         example: accountId
+
+    path_transactionId:
+      name: Transaction ID
+      in: path
+      required: true
+      schema:
+        type: string
+
+    path_reportId:
+      name: reportId
+      in: path
+      description: Unique ID of the requested ISO20022 XML CAMT.053 document.
+      required: true
+      schema:
+        maxLength: 35
+        type: string
 
     query_date:
       name: date
