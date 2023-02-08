@@ -211,13 +211,6 @@ paths:
         - payments
       summary: Initiate new payments submission
       description: Create new payments submission.
-      requestBody:
-        description: Details of payments submission to be added.
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/paymentSubmissionRequest'
       parameters:
         - $ref: '#/components/parameters/authorization_in_header'
         - $ref: '#/components/parameters/clientid_in_header' 
@@ -226,6 +219,13 @@ paths:
         - $ref: '#/components/parameters/optional_targetid_in_header' 
         - $ref: '#/components/parameters/optional_psu_ip_in_header' 
         - $ref: '#/components/parameters/optional_psu_user_agent_in_header' 
+      requestBody:
+        description: Details of payments submission to be added.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/paymentSubmissionRequest'
       responses:
         '201':
           description: Created.
@@ -948,7 +948,7 @@ components:
           type: string
           maxLength: 140
         postalAddress:
-          $ref: '#/components/schemas/paymentStructuredOrUnstructuredAddress'  
+          $ref: '#/components/schemas/paymentStructuredOrUnstructuredAddress'
 
     paymentDebtor:
       title: Payment Debtor
