@@ -33,6 +33,53 @@ tags:
 
 paths:
   /standing-orders:
+    get:
+      tags: 
+        - standing orders
+      summary: Get the list of all standing orders.
+      description: Return the list of all standing orders for the authenticated context.
+      parameters:
+        - $ref: '#/components/parameters/authorization_in_header'
+        - $ref: '#/components/parameters/clientid_in_header' 
+        - $ref: '#/components/parameters/correlation_in_header'
+        - $ref: '#/components/parameters/agent_in_header'
+        - $ref: '#/components/parameters/optional_targetid_in_header' 
+        - $ref: '#/components/parameters/optional_psu_ip_in_header' 
+        - $ref: '#/components/parameters/optional_psu_user_agent_in_header' 
+      responses:
+        '200':
+          description: List of standing orders.
+          headers:
+            X-Correlation-ID:
+              $ref: '#/components/headers/X-Correlation-ID'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  paymentList: 
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/standingorderSubmissionRequest'
+                  _links:
+                    $ref: '#/components/schemas/links'
+        '400':
+          $ref: '#/components/responses/standard400'
+        '401':
+          $ref: '#/components/responses/standard401'
+        '403':
+          $ref: '#/components/responses/standard403'
+        '404':
+          $ref: '#/components/responses/standard404'
+        '405':
+          $ref: '#/components/responses/standard405'
+        '500':
+          $ref: '#/components/responses/standard500'
+        '501':
+          $ref: '#/components/responses/standard501'
+        '503':
+          $ref: '#/components/responses/standard503'
+
     post:
       tags:
         - standing orders
@@ -206,6 +253,53 @@ paths:
           $ref: '#/components/responses/standard503'
 
   /payments:
+    get:
+      tags: 
+        - payments
+      summary: Get the list of all payments.
+      description: Return the list of all payments for the authenticated context.
+      parameters:
+        - $ref: '#/components/parameters/authorization_in_header'
+        - $ref: '#/components/parameters/clientid_in_header' 
+        - $ref: '#/components/parameters/correlation_in_header'
+        - $ref: '#/components/parameters/agent_in_header'
+        - $ref: '#/components/parameters/optional_targetid_in_header' 
+        - $ref: '#/components/parameters/optional_psu_ip_in_header' 
+        - $ref: '#/components/parameters/optional_psu_user_agent_in_header' 
+      responses:
+        '200':
+          description: List of payments.
+          headers:
+            X-Correlation-ID:
+              $ref: '#/components/headers/X-Correlation-ID'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  paymentList: 
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/paymentSubmissionRequest'
+                  _links:
+                    $ref: '#/components/schemas/links'
+        '400':
+          $ref: '#/components/responses/standard400'
+        '401':
+          $ref: '#/components/responses/standard401'
+        '403':
+          $ref: '#/components/responses/standard403'
+        '404':
+          $ref: '#/components/responses/standard404'
+        '405':
+          $ref: '#/components/responses/standard405'
+        '500':
+          $ref: '#/components/responses/standard500'
+        '501':
+          $ref: '#/components/responses/standard501'
+        '503':
+          $ref: '#/components/responses/standard503'
+
     post:
       tags:
         - payments
