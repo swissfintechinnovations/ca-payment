@@ -62,7 +62,7 @@ paths:
                     items:
                       $ref: '#/components/schemas/standingorderSubmissionRequest'
                   _links:
-                    $ref: '#/components/schemas/Links'
+                    $ref: '#/components/schemas/links'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -282,7 +282,7 @@ paths:
                     items:
                       $ref: '#/components/schemas/paymentSubmissionRequest'
                   _links:
-                    $ref: '#/components/schemas/Links'
+                    $ref: '#/components/schemas/links'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
