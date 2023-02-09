@@ -7,17 +7,17 @@ info:
     The API is supposed to be used by customers who want to get information about their
     accounts such as current balance or transactions.
     This specification uses schema definitions from the Common Data Model v1.2.1.
-  termsOfService: 'tbd'
+  termsOfService: tbd
   contact:
     email: info@common-api.ch
   license:
     name: Apache 2.0
-    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
 servers:
   - url: account.common-api.ch
 externalDocs:
   description: Find out more about SFTI API specifications
-  url: 'https://www.common-api.ch'
+  url: https://www.common-api.ch
 security:
   - OAuth2:
       - read
@@ -394,11 +394,11 @@ components:
           type: string
           minLength: 3
           maxLength: 3
-          example: "CHF"
+          example: CHF
         designation:
           type: string
           maxLength: 140
-          example: "Firmenkonto"
+          example: Firmenkonto
         _links:
           type: object
           description: Contains the paths to additional resources for specific account (e.g. path to transactions resource).
@@ -548,13 +548,13 @@ components:
         transactionId:
           type: string
           maxLength: 35
-          example: 'TX12345A987'
+          example: TX12345A987
         transactionType:
           $ref: '#/components/schemas/accountTransactionTransactionType'
         endToEndId:
           type: string
           maxLength: 35
-          example: "ENDTOENDID-01"
+          example: ENDTOENDID-01
         bankTransactionCode:
           $ref: '#/components/schemas/accountTransactionBankTransactionCode'
         amount:
@@ -627,18 +627,18 @@ components:
       properties:
         amount:
           type: string
-          pattern: "[0-9]{1,12}([.][0-9]{1,5})?"
+          pattern: '[0-9]{1,12}([.][0-9]{1,5})?'
           maxLength: 18
-          example: "10.25"
+          example: 10.25
         currency:
           type: string
           minLength: 3
           maxLength: 3
-          example: "CHF"
+          example: CHF
         type:
           type: string
           maxLength: 35
-          example: "Some type of charge"
+          example: Some type of charge
         chargesIncludedIndicator:
           type: boolean
 

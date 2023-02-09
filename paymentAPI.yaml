@@ -7,17 +7,17 @@ info:
     The API is supposed to be used by customers who want to initiate a payment at their bank. 
     Note that, consents and SCA will be handled in a dedicated specification file.
     This specification uses schema definitions from the Common Data Model v1.2.1.
-  termsOfService: 'Tbd'
+  termsOfService: Tbd
   contact:
     email: info@common-api.ch
   license:
     name: Apache 2.0
-    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
 servers:
   - url: payment.common-api.ch
 externalDocs:
   description: Find out more about SFTI API specifications.
-  url: 'https://www.common-api.ch'
+  url: https://www.common-api.ch
 security:
   - OAuth2:
       - read
@@ -1584,7 +1584,7 @@ components:
         - /problems/TECHNICAL_ERROR
         - /problems/NOT_IMPLEMENTED
         - /problems/SERVICE_UNAVAILABLE
-      example: '/problems/TECHNICAL_ERROR'
+      example: /problems/TECHNICAL_ERROR
     # ---- End Error Response
     # ---- End Common Data Model
 
