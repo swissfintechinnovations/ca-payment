@@ -57,6 +57,10 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/accountItem'
+        '202':
+          $ref: '#/components/responses/standard202'
+        '204':
+          $ref: '#/components/responses/standard204'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -99,6 +103,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/accountItem'
+        '202':
+          $ref: '#/components/responses/standard202'
+        '204':
+          $ref: '#/components/responses/standard204'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -146,6 +154,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/accountBalanceItem'
+        '202':
+          $ref: '#/components/responses/standard202'
+        '204':
+          $ref: '#/components/responses/standard204'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -211,6 +223,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/accountTransactionReport'
+        '202':
+          $ref: '#/components/responses/standard202'
+        '204':
+          $ref: '#/components/responses/standard204'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -254,6 +270,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/accountTransactionEntry'
+        '202':
+          $ref: '#/components/responses/standard202'
+        '204':
+          $ref: '#/components/responses/standard204'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -303,6 +323,10 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/iso20022ReportReference'
+        '202':
+          $ref: '#/components/responses/standard202'
+        '204':
+          $ref: '#/components/responses/standard204'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -344,6 +368,10 @@ paths:
             application/xml:
               schema:
                 type: string
+        '202':
+          $ref: '#/components/responses/standard202'
+        '204':
+          $ref: '#/components/responses/standard204'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -1105,6 +1133,26 @@ components:
 
   # ---- Responses - Standard Errors Common Data Model v1.2.1----
   responses:
+    standard202:
+        headers:
+          X-Correlation-ID:
+            $ref: '#/components/headers/X-Correlation-ID'
+        description: Accepted - Request has been accepted for processing, but the processing has not been completed.
+        content:
+          application/json:
+            schema:
+              type: object
+
+    standard204:
+      headers:
+        X-Correlation-ID:
+          $ref: '#/components/headers/X-Correlation-ID'
+      description: No content - The server has successfully fulfilled the request and there is no additional content to send in the response content.
+      content:
+        application/json:
+          schema:
+            type: object
+
     standard400:
       headers:
         Content-Type:
