@@ -1854,6 +1854,22 @@ components:
         application/problem+json:
           schema:
             $ref: '#/components/schemas/commonErrorResponse'
+            examples: 
+              InvalidPayload:
+                type: /problems/INVALID_PAYLOAD
+                title: Payload does not comply with API specification
+                detail: Detailed problem description with respect to the current request
+                instance: path/to/corresponding/resource
+              NoIntradayDataSupported:
+                type: /problems/NOT_IMPLEMENTED
+                title: This AIS interface does not support intraday data
+                detail: Detailed problem description with respect to the current request
+                instance: path/to/corresponding/resource
+              FutureDataRequested:
+                type: /problems/TECHNICAL_ERROR
+                title: Invalid parameter values have been detected
+                detail: Detailed problem description with respect to the current request
+                instance: path/to/corresponding/resource
 
     standard401:
       headers:
@@ -1896,6 +1912,22 @@ components:
         application/problem+json:
           schema:
             $ref: '#/components/schemas/commonErrorResponse'
+            examples:
+              InvalidToken:
+                type: /problems/INSUFFICIENT_PRIVILEGES
+                title: Insufficient privileges to access resource
+                detail: Detailed problem description with respect to the current request
+                instance: path/to/corresponding/resource
+              InvalidAccounts:
+                type: /problems/INSUFFICIENT_PRIVILEGES
+                title: Insufficient privileges to access resource
+                detail: Detailed problem description with respect to the current request
+                instance: path/to/corresponding/resource
+              WrongEndpointUrl:
+                type: /problems/TECHNICAL_ERROR
+                title: URL not found
+                detail: Detailed problem description with respect to the current request
+                instance: path/to/corresponding/resource
 
     standard405:
       headers:
@@ -1938,6 +1970,12 @@ components:
         application/problem+json:
           schema:
             $ref: '#/components/schemas/commonErrorResponse'
+            examples:
+              EndpointNotImplemented:
+                type: /problems/NOT_IMPLEMENTED
+                title: Target Endpoint is not implemented
+                detail: Detailed problem description with respect to the current request
+                instance: path/to/corresponding/resource
 
     standard503:
       headers:
