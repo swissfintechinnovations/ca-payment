@@ -361,15 +361,12 @@ paths:
         '503':
           $ref: '#/components/responses/standard503'
 
-  /health/ping: # is there a possible solution to avoid DoS attacks? -> probably not
+  /health/ping:
     get:
       tags:
         - healthcheck
       summary: Simple ping healthcheck.
       description: This endpoint provides a service to ping the API. If the API is live, you receive an 200 Health check OK response
-      # need of authentication??
-      # security:
-      #   - OAuth2: [read]
       responses:
         '200':
           description: Health check response. Returns status code 200 OK and request time, if API is ready.
@@ -377,81 +374,115 @@ paths:
             application/json:
               schema:
                 type: object
-                required:
-                  - message
-                  - dateTime
                 properties:
-                  message:
-                    type: string
-                    example: Health Check Ping OK
-                  dateTime:
-                    $ref: '#/components/schemas/DateTime'
+                  HealthCheckResponse:
+                    type: object
+                    example: 
+                      status: healty
+                      Time: 21 May 2023 16:37:57529
         '503':
           description: Health check response. Returns status code 503 Service Unavailable and request time, if API is down.
           content: 
-            application/json:
+            application/problem+json:
               schema:
                 type: object
                 required:
-                  - message
-                  - dateTime
+                  - type
+                  - title
+                  - healthCheckResponse
                 properties:
-                  message:
+                  type:
                     type: string
-                    example: Health Check Ping Error
-                  dateTime:
-                    $ref: '#/components/schemas/DateTime'
-    
+                    description: A URI reference that identifies the problem type as in RFC 7807.
+                    example: https://api.com/unhealthy
+                  title:
+                    type: string
+                    example: unhealty
+                  HealthCheckResponse:
+                    type: object
+                    example: 
+                      status: unhealty
+                      Time: 21 May 2023 16:37:57529
+
   /health/live:
-    get:
+    post:
       tags:
         - healthcheck
       summary: Simple healthcheck.
-      description: This endpoint provides a service to test the API with parameters. The API reflects all received parameters without further processing.
-      security:
-        - OAuth2: [read]
+      description: This endpoint provides a service to test the API with parameters. The API verifies wether the request can be processed or not.
       parameters:
-        - name: test # maybe omit path parameter? optional path parameter isn't supported
-          in: path
-          description: Test parameter.
-          required: true
-          schema:
-            type: string
+        - $ref: '#/components/parameters/authorization_in_header'
         - $ref: '#/components/parameters/clientid_in_header' 
         - $ref: '#/components/parameters/correlation_in_header'
         - $ref: '#/components/parameters/agent_in_header'
+        - $ref: '#/components/parameters/optional_targetid_in_header' 
+        - $ref: '#/components/parameters/optional_psu_ip_in_header' 
+        - $ref: '#/components/parameters/optional_psu_user_agent_in_header' 
+      requestBody:
+        description: Healthcheck payload.
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
       responses:
         '200':
-          description: Health check response. Returns status code 200 OK and reflects all provided parameters.
+          description: Health check response. Returns status code 200 OK and short status of API.
           content: 
             application/json:
               schema:
                 type: object
-                required:
-                  - message
-                  - reflectedHeaders
-                properties:
-                  message:
-                    type: string
-                    example: Health Check Parameters OK
-                  reflectedHeaders:
-                    type: array
-                    example: [clientId, correlation, agent]
+                example:
+                  HealthCheckResponse:
+                    correlationID: 0cb3f1bd-272d-4765-a3d6-4b1593e4613c
+                    apiName: Account Information v2
+                    status: Healthy
+                    message: 
+                      info: Partial Outage
+                      load: 50%
+                      averageResponseTime: 3000 
+                      version: 1.0.0.v2014-12-31-1101
+                      isSSLEnabled: false
+                      ipAddress: 127.0.0.1
+                      environmentName: PROD
+                      startTime: 21 May 2023 16:37:57529
+                      transportType: HTTP
+                      endTime: 21 May 2023 16:37:59529
         '503':
-          description: Health check response. Returns status code 503 Service Unavailable and request time, if API can not read and reflect headers.
+          description: Health check response. Simple report of APIs state.
           content: 
-            application/json:
+            application/problem+json:
               schema:
                 type: object
                 required:
-                  - message
-                  - dateTime
+                  - type
+                  - title
+                  - healthCheckResponse
                 properties:
-                  message:
+                  type:
                     type: string
-                    example: Health Check Error
-                  dateTime:
-                    $ref: '#/components/schemas/DateTime'
+                    description: A URI reference that identifies the problem type as in RFC 7807.
+                    example: https://api.com/unhealthy
+                  title:
+                    type: string
+                    example: unhealty
+                  HealthCheckResponse:
+                    type: object
+                    example:
+                      correlationID: 0cb3f1bd-272d-4765-a3d6-4b1593e4613c
+                      apiName: Account Information v2
+                      status: Unhealthy
+                      message: 
+                        info: Partial Outage
+                        load: 50%
+                        averageResponseTime: 3000 
+                        version: 1.0.0.v2014-12-31-1101
+                        isSSLEnabled: false
+                        ipAddress: 127.0.0.1
+                        environmentName: PROD
+                        startTime: 21 May 2023 16:37:57529
+                        transportType: HTTP
+                        endTime: 21 May 2023 16:37:59529
 
   /health/check:
     get:
@@ -459,53 +490,114 @@ paths:
         - healthcheck
       summary: Detailed healthcheck with diagnostics.
       description: This endpoint provides a service to test components connected to this API (e.g. downstream APIs, Database,..). This endpoint runs various tests/checkers and returns the healthiness of the API.
-      security:
-        - OAuth2: [read]
+      parameters:
+        - $ref: '#/components/parameters/authorization_in_header'
+        - $ref: '#/components/parameters/clientid_in_header' 
+        - $ref: '#/components/parameters/correlation_in_header'
+        - $ref: '#/components/parameters/agent_in_header'
+        - $ref: '#/components/parameters/optional_targetid_in_header' 
+        - $ref: '#/components/parameters/optional_psu_ip_in_header' 
+        - $ref: '#/components/parameters/optional_psu_user_agent_in_header' 
+      requestBody:
+        description: Healthcheck payload.
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
       responses:
         '200':
-          description: Health check response. All health checks are passed.
-          content: 
+          description: Health check response. Returns status code 200 OK and detailed status of API.
+          content:
             application/json:
               schema:
                 type: object
-                required:
-                  - message
-                  - passedTests
-                  - dateTime
-                properties:
-                  message:
-                    type: string
-                    example: Health Check Tests OK.
-                  passedTests:
-                    type: array
-                    description: List of all passed tests.
-                  failedTests:
-                    type: array
-                    description: Empty.
-                  dateTime:
-                    $ref: '#/components/schemas/DateTime'
-        '500':
-          description: Health check response. Returns status code 500 Internal Server Error and request time, if at least one internal check failed.
+                example:
+                  HealthCheckResponse:
+                    correlationID: 0cb3f1bd-272d-4765-a3d6-4b1593e4613c
+                    applicationName: com.tibco.restbt.sample.bookstore
+                    status: Passed
+                    Service:
+                        bindingType: REST
+                        nodeName: DevNode
+                        hostName: SystemHost
+                        isSSLEnabled: false
+                        portTypeName: BookStoreResource
+                        responseTime: 0
+                        ipAddress: 127.0.0.1
+                        bindingName: RESTService_Binding1
+                        machineName: test-workstation
+                        environmentName: DevEnvironment
+                        name: BookStoreResource
+                        startTime: 21 May 2018 16:37:57529
+                        transportType: HTTP
+                        endTime: 21 May 2018 16:37:57529
+                        endpointURI: urn:amx:DevEnvironment/com.tibco.restbt.sample.bookstore#service-binding(BookStoreResource/RESTService_Binding1)___1.0.0.v2014-12-31-1101
+                        status: Passed
+                        Component:
+                            nodeName: DevNode
+                            componentType: TIBCO-IT-JAVA
+                            hostName: SystemHost
+                            environmentName: DevEnvironment
+                            responseTime: 0
+                            name: BookStoreResource
+                            startTime: 21 May 2018 16:37:57513
+                            endTime: 21 May 2018 16:37:57513
+                            version: 1.0.0.v2014-12-31-1101
+                            status: Passed
+        '503':
+          description: Health check response. Detailed report of APIs state and executed tests.
           content: 
-            application/json:
+            application/problem+json:
               schema:
                 type: object
                 required:
-                  - message
-                  - failedTests
-                  - dateTime
+                  - type
+                  - title
+                  - healthCheckResponse
                 properties:
-                  message:
+                  type:
                     type: string
-                    example: Description of failed tests.
-                  passedTests:
-                    type: array
-                    description: List of all passed tests.
-                  failedTests:
-                    type: array
-                    description: List of all failed tests.
-                  dateTime:
-                    $ref: '#/components/schemas/DateTime'
+                    description: A URI reference that identifies the problem type as in RFC 7807.
+                    example: https://api.com/unhealthy
+                  title:
+                    type: string
+                    example: unhealty
+                  HealthCheckResponse:
+                    type: object
+                    example:
+                      HealthCheckResponse:
+                        correlationID: 0cb3f1bd-272d-4765-a3d6-4b1593e4613c
+                        applicationName: com.tibco.restbt.sample.bookstore
+                        status: Passed
+                        Service:
+                            bindingType: REST
+                            nodeName: DevNode
+                            hostName: SystemHost
+                            isSSLEnabled: false
+                            portTypeName: BookStoreResource
+                            responseTime: 0
+                            ipAddress: 127.0.0.1
+                            bindingName: RESTService_Binding1
+                            machineName: test-workstation
+                            environmentName: DevEnvironment
+                            name: BookStoreResource
+                            startTime: 21 May 2018 16:37:57529
+                            transportType: HTTP
+                            endTime: 21 May 2018 16:37:57529
+                            endpointURI: urn:amx:DevEnvironment/com.tibco.restbt.sample.bookstore#service-binding(BookStoreResource/RESTService_Binding1)___1.0.0.v2014-12-31-1101
+                            status: Passed
+                            Component:
+                                nodeName: DevNode
+                                componentType: TIBCO-IT-JAVA
+                                hostName: SystemHost
+                                environmentName: DevEnvironment
+                                responseTime: 0
+                                name: BookStoreResource
+                                startTime: 21 May 2018 16:37:57513
+                                endTime: 21 May 2018 16:37:57513
+                                version: 1.0.0.v2014-12-31-1101
+                                status: Passed
 
 
 # -------------------------
