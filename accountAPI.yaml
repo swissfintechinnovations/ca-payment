@@ -498,6 +498,7 @@ components:
         - valueDate
         - amount
         - bankTransactionCode
+        - additionalEntryInformation
       properties:
         entryId:
           type: string
