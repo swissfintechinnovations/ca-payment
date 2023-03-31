@@ -63,6 +63,10 @@ paths:
                       $ref: '#/components/schemas/standingorderSubmissionRequest'
                   _links:
                     $ref: '#/components/schemas/links'
+        '202':
+          $ref: '#/components/responses/standard202'
+        '204':
+          $ref: '#/components/responses/standard204'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -150,6 +154,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/standingorderSubmissionRequest'
+        '202':
+          $ref: '#/components/responses/standard202'
+        '204':
+          $ref: '#/components/responses/standard204'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -235,6 +243,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/standingorderSubmissionStatus'
+        '202':
+          $ref: '#/components/responses/standard202'
+        '204':
+          $ref: '#/components/responses/standard204'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -283,6 +295,10 @@ paths:
                       $ref: '#/components/schemas/paymentSubmissionRequest'
                   _links:
                     $ref: '#/components/schemas/links'
+        '202':
+          $ref: '#/components/responses/standard202'
+        '204':
+          $ref: '#/components/responses/standard204'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -370,6 +386,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/paymentSubmissionRequest'
+        '202':
+          $ref: '#/components/responses/standard202'
+        '204':
+          $ref: '#/components/responses/standard204'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -454,6 +474,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/paymentSubmissionStatus'
+        '202':
+          $ref: '#/components/responses/standard202'
+        '204':
+          $ref: '#/components/responses/standard204'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -520,6 +544,10 @@ paths:
                       $ref: '#/components/schemas/singlepaymentsSubmissionRequest'
                   _links:
                     $ref: '#/components/schemas/links'
+        '202':
+          $ref: '#/components/responses/standard202'
+        '204':
+          $ref: '#/components/responses/standard204'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -607,6 +635,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/singlepaymentsSubmissionRequest'
+        '202':
+          $ref: '#/components/responses/standard202'
+        '204':
+          $ref: '#/components/responses/standard204'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -691,6 +723,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/paymentSubmissionStatus'
+        '202':
+          $ref: '#/components/responses/standard202'
+        '204':
+          $ref: '#/components/responses/standard204'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -779,6 +815,10 @@ paths:
             application/xml:
               schema:
                 type: string
+        '202':
+          $ref: '#/components/responses/standard202'
+        '204':
+          $ref: '#/components/responses/standard204'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -862,6 +902,10 @@ paths:
             application/xml:
               schema:
                 type: string
+        '202':
+          $ref: '#/components/responses/standard202'
+        '204':
+          $ref: '#/components/responses/standard204'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -1775,6 +1819,28 @@ components:
 
   # ---- Responses - Standard Errors Common Data Model v1.2.1----
   responses:
+    standard202:
+        headers:
+          X-Correlation-ID:
+            $ref: '#/components/headers/X-Correlation-ID'
+        description: Accepted - Request has been accepted for processing, but the processing has not been completed.
+        content:
+          application/json:
+            schema:
+              type: object
+              # properties: ??
+
+    standard204:
+      headers:
+        X-Correlation-ID:
+          $ref: '#/components/headers/X-Correlation-ID'
+      description: No content - The server has successfully fulfilled the request and there is no additional content to send in the response content.
+      content:
+        application/json:
+          schema:
+            type: object
+            # properties: ??
+
     standard400:
       headers:
         Content-Type:
@@ -1788,6 +1854,22 @@ components:
         application/problem+json:
           schema:
             $ref: '#/components/schemas/commonErrorResponse'
+            examples: 
+              InvalidPayload:
+                type: /problems/INVALID_PAYLOAD
+                title: Payload does not comply with API specification
+                detail: Detailed problem description with respect to the current request
+                instance: path/to/corresponding/resource
+              NoIntradayDataSupported:
+                type: /problems/NOT_IMPLEMENTED
+                title: This AIS interface does not support intraday data
+                detail: Detailed problem description with respect to the current request
+                instance: path/to/corresponding/resource
+              FutureDataRequested:
+                type: /problems/TECHNICAL_ERROR
+                title: Invalid parameter values have been detected
+                detail: Detailed problem description with respect to the current request
+                instance: path/to/corresponding/resource
 
     standard401:
       headers:
@@ -1830,6 +1912,22 @@ components:
         application/problem+json:
           schema:
             $ref: '#/components/schemas/commonErrorResponse'
+            examples:
+              InvalidToken:
+                type: /problems/INSUFFICIENT_PRIVILEGES
+                title: Insufficient privileges to access resource
+                detail: Detailed problem description with respect to the current request
+                instance: path/to/corresponding/resource
+              InvalidAccounts:
+                type: /problems/INSUFFICIENT_PRIVILEGES
+                title: Insufficient privileges to access resource
+                detail: Detailed problem description with respect to the current request
+                instance: path/to/corresponding/resource
+              WrongEndpointUrl:
+                type: /problems/TECHNICAL_ERROR
+                title: URL not found
+                detail: Detailed problem description with respect to the current request
+                instance: path/to/corresponding/resource
 
     standard405:
       headers:
@@ -1872,6 +1970,12 @@ components:
         application/problem+json:
           schema:
             $ref: '#/components/schemas/commonErrorResponse'
+            examples:
+              EndpointNotImplemented:
+                type: /problems/NOT_IMPLEMENTED
+                title: Target Endpoint is not implemented
+                detail: Detailed problem description with respect to the current request
+                instance: path/to/corresponding/resource
 
     standard503:
       headers:
