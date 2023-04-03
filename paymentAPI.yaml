@@ -1140,6 +1140,7 @@ components:
             - ACCP
             - RJCT
             - PART
+            - RCVD
           example: PART
         transactions:
           type: array
