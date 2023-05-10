@@ -63,10 +63,6 @@ paths:
                       $ref: '#/components/schemas/standingorderSubmissionRequest'
                   _links:
                     $ref: '#/components/schemas/links'
-        '202':
-          $ref: '#/components/responses/standard202'
-        '204':
-          $ref: '#/components/responses/standard204'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -154,10 +150,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/standingorderSubmissionRequest'
-        '202':
-          $ref: '#/components/responses/standard202'
-        '204':
-          $ref: '#/components/responses/standard204'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -243,10 +235,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/standingorderSubmissionStatus'
-        '202':
-          $ref: '#/components/responses/standard202'
-        '204':
-          $ref: '#/components/responses/standard204'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -295,10 +283,6 @@ paths:
                       $ref: '#/components/schemas/paymentSubmissionRequest'
                   _links:
                     $ref: '#/components/schemas/links'
-        '202':
-          $ref: '#/components/responses/standard202'
-        '204':
-          $ref: '#/components/responses/standard204'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -386,10 +370,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/paymentSubmissionRequest'
-        '202':
-          $ref: '#/components/responses/standard202'
-        '204':
-          $ref: '#/components/responses/standard204'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -474,10 +454,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/paymentSubmissionStatus'
-        '202':
-          $ref: '#/components/responses/standard202'
-        '204':
-          $ref: '#/components/responses/standard204'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -544,10 +520,6 @@ paths:
                       $ref: '#/components/schemas/singlepaymentsSubmissionRequest'
                   _links:
                     $ref: '#/components/schemas/links'
-        '202':
-          $ref: '#/components/responses/standard202'
-        '204':
-          $ref: '#/components/responses/standard204'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -635,10 +607,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/singlepaymentsSubmissionRequest'
-        '202':
-          $ref: '#/components/responses/standard202'
-        '204':
-          $ref: '#/components/responses/standard204'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -723,10 +691,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/paymentSubmissionStatus'
-        '202':
-          $ref: '#/components/responses/standard202'
-        '204':
-          $ref: '#/components/responses/standard204'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -815,10 +779,6 @@ paths:
             application/xml:
               schema:
                 type: string
-        '202':
-          $ref: '#/components/responses/standard202'
-        '204':
-          $ref: '#/components/responses/standard204'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -902,10 +862,6 @@ paths:
             application/xml:
               schema:
                 type: string
-        '202':
-          $ref: '#/components/responses/standard202'
-        '204':
-          $ref: '#/components/responses/standard204'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
