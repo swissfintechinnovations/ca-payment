@@ -57,10 +57,6 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/accountItem'
-        '202':
-          $ref: '#/components/responses/standard202'
-        '204':
-          $ref: '#/components/responses/standard204'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -103,10 +99,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/accountItem'
-        '202':
-          $ref: '#/components/responses/standard202'
-        '204':
-          $ref: '#/components/responses/standard204'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -270,10 +262,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/accountTransactionEntry'
-        '202':
-          $ref: '#/components/responses/standard202'
-        '204':
-          $ref: '#/components/responses/standard204'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -323,10 +311,6 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/iso20022ReportReference'
-        '202':
-          $ref: '#/components/responses/standard202'
-        '204':
-          $ref: '#/components/responses/standard204'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -368,10 +352,6 @@ paths:
             application/xml:
               schema:
                 type: string
-        '202':
-          $ref: '#/components/responses/standard202'
-        '204':
-          $ref: '#/components/responses/standard204'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
