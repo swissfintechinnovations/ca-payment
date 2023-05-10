@@ -57,10 +57,6 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/accountItem'
-        '202':
-          $ref: '#/components/responses/standard202'
-        '204':
-          $ref: '#/components/responses/standard204'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -103,10 +99,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/accountItem'
-        '202':
-          $ref: '#/components/responses/standard202'
-        '204':
-          $ref: '#/components/responses/standard204'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -270,10 +262,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/accountTransactionEntry'
-        '202':
-          $ref: '#/components/responses/standard202'
-        '204':
-          $ref: '#/components/responses/standard204'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -323,10 +311,6 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/iso20022ReportReference'
-        '202':
-          $ref: '#/components/responses/standard202'
-        '204':
-          $ref: '#/components/responses/standard204'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -368,10 +352,6 @@ paths:
             application/xml:
               schema:
                 type: string
-        '202':
-          $ref: '#/components/responses/standard202'
-        '204':
-          $ref: '#/components/responses/standard204'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -1173,11 +1153,6 @@ components:
                 title: Payload does not comply with API specification
                 detail: Detailed problem description with respect to the current request
                 instance: path/to/corresponding/resource
-              NoIntradayDataSupported:
-                type: /problems/NOT_IMPLEMENTED
-                title: This AIS interface does not support intraday data
-                detail: Detailed problem description with respect to the current request
-                instance: path/to/corresponding/resource
               FutureDataRequested:
                 type: /problems/TECHNICAL_ERROR
                 title: Invalid parameter values have been detected
@@ -1239,6 +1214,11 @@ components:
               WrongEndpointUrl:
                 type: /problems/TECHNICAL_ERROR
                 title: URL not found
+                detail: Detailed problem description with respect to the current request
+                instance: path/to/corresponding/resource
+              NoIntradayDataSupported:
+                type: /problems/NOT_IMPLEMENTED
+                title: This AIS interface does not support intraday data
                 detail: Detailed problem description with respect to the current request
                 instance: path/to/corresponding/resource
 
