@@ -1645,7 +1645,7 @@ components:
   # ---- Global Common Header Parameters ----
   parameters:
     path_submissionId:
-      name: Submission ID
+      name: submissionId
       in: path
       description: ID of payment submission to be retrieved.
       required: true
@@ -1655,8 +1655,8 @@ components:
         example: submissionId
 
     clientid_in_header:
-      in: header
       name: X-CorAPI-Client-ID
+      in: header
       schema:
         type: string
       description: 'ID of the client forwarded to the provider. (SCOPE: FI)'
@@ -1671,16 +1671,16 @@ components:
         type: string
 
     correlation_in_header:
-      in: header
       name: X-Correlation-ID
+      in: header
       schema:
         type: string
       description: Unique ID (defined by the caller) which will be reflected back in the response.
       required: true
 
     agent_in_header:
-      in: header
       name: User-Agent
+      in: header
       schema:
         type: string
       description: Name and version of the of the Client software.
