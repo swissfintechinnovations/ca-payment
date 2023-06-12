@@ -1764,7 +1764,7 @@ components:
           type: /problems/INVALID_PAYLOAD  
           title: The payload was not valid  
           detail: ID is missing  
-          instance: path/to/corresponding/resource
+          instance: path/to/corresponding/resource  
       content:
         application/json:
           schema:
@@ -1819,10 +1819,10 @@ components:
           instance: path/to/corresponding/resource  
 
         - ExpiredToken:  
-          type: /problems/EXPIRED_TOKEN
-          title: The OAuth Token is expired
-          detail: The token is no longer valid
-          instance: path/to/corresponding/resource
+          type: /problems/EXPIRED_TOKEN  
+          title: The OAuth Token is expired  
+          detail: The token is no longer valid  
+          instance: path/to/corresponding/resource  
       content:
         application/problem+json:
           schema:
@@ -1862,7 +1862,7 @@ components:
           type: /problems/NOT_IMPLEMENTED  
           title: This AIS interface does not support intraday data  
           detail: Data for date in the future cannot be requested  
-          instance: path/to/corresponding/resource
+          instance: path/to/corresponding/resource  
       content:
         application/problem+json:
           schema:
