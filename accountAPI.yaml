@@ -1131,19 +1131,6 @@ components:
           $ref: '#/components/headers/X-Correlation-ID'
       description: |+
         No content - The server has successfully fulfilled the request and there is no additional content to send in the response content.
-
-        Examples: 
-        - InvalidPayload:  
-          type: /problems/INVALID_PAYLOAD  
-          title: Payload does not comply with API specification  
-          detail: Malformed JSON  
-          instance: path/to/corresponding/resource
-
-        - MissingId:  
-          type: /problems/INVALID_PAYLOAD  
-          title: The payload was not valid  
-          detail: ID is missing  
-          instance: path/to/corresponding/resource  
       content:
         application/json:
           schema:
@@ -1159,6 +1146,19 @@ components:
           $ref: '#/components/headers/X-Correlation-ID'
       description: |
         Bad Request - The format of the request was invalid.
+
+        Examples: 
+        - InvalidPayload:  
+          type: /problems/INVALID_PAYLOAD  
+          title: Payload does not comply with API specification  
+          detail: Malformed JSON  
+          instance: path/to/corresponding/resource
+
+        - MissingId:  
+          type: /problems/INVALID_PAYLOAD  
+          title: The payload was not valid  
+          detail: ID is missing  
+          instance: path/to/corresponding/resource  
       content:
         application/problem+json:
           schema:
