@@ -3,8 +3,8 @@ info:
   version: 1.4.0
   title: Common Payment API
   description: >
-    This specification defines a simple payment API for payment types used in Switzerland. 
-    The API is supposed to be used by customers who want to initiate a payment at their bank. 
+    This specification defines a simple payment API for payment types used in Switzerland.
+    The API is supposed to be used by customers who want to initiate a payment at their bank.
     Note that, consents and SCA will be handled in a dedicated specification file.
     This specification uses schema definitions from the Common Data Model v1.2.1.
   termsOfService: Tbd
@@ -26,7 +26,7 @@ tags:
   - name: standing orders
   - name: payments
     description: |
-      **Payment Initiation Submission**  
+      **Payment Initiation Submission**
       Payment Submission Service - third party payment instruction submission
   - name: single payments
   - name: iso20022
@@ -34,18 +34,18 @@ tags:
 paths:
   /standing-orders:
     get:
-      tags: 
+      tags:
         - standing orders
       summary: Get the list of all standing orders.
       description: Return the list of all standing orders for the authenticated context.
       parameters:
         - $ref: '#/components/parameters/authorization_in_header'
-        - $ref: '#/components/parameters/clientid_in_header' 
+        - $ref: '#/components/parameters/clientid_in_header'
         - $ref: '#/components/parameters/correlation_in_header'
         - $ref: '#/components/parameters/agent_in_header'
-        - $ref: '#/components/parameters/optional_targetid_in_header' 
-        - $ref: '#/components/parameters/optional_psu_ip_in_header' 
-        - $ref: '#/components/parameters/optional_psu_user_agent_in_header' 
+        - $ref: '#/components/parameters/optional_targetid_in_header'
+        - $ref: '#/components/parameters/optional_psu_ip_in_header'
+        - $ref: '#/components/parameters/optional_psu_user_agent_in_header'
       responses:
         '200':
           description: List of standing orders.
@@ -57,7 +57,7 @@ paths:
               schema:
                 type: object
                 properties:
-                  paymentList: 
+                  paymentList:
                     type: array
                     items:
                       $ref: '#/components/schemas/standingorderSubmissionRequest'
@@ -87,12 +87,12 @@ paths:
       description: It is used to create a permanent order for the transfer of funds.
       parameters:
         - $ref: '#/components/parameters/authorization_in_header'
-        - $ref: '#/components/parameters/clientid_in_header' 
+        - $ref: '#/components/parameters/clientid_in_header'
         - $ref: '#/components/parameters/correlation_in_header'
         - $ref: '#/components/parameters/agent_in_header'
-        - $ref: '#/components/parameters/optional_targetid_in_header' 
-        - $ref: '#/components/parameters/optional_psu_ip_in_header' 
-        - $ref: '#/components/parameters/optional_psu_user_agent_in_header' 
+        - $ref: '#/components/parameters/optional_targetid_in_header'
+        - $ref: '#/components/parameters/optional_psu_ip_in_header'
+        - $ref: '#/components/parameters/optional_psu_user_agent_in_header'
       requestBody:
         description: Details of standing orders submission to be added.
         required: true
@@ -134,12 +134,12 @@ paths:
       parameters:
         - $ref: '#/components/parameters/path_submissionId'
         - $ref: '#/components/parameters/authorization_in_header'
-        - $ref: '#/components/parameters/clientid_in_header' 
+        - $ref: '#/components/parameters/clientid_in_header'
         - $ref: '#/components/parameters/correlation_in_header'
         - $ref: '#/components/parameters/agent_in_header'
-        - $ref: '#/components/parameters/optional_targetid_in_header' 
-        - $ref: '#/components/parameters/optional_psu_ip_in_header' 
-        - $ref: '#/components/parameters/optional_psu_user_agent_in_header' 
+        - $ref: '#/components/parameters/optional_targetid_in_header'
+        - $ref: '#/components/parameters/optional_psu_ip_in_header'
+        - $ref: '#/components/parameters/optional_psu_user_agent_in_header'
       responses:
         '200':
           description: The original standing order submission.
@@ -175,12 +175,12 @@ paths:
       parameters:
         - $ref: '#/components/parameters/path_submissionId'
         - $ref: '#/components/parameters/authorization_in_header'
-        - $ref: '#/components/parameters/clientid_in_header' 
+        - $ref: '#/components/parameters/clientid_in_header'
         - $ref: '#/components/parameters/correlation_in_header'
         - $ref: '#/components/parameters/agent_in_header'
-        - $ref: '#/components/parameters/optional_targetid_in_header' 
-        - $ref: '#/components/parameters/optional_psu_ip_in_header' 
-        - $ref: '#/components/parameters/optional_psu_user_agent_in_header' 
+        - $ref: '#/components/parameters/optional_targetid_in_header'
+        - $ref: '#/components/parameters/optional_psu_ip_in_header'
+        - $ref: '#/components/parameters/optional_psu_user_agent_in_header'
       responses:
         '200':
           description: Standing order has been deleted.
@@ -207,7 +207,7 @@ paths:
         '501':
           $ref: '#/components/responses/standard501'
         '503':
-          $ref: '#/components/responses/standard503'      
+          $ref: '#/components/responses/standard503'
 
 
   /standing-orders/{submissionId}/status:
@@ -219,12 +219,12 @@ paths:
       parameters:
         - $ref: '#/components/parameters/path_submissionId'
         - $ref: '#/components/parameters/authorization_in_header'
-        - $ref: '#/components/parameters/clientid_in_header' 
+        - $ref: '#/components/parameters/clientid_in_header'
         - $ref: '#/components/parameters/correlation_in_header'
         - $ref: '#/components/parameters/agent_in_header'
-        - $ref: '#/components/parameters/optional_targetid_in_header' 
-        - $ref: '#/components/parameters/optional_psu_ip_in_header' 
-        - $ref: '#/components/parameters/optional_psu_user_agent_in_header' 
+        - $ref: '#/components/parameters/optional_targetid_in_header'
+        - $ref: '#/components/parameters/optional_psu_ip_in_header'
+        - $ref: '#/components/parameters/optional_psu_user_agent_in_header'
       responses:
         '200':
           description: Status information for the specific standing order submission.
@@ -254,18 +254,18 @@ paths:
 
   /payments:
     get:
-      tags: 
+      tags:
         - payments
       summary: Get the list of all payments.
       description: Return the list of all payments for the authenticated context.
       parameters:
         - $ref: '#/components/parameters/authorization_in_header'
-        - $ref: '#/components/parameters/clientid_in_header' 
+        - $ref: '#/components/parameters/clientid_in_header'
         - $ref: '#/components/parameters/correlation_in_header'
         - $ref: '#/components/parameters/agent_in_header'
-        - $ref: '#/components/parameters/optional_targetid_in_header' 
-        - $ref: '#/components/parameters/optional_psu_ip_in_header' 
-        - $ref: '#/components/parameters/optional_psu_user_agent_in_header' 
+        - $ref: '#/components/parameters/optional_targetid_in_header'
+        - $ref: '#/components/parameters/optional_psu_ip_in_header'
+        - $ref: '#/components/parameters/optional_psu_user_agent_in_header'
       responses:
         '200':
           description: List of payments.
@@ -277,7 +277,7 @@ paths:
               schema:
                 type: object
                 properties:
-                  paymentList: 
+                  paymentList:
                     type: array
                     items:
                       $ref: '#/components/schemas/paymentSubmissionRequest'
@@ -307,12 +307,12 @@ paths:
       description: Create new payments submission.
       parameters:
         - $ref: '#/components/parameters/authorization_in_header'
-        - $ref: '#/components/parameters/clientid_in_header' 
+        - $ref: '#/components/parameters/clientid_in_header'
         - $ref: '#/components/parameters/correlation_in_header'
         - $ref: '#/components/parameters/agent_in_header'
-        - $ref: '#/components/parameters/optional_targetid_in_header' 
-        - $ref: '#/components/parameters/optional_psu_ip_in_header' 
-        - $ref: '#/components/parameters/optional_psu_user_agent_in_header' 
+        - $ref: '#/components/parameters/optional_targetid_in_header'
+        - $ref: '#/components/parameters/optional_psu_ip_in_header'
+        - $ref: '#/components/parameters/optional_psu_user_agent_in_header'
       requestBody:
         description: Details of payments submission to be added.
         required: true
@@ -354,12 +354,12 @@ paths:
       parameters:
         - $ref: '#/components/parameters/path_submissionId'
         - $ref: '#/components/parameters/authorization_in_header'
-        - $ref: '#/components/parameters/clientid_in_header' 
+        - $ref: '#/components/parameters/clientid_in_header'
         - $ref: '#/components/parameters/correlation_in_header'
         - $ref: '#/components/parameters/agent_in_header'
-        - $ref: '#/components/parameters/optional_targetid_in_header' 
-        - $ref: '#/components/parameters/optional_psu_ip_in_header' 
-        - $ref: '#/components/parameters/optional_psu_user_agent_in_header' 
+        - $ref: '#/components/parameters/optional_targetid_in_header'
+        - $ref: '#/components/parameters/optional_psu_ip_in_header'
+        - $ref: '#/components/parameters/optional_psu_user_agent_in_header'
       responses:
         '200':
           description: Payment submission has been deleted.
@@ -397,12 +397,12 @@ paths:
       parameters:
         - $ref: '#/components/parameters/path_submissionId'
         - $ref: '#/components/parameters/authorization_in_header'
-        - $ref: '#/components/parameters/clientid_in_header' 
+        - $ref: '#/components/parameters/clientid_in_header'
         - $ref: '#/components/parameters/correlation_in_header'
         - $ref: '#/components/parameters/agent_in_header'
-        - $ref: '#/components/parameters/optional_targetid_in_header' 
-        - $ref: '#/components/parameters/optional_psu_ip_in_header' 
-        - $ref: '#/components/parameters/optional_psu_user_agent_in_header' 
+        - $ref: '#/components/parameters/optional_targetid_in_header'
+        - $ref: '#/components/parameters/optional_psu_ip_in_header'
+        - $ref: '#/components/parameters/optional_psu_user_agent_in_header'
       responses:
         '200':
           description: Status information for the specific payment submission.
@@ -432,7 +432,7 @@ paths:
 
   /single-payments:
     get:
-      tags: 
+      tags:
         - single payments
       summary: Get the list of all payments (all payment types)
       description: Return the list of all initiated payments of all types for the authenticated context.
@@ -456,12 +456,12 @@ paths:
           schema:
             $ref: '#/components/schemas/date'
         - $ref: '#/components/parameters/authorization_in_header'
-        - $ref: '#/components/parameters/clientid_in_header' 
+        - $ref: '#/components/parameters/clientid_in_header'
         - $ref: '#/components/parameters/correlation_in_header'
         - $ref: '#/components/parameters/agent_in_header'
-        - $ref: '#/components/parameters/optional_targetid_in_header' 
-        - $ref: '#/components/parameters/optional_psu_ip_in_header' 
-        - $ref: '#/components/parameters/optional_psu_user_agent_in_header' 
+        - $ref: '#/components/parameters/optional_targetid_in_header'
+        - $ref: '#/components/parameters/optional_psu_ip_in_header'
+        - $ref: '#/components/parameters/optional_psu_user_agent_in_header'
       responses:
         '200':
           description: Paginated list of all payments.
@@ -473,7 +473,7 @@ paths:
               schema:
                 type: object
                 properties:
-                  paymentList: 
+                  paymentList:
                     type: array
                     items:
                       $ref: '#/components/schemas/singlepaymentsSubmissionRequest'
@@ -503,12 +503,12 @@ paths:
       description: Create new single payments submission.
       parameters:
         - $ref: '#/components/parameters/authorization_in_header'
-        - $ref: '#/components/parameters/clientid_in_header' 
+        - $ref: '#/components/parameters/clientid_in_header'
         - $ref: '#/components/parameters/correlation_in_header'
         - $ref: '#/components/parameters/agent_in_header'
-        - $ref: '#/components/parameters/optional_targetid_in_header' 
-        - $ref: '#/components/parameters/optional_psu_ip_in_header' 
-        - $ref: '#/components/parameters/optional_psu_user_agent_in_header' 
+        - $ref: '#/components/parameters/optional_targetid_in_header'
+        - $ref: '#/components/parameters/optional_psu_ip_in_header'
+        - $ref: '#/components/parameters/optional_psu_user_agent_in_header'
       requestBody:
         description: Details of single payments submission to be added.
         required: true
@@ -550,12 +550,12 @@ paths:
       parameters:
         - $ref: '#/components/parameters/path_submissionId'
         - $ref: '#/components/parameters/authorization_in_header'
-        - $ref: '#/components/parameters/clientid_in_header' 
+        - $ref: '#/components/parameters/clientid_in_header'
         - $ref: '#/components/parameters/correlation_in_header'
         - $ref: '#/components/parameters/agent_in_header'
-        - $ref: '#/components/parameters/optional_targetid_in_header' 
-        - $ref: '#/components/parameters/optional_psu_ip_in_header' 
-        - $ref: '#/components/parameters/optional_psu_user_agent_in_header' 
+        - $ref: '#/components/parameters/optional_targetid_in_header'
+        - $ref: '#/components/parameters/optional_psu_ip_in_header'
+        - $ref: '#/components/parameters/optional_psu_user_agent_in_header'
       responses:
         '200':
           description: Details on the chosen payment.
@@ -582,7 +582,7 @@ paths:
           $ref: '#/components/responses/standard501'
         '503':
           $ref: '#/components/responses/standard503'
-    
+
     delete:
       tags:
         - single payments
@@ -591,12 +591,12 @@ paths:
       parameters:
         - $ref: '#/components/parameters/path_submissionId'
         - $ref: '#/components/parameters/authorization_in_header'
-        - $ref: '#/components/parameters/clientid_in_header' 
+        - $ref: '#/components/parameters/clientid_in_header'
         - $ref: '#/components/parameters/correlation_in_header'
         - $ref: '#/components/parameters/agent_in_header'
-        - $ref: '#/components/parameters/optional_targetid_in_header' 
-        - $ref: '#/components/parameters/optional_psu_ip_in_header' 
-        - $ref: '#/components/parameters/optional_psu_user_agent_in_header' 
+        - $ref: '#/components/parameters/optional_targetid_in_header'
+        - $ref: '#/components/parameters/optional_psu_ip_in_header'
+        - $ref: '#/components/parameters/optional_psu_user_agent_in_header'
       responses:
         '200':
           description: Payment has been deleted.
@@ -624,7 +624,7 @@ paths:
           $ref: '#/components/responses/standard501'
         '503':
           $ref: '#/components/responses/standard503'
-  
+
   /single-payments/{submissionId}/status:
     get:
       tags:
@@ -634,12 +634,12 @@ paths:
       parameters:
         - $ref: '#/components/parameters/path_submissionId'
         - $ref: '#/components/parameters/authorization_in_header'
-        - $ref: '#/components/parameters/clientid_in_header' 
+        - $ref: '#/components/parameters/clientid_in_header'
         - $ref: '#/components/parameters/correlation_in_header'
         - $ref: '#/components/parameters/agent_in_header'
-        - $ref: '#/components/parameters/optional_targetid_in_header' 
-        - $ref: '#/components/parameters/optional_psu_ip_in_header' 
-        - $ref: '#/components/parameters/optional_psu_user_agent_in_header' 
+        - $ref: '#/components/parameters/optional_targetid_in_header'
+        - $ref: '#/components/parameters/optional_psu_ip_in_header'
+        - $ref: '#/components/parameters/optional_psu_user_agent_in_header'
       responses:
         '200':
           description: Status information for the specific payment submission.
@@ -666,7 +666,7 @@ paths:
           $ref: '#/components/responses/standard501'
         '503':
           $ref: '#/components/responses/standard503'
-          
+
 
   /iso20022/payments:
     post:
@@ -676,12 +676,12 @@ paths:
       description: Submit an XML PAIN.001 payment instruction according to the ISO20022 specification.
       parameters:
         - $ref: '#/components/parameters/authorization_in_header'
-        - $ref: '#/components/parameters/clientid_in_header' 
+        - $ref: '#/components/parameters/clientid_in_header'
         - $ref: '#/components/parameters/correlation_in_header'
         - $ref: '#/components/parameters/agent_in_header'
-        - $ref: '#/components/parameters/optional_targetid_in_header' 
-        - $ref: '#/components/parameters/optional_psu_ip_in_header' 
-        - $ref: '#/components/parameters/optional_psu_user_agent_in_header' 
+        - $ref: '#/components/parameters/optional_targetid_in_header'
+        - $ref: '#/components/parameters/optional_psu_ip_in_header'
+        - $ref: '#/components/parameters/optional_psu_user_agent_in_header'
       requestBody:
         description: The XML PAIN.001.
         required: true
@@ -722,12 +722,12 @@ paths:
       parameters:
         - $ref: '#/components/parameters/path_submissionId'
         - $ref: '#/components/parameters/authorization_in_header'
-        - $ref: '#/components/parameters/clientid_in_header' 
+        - $ref: '#/components/parameters/clientid_in_header'
         - $ref: '#/components/parameters/correlation_in_header'
         - $ref: '#/components/parameters/agent_in_header'
-        - $ref: '#/components/parameters/optional_targetid_in_header' 
-        - $ref: '#/components/parameters/optional_psu_ip_in_header' 
-        - $ref: '#/components/parameters/optional_psu_user_agent_in_header' 
+        - $ref: '#/components/parameters/optional_targetid_in_header'
+        - $ref: '#/components/parameters/optional_psu_ip_in_header'
+        - $ref: '#/components/parameters/optional_psu_user_agent_in_header'
       responses:
         '200':
           description: Returns the requested ISO20022 XML PAIN.001 message.
@@ -754,7 +754,7 @@ paths:
           $ref: '#/components/responses/standard501'
         '503':
           $ref: '#/components/responses/standard503'
-    
+
     delete:
       tags:
         - iso20022
@@ -762,12 +762,12 @@ paths:
       parameters:
         - $ref: '#/components/parameters/path_submissionId'
         - $ref: '#/components/parameters/authorization_in_header'
-        - $ref: '#/components/parameters/clientid_in_header' 
+        - $ref: '#/components/parameters/clientid_in_header'
         - $ref: '#/components/parameters/correlation_in_header'
         - $ref: '#/components/parameters/agent_in_header'
-        - $ref: '#/components/parameters/optional_targetid_in_header' 
-        - $ref: '#/components/parameters/optional_psu_ip_in_header' 
-        - $ref: '#/components/parameters/optional_psu_user_agent_in_header' 
+        - $ref: '#/components/parameters/optional_targetid_in_header'
+        - $ref: '#/components/parameters/optional_psu_ip_in_header'
+        - $ref: '#/components/parameters/optional_psu_user_agent_in_header'
       responses:
         '200':
           description: ISO20022 XML PAIN.001 message submission has been deleted.
@@ -805,12 +805,12 @@ paths:
       parameters:
         - $ref: '#/components/parameters/path_submissionId'
         - $ref: '#/components/parameters/authorization_in_header'
-        - $ref: '#/components/parameters/clientid_in_header' 
+        - $ref: '#/components/parameters/clientid_in_header'
         - $ref: '#/components/parameters/correlation_in_header'
         - $ref: '#/components/parameters/agent_in_header'
-        - $ref: '#/components/parameters/optional_targetid_in_header' 
-        - $ref: '#/components/parameters/optional_psu_ip_in_header' 
-        - $ref: '#/components/parameters/optional_psu_user_agent_in_header' 
+        - $ref: '#/components/parameters/optional_targetid_in_header'
+        - $ref: '#/components/parameters/optional_psu_ip_in_header'
+        - $ref: '#/components/parameters/optional_psu_user_agent_in_header'
       responses:
         '200':
           description: Returns the requested ISO20022 XML PAIN.002 message.
@@ -838,7 +838,7 @@ paths:
         '503':
           $ref: '#/components/responses/standard503'
 
-          
+
 # -------------------------
 # -------- Models ---------
 # -------------------------
@@ -853,7 +853,7 @@ components:
           scopes:
             read: Grants read access
             write: Grants write access
-  
+
   schemas:
     ## /payments
     paymentSubmissionRequest:
@@ -1260,7 +1260,9 @@ components:
           type: array
           description: max 2 lines of 70 characters
           maxItems: 2
-          example: [Robert Schneider SA, Rue de la gare 24]
+          example:
+            - Robert Schneider SA
+            - Rue de la gare 24
           items:
             type: string
             maxLength: 70
@@ -1388,7 +1390,7 @@ components:
           $ref: '#/components/schemas/paymentOtherDetail'
         qrDetails:
           $ref: '#/components/schemas/paymentQRDetail'
-        #Additional Information according NextGenPSD2 for periodic orders
+        # Additional Information according NextGenPSD2 for periodic orders
         startDate:
           $ref: '#/components/schemas/startDate'
         endDate:
@@ -1399,38 +1401,38 @@ components:
           $ref: '#/components/schemas/frequencyCode'
         dayOfExecution:
           $ref: '#/components/schemas/dayOfExecution'
-        #Additional Optional Information Standing Orders
+        # Additional Optional Information Standing Orders
         executionMode:
           type: string
           description: |
-            The code of execution mode defines when or how standing order will be cancelled, processed the last time.  
-            * UNTIL_DATE - standing order is valid until specific date - field endDate. 
+            The code of execution mode defines when or how standing order will be cancelled, processed the last time.
+            * UNTIL_DATE - standing order is valid until specific date - field endDate.
             * UNTIL_CANCELLATION - standing order is valid forever and must be cancelled by client.
           example: UNTIL_DATE
           enum:
             - UNTIL_DATE
             - UNTIL_CANCELLATION
         executionBreaks:
-          description: List of break periods.  
+          description: List of break periods.
           type: array
           items:
             type: object
             properties:
               validFromDate:
                 description: >
-                  Start date of one break period. Standing order will not be processed from this date. 
+                  Start date of one break period. Standing order will not be processed from this date.
                   Date format YYYY-MM-DD.
                 type: string
                 format: date
                 example: 2018-04-13
               validToDate:
                 description: >
-                  End date of one break period. Standing order will not be processed to this date. 
+                  End date of one break period. Standing order will not be processed to this date.
                   Date format YYYY-MM-DD.
                 type: string
                 format: date
                 example: 2018-04-13
-    
+
     standingorderSubmissionStatus:
       title: Standing Order Submission Status
       type: object
@@ -1471,7 +1473,7 @@ components:
     executionRule:
       title: Execution Rule
       description: |
-        *following* or *preceding* supported as values.  
+        *following* or *preceding* supported as values.
         This data attribute defines the behaviour when recurring payment dates falls on a weekend or bank holiday.
         The payment is then executed either the *preceding* or *following* working day.
         ASPSP might reject the request due to the communicated value, if rules in Online-Banking are not supporting
@@ -1507,8 +1509,8 @@ components:
     dayOfExecution:
       title: Day of Execution
       description: |
-        Day of execution as string.  
-        This string consists of up two characters. Leading zeroes are not allowed.  
+        Day of execution as string.
+        This string consists of up two characters. Leading zeroes are not allowed.
         31 is ultimo of the month.
       type: string
       maxLength: 2
@@ -1553,7 +1555,7 @@ components:
       type: string
       format: date
       example: 2018-04-13
-      
+
     dateTime:
       title: Date Time
       type: string
@@ -1574,7 +1576,7 @@ components:
         next:
           type: string
         last:
-          type: string 
+          type: string
 
     currency:
       title: Currency
@@ -1718,7 +1720,7 @@ components:
         type: string
 
     Content-Type:
-      description: 'application/problem+json; charset=utf-8 according to RFC7807'
+      description: application/problem+json; charset=utf-8 according to RFC7807
       schema:
         type: string
 
@@ -1736,15 +1738,15 @@ components:
   # ---- Responses - Standard Errors Common Data Model v1.2.1----
   responses:
     standard202:
-        headers:
-          X-Correlation-ID:
-            $ref: '#/components/headers/X-Correlation-ID'
-        description: Accepted - Request has been accepted for processing, but the processing has not been completed.
-        content:
-          application/json:
-            schema:
-              type: object
-              # properties: ??
+      headers:
+        X-Correlation-ID:
+          $ref: '#/components/headers/X-Correlation-ID'
+      description: Accepted - Request has been accepted for processing, but the processing has not been completed.
+      content:
+        application/json:
+          schema:
+            type: object
+            # properties: ??
 
     standard204:
       headers:
@@ -1770,7 +1772,7 @@ components:
         application/problem+json:
           schema:
             $ref: '#/components/schemas/commonErrorResponse'
-            examples: 
+            examples:
               InvalidPayload:
                 type: /problems/INVALID_PAYLOAD
                 title: Payload does not comply with API specification
@@ -1804,7 +1806,7 @@ components:
           $ref: '#/components/headers/Content-Language'
         X-Correlation-ID:
           $ref: '#/components/headers/X-Correlation-ID'
-      description: Forbidden - The server understood the request but refuses to authorize it. 
+      description: Forbidden - The server understood the request but refuses to authorize it.
       content:
         application/problem+json:
           schema:

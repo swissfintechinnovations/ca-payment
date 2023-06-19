@@ -26,25 +26,25 @@ security:
 tags:
   - name: accounts
     description: |
-      **Account Information**  
+      **Account Information**
       Account Information Service - third party access to bank account data.
   - name: iso20022
 
 paths:
   /accounts:
     get:
-      tags: 
+      tags:
         - accounts
       summary: Retrieve list of authorized accounts
       description: Return the list of all accounts accessible for the logged in user.
       parameters:
         - $ref: '#/components/parameters/authorization_in_header'
-        - $ref: '#/components/parameters/clientid_in_header' 
+        - $ref: '#/components/parameters/clientid_in_header'
         - $ref: '#/components/parameters/correlation_in_header'
         - $ref: '#/components/parameters/agent_in_header'
-        - $ref: '#/components/parameters/optional_targetid_in_header' 
-        - $ref: '#/components/parameters/optional_psu_ip_in_header' 
-        - $ref: '#/components/parameters/optional_psu_user_agent_in_header' 
+        - $ref: '#/components/parameters/optional_targetid_in_header'
+        - $ref: '#/components/parameters/optional_psu_ip_in_header'
+        - $ref: '#/components/parameters/optional_psu_user_agent_in_header'
       responses:
         '200':
           description: Paginated list of all accounts.
@@ -76,19 +76,19 @@ paths:
 
   /accounts/{accountId}:
     get:
-      tags: 
+      tags:
         - accounts
       summary: Retrieve information about a single specific account
       description: Return the accounts details of the requested account.
       parameters:
         - $ref: '#/components/parameters/path_accountId'
         - $ref: '#/components/parameters/authorization_in_header'
-        - $ref: '#/components/parameters/clientid_in_header' 
+        - $ref: '#/components/parameters/clientid_in_header'
         - $ref: '#/components/parameters/correlation_in_header'
         - $ref: '#/components/parameters/agent_in_header'
-        - $ref: '#/components/parameters/optional_targetid_in_header' 
-        - $ref: '#/components/parameters/optional_psu_ip_in_header' 
-        - $ref: '#/components/parameters/optional_psu_user_agent_in_header' 
+        - $ref: '#/components/parameters/optional_targetid_in_header'
+        - $ref: '#/components/parameters/optional_psu_ip_in_header'
+        - $ref: '#/components/parameters/optional_psu_user_agent_in_header'
       responses:
         '200':
           description: Account details of the requested account.
@@ -118,7 +118,7 @@ paths:
 
   /accounts/{accountId}/balance:
     get:
-      tags: 
+      tags:
         - accounts
       summary: Retrieve account balance information
       description: |
@@ -130,12 +130,12 @@ paths:
         - $ref: '#/components/parameters/authorization_in_header'
         - $ref: '#/components/parameters/path_accountId'
         - $ref: '#/components/parameters/query_date'
-        - $ref: '#/components/parameters/clientid_in_header' 
+        - $ref: '#/components/parameters/clientid_in_header'
         - $ref: '#/components/parameters/correlation_in_header'
         - $ref: '#/components/parameters/agent_in_header'
-        - $ref: '#/components/parameters/optional_targetid_in_header' 
-        - $ref: '#/components/parameters/optional_psu_ip_in_header' 
-        - $ref: '#/components/parameters/optional_psu_user_agent_in_header' 
+        - $ref: '#/components/parameters/optional_targetid_in_header'
+        - $ref: '#/components/parameters/optional_psu_ip_in_header'
+        - $ref: '#/components/parameters/optional_psu_user_agent_in_header'
       responses:
         '200':
           description: Account details of the requested account.
@@ -169,7 +169,7 @@ paths:
 
   /accounts/{accountId}/transactions:
     get:
-      tags: 
+      tags:
         - accounts
       summary: Retrieve transactions of a specific account
       description: |
@@ -187,7 +187,7 @@ paths:
         - in: query
           name: dateTo
           schema:
-            $ref: '#/components/schemas/Date'       
+            $ref: '#/components/schemas/Date'
         - in: query
           name: bookingStatus
           required: true
@@ -199,12 +199,12 @@ paths:
               - both
         - $ref: '#/components/parameters/cursor'
         - $ref: '#/components/parameters/limit'
-        - $ref: '#/components/parameters/clientid_in_header' 
+        - $ref: '#/components/parameters/clientid_in_header'
         - $ref: '#/components/parameters/correlation_in_header'
         - $ref: '#/components/parameters/agent_in_header'
-        - $ref: '#/components/parameters/optional_targetid_in_header' 
-        - $ref: '#/components/parameters/optional_psu_ip_in_header' 
-        - $ref: '#/components/parameters/optional_psu_user_agent_in_header' 
+        - $ref: '#/components/parameters/optional_targetid_in_header'
+        - $ref: '#/components/parameters/optional_psu_ip_in_header'
+        - $ref: '#/components/parameters/optional_psu_user_agent_in_header'
       responses:
         '200':
           description: Account details of the requested account.
@@ -238,7 +238,7 @@ paths:
 
   /accounts/{accountId}/transactions/{transactionId}:
     get:
-      tags: 
+      tags:
         - accounts
       summary: Retrieve details of a specific transaction
       description: Details of the specified transaction.
@@ -246,11 +246,11 @@ paths:
         - $ref: '#/components/parameters/path_accountId'
         - $ref: '#/components/parameters/path_transactionId'
         - $ref: '#/components/parameters/authorization_in_header'
-        - $ref: '#/components/parameters/clientid_in_header' 
+        - $ref: '#/components/parameters/clientid_in_header'
         - $ref: '#/components/parameters/correlation_in_header'
         - $ref: '#/components/parameters/agent_in_header'
-        - $ref: '#/components/parameters/optional_targetid_in_header' 
-        - $ref: '#/components/parameters/optional_psu_ip_in_header' 
+        - $ref: '#/components/parameters/optional_targetid_in_header'
+        - $ref: '#/components/parameters/optional_psu_ip_in_header'
         - $ref: '#/components/parameters/optional_psu_user_agent_in_header'
       responses:
         '200':
@@ -286,16 +286,16 @@ paths:
       summary: Retrieve a list of resource links to account statements (CAMT.053)
       description: >
         Get the resources links to available account statements (CAMT.053).
-        The returned account statements must be conform to the XML schema and 
+        The returned account statements must be conform to the XML schema and
         implementation guidelines defined by Swiss Payment Standards.
       parameters:
         - $ref: '#/components/parameters/authorization_in_header'
-        - $ref: '#/components/parameters/clientid_in_header' 
+        - $ref: '#/components/parameters/clientid_in_header'
         - $ref: '#/components/parameters/correlation_in_header'
         - $ref: '#/components/parameters/agent_in_header'
-        - $ref: '#/components/parameters/optional_targetid_in_header' 
-        - $ref: '#/components/parameters/optional_psu_ip_in_header' 
-        - $ref: '#/components/parameters/optional_psu_user_agent_in_header' 
+        - $ref: '#/components/parameters/optional_targetid_in_header'
+        - $ref: '#/components/parameters/optional_psu_ip_in_header'
+        - $ref: '#/components/parameters/optional_psu_user_agent_in_header'
       responses:
         '200':
           description: Returns a list of resource links to ISO20022 XML CAMT.053 messages.
@@ -307,7 +307,7 @@ paths:
               schema:
                 type: object
                 properties:
-                  conditionList: 
+                  conditionList:
                     type: array
                     items:
                       $ref: '#/components/schemas/iso20022ReportReference'
@@ -336,11 +336,11 @@ paths:
       parameters:
         - $ref: '#/components/parameters/path_reportId'
         - $ref: '#/components/parameters/authorization_in_header'
-        - $ref: '#/components/parameters/clientid_in_header' 
+        - $ref: '#/components/parameters/clientid_in_header'
         - $ref: '#/components/parameters/correlation_in_header'
         - $ref: '#/components/parameters/agent_in_header'
-        - $ref: '#/components/parameters/optional_targetid_in_header' 
-        - $ref: '#/components/parameters/optional_psu_ip_in_header' 
+        - $ref: '#/components/parameters/optional_targetid_in_header'
+        - $ref: '#/components/parameters/optional_psu_ip_in_header'
         - $ref: '#/components/parameters/optional_psu_user_agent_in_header'
       responses:
         '200':
@@ -383,7 +383,7 @@ components:
           scopes:
             read: Grants read access
             write: Grants write access
-  
+
   schemas:
     ## /accounts
     accountItem:
@@ -598,15 +598,15 @@ components:
         previous:
           type: string
           description: Link / cursor to the previous result set (based on the submitted pagination approach)
-          example: /payment-app/api/v1/accounts/accountIDXY/transactions?offset=50&limit=25          
+          example: /payment-app/api/v1/accounts/accountIDXY/transactions?offset=50&limit=25
         next:
           type: string
           description: Link / cursor to the next result set (based on the submitted pagination approach)
-          example: /payment-app/api/v1/accounts/accountIDXY/transactions?offset=100&limit=25          
+          example: /payment-app/api/v1/accounts/accountIDXY/transactions?offset=100&limit=25
         last:
-          type: string 
+          type: string
           description: Link / cursor to the last result set (based on the submitted pagination approach)
-          example: /payment-app/api/v1/accounts/accountIDXY/transactions?offset=150&limit=25  
+          example: /payment-app/api/v1/accounts/accountIDXY/transactions?offset=150&limit=25
 
     accountTransactionItemCharges:
       title: Account Transaction Item Charges
@@ -809,7 +809,9 @@ components:
           type: array
           description: max 4 lines of 70 characters
           maxItems: 4
-          example: [Robert Schneider SA, Rue de la gare 24]
+          example:
+            - Robert Schneider SA
+            - Rue de la gare 24
           items:
             type: string
             maxLength: 70
@@ -860,7 +862,7 @@ components:
         id:
           type: string
 
-## Shared with payments module
+    ## Shared with payments module
     paymentIbanAccount:
       title: Payment IBAN Account
       type: object
@@ -896,7 +898,7 @@ components:
           pattern: '[0-9]{1,12}([.][0-9]{1,5})?'
           maxLength: 18
           example: 10.25
-    
+
     paymentRemittanceInformation:
       title: Payment Remittance Information
       description: Either remittanceReference or remittanceInformation must be set.
@@ -963,7 +965,7 @@ components:
       type: string
       format: date
       example: 2018-04-13
-      
+
     DateTime:
       type: string
       format: date-time
@@ -1030,7 +1032,7 @@ components:
         type: string
       description: Unique ID (defined by the caller) which will be reflected back in the response.
       required: true
-      
+
     agent_in_header:
       name: User-Agent
       in: header
@@ -1063,7 +1065,7 @@ components:
       schema:
         type: string
 
-    offset: 
+    offset:
       name: offset
       in: query
       description: Optional parameter for pagination. The number of items to skip before starting to collect the result set.
@@ -1074,7 +1076,7 @@ components:
         example: 25
         minimum: 0
 
-    limit: 
+    limit:
       name: limit
       in: query
       description: Optional parameter for pagination. Maximum number of entries to be returned.
@@ -1102,7 +1104,7 @@ components:
         type: string
 
     Content-Type:
-      description: 'application/problem+json; charset=utf-8 according to RFC7807'
+      description: application/problem+json; charset=utf-8 according to RFC7807
       schema:
         type: string
 
@@ -1115,14 +1117,14 @@ components:
   # ---- Responses - Standard Errors Common Data Model v1.2.1----
   responses:
     standard202:
-        headers:
-          X-Correlation-ID:
-            $ref: '#/components/headers/X-Correlation-ID'
-        description: Accepted - Request has been accepted for processing, but the processing has not been completed.
-        content:
-          application/json:
-            schema:
-              type: object
+      headers:
+        X-Correlation-ID:
+          $ref: '#/components/headers/X-Correlation-ID'
+      description: Accepted - Request has been accepted for processing, but the processing has not been completed.
+      content:
+        application/json:
+          schema:
+            type: object
 
     standard204:
       headers:
@@ -1147,7 +1149,7 @@ components:
         application/problem+json:
           schema:
             $ref: '#/components/schemas/commonErrorResponse'
-            examples: 
+            examples:
               InvalidPayload:
                 type: /problems/INVALID_PAYLOAD
                 title: Payload does not comply with API specification
