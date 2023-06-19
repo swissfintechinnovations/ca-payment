@@ -10,6 +10,6 @@
 
 This is the official SFTI repo for the payment API. Documentations may be found in the [Wiki](https://github.com/swissfintechinnovations/ca-payment/wiki).
 
-We refer to the SwaggerEditor for a graphical representation and source-file based documentation of the latest API state:
+An easy-to-read representation of the Payment/XS2A APIs is accessible via the following links:
 - [Account API](https://editor.swagger.io/?url=https://raw.githubusercontent.com/swissfintechinnovations/ca-payment/main/accountAPI.yaml) 
 - [Payment API](https://editor.swagger.io/?url=https://raw.githubusercontent.com/swissfintechinnovations/ca-payment/main/paymentAPI.yaml)
