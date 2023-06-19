@@ -973,7 +973,7 @@ components:
   # ---- Global Common Header Parameters ----
   parameters:
     path_accountId:
-      name: Account ID
+      name: accountId
       in: path
       description: id of account
       required: true
@@ -984,7 +984,7 @@ components:
         example: accountId
 
     path_transactionId:
-      name: Transaction ID
+      name: transactionId
       in: path
       required: true
       schema:
@@ -1008,8 +1008,8 @@ components:
         format: date
 
     clientid_in_header:
-      in: header
       name: X-CorAPI-Client-ID
+      in: header
       schema:
         type: string
       description: 'ID of the client forwarded to the provider. (SCOPE: FI)'
@@ -1024,16 +1024,16 @@ components:
         type: string
 
     correlation_in_header:
-      in: header
       name: X-Correlation-ID
+      in: header
       schema:
         type: string
       description: Unique ID (defined by the caller) which will be reflected back in the response.
       required: true
       
     agent_in_header:
-      in: header
       name: User-Agent
+      in: header
       schema:
         type: string
       description: Name and version of the of the Client software.
