@@ -468,7 +468,6 @@ components:
       required:
         - iban
         - entries
-        - designation
       properties:
         iban:
           type: string
