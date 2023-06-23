@@ -393,6 +393,7 @@ components:
         - id
         - account
         - currency
+        - designation
       properties:
         id:
           $ref: '#/components/schemas/commonAccountId'
@@ -467,6 +468,7 @@ components:
       required:
         - iban
         - entries
+        - designation
       properties:
         iban:
           type: string
