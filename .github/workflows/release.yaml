@@ -1,0 +1,228 @@
+name: Release Pipeline
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Release version tag (required format: v[mayor].[minor].[bugfix], e.g. v1.3.0)"
+        type: string
+        required: true
+      draft:
+        description: Should a release draft be created? (Otherwise the release will be published immediately)
+        type: boolean
+        default: true
+        required: true
+      artifact:
+        description: Add artifacts to the release. All files from /docs are added to the release.
+        type: boolean
+        default: true
+        required: false
+      force:
+        description: "If force is true, already published releases can be overwritten. Caution: This action deletes already published releases and can **not** be undone!"
+        type: boolean
+        required: false
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - name: Validate input parameters
+        id: param_check
+        run: |
+          VERSION_REGEX="^v[0-9]+\.[0-9]+\.[0-9]+$"
+          version=${{ github.event.inputs.version }}
+          if [[ ! "$version" =~ $VERSION_REGEX ]]; then
+            echo "Invalid version format: $version . Please provide a version matching the pattern 'v[number].[number].[number]'."
+            exit 1
+          fi
+
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: -1  # this causes a full repo check out, keep in mind that this propcess needs probably a logner time on big repos
+
+      - name: Checkout Wiki
+        uses: actions/checkout@v3
+        with:
+          repository: ${{github.repository}}.wiki
+          path: wiki
+
+      - name: Extract variables for Release  # Adjust names only here
+        id: var
+        run: |
+          version=$(echo ${{ github.event.inputs.version }} | grep -oE '[0-9]+\.[0-9]+\.[0-9]+')  # alternative: '[[:digit:]]+\.[[:digit:]]+\.[[:digit:]]'
+          repo_name=$( echo ${{ github.repository }} | sed -E "s/^.*\///" )
+          echo "$repo_name"
+          echo "VERSION"=$version >> $GITHUB_OUTPUT
+          echo "RELEASE_NAME=$repo_name Release $version" >> $GITHUB_OUTPUT
+          echo "RELEASE_TAG=v$version" >> $GITHUB_OUTPUT
+          echo "RELEASE_NOTES=RELEASE.md" >> $GITHUB_OUTPUT
+          echo "RELEASE_ASSETS_FOLDER=docs/" >> $GITHUB_OUTPUT
+          echo "RELEASE_ASSETS_NAME=artifact" >> $GITHUB_OUTPUT
+
+      - name: Get release note content from wiki
+        id: release_note_body
+        run: |
+          regex="### Release ${{ steps.var.outputs.RELEASE_TAG }}[[:space:]]*[[:print:]]*[[:cntrl:]]{2}([[:print:]]+[[:space:]])*"
+          content=$(grep -ozE "$regex" wiki/Release-Roadmap.md | tr "\0" "\n" | tail -n +3)
+          # abort if content is empty --> wiki page must be present before release
+          if [ -z "$content" ]; then
+            echo "Found no data for ${{ steps.var.outputs.RELEASE_NAME }} at wiki/Release Roadmap (${{ github.repository }}). Please create a section <<Release ${{ steps.var.outputs.RELEASE_TAG }}>> and fill in details for the release by following the instructions at the .github Wiki. A template can be found at https://github.com/swissfintechinnovations/.github/wiki/Release-Roadmap-Example."
+            exit 1
+          fi
+          body="$content"$'\n\n# \n\n'
+          echo "BODY=${body//$'\n'/'\n'}" >> $GITHUB_OUTPUT
+
+      - name: Update version in files
+        run: |
+          VERSION="${{ steps.var.outputs.VERSION }}"
+          RELEASE_NAME="${{ steps.var.outputs.RELEASE_NAME }}"
+
+          echo "Prepare Release $RELEASE_NAME: update version number in yaml files"
+
+          sed -E -i "s/version: [0-9]+\.[0-9]+\.[0-9]+/version: $VERSION/" *.yaml
+
+          git config --global user.name "GitHub Action"
+          git config --global user.email "dominik.koenig@fort-it.ch"
+          git add --all
+          # commit only if there was changes in the yaml files
+          git diff --staged --quiet || git commit -m "Automated version update"
+          git push
+
+      - name: Delete release (draft) if already exists
+        id: delete_release_draft
+        run: |
+          ACCESS_TOKEN=${{ secrets.GITHUB_TOKEN }}
+          REPO_NAME=${{ github.repository }}
+          TAG=${{ steps.var.outputs.RELEASE_TAG }}
+          RELEASE_NAME="${{ steps.var.outputs.RELEASE_NAME }}"
+
+          # Get the release ID belonging to the release tag
+          RELEASE_ID=$(curl -sS -X GET -H "Authorization: Bearer $ACCESS_TOKEN" "https://api.github.com/repos/$REPO_NAME/releases" | jq -r ".[] | select(.name == \"$RELEASE_NAME\") | .id")
+
+          # RELEASE_ID var contains 0 or 1 IDs
+          if [[ ! $RELEASE_ID =~ ^[0-9]*$ ]]; then
+            echo "Found more than one release with name \"$RELEASE_ID\"."
+            exit 1
+          fi
+
+          is_draft=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" https://api.github.com/repos/$REPO_NAME/releases/$RELEASE_ID | jq '.draft')
+
+          if [[ "$is_draft" == 'false' ]]; then
+            echo "Release is published."
+            if [[ ${{ github.event.inputs.force }} == true ]]; then
+              commit_id=$(git rev-list -n 1 "refs/tags/$TAG")
+              echo $commit_id
+              git tag -d $TAG
+              git push origin ":refs/tags/$TAG"
+              echo "Force Flag is set! Deleted tag $TAG at commit ID $commit_id."
+            fi
+            if [[ ${{ github.event.inputs.force }} == false ]]; then
+              echo "Release $TAG already exists. Please verify that the version entered is correct. Set the force flag to overwrite the release."
+              exit 1
+            fi
+          fi
+
+          if [[ -n "$RELEASE_ID" ]]; then
+            # Delete the existing release draft
+            curl -sS -X DELETE -H "Authorization: Bearer $ACCESS_TOKEN" "https://api.github.com/repos/$REPO_NAME/releases/$RELEASE_ID"
+            echo "Deleted release \"$RELEASE_ID\" with ID $RELEASE_ID"
+          fi
+
+      - name: Create release draft
+        id: create_release_draft
+        run: |
+          ACCESS_TOKEN=${{ secrets.GITHUB_TOKEN }}
+          REPO_NAME=${{ github.repository }}
+
+          RESPONSE=$(curl -sS -i -X POST \
+            -H "Authorization: Bearer $ACCESS_TOKEN" \
+            -H "Accept: application/vnd.github.v3+json" \
+            "https://api.github.com/repos/$REPO_NAME/releases" \
+            -d '{
+              "tag_name": "'"${{ steps.var.outputs.RELEASE_TAG }}"'",
+              "name": "'"${{ steps.var.outputs.RELEASE_NAME }}"'",
+              "body": "'"${{ steps.release_note_body.outputs.BODY }}"'",
+              "generate_release_notes": true,
+              "draft": true
+            }')
+
+          if [[ $(echo $RESPONSE | head -n 1 | cut -d$' ' -f2 ) -ne 201 ]]; then
+            echo "Failed to create release draft. Received response from GitHub API:"
+            echo ""
+            echo "$RESPONSE"
+            exit 1
+          fi
+
+          echo "RELEASE_ID=$(echo $RESPONSE | grep -o -z '\{.*\}' | jq -r '.id')" >> $GITHUB_OUTPUT
+
+      - name: Upload artifacts
+        id: upload_artifact
+        if: github.event.inputs.artifact == 'true'
+        run: |
+          ACCESS_TOKEN=${{ secrets.GITHUB_TOKEN }}
+          REPO_NAME=${{ github.repository }}
+          RELEASE_ID=${{ steps.create_release_draft.outputs.RELEASE_ID }}
+          RELEASE_ASSETS_FOLDER=${{ steps.var.outputs.RELEASE_ASSETS_FOLDER }}
+          RELEASE_ASSETS_NAME=${{ steps.var.outputs.RELEASE_ASSETS_NAME }}
+
+          RELEASE_ASSETS_ZIP=$RELEASE_ASSETS_NAME.zip
+          RELEASE_ASSETS_TARGZ=$RELEASE_ASSETS_NAME.tar.gz
+
+          zip -qr $RELEASE_ASSETS_ZIP $RELEASE_ASSETS_FOLDER
+
+          RESPONSE=$(curl -sS -i -X POST \
+            -H "Authorization: Bearer $ACCESS_TOKEN" \
+            -H "Content-Type: application/octet-stream" \
+            "https://uploads.github.com/repos/$REPO_NAME/releases/$RELEASE_ID/assets?name=$RELEASE_ASSETS_ZIP" \
+            --data-binary "@$RELEASE_ASSETS_ZIP" )
+
+          if [[ $(echo $RESPONSE | head -n 1 | cut -d$' ' -f2 ) -ne 201 ]]; then
+            echo "Failed to upload release asset $RELEASE_ASSETS_ZIP. Received response from GitHub API:"
+            echo ""
+            echo "$RESPONSE"
+            exit 1
+          fi
+
+          tar -czf $RELEASE_ASSETS_TARGZ $RELEASE_ASSETS_FOLDER
+
+          RESPONSE=$(curl -sS -i -X POST -H "Authorization: Bearer $ACCESS_TOKEN" -H "Content-Type: application/octet-stream" \
+          --data-binary "@$RELEASE_ASSETS_TARGZ" \
+          "https://uploads.github.com/repos/$REPO_NAME/releases/$RELEASE_ID/assets?name=$RELEASE_ASSETS_TARGZ")
+
+          if [[ $(echo $RESPONSE | head -n 1 | cut -d$' ' -f2 ) -ne 201 ]]; then
+            echo "Failed to upload release asset $RELEASE_ASSETS_TARGZ. Received response from GitHub API:"
+            echo ""
+            echo "$RESPONSE"
+            exit 1
+          fi
+
+      - name: Publish release
+        if: github.event.inputs.draft == 'false'
+        id: publish_release
+        run: |
+          ACCESS_TOKEN=${{ secrets.GITHUB_TOKEN }}
+          REPO_NAME=${{ github.repository }}
+          RELEASE_ID=${{ steps.create_release_draft.outputs.RELEASE_ID }}
+
+          RESPONSE=$(curl -sS -i -X PATCH \
+            -H "Authorization: Bearer $ACCESS_TOKEN" \
+            -H "Accept: application/vnd.github.v3+json" \
+            "https://api.github.com/repos/$REPO_NAME/releases/$RELEASE_ID" \
+            -d '{
+              "prerelease": false,
+              "draft": false,
+              "make_latest": "true"
+            }')
+
+          if [[ $(echo $RESPONSE | head -n 1 | cut -d$' ' -f2 ) -ne 200 ]]; then
+            echo "Failed to publish release. Received response from GitHub API:"
+            echo ""
+            echo "$RESPONSE"
+            exit 1
+          fi
