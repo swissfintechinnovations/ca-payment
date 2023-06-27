@@ -57,7 +57,6 @@ jobs:
         run: |
           version=$(echo ${{ github.event.inputs.version }} | grep -oE '[0-9]+\.[0-9]+\.[0-9]+')  # alternative: '[[:digit:]]+\.[[:digit:]]+\.[[:digit:]]'
           repo_name=$( echo ${{ github.repository }} | sed -E "s/^.*\///" )
-          echo "$repo_name"
           echo "VERSION"=$version >> $GITHUB_OUTPUT
           echo "RELEASE_NAME=$repo_name Release $version" >> $GITHUB_OUTPUT
           echo "RELEASE_TAG=v$version" >> $GITHUB_OUTPUT
@@ -78,21 +77,63 @@ jobs:
           body="$content"$'\n\n# \n\n'
           echo "BODY=${body//$'\n'/'\n'}" >> $GITHUB_OUTPUT
 
+      - name: Check file version
+        id: check_version
+        run: |
+          release_version=${{ steps.var.outputs.VERSION }}
+          versions=$(grep -Eo 'version: [0-9]+\.[0-9]+\.[0-9]+' *.yaml | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+')
+          versions_outdated='false'
+          for version in $versions; do
+              if [[ $version != $release_version ]]; then
+                  versions_outdated='true'
+                  break
+              fi
+          done
+          echo "VERSIONS_OUTDATED=$versions_outdated" >> $GITHUB_OUTPUT
+
+      - name: Switch to release branch
+        id: create_release_branch
+        if: steps.check_version.outputs.VERSIONS_OUTDATED == 'true'
+        run: |
+          BRANCH_NAME="release/${{ steps.var.outputs.VERSION }}"
+
+          git config --global user.name "GitHub Action"
+          git config --global user.email "dominik.koenig@fort-it.ch"
+
+          git checkout $BRANCH_NAME 2>/dev/null || git checkout -b $BRANCH_NAME  # checkout branch or create new one if not exists
+
+          echo "BRANCH_NAME=$BRANCH_NAME" >> $GITHUB_OUTPUT
+
       - name: Update version in files
+        id: update_version
+        if: steps.check_version.outputs.VERSIONS_OUTDATED == 'true'
         run: |
           VERSION="${{ steps.var.outputs.VERSION }}"
           RELEASE_NAME="${{ steps.var.outputs.RELEASE_NAME }}"
+          BRANCH_NAME="${{ steps.create_release_branch.outputs.BRANCH_NAME }}"
 
           echo "Prepare Release $RELEASE_NAME: update version number in yaml files"
 
           sed -E -i "s/version: [0-9]+\.[0-9]+\.[0-9]+/version: $VERSION/" *.yaml
 
-          git config --global user.name "GitHub Action"
-          git config --global user.email "dominik.koenig@fort-it.ch"
-          git add --all
+          git add -u .
           # commit only if there was changes in the yaml files
           git diff --staged --quiet || git commit -m "Automated version update"
-          git push
+          git commit --allow-empty -m '[skip-workflow]'
+          git push --quiet --set-upstream origin $BRANCH_NAME
+
+      - name: Create and merge Pull Request
+        id: create_pr
+        if: steps.check_version.outputs.VERSIONS_OUTDATED == 'true'
+        run: |
+          response=$(gh pr create -B main -H ${{ steps.create_release_branch.outputs.BRANCH_NAME }} --title 'Automated version update to version ${{ steps.var.outputs.VERSION }}' --body 'Created by Github action (release workflow)')
+          number=$(echo "$response" | grep -oE '[0-9]+$')  # parse GitHub PR link to extract PR number
+          sleep 10
+
+          # gh pr review $number --approve  # can not approve own PR
+          gh pr merge $number --squash --delete-branch --body "Automated version update" --admin  # force merge since PR is not approved
+        env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Delete release (draft) if already exists
         id: delete_release_draft
