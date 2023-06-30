@@ -1738,15 +1738,15 @@ components:
   # ---- Responses - Standard Errors Common Data Model v1.2.1----
   responses:
     standard202:
-        headers:
-          X-Correlation-ID:
-            $ref: '#/components/headers/X-Correlation-ID'
-        description: |
-          Accepted - Request has been accepted for processing, but the processing has not been completed.
-        content:
-          application/json:
-            schema:
-              type: object
+      headers:
+        X-Correlation-ID:
+          $ref: '#/components/headers/X-Correlation-ID'
+      description: |
+        Accepted - Request has been accepted for processing, but the processing has not been completed.
+      content:
+        application/json:
+          schema:
+            type: object
 
     standard204:
       headers:
