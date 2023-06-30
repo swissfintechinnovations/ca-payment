@@ -1121,22 +1121,24 @@ components:
         X-Correlation-ID:
           $ref: '#/components/headers/X-Correlation-ID'
       description: |
-        Accepted - Request has been accepted for processing, but the processing has not been completed.
+        Accepted - Valid request, requested data not available yet. The request may be attempted at a later time.
       content:
         application/json:
           schema:
             type: object
+            # properties: ??
 
     standard204:
       headers:
         X-Correlation-ID:
           $ref: '#/components/headers/X-Correlation-ID'
-      description: |+
-        No content - The server has successfully fulfilled the request and there is no additional content to send in the response content.
+      description: |
+        No content - The server has successfully fulfilled the request. There is no content to return and never will be.
       content:
         application/json:
           schema:
             type: object
+            # properties: ??
 
     standard400:
       headers:
