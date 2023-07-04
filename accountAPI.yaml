@@ -398,11 +398,20 @@ components:
           $ref: '#/components/schemas/commonAccountId'
         account:
           $ref: '#/components/schemas/paymentIbanAccount'
+        accountOwner:
+          maxLength: 70
+          type: string
+          example: Account Owner XYZ
         currency:
           type: string
           minLength: 3
           maxLength: 3
           example: CHF
+        allowedCurrencies:
+          type: array
+          items:
+            type: string
+            example: CHF
         designation:
           type: string
           maxLength: 140
