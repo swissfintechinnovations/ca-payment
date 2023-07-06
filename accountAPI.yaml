@@ -399,7 +399,7 @@ components:
         account:
           $ref: '#/components/schemas/paymentIbanAccount'
         accountOwner:
-          maxLength: 70
+          maxLength: 140
           type: string
           example: Account Owner XYZ
         currency:
