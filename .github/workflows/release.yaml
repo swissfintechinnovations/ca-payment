@@ -65,6 +65,7 @@ jobs:
           echo "VERSION"=$version >> $GITHUB_OUTPUT
           echo "RELEASE_NAME=$repo_name Release $version" >> $GITHUB_OUTPUT
           echo "RELEASE_TAG=v$version" >> $GITHUB_OUTPUT
+          echo "RELEASE_BRANCH=release" >> $GITHUB_OUTPUT  #TODO main
           echo "RELEASE_NOTES=RELEASE.md" >> $GITHUB_OUTPUT
           echo "RELEASE_ASSETS_FOLDER=docs/" >> $GITHUB_OUTPUT
           echo "RELEASE_ASSETS_NAME=artifact" >> $GITHUB_OUTPUT
@@ -100,11 +101,13 @@ jobs:
         id: create_release_branch
         if: steps.check_version.outputs.VERSIONS_OUTDATED == 'true'
         run: |
+          BASE_BRANCH=${{ steps.var.outputs.RELEASE_BRANCH }}
           BRANCH_NAME="release/${{ steps.var.outputs.VERSION }}"
 
           git config --global user.name "sfti bot"
           git config --global user.email "github-bot@common-api.ch"
 
+          git checkout -q origin/$BASE_BRANCH
           git checkout $BRANCH_NAME 2>/dev/null || git checkout -b $BRANCH_NAME  # checkout branch or create new one if not exists
 
           echo "BRANCH_NAME=$BRANCH_NAME" >> $GITHUB_OUTPUT
@@ -130,7 +133,7 @@ jobs:
       - name: "Rollback: Delete Branch"
         if: failure() && steps.update_version.outcome == 'failure'
         run: |
-          git checkout main
+          git checkout -q main
           git branch -D ${{ steps.create_release_branch.outputs.BRANCH_NAME }}
           git push origin --delete ${{ steps.create_release_branch.outputs.BRANCH_NAME }}
 
@@ -138,7 +141,9 @@ jobs:
         id: create_pr
         if: steps.check_version.outputs.VERSIONS_OUTDATED == 'true'
         run: |
-          response=$(gh pr create -B main -H ${{ steps.create_release_branch.outputs.BRANCH_NAME }} --title 'Automated version update to version ${{ steps.var.outputs.VERSION }}' --body 'Created by Github action (release workflow)')
+          BASE_BRANCH=${{ steps.var.outputs.RELEASE_BRANCH }}
+
+          response=$(gh pr create -B $BASE_BRANCH -H ${{ steps.create_release_branch.outputs.BRANCH_NAME }} --title 'Automated version update to version ${{ steps.var.outputs.VERSION }}' --body 'Created by Github action (release workflow)')
           number=$(echo "$response" | grep -oE '[0-9]+$')  # parse GitHub PR link to extract PR number
           echo "PR_NUMBER=$number" >> $GITHUB_OUTPUT
 
@@ -208,7 +213,8 @@ jobs:
             -H "Accept: application/vnd.github.v3+json" \
             "https://api.github.com/repos/$REPO_NAME/releases" \
             -d '{
-              "tag_name": "'"${{ steps.var.outputs.RELEASE_TAG }}"'",
+              "name": "'"${{ steps.var.outputs.RELEASE_NAME }}"'",
+              "target_commitish": "'"${{ steps.var.outputs.RELEASE_BRANCH }}"'",
               "name": "'"${{ steps.var.outputs.RELEASE_NAME }}"'",
               "body": "'"${{ steps.release_note_body.outputs.BODY }}"'",
               "generate_release_notes": true,
