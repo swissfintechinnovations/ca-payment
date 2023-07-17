@@ -65,7 +65,7 @@ jobs:
           echo "VERSION"=$version >> $GITHUB_OUTPUT
           echo "RELEASE_NAME=$repo_name Release $version" >> $GITHUB_OUTPUT
           echo "RELEASE_TAG=v$version" >> $GITHUB_OUTPUT
-          echo "RELEASE_BRANCH=release" >> $GITHUB_OUTPUT  #TODO main
+          echo "RELEASE_BRANCH=test" >> $GITHUB_OUTPUT  #TODO main
           echo "RELEASE_NOTES=RELEASE.md" >> $GITHUB_OUTPUT
           echo "RELEASE_ASSETS_FOLDER=docs/" >> $GITHUB_OUTPUT
           echo "RELEASE_ASSETS_NAME=artifact" >> $GITHUB_OUTPUT
