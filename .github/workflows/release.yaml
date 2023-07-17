@@ -48,8 +48,6 @@ jobs:
 
       - name: Checkout repository
         uses: actions/checkout@v3
-        with:
-          fetch-depth: -1  # this causes a full repo check out, keep in mind that this propcess needs probably a logner time on big repos
 
       - name: Checkout Wiki
         uses: actions/checkout@v3
