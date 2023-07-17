@@ -1,0 +1,31 @@
+name: Lint yaml-files
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  pr-yaml-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Lint Repo
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.pull_request.head.sha }} # checkout last commit of PR instead of merge commit
+        
+      - name: Checkout Yamllint Config Repo
+        uses: actions/checkout@v3
+        with:
+          repository: swissfintechinnovations/.github
+          path: .github
+
+      # - name: Install yamllint
+      #   run: pip install yamllint
+
+      - name: get commit message
+        id: skip
+        run: echo "COMMIT_MESSAGE=$(git log -1 --pretty=%B | tr -d '\n')" >> $GITHUB_OUTPUT # set last commit message as env file (since env var will be not supported)
+
+      - name: Lint yaml APIs
+        if: "!contains(steps.skip.outputs.COMMIT_MESSAGE, '[skip-workflow]')"  # check commit message via env var - skip step if [skip-workflow] is set
+        run: yamllint -c .github/workflows/.yamllint *.yaml
