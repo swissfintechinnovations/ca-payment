@@ -31,7 +31,7 @@ jobs:
       pull-requests: write
 
     steps:
-      - name: Validate input parameters
+      - name: Validate input parameters and check user permission
         id: param_check
         run: |
           VERSION_REGEX="^v[0-9]+\.[0-9]+\.[0-9]+$"
@@ -40,11 +40,14 @@ jobs:
             echo "Invalid version format: $version . Please provide a version matching the pattern 'v[number].[number].[number]'."
             exit 1
           fi
+          
+          if [[ "${{ github.actor }}" != "dkoeni" && "${{ github.actor }}" != "rolfwagner" && "${{ github.actor }}" != "michschl" && "${{ github.actor }}" != "juergen-petry" ]]; then
+            echo "You have no permissons to start the release action."
+            exit 1
+          fi
 
       - name: Checkout repository
         uses: actions/checkout@v3
-        with:
-          fetch-depth: -1  # this causes a full repo check out, keep in mind that this propcess needs probably a logner time on big repos
 
       - name: Checkout Wiki
         uses: actions/checkout@v3
@@ -60,6 +63,7 @@ jobs:
           echo "VERSION"=$version >> $GITHUB_OUTPUT
           echo "RELEASE_NAME=$repo_name Release $version" >> $GITHUB_OUTPUT
           echo "RELEASE_TAG=v$version" >> $GITHUB_OUTPUT
+          echo "RELEASE_BRANCH=main" >> $GITHUB_OUTPUT
           echo "RELEASE_NOTES=RELEASE.md" >> $GITHUB_OUTPUT
           echo "RELEASE_ASSETS_FOLDER=docs/" >> $GITHUB_OUTPUT
           echo "RELEASE_ASSETS_NAME=artifact" >> $GITHUB_OUTPUT
@@ -80,6 +84,9 @@ jobs:
       - name: Check file version
         id: check_version
         run: |
+          BASE_BRANCH="${{ steps.var.outputs.RELEASE_BRANCH }}"
+
+          git checkout -q origin/$BASE_BRANCH
           release_version=${{ steps.var.outputs.VERSION }}
           versions=$(grep -Eo 'version: [0-9]+\.[0-9]+\.[0-9]+' *.yaml | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+')
           versions_outdated='false'
@@ -95,11 +102,13 @@ jobs:
         id: create_release_branch
         if: steps.check_version.outputs.VERSIONS_OUTDATED == 'true'
         run: |
+          BASE_BRANCH="${{ steps.var.outputs.RELEASE_BRANCH }}"
           BRANCH_NAME="release/${{ steps.var.outputs.VERSION }}"
 
-          git config --global user.name "GitHub Action"
-          git config --global user.email "dominik.koenig@fort-it.ch"
+          git config --global user.name "sfti bot"
+          git config --global user.email "github-bot@common-api.ch"
 
+          git checkout -q origin/$BASE_BRANCH
           git checkout $BRANCH_NAME 2>/dev/null || git checkout -b $BRANCH_NAME  # checkout branch or create new one if not exists
 
           echo "BRANCH_NAME=$BRANCH_NAME" >> $GITHUB_OUTPUT
@@ -119,21 +128,40 @@ jobs:
           git add -u .
           # commit only if there was changes in the yaml files
           git diff --staged --quiet || git commit -m "Automated version update"
-          git commit --allow-empty -m '[skip-workflow]'
+          # git commit --quiet --allow-empty -m '[skip-workflow]'
           git push --quiet --set-upstream origin $BRANCH_NAME
+
+      - name: "Rollback: Delete Branch"
+        if: failure() && steps.update_version.outcome == 'failure'
+        run: |
+          git checkout -q main
+          git branch -D ${{ steps.create_release_branch.outputs.BRANCH_NAME }}
+          git push origin --delete ${{ steps.create_release_branch.outputs.BRANCH_NAME }}
 
       - name: Create and merge Pull Request
         id: create_pr
         if: steps.check_version.outputs.VERSIONS_OUTDATED == 'true'
         run: |
-          response=$(gh pr create -B main -H ${{ steps.create_release_branch.outputs.BRANCH_NAME }} --title 'Automated version update to version ${{ steps.var.outputs.VERSION }}' --body 'Created by Github action (release workflow)')
+          BASE_BRANCH=${{ steps.var.outputs.RELEASE_BRANCH }}
+
+          response=$(gh pr create -B $BASE_BRANCH -H ${{ steps.create_release_branch.outputs.BRANCH_NAME }} --title 'Automated version update to version ${{ steps.var.outputs.VERSION }}' --body 'Created by Github action (release workflow)')
           number=$(echo "$response" | grep -oE '[0-9]+$')  # parse GitHub PR link to extract PR number
-          sleep 10
+          echo "PR_NUMBER=$number" >> $GITHUB_OUTPUT
+
+          sleep 2
 
           # gh pr review $number --approve  # can not approve own PR
-          gh pr merge $number --squash --delete-branch --body "Automated version update" --admin  # force merge since PR is not approved
+          gh pr merge $number --admin --merge --delete-branch --body "Automated version update"  # force merge since PR is not approved (--admin flag)
+          git checkout $BASE_BRANCH
         env:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            GITHUB_TOKEN: ${{ secrets.SFTI_BOT_TOKEN }}
+
+      - name: "Rollback: Delete PR"
+        if: failure() && steps.create_pr.outcome == 'failure'
+        run: |
+          gh pr close ${{ steps.create_pr.outputs.PR_NUMBER }} -c "Couldn't merge PR automatically" --delete-branch
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Delete release (draft) if already exists
         id: delete_release_draft
@@ -187,6 +215,8 @@ jobs:
             "https://api.github.com/repos/$REPO_NAME/releases" \
             -d '{
               "tag_name": "'"${{ steps.var.outputs.RELEASE_TAG }}"'",
+              "target_commitish": "'"${{ steps.var.outputs.RELEASE_BRANCH }}"'",
+              "name": "'"${{ steps.var.outputs.RELEASE_NAME }}"'",
               "name": "'"${{ steps.var.outputs.RELEASE_NAME }}"'",
               "body": "'"${{ steps.release_note_body.outputs.BODY }}"'",
               "generate_release_notes": true,
@@ -204,7 +234,8 @@ jobs:
 
       - name: Upload artifacts
         id: upload_artifact
-        if: github.event.inputs.artifact == 'true'
+        # ensure assert folder exsits and not empty otherwise skip step
+        if: github.event.inputs.artifact == 'true' && (hashFiles(steps.var.outputs.RELEASE_ASSETS_FOLDER) != '')
         run: |
           ACCESS_TOKEN=${{ secrets.GITHUB_TOKEN }}
           REPO_NAME=${{ github.repository }}
