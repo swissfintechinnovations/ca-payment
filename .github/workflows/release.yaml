@@ -213,8 +213,9 @@ jobs:
             -H "Accept: application/vnd.github.v3+json" \
             "https://api.github.com/repos/$REPO_NAME/releases" \
             -d '{
-              "name": "'"${{ steps.var.outputs.RELEASE_NAME }}"'",
+              "tag_name": "'"${{ steps.var.outputs.RELEASE_TAG }}"'",
               "target_commitish": "'"${{ steps.var.outputs.RELEASE_BRANCH }}"'",
+              "name": "'"${{ steps.var.outputs.RELEASE_NAME }}"'",
               "name": "'"${{ steps.var.outputs.RELEASE_NAME }}"'",
               "body": "'"${{ steps.release_note_body.outputs.BODY }}"'",
               "generate_release_notes": true,
