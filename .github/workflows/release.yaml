@@ -101,7 +101,7 @@ jobs:
         id: create_release_branch
         if: steps.check_version.outputs.VERSIONS_OUTDATED == 'true'
         run: |
-          BASE_BRANCH=${{ steps.var.outputs.RELEASE_BRANCH }}
+          BASE_BRANCH="${{ steps.var.outputs.RELEASE_BRANCH }}"
           BRANCH_NAME="release/${{ steps.var.outputs.VERSION }}"
 
           git config --global user.name "sfti bot"
@@ -151,7 +151,7 @@ jobs:
 
           # gh pr review $number --approve  # can not approve own PR
           gh pr merge $number --admin --merge --delete-branch --body "Automated version update"  # force merge since PR is not approved (--admin flag)
-          git checkout main
+          git checkout $BASE_BRANCH
         env:
             GITHUB_TOKEN: ${{ secrets.SFTI_BOT_TOKEN }}
 
