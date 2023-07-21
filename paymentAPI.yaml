@@ -1735,7 +1735,7 @@ components:
         type: string
         example: f058ebd6-02f7-4d3f-942e-904344e8cde5
 
-  # ---- Responses - Standard Errors Common Data Model v1.2.1----
+  # ---- Responses - Standard Errors Common Data Model ----
   responses:
     standard202:
       headers:
@@ -1759,6 +1759,7 @@ components:
         application/json:
           schema:
             type: object
+            # properties: ??
 
     standard400:
       headers:
@@ -1776,19 +1777,19 @@ components:
         type: /problems/INVALID_PAYLOAD  
         title: Payload does not comply with API specification  
         detail: Malformed JSON  
-        instance: path/to/corresponding/resource
+        instance: path/to/corresponding/resource  
 
         - InvalidParameter:  
         type: /problems/INVALID_PAYLOAD  
         title: Invalid parameter values have been detected  
         detail: Sent data could not processed  
-        instance: path/to/corresponding/resource
+        instance: path/to/corresponding/resource  
 
         - MissingId:  
         type: /problems/INVALID_PAYLOAD  
         title: The payload was not valid  
         detail: ID is missing  
-        instance: path/to/corresponding/resource
+        instance: path/to/corresponding/resource  
       content:
         application/problem+json:
           schema:
@@ -1803,7 +1804,7 @@ components:
         X-Correlation-ID:
           $ref: '#/components/headers/X-Correlation-ID'
       description: |
-        Unauthorized - The request has not been applied because it provides no valid authentication credentials for the target resource.
+        Unauthorized - The request has not been applied because it provides no valid authentication credentials for the target resource.  
       content:
         application/problem+json:
           schema:
@@ -1831,6 +1832,12 @@ components:
         type: /problems/EXPIRED_TOKEN  
         title: The OAuth Token is expired  
         detail: The token is no longer valid  
+        instance: path/to/corresponding/resource  
+
+        - NoFutureDateSupported:  
+        type : /problems/MALFORMED_PAYLOAD  
+        title : Invalid parameter values have been detected  
+        detail : Data for date in the future cannot be requested  
         instance: path/to/corresponding/resource  
       content:
         application/problem+json:
@@ -1868,9 +1875,9 @@ components:
         instance: path/to/corresponding/resource  
 
         - NoIntradayDataSupported:  
-        type: /problems/NOT_IMPLEMENTED  
-        title: This AIS interface does not support intraday data  
-        detail: Data for date in the future cannot be requested  
+        type : /problems/NOT_IMPLEMENTED  
+        title : Feature is not implemented  
+        detail : This interface does not support intraday data  
         instance: path/to/corresponding/resource  
       content:
         application/problem+json:

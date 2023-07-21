@@ -1158,6 +1158,12 @@ components:
         detail: Malformed JSON  
         instance: path/to/corresponding/resource
 
+        - InvalidParameter:  
+        type: /problems/INVALID_PAYLOAD  
+        title: Invalid parameter values have been detected  
+        detail: Sent data could not processed  
+        instance: path/to/corresponding/resource  
+        
         - MissingId:  
         type: /problems/INVALID_PAYLOAD  
         title: The payload was not valid  
@@ -1206,6 +1212,12 @@ components:
         title: The OAuth Token is expired  
         detail: The token is no longer valid  
         instance: path/to/corresponding/resource  
+
+        - NoFutureDateSupported:  
+        type : /problems/MALFORMED_PAYLOAD  
+        title : Invalid parameter values have been detected  
+        detail : Data for date in the future cannot be requested  
+        instance: path/to/corresponding/resource  
       content:
         application/problem+json:
           schema:
@@ -1242,9 +1254,9 @@ components:
         instance: path/to/corresponding/resource  
 
         - NoIntradayDataSupported:  
-        type: /problems/NOT_IMPLEMENTED  
-        title: This AIS interface does not support intraday data  
-        detail: Data for date in the future cannot be requested  
+        type : /problems/NOT_IMPLEMENTED  
+        title : Feature is not implemented  
+        detail : This interface does not support intraday data  
         instance: path/to/corresponding/resource  
       content:
         application/problem+json:
