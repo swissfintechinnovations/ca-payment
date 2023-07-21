@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  version: 1.5.1
+  version: 1.5.2
   title: Common Payment API
   description: >
     This specification defines a simple payment API for payment types used in Switzerland.
