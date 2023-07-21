@@ -1835,9 +1835,9 @@ components:
         instance: path/to/corresponding/resource  
 
         - NoFutureDateSupported:  
-        type : /problems/MALFORMED_PAYLOAD  
-        title : Invalid parameter values have been detected  
-        detail : Data for date in the future cannot be requested  
+        type: /problems/MALFORMED_PAYLOAD  
+        title: Invalid parameter values have been detected  
+        detail: Data for date in the future cannot be requested  
         instance: path/to/corresponding/resource  
       content:
         application/problem+json:
@@ -1875,9 +1875,9 @@ components:
         instance: path/to/corresponding/resource  
 
         - NoIntradayDataSupported:  
-        type : /problems/NOT_IMPLEMENTED  
-        title : Feature is not implemented  
-        detail : This interface does not support intraday data  
+        type: /problems/NOT_IMPLEMENTED  
+        title: Feature is not implemented  
+        detail: This interface does not support intraday data  
         instance: path/to/corresponding/resource  
       content:
         application/problem+json:
