@@ -369,43 +369,22 @@ paths:
       description: This endpoint provides a service to ping the API. If the API is live, you receive an 200 Health check OK response
       responses:
         '200':
-          description: Health check response. Returns status code 200 OK and request time, if API is ready.
+          description: Health check response. Returns status code 200 OK if API is ready.
           content: 
-            application/json:
+            text/plain:
               schema:
-                type: object
-                properties:
-                  HealthCheckResponse:
-                    type: object
-                    example: 
-                      status: healty
-                      Time: 21 May 2023 16:37:57529
-        '503':
-          description: Health check response. Returns status code 503 Service Unavailable and request time, if API is down.
+                type: string
+                example: Ok
+        '500':
+          description: Health check response. Returns status code 500 NoK, if API is down.
           content: 
-            application/problem+json:
+            text/plain:
               schema:
-                type: object
-                required:
-                  - type
-                  - title
-                  - healthCheckResponse
-                properties:
-                  type:
-                    type: string
-                    description: A URI reference that identifies the problem type as in RFC 7807.
-                    example: https://api.com/unhealthy
-                  title:
-                    type: string
-                    example: unhealty
-                  HealthCheckResponse:
-                    type: object
-                    example: 
-                      status: unhealty
-                      Time: 21 May 2023 16:37:57529
+                type: string
+                example: Nok
 
   /health/live:
-    post:
+    get:
       tags:
         - healthcheck
       summary: Simple healthcheck.
@@ -418,13 +397,6 @@ paths:
         - $ref: '#/components/parameters/optional_targetid_in_header' 
         - $ref: '#/components/parameters/optional_psu_ip_in_header' 
         - $ref: '#/components/parameters/optional_psu_user_agent_in_header' 
-      requestBody:
-        description: Healthcheck payload.
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
       responses:
         '200':
           description: Health check response. Returns status code 200 OK and short status of API.
@@ -432,24 +404,50 @@ paths:
             application/json:
               schema:
                 type: object
-                example:
+                required:
+                  - type
+                  - title
+                  - healthCheckResponse
+                properties:
+                  type:
+                    type: string
+                    description: A URI reference that identifies the response type as in RFC 7807.
+                    example: https://api.com/healthy
+                  title:
+                    type: string
+                    example: healty
                   HealthCheckResponse:
-                    correlationID: 0cb3f1bd-272d-4765-a3d6-4b1593e4613c
-                    apiName: Account Information v2
-                    status: Healthy
-                    message: 
-                      info: Partial Outage
-                      load: 50%
-                      averageResponseTime: 3000 
-                      version: 1.0.0.v2014-12-31-1101
-                      isSSLEnabled: false
-                      ipAddress: 127.0.0.1
-                      environmentName: PROD
-                      startTime: 21 May 2023 16:37:57529
-                      transportType: HTTP
-                      endTime: 21 May 2023 16:37:59529
-        '503':
-          description: Health check response. Simple report of APIs state.
+                    description: Response structure for healthcheck containing connection diagnostics.
+                    type: object
+                    required:
+                      - method
+                      - headers
+                      - payload
+                      - time
+                    properties:
+                      method:
+                        type: string
+                        description: Reflect method name.
+                        example: get
+                      headers:
+                        type: object
+                        description: 'Reflect headers in structure header_name: header_value, ...'
+                        example:
+                          - Content-Type: application/problem+json; charset=utf-8
+                          - X-Correlation-ID: f058ebd6-02f7-4d3f-942e-904344e8cde5
+                      payload:
+                        type: object
+                        description: 'Parse and reflect parameter data name: value, ...'
+                      time: 
+                        type: string
+                        format: date-time
+                        description: Sent time of request.
+                        example: 2023-08-20T11:11:11Z
+                      additionalData:
+                        type: object
+                        description: Additional Data regarding diagnostic information.
+        '500':
+          description: Health check response. Returns status code 500 error and short status of API.
           content: 
             application/problem+json:
               schema:
@@ -467,138 +465,40 @@ paths:
                     type: string
                     example: unhealty
                   HealthCheckResponse:
+                    description: Response structure for healthcheck containing connection diagnostics.
                     type: object
-                    example:
-                      correlationID: 0cb3f1bd-272d-4765-a3d6-4b1593e4613c
-                      apiName: Account Information v2
-                      status: Unhealthy
-                      message: 
-                        info: Partial Outage
-                        load: 50%
-                        averageResponseTime: 3000 
-                        version: 1.0.0.v2014-12-31-1101
-                        isSSLEnabled: false
-                        ipAddress: 127.0.0.1
-                        environmentName: PROD
-                        startTime: 21 May 2023 16:37:57529
-                        transportType: HTTP
-                        endTime: 21 May 2023 16:37:59529
-
-  /health/check:
-    get:
-      tags:
-        - healthcheck
-      summary: Detailed healthcheck with diagnostics.
-      description: This endpoint provides a service to test components connected to this API (e.g. downstream APIs, Database,..). This endpoint runs various tests/checkers and returns the healthiness of the API.
-      parameters:
-        - $ref: '#/components/parameters/authorization_in_header'
-        - $ref: '#/components/parameters/clientid_in_header' 
-        - $ref: '#/components/parameters/correlation_in_header'
-        - $ref: '#/components/parameters/agent_in_header'
-        - $ref: '#/components/parameters/optional_targetid_in_header' 
-        - $ref: '#/components/parameters/optional_psu_ip_in_header' 
-        - $ref: '#/components/parameters/optional_psu_user_agent_in_header' 
-      requestBody:
-        description: Healthcheck payload.
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-      responses:
-        '200':
-          description: Health check response. Returns status code 200 OK and detailed status of API.
-          content:
-            application/json:
-              schema:
-                type: object
-                example:
-                  HealthCheckResponse:
-                    correlationID: 0cb3f1bd-272d-4765-a3d6-4b1593e4613c
-                    applicationName: com.tibco.restbt.sample.bookstore
-                    status: Passed
-                    Service:
-                        bindingType: REST
-                        nodeName: DevNode
-                        hostName: SystemHost
-                        isSSLEnabled: false
-                        portTypeName: BookStoreResource
-                        responseTime: 0
-                        ipAddress: 127.0.0.1
-                        bindingName: RESTService_Binding1
-                        machineName: test-workstation
-                        environmentName: DevEnvironment
-                        name: BookStoreResource
-                        startTime: 21 May 2018 16:37:57529
-                        transportType: HTTP
-                        endTime: 21 May 2018 16:37:57529
-                        endpointURI: urn:amx:DevEnvironment/com.tibco.restbt.sample.bookstore#service-binding(BookStoreResource/RESTService_Binding1)___1.0.0.v2014-12-31-1101
-                        status: Passed
-                        Component:
-                            nodeName: DevNode
-                            componentType: TIBCO-IT-JAVA
-                            hostName: SystemHost
-                            environmentName: DevEnvironment
-                            responseTime: 0
-                            name: BookStoreResource
-                            startTime: 21 May 2018 16:37:57513
-                            endTime: 21 May 2018 16:37:57513
-                            version: 1.0.0.v2014-12-31-1101
-                            status: Passed
-        '503':
-          description: Health check response. Detailed report of APIs state and executed tests.
-          content: 
-            application/problem+json:
-              schema:
-                type: object
-                required:
-                  - type
-                  - title
-                  - healthCheckResponse
-                properties:
-                  type:
-                    type: string
-                    description: A URI reference that identifies the problem type as in RFC 7807.
-                    example: https://api.com/unhealthy
-                  title:
-                    type: string
-                    example: unhealty
-                  HealthCheckResponse:
-                    type: object
-                    example:
-                      HealthCheckResponse:
-                        correlationID: 0cb3f1bd-272d-4765-a3d6-4b1593e4613c
-                        applicationName: com.tibco.restbt.sample.bookstore
-                        status: Passed
-                        Service:
-                            bindingType: REST
-                            nodeName: DevNode
-                            hostName: SystemHost
-                            isSSLEnabled: false
-                            portTypeName: BookStoreResource
-                            responseTime: 0
-                            ipAddress: 127.0.0.1
-                            bindingName: RESTService_Binding1
-                            machineName: test-workstation
-                            environmentName: DevEnvironment
-                            name: BookStoreResource
-                            startTime: 21 May 2018 16:37:57529
-                            transportType: HTTP
-                            endTime: 21 May 2018 16:37:57529
-                            endpointURI: urn:amx:DevEnvironment/com.tibco.restbt.sample.bookstore#service-binding(BookStoreResource/RESTService_Binding1)___1.0.0.v2014-12-31-1101
-                            status: Passed
-                            Component:
-                                nodeName: DevNode
-                                componentType: TIBCO-IT-JAVA
-                                hostName: SystemHost
-                                environmentName: DevEnvironment
-                                responseTime: 0
-                                name: BookStoreResource
-                                startTime: 21 May 2018 16:37:57513
-                                endTime: 21 May 2018 16:37:57513
-                                version: 1.0.0.v2014-12-31-1101
-                                status: Passed
-
+                    required:
+                      - method
+                      - headers
+                      - payload
+                      - time
+                      - error
+                    properties:
+                      method:
+                        type: string
+                        description: Reflect method name.
+                        example: get
+                      headers:
+                        type: object
+                        description: 'Reflect headers in structure header_name: header_value, ...'
+                        example:
+                          - Content-Type: application/problem+json; charset=utf-8
+                          - X-Correlation-ID: f058ebd6-02f7-4d3f-942e-904344e8cde5
+                      payload:
+                        type: object
+                        description: Reflect payload data.
+                      time: 
+                        type: string
+                        format: date-time
+                        description: Sent time of request.
+                        example: 2023-08-20T11:11:11Z
+                      error:
+                        type: string
+                        description: Description of error type.
+                        example: Internal error, please try again later.
+                      additionalData:
+                        type: object
+                        description: Additional Data regarding diagnostic information.
 
 # -------------------------
 # -------- Models ---------
