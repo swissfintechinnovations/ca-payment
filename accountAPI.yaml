@@ -390,6 +390,7 @@ components:
       title: Account Information Item
       type: object
       required:
+        - accountOwner
         - id
         - account
         - currency
