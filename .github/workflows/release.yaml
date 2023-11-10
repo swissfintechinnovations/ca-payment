@@ -41,7 +41,7 @@ jobs:
             exit 1
           fi
           
-          if [[ "${{ github.actor }}" != "dkoeni" && "${{ github.actor }}" != "rolfwagner" && "${{ github.actor }}" != "michschl" && "${{ github.actor }}" != "juergen-petry" ]]; then
+          if [[ "${{ github.actor }}" != "svenbiellmann" && "${{ github.actor }}" != "RaulGuirao" && "${{ github.actor }}" != "dkoeni" && "${{ github.actor }}" != "juergen-petry" ]]; then
             echo "You have no permissons to start the release action."
             exit 1
           fi
