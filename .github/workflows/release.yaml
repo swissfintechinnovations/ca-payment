@@ -72,10 +72,10 @@ jobs:
         id: release_note_body
         run: |
           regex="### Release ${{ steps.var.outputs.RELEASE_TAG }}[[:space:]]*[[:print:]]*[[:cntrl:]]{2}([[:print:]]+[[:space:]])*"
-          content=$(grep -ozE "$regex" wiki/Release-Roadmap.md | tr "\0" "\n" | tail -n +3)
+          content=$(grep -ozE "$regex" wiki/Roadmap.md | tr "\0" "\n" | tail -n +3)
           # abort if content is empty --> wiki page must be present before release
           if [ -z "$content" ]; then
-            echo "Found no data for ${{ steps.var.outputs.RELEASE_NAME }} at wiki/Release Roadmap (${{ github.repository }}). Please create a section <<Release ${{ steps.var.outputs.RELEASE_TAG }}>> and fill in details for the release by following the instructions at the .github Wiki. A template can be found at https://github.com/swissfintechinnovations/.github/wiki/Release-Roadmap-Example."
+            echo "Found no data for ${{ steps.var.outputs.RELEASE_NAME }} at wiki/Roadmap (${{ github.repository }}). Please create a section <<Release ${{ steps.var.outputs.RELEASE_TAG }}>> and fill in details for the release by following the instructions at the .github Wiki. A template can be found at https://github.com/swissfintechinnovations/.github/wiki/Release-Roadmap-Example."
             exit 1
           fi
           body="$content"$'\n\n# \n\n'
