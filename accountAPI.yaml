@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  version: 1.5.2
+  version: 1.6.0
   title: Common Account API
   description: >
     This specification defines a simple API to access information about bank accounts.
