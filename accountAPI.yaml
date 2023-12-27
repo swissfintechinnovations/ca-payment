@@ -26,9 +26,12 @@ security:
 tags:
   - name: accounts
     description: |
-      **Account Information**
-      Account Information Service - third party access to bank account data.
+      **Account Information Service (AIS)**
+      JSON access to bank account information and transaction data.
   - name: iso20022
+    description: |
+      **Account Information Service (AIS)**
+      XML access to account statements (CAMT.053). 
 
 paths:
   /accounts:
