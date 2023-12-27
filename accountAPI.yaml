@@ -859,9 +859,23 @@ components:
           type: string
           enum:
             - CAMT53
+        schemaVersion:
+          type: string
+          example: camt.053.001.01
+          description: Indicates the delivered camt.053 schema version.
+          pattern: 'CAMT\.053\.[0-9]+\.[0-9]+'
         id:
           type: string
-
+        account:
+          $ref: '#/components/schemas/paymentIbanAccount'
+        dateFrom:
+          type: string
+          format: date
+          example: 2023-01-16
+        dateTo:
+          type: string
+          format: date
+          example: 2023-01-16
     ## Shared with payments module
     paymentIbanAccount:
       title: Payment IBAN Account
