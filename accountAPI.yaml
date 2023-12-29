@@ -82,7 +82,7 @@ paths:
       tags:
         - accounts
       summary: Retrieve information about a single specific account
-      description: Return the accounts details of the requested account.
+      description: Returns the accounts details of the specified account.
       parameters:
         - $ref: '#/components/parameters/path_accountId'
         - $ref: '#/components/parameters/authorization_in_header'
@@ -94,7 +94,7 @@ paths:
         - $ref: '#/components/parameters/optional_psu_user_agent_in_header'
       responses:
         '200':
-          description: Account details of the requested account.
+          description: Account details of the specified account.
           headers:
             X-Correlation-ID:
               $ref: '#/components/headers/X-Correlation-ID'
@@ -125,7 +125,7 @@ paths:
         - accounts
       summary: Retrieve account balance information
       description: |
-        Account data of the specified account.
+        Returns account balance information of the specified account.
         * Returns the intraday booked balance (ITBD), if called without a date.
         * Returns the closing booked balance (CLBD), if called for a past date. In case the
         specified day has not yet been finalized, the response will be a 404 error.
@@ -141,7 +141,7 @@ paths:
         - $ref: '#/components/parameters/optional_psu_user_agent_in_header'
       responses:
         '200':
-          description: Account details of the requested account.
+          description: Account balance information of the specified account.
           headers:
             X-Correlation-ID:
               $ref: '#/components/headers/X-Correlation-ID'
@@ -176,7 +176,7 @@ paths:
         - accounts
       summary: Retrieve transactions of a specific account
       description: |
-        Transactions to and from the specified account.
+        Returns the transaction list (account postings with status booked only) of the specified account
         * Returns the transaction list of the current day, if called without a date.
         * Returns the transaction list for a specific day, if called for a past date.
         In case the specified day has not yet been finalized, the response will be a 404 error.
