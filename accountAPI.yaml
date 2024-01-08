@@ -419,7 +419,7 @@ components:
           example: TRAN
           enum:
             - CACC
-            - CARD 
+            - CARD
             - CASH
             - CHAR
             - CISH
