@@ -863,7 +863,7 @@ components:
           type: string
           example: camt.053.001.01
           description: Indicates the delivered camt.053 schema version.
-          pattern: CAMT\.053\.[0-9]{3,3}\.[0-9]{2,2}
+          pattern: camt\.053\.[0-9]{3}\.[0-9]{2}
         id:
           type: string
         account:
@@ -974,7 +974,7 @@ components:
         - /problems/SERVICE_UNAVAILABLE
       example: /problems/TECHNICAL_ERROR
 
-    # ---- Date Formats
+    # ---- Date Formats ----
     Date:
       type: string
       format: date
@@ -984,7 +984,6 @@ components:
       type: string
       format: date-time
       example: 2018-04-13T11:11:11Z
-    # --------
 
   # ---- Global Common Header Parameters ----
   parameters:
@@ -1165,24 +1164,24 @@ components:
       description: |
         Bad Request - The format of the request was invalid.
 
-        Examples: 
-        - InvalidPayload:  
-        type: /problems/INVALID_PAYLOAD  
-        title: Payload does not comply with API specification  
-        detail: Malformed JSON  
+        Examples:
+        - InvalidPayload:
+        type: /problems/INVALID_PAYLOAD 
+        title: Payload does not comply with API specification
+        detail: Malformed JSON
         instance: path/to/corresponding/resource
 
-        - InvalidParameter:  
-        type: /problems/INVALID_PAYLOAD  
-        title: Invalid parameter values have been detected  
-        detail: Sent data could not processed  
-        instance: path/to/corresponding/resource  
-        
-        - MissingId:  
-        type: /problems/INVALID_PAYLOAD  
-        title: The payload was not valid  
-        detail: ID is missing  
-        instance: path/to/corresponding/resource  
+        - InvalidParameter:
+        type: /problems/INVALID_PAYLOAD
+        title: Invalid parameter values have been detected
+        detail: Sent data could not processed
+        instance: path/to/corresponding/resource
+
+        - MissingId:
+        type: /problems/INVALID_PAYLOAD
+        title: The payload was not valid
+        detail: ID is missing
+        instance: path/to/corresponding/resource
       content:
         application/problem+json:
           schema:
