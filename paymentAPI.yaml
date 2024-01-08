@@ -24,15 +24,13 @@ security:
       - write
 tags:
   - name: standing orders
+    description: Third party payment service considering standing order operations (JSON).
   - name: payments
-    description: |
-      **Payment Submission and Initiation Service (PSS/PIS)**
-      Third party JSON payment service. Can be used for both payment submission and payment initiation, depending on security implementation.
+    description: Third party payment service considering bulk payments operations (JSON). PUT operation can be used for both payment submission and payment initiation (PSS/PIS), depending on security implementation.
   - name: single payments
+    description: Third party payment service considering single payments operations (JSON). PUT operation can be used for both payment submission and payment initiation (PSS/PIS), depending on security implementation.
   - name: iso20022
-    description: |
-      **Payment Sbumission and Initiation Service (PSS/PIS)**
-      Third party XML payment service (PAIN.001). Can be used for both payment submission and payment initiation, depending on security implementation.
+    description: Third party payment service considering pain.001 and pain.002 operations (XML). PUT operation can be used for both payment submission and payment initiation (PSS/PIS), depending on security implementation.
 
 paths:
   /standing-orders:
@@ -675,8 +673,8 @@ paths:
     post:
       tags:
         - iso20022
-      summary: Submit ISO20022 XML payment instruction (PAIN.001)
-      description: Submit an XML PAIN.001 payment instruction according to the ISO20022 specification.
+      summary: Submit ISO20022 XML payment instruction (pain.001)
+      description: Submit an XML pain.001 payment instruction according to the ISO20022 specification.
       parameters:
         - $ref: '#/components/parameters/authorization_in_header'
         - $ref: '#/components/parameters/clientid_in_header'
@@ -686,7 +684,7 @@ paths:
         - $ref: '#/components/parameters/optional_psu_ip_in_header'
         - $ref: '#/components/parameters/optional_psu_user_agent_in_header'
       requestBody:
-        description: The XML PAIN.001.
+        description: The XML pain.001.
         required: true
         content:
           application/xml:
@@ -721,7 +719,7 @@ paths:
     get:
       tags:
         - iso20022
-      summary: Retrieve a submitted ISO20022 XML PAIN.001 message
+      summary: Retrieve a submitted ISO20022 XML pain.001 message
       parameters:
         - $ref: '#/components/parameters/path_submissionId'
         - $ref: '#/components/parameters/authorization_in_header'
@@ -733,7 +731,7 @@ paths:
         - $ref: '#/components/parameters/optional_psu_user_agent_in_header'
       responses:
         '200':
-          description: Returns the requested ISO20022 XML PAIN.001 message.
+          description: Returns the requested ISO20022 XML pain.001 message.
           headers:
             X-Correlation-ID:
               $ref: '#/components/headers/X-Correlation-ID'
@@ -773,12 +771,12 @@ paths:
         - $ref: '#/components/parameters/optional_psu_user_agent_in_header'
       responses:
         '200':
-          description: ISO20022 XML PAIN.001 message submission has been deleted.
+          description: ISO20022 XML pain.001 message submission has been deleted.
           headers:
             X-Correlation-ID:
               $ref: '#/components/headers/X-Correlation-ID'
         '201':
-          description: ISO20022 XML PAIN.001 message submission is marked for deletion.
+          description: ISO20022 XML pain.001 message submission is marked for deletion.
           headers:
             X-Correlation-ID:
               $ref: '#/components/headers/X-Correlation-ID'
@@ -816,7 +814,7 @@ paths:
         - $ref: '#/components/parameters/optional_psu_user_agent_in_header'
       responses:
         '200':
-          description: Returns the requested ISO20022 XML PAIN.002 message.
+          description: Returns the requested ISO20022 XML pain.002 message.
           headers:
             X-Correlation-ID:
               $ref: '#/components/headers/X-Correlation-ID'

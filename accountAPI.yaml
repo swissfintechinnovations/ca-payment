@@ -25,13 +25,9 @@ security:
 
 tags:
   - name: accounts
-    description: |
-      **Account Information Service (AIS)**
-      JSON access to bank account information and transaction data.
+    description: Third party access to bank account service considering account information and transaction data operations (JSON).
   - name: iso20022
-    description: |
-      **Account Information Service (AIS)**
-      XML access to account statements (CAMT.053). 
+    description: Third party access to bank account service considering camt.053 operations (XML).
 
 paths:
   /accounts:
@@ -286,9 +282,9 @@ paths:
     get:
       tags:
         - iso20022
-      summary: Retrieve a list of resource links to account statements (CAMT.053)
+      summary: Retrieve a list of resource links to account statements (camt.053)
       description: >
-        Get the resources links to available account statements (CAMT.053).
+        Get the resources links to available account statements (camt.053).
         The returned account statements must be conform to the XML schema and
         implementation guidelines defined by Swiss Payment Standards.
       parameters:
@@ -301,7 +297,7 @@ paths:
         - $ref: '#/components/parameters/optional_psu_user_agent_in_header'
       responses:
         '200':
-          description: Returns a list of resource links to ISO20022 XML CAMT.053 messages.
+          description: Returns a list of resource links to ISO20022 XML camt.053 messages.
           headers:
             X-Correlation-ID:
               $ref: '#/components/headers/X-Correlation-ID'
@@ -335,7 +331,7 @@ paths:
     get:
       tags:
         - iso20022
-      summary: Retrieves the designated ISO20022 XML CAMT.053 document.
+      summary: Retrieves the designated ISO20022 XML camt.053 document.
       parameters:
         - $ref: '#/components/parameters/path_reportId'
         - $ref: '#/components/parameters/authorization_in_header'
@@ -347,7 +343,7 @@ paths:
         - $ref: '#/components/parameters/optional_psu_user_agent_in_header'
       responses:
         '200':
-          description: Returns the requested ISO20022 XML CAMT.053 message.
+          description: Returns the requested ISO20022 XML camt.053 message.
           headers:
             X-Correlation-ID:
               $ref: '#/components/headers/X-Correlation-ID'
@@ -998,7 +994,7 @@ components:
     path_reportId:
       name: reportId
       in: path
-      description: Unique ID of the requested ISO20022 XML CAMT.053 document.
+      description: Unique ID of the requested ISO20022 XML camt.053 document.
       required: true
       schema:
         maxLength: 35
