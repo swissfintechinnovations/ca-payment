@@ -27,12 +27,12 @@ tags:
   - name: payments
     description: |
       **Payment Submission and Initiation Service (PSS/PIS)**
-      JSON payment service. Can be used for both payment submission and payment initiation, depending on security implementation.
+      Third party JSON payment service. Can be used for both payment submission and payment initiation, depending on security implementation.
   - name: single payments
   - name: iso20022
     description: |
       **Payment Sbumission and Initiation Service (PSS/PIS)**
-      XML payment service (PAIN.001). Can be used for both payment submission and payment initiation, depending on security implementation.
+      Third party XML payment service (PAIN.001). Can be used for both payment submission and payment initiation, depending on security implementation.
 
 paths:
   /standing-orders:
