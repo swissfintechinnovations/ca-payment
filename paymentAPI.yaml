@@ -26,13 +26,13 @@ tags:
   - name: standing orders
   - name: payments
     description: |
-      **Payment Submission Service (PSS)**
-      JSON payment submission service
+      **Payment Submission and Initiation Service (PSS/PIS)**
+      JSON payment service. Can be used for both payment submission and payment initiation, depending on security implementation.
   - name: single payments
   - name: iso20022
     description: |
-      **Payment Submission Service (PSS)**
-      XML payment submission service (PAIN.001)
+      **Payment Sbumission and Initiation Service (PSS/PIS)**
+      XML payment service (PAIN.001). Can be used for both payment submission and payment initiation, depending on security implementation.
 
 paths:
   /standing-orders:
