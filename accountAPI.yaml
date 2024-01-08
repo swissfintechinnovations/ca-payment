@@ -1109,7 +1109,7 @@ components:
         type: string
         example: cursorIDxyz
 
-  # --- Response Headers - used by Standard Responses ---
+  # ---- Response Headers - used by Standard Responses ----
   headers:
     Content-Language:
       description: Response language - always en
@@ -1362,4 +1362,4 @@ components:
         application/problem+json:
           schema:
             $ref: '#/components/schemas/commonErrorResponse'
-  # ---- End Responses - Standard Errors
+  # ---- End Responses - Standard Errors ----
