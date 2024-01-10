@@ -305,12 +305,9 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  conditionList:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/iso20022ReportReference'
+                type: array
+                items:
+                  $ref: '#/components/schemas/iso20022ReportReference'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
