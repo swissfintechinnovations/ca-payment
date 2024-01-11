@@ -382,7 +382,7 @@ components:
             write: Grants write access
 
   schemas:
-    ## /accounts
+    # /accounts
     accountItem:
       title: Account Information Item
       type: object
@@ -863,7 +863,8 @@ components:
           $ref: '#/components/schemas/date'
         dateTo:
           $ref: '#/components/schemas/date'
-    ## Shared with payments module
+    
+    # Shared with payments module
     paymentIbanAccount:
       title: Payment IBAN Account
       type: object
@@ -923,7 +924,7 @@ components:
           maxLength: 35
           example: 00230
 
-    # ---- Common Error Response
+    # ---- Common Error Response ----
     commonErrorResponse:
       title: Common Error Response
       type: object

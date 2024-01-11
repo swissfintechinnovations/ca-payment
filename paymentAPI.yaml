@@ -855,7 +855,7 @@ components:
             write: Grants write access
 
   schemas:
-    ## /payments
+    # /payments
     paymentSubmissionRequest:
       title: Payment Submission Request
       type: object
@@ -1295,8 +1295,7 @@ components:
           maxLength: 35
           example: 00230
 
-    # ---- Payment Data Model
-    # --- not supported by SIX bLink
+    # ---- Payment Data Model - not supported by SIX bLink ----
     singlepaymentsSubmissionRequest:
       title: Single Payment Submission Request
       type: object
@@ -1444,7 +1443,7 @@ components:
           items:
             $ref: '#/components/schemas/paymentInstructionItemStatus'
 
-    # Schemas Information NextGenPSD2 for periodic orders
+    # Schema information NextGenPSD2 for periodic orders
     startDate:
       title: Start Date
       description: |
@@ -1536,10 +1535,8 @@ components:
         - 29
         - 30
         - 31
-    # End Schemas Information NextGenPSD2 for periodic orders
-    # ---- End Payment Data Model ----
 
-    # ---- Common Data Model v1.2.0 ----
+    # ---- Common Data Model ----
     date:
       type: string
       format: date
@@ -1586,10 +1583,8 @@ components:
           description: amount given with fractional digits, the separator is a dot
           type: string
           pattern: '-?\d{1,14}(?:\.\d{1,3})?'
-    # ---- End Common Data Model ----
 
-
-    # ---- Error Response (compliant to SIX b.Link) ----
+    # ---- Common Error Response (compliant to SIX b.Link) ----
     commonErrorResponse:
       title: Common Error Response
       type: object
@@ -1629,7 +1624,6 @@ components:
         - /problems/NOT_IMPLEMENTED
         - /problems/SERVICE_UNAVAILABLE
       example: /problems/TECHNICAL_ERROR
-      # ---- End Error Response ----
 
   # ---- Global Common Header Parameters ----
   parameters:
@@ -1699,7 +1693,7 @@ components:
       schema:
         type: string
 
-  # --- Response Headers - used by Standard Responses ---
+  # ---- Response Headers - used by Standard Responses ----
   headers:
     Content-Language:
       description: Response language - always en
