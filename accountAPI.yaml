@@ -866,13 +866,9 @@ components:
         account:
           $ref: '#/components/schemas/paymentIbanAccount'
         dateFrom:
-          type: string
-          format: date
-          example: 2023-01-16
+          $ref: "#/components/schemas/Date"
         dateTo:
-          type: string
-          format: date
-          example: 2023-01-16
+          $ref: "#/components/schemas/Date"
     ## Shared with payments module
     paymentIbanAccount:
       title: Payment IBAN Account
