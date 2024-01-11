@@ -876,9 +876,7 @@ components:
           maxLength: 32
           example: TPP01746
         requestedExecutionDate:
-          type: string
-          format: date
-          example: 2018-04-07
+          $ref: '#/components/schemas/date'
         debtorAccount:
           $ref: '#/components/schemas/paymentIbanAccount'
         bookingInstruction:
@@ -1321,9 +1319,7 @@ components:
           maxLength: 32
           example: TPP01746
         requestedExecutionDate:
-          type: string
-          format: date
-          example: 2018-04-07
+          $ref: '#/components/schemas/date'
         debtorAccount:
           $ref: '#/components/schemas/paymentIbanAccount'
         instructionId:
@@ -1367,9 +1363,7 @@ components:
           maxLength: 32
           example: TPP01746
         requestedExecutionDate:
-          type: string
-          format: date
-          example: 2018-04-07
+          $ref: '#/components/schemas/date'
         debtorAccount:
           $ref: '#/components/schemas/paymentIbanAccount'
         instructionId:
@@ -1422,16 +1416,12 @@ components:
                 description: >
                   Start date of one break period. Standing order will not be processed from this date.
                   Date format YYYY-MM-DD.
-                type: string
-                format: date
-                example: 2018-04-13
+                $ref: '#/components/schemas/date'
               validToDate:
                 description: >
                   End date of one break period. Standing order will not be processed to this date.
                   Date format YYYY-MM-DD.
-                type: string
-                format: date
-                example: 2018-04-13
+                $ref: '#/components/schemas/date'
 
     standingorderSubmissionStatus:
       title: Standing Order Submission Status
@@ -1551,13 +1541,11 @@ components:
 
     # ---- Common Data Model v1.2.0 ----
     date:
-      title: Date
       type: string
       format: date
       example: 2018-04-13
 
     dateTime:
-      title: Date Time
       type: string
       format: date-time
       example: 2018-04-13T11:11:11Z

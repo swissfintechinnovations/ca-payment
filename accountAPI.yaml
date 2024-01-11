@@ -183,11 +183,11 @@ paths:
         - in: query
           name: dateFrom
           schema:
-            $ref: '#/components/schemas/Date'
+            $ref: '#/components/schemas/date'
         - in: query
           name: dateTo
           schema:
-            $ref: '#/components/schemas/Date'
+            $ref: '#/components/schemas/date'
         - in: query
           name: bookingStatus
           required: true
@@ -433,9 +433,7 @@ components:
         - balance
       properties:
         date:
-          type: string
-          format: date
-          example: 2010-02-15
+          $ref: '#/components/schemas/date'
         balanceType:
           type: string
           enum:
@@ -521,13 +519,9 @@ components:
         reversalIndicator:
           type: boolean
         bookingDate:
-          type: string
-          format: date
-          example: 2018-10-29
+          $ref: '#/components/schemas/date'
         valueDate:
-          type: string
-          format: date
-          example: 2018-10-29
+          $ref: '#/components/schemas/date'
         amount:
           $ref: '#/components/schemas/paymentCurrencyAmount'
         instructedAmount:
@@ -866,9 +860,9 @@ components:
         account:
           $ref: '#/components/schemas/paymentIbanAccount'
         dateFrom:
-          $ref: '#/components/schemas/Date'
+          $ref: '#/components/schemas/date'
         dateTo:
-          $ref: '#/components/schemas/Date'
+          $ref: '#/components/schemas/date'
     ## Shared with payments module
     paymentIbanAccount:
       title: Payment IBAN Account
@@ -968,12 +962,12 @@ components:
       example: /problems/TECHNICAL_ERROR
 
     # ---- Date Formats ----
-    Date:
+    date:
       type: string
       format: date
       example: 2018-04-13
 
-    DateTime:
+    dateTime:
       type: string
       format: date-time
       example: 2018-04-13T11:11:11Z
@@ -1012,8 +1006,7 @@ components:
       in: query
       description: 'The date to query, formatted as yyyy-mm-dd. Default value: current date'
       schema:
-        type: string
-        format: date
+        $ref: '#/components/schemas/date'
 
     clientid_in_header:
       name: X-CorAPI-Client-ID
