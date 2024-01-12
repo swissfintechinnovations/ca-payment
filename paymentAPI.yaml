@@ -1725,9 +1725,10 @@ components:
         type: string
 
     Location:
-      description: Location (submissionId) of the submitted message. Add /status for the status report.
+      description: Location (URI-reference) of the submitted message. The relativ path shall be returned.
       schema:
         type: string
+        example: /single-payments/{submissionId}
 
     X-Correlation-ID:
       description: Client defined ID from request to correlates HTTP requests between a client and server
