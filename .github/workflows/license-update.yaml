@@ -4,5 +4,5 @@ on:
     - cron: "0 3 1 1 *" # 03:00 AM on January 1
 
 jobs:
-    yaml-lint:
-        uses: swissfintechinnovations/.github/.github/workflows/reusable-license-update-workflow.yaml@main
+  yaml-lint:
+    uses: swissfintechinnovations/.github/.github/workflows/reusable-license-update-workflow.yaml@main

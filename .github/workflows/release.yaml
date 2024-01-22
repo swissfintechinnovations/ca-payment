@@ -42,3 +42,4 @@ jobs:
       draft: ${{ fromJSON(github.event.inputs.draft) }}
       artifact: ${{ fromJSON(github.event.inputs.artifact) }}
       force: ${{ fromJSON(github.event.inputs.force) }}
+    secrets: inherit
