@@ -1176,11 +1176,6 @@ components:
           $ref: '#/components/headers/X-Correlation-ID'
       description: |
         No content - The server has successfully fulfilled the request. There is no content to return and never will be.
-      content:
-        application/json:
-          schema:
-            type: object
-            # properties: ??
 
     standard400:
       headers:
