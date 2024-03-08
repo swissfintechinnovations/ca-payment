@@ -1,4 +1,5 @@
-name: Update copyright year in license file
+name: SFTI Update License
+
 on:
   schedule:
     - cron: "0 3 1 1 *" # 03:00 AM on January 1
