@@ -4,7 +4,8 @@
 
 ---
 [![GitHub release](https://img.shields.io/github/release/swissfintechinnovations/ca-payment)](https://github.com/swissfintechinnovations/ca-payment/releases/)
-![GitHub checks](https://img.shields.io/github/checks-status/swissfintechinnovations/ca-payment/main)
+![GitHub Actions Workflow Status OpenAPI](https://img.shields.io/github/actions/workflow/status/swissfintechinnovations/ca-payment/lint-openapi.yaml?label=OpenApi%20Checks)
+![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/swissfintechinnovations/ca-payment/lint-yaml.yaml?label=Yaml%20Checks)
 ![Swagger Validator](https://img.shields.io/swagger/valid/3.0?specUrl=https%3A%2F%2Fraw.githubusercontent.com%2FOAI%2FOpenAPI-Specification%2Fmaster%2Fexamples%2Fv2.0%2Fjson%2Fpetstore-expanded.json)
 [![GitHub license](https://img.shields.io/github/license/swissfintechinnovations/ca-payment)](https://github.com/swissfintechinnovations/ca-payment/blob/main/LICENSE)
 
