@@ -1,4 +1,4 @@
-name: Release Pipeline (reusable)
+name: SFTI Release
 
 on:
   workflow_dispatch:
@@ -13,9 +13,9 @@ on:
         default: true
         required: true
       artifact:
-        description: Add artifacts to the release. All files from /docs are added to the release.
-        type: boolean
-        default: false
+        description: Add artifacts to the release. All files from the provided folder(s) are added to the release. Folders or files are seperated by a single whitespace (e.g. file.txt folder/). **Do not use docs/**.
+        type: string
+        default: ''
         required: false
       force:
         description: "If force is true, already published releases can be overwritten. Caution: This action deletes already published releases and can **not** be undone!"

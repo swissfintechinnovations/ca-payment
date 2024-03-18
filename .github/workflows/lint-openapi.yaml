@@ -1,0 +1,16 @@
+name: 'SFTI Lint Specifications: OpenAPI Compliance'
+
+on:
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      filenames:
+        type: string
+        default: '*.yaml'
+        description: 'Files to be linted (list of files sperated by a whitespace). Default: *.yaml'
+
+jobs:
+  openapi-lint:
+    uses: swissfintechinnovations/.github/.github/workflows/reusable-lint-openapi-workflow.yaml@main
+    with:
+      filenames: ${{ github.event.inputs.filenames || '*.yaml' }}
