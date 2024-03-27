@@ -650,7 +650,7 @@ components:
         - currency
       properties:
         amount:
-          type: string
+          type: number
           pattern: '[0-9]{1,12}([.][0-9]{1,5})?'
           maxLength: 18
           example: 10.25
@@ -669,7 +669,7 @@ components:
       type: object
       properties:
         amount:
-          type: string
+          type: number
           pattern: '[0-9]{1,12}([.][0-9]{1,5})?'
           maxLength: 18
           example: 10.25
@@ -684,6 +684,7 @@ components:
           example: Some type of charge
         chargesIncludedIndicator:
           type: boolean
+          example: 0
 
     accountTransactionCounterparty:
       title: Account Transaction Counterparty
@@ -707,6 +708,7 @@ components:
         bic:
           type: string
           maxLength: 11
+          example: DEUTDE5M101
         clearingSystemMemberIdentification:
           $ref: '#/components/schemas/commonClearingSystemMemberIdentification'
 
@@ -719,7 +721,7 @@ components:
         - targetCurrency
       properties:
         amount:
-          type: string
+          type: number
           pattern: '[0-9]{1,12}([.][0-9]{1,5})?'
           maxLength: 18
           example: 10.25
@@ -734,7 +736,7 @@ components:
           maxLength: 3
           example: USD
         exchangeRate:
-          type: string
+          type: number
           example: 0.957
           pattern: '^\d{1,11}$|^(?=\d+[.]\d+$).{3,12}$'
           maxLength: 12
@@ -784,6 +786,7 @@ components:
           enum:
             - IBAN
             - OTHER
+          example: IBAN
         identification:
           type: string
           maxLength: 35
@@ -819,11 +822,11 @@ components:
         buildingNumber:
           type: string
           maxLength: 16
-          example: 24
+          example: '24'
         postCode:
           type: string
           maxLength: 16
-          example: 2501
+          example: '2501'
         townName:
           type: string
           maxLength: 35
@@ -940,7 +943,7 @@ components:
           minLength: 3
           example: CHF
         amount:
-          type: string
+          type: number
           pattern: '[0-9]{1,12}([.][0-9]{1,5})?'
           maxLength: 18
           example: 10.25
