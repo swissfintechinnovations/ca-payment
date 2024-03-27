@@ -560,6 +560,7 @@ components:
           example: 010001628
         reversalIndicator:
           type: boolean
+          example: 0
         bookingDate:
           $ref: '#/components/schemas/date'
         valueDate:
@@ -875,7 +876,7 @@ components:
           maxLength: 3
           example: CHF
         amount:
-          type: string
+          type: number
           pattern: '-?[0-9]{1,12}([.][0-9]{1,5})?'
           maxLength: 18
           example: 10.25
@@ -919,6 +920,7 @@ components:
           description: The allowed account identification type for the creditor account depends on the payment type. The debtor account must always be an IBAN.
           enum:
             - IBAN
+          example: IBAN
         identification:
           type: string
           maxLength: 34
