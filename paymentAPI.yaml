@@ -1113,6 +1113,7 @@ components:
           description: The allowed account identification type for the creditor account depends on the payment type. The debtor account must always be an IBAN.
           enum:
             - IBAN
+          example: IBAN
         identification:
           type: string
           maxLength: 34
@@ -1577,12 +1578,12 @@ components:
         last:
           type: string
 
-    currency:
-      title: Currency
-      description: ISO 4217 code
-      type: string
-      pattern: '[A-Z]{3}'
-      example: CHF
+    #currency:
+    #  title: Currency
+    #  description: ISO 4217 code
+    #  type: string
+    #  pattern: '[A-Z]{3}'
+    #  example: CHF
 
     #amount:
     #  title: Amount
