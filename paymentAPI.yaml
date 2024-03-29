@@ -23,14 +23,14 @@ security:
       - read
       - write
 tags:
-  - name: standing orders
-    description: Third party payment service considering standing order operations (JSON).
+  - name: iso20022
+    description: Third party payment service considering pain.001 and pain.002 operations (XML). PUT operation can be used for both payment submission and payment initiation (PSS/PIS), depending on security implementation.
   - name: payments
     description: Third party payment service considering bulk payments operations (JSON). PUT operation can be used for both payment submission and payment initiation (PSS/PIS), depending on security implementation.
   - name: single payments
     description: Third party payment service considering single payments operations (JSON). PUT operation can be used for both payment submission and payment initiation (PSS/PIS), depending on security implementation.
-  - name: iso20022
-    description: Third party payment service considering pain.001 and pain.002 operations (XML). PUT operation can be used for both payment submission and payment initiation (PSS/PIS), depending on security implementation.
+  - name: standing orders
+    description: Third party payment service considering standing order operations (JSON).
 
 paths:
   /standing-orders:
@@ -999,6 +999,7 @@ components:
         name:
           type: string
           maxLength: 140
+          example: Hans Muster
         postalAddress:
           $ref: '#/components/schemas/paymentStructuredOrUnstructuredAddress'
 
@@ -1145,6 +1146,7 @@ components:
           description: The allowed account identification type for the creditor account depends on the payment type. The debtor account must always be an IBAN.
           enum:
             - OTHER
+          example: OTHER
         identification:
           type: string
           maxLength: 34
@@ -1163,7 +1165,7 @@ components:
           minLength: 3
           example: CHF
         amount:
-          type: string
+          type: number
           pattern: '[0-9]{1,12}([.][0-9]{1,5})?'
           maxLength: 18
           example: 10.25
@@ -1178,10 +1180,11 @@ components:
           enum:
             - SCOR
             - QRR
+          example: SCOR
         reference:
           type: string
           maxLength: 35
-          example: 210000000003139471430009017
+          example: '210000000003139471430009017'
 
     paymentOtherRemittanceReference:
       title: Payment Remittance Reference
@@ -1192,10 +1195,11 @@ components:
           type: string
           enum:
             - SCOR
+          example: SCOR
         reference:
           type: string
           maxLength: 35
-          example: 210000000003139471430009017
+          example: '210000000003139471430009017'
 
     paymentIsrRemittanceReference:
       title: Payment Remittance Reference
@@ -1209,7 +1213,7 @@ components:
         reference:
           type: string
           maxLength: 35
-          example: 210000000003139471430009017
+          example: '210000000003139471430009017'
 
     paymentRemittanceInformation:
       title: Payment Remittance Information
@@ -1234,11 +1238,11 @@ components:
         buildingNumber:
           type: string
           maxLength: 16
-          example: 24
+          example: '24'
         postCode:
           type: string
           maxLength: 16
-          example: 2501
+          example: '2501'
         townName:
           type: string
           maxLength: 35
@@ -1294,7 +1298,7 @@ components:
         memberId:
           type: string
           maxLength: 35
-          example: 00230
+          example: '00230'
 
     # ---- Payment Data Model - not supported by SIX bLink ----
     singlepaymentsSubmissionRequest:
@@ -1502,7 +1506,7 @@ components:
         Day of execution as string.
         This string consists of up two characters. Leading zeroes are not allowed.
         31 is ultimo of the month.
-      type: string
+      type: integer
       maxLength: 2
       enum:
         - 1
@@ -1569,6 +1573,7 @@ components:
       description: ISO 4217 code
       type: string
       pattern: '[A-Z]{3}'
+      example: CHF
 
     amount:
       title: Amount
@@ -1584,6 +1589,7 @@ components:
           description: amount given with fractional digits, the separator is a dot
           type: string
           pattern: '-?\d{1,14}(?:\.\d{1,3})?'
+          example: '10.25'
 
     # ---- Common Error Response (compliant to SIX b.Link) ----
     commonErrorResponse:
