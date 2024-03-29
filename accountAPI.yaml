@@ -178,14 +178,17 @@ paths:
         - $ref: '#/components/parameters/authorization_in_header'
         - $ref: '#/components/parameters/path_accountId'
         - in: query
+          description: Start date of the transaction query
           name: dateFrom
           schema:
             $ref: '#/components/schemas/date'
         - in: query
+          description: End date of the transaction query
           name: dateTo
           schema:
             $ref: '#/components/schemas/date'
         - in: query
+          description: Booking status of the transactions to be queried
           name: bookingStatus
           required: true
           schema:
@@ -237,8 +240,8 @@ paths:
     get:
       tags:
         - accounts
-      summary: Retrieve details of a specific transaction
-      description: Details of the specified transaction.
+      summary: Details of the specified transaction
+      description: Retrieves the details of the specified transaction.
       parameters:
         - $ref: '#/components/parameters/path_accountId'
         - $ref: '#/components/parameters/path_transactionId'
@@ -326,7 +329,8 @@ paths:
     get:
       tags:
         - iso20022
-      summary: Retrieves the designated ISO20022 XML camt.053 document.
+      summary: Designated ISO20022 XML camt.053 document
+      description: Retrieves the designated ISO20022 XML camt.053 document.
       parameters:
         - $ref: '#/components/parameters/path_reportId'
         - $ref: '#/components/parameters/authorization_in_header'
@@ -802,10 +806,11 @@ components:
             - SCOR
             - ISR
             - QRR
+          example: SCOR
         reference:
           type: string
           maxLength: 35
-          example: 210000000003139471430009017
+          example: '210000000003139471430009017'
 
     accountTransactionStructuredAddress:
       title: Structured Postal Address for Transactions
@@ -890,12 +895,15 @@ components:
       properties:
         name:
           type: string
+          example: CH1100790016123456029_2023-01-16
         description:
           type: string
+          example: Kontoauszug von CH1100790016123456029 am 16.01.2023
         type:
           type: string
           enum:
             - CAMT53
+          example: CAMT53
         schemaVersion:
           type: string
           example: camt.053.001.01
@@ -903,6 +911,7 @@ components:
           pattern: camt\.053\.[0-9]{3}\.[0-9]{2}
         id:
           type: string
+          example: '8265333'
         account:
           $ref: '#/components/schemas/paymentIbanAccount'
         dateFrom:
@@ -969,7 +978,7 @@ components:
         memberId:
           type: string
           maxLength: 35
-          example: 00230
+          example: '00230'
 
     # ---- Common Error Response ----
     commonErrorResponse:
@@ -1015,17 +1024,17 @@ components:
       format: date
       example: 2018-04-13
 
-    dateTime:
-      type: string
-      format: date-time
-      example: 2018-04-13T11:11:11Z
+    #dateTime:
+    #  type: string
+    #  format: date-time
+    #  example: 2018-04-13T11:11:11Z
 
   # ---- Global Common Header Parameters ----
   parameters:
     path_accountId:
       name: accountId
       in: path
-      description: id of account
+      description: ID of the account
       required: true
       schema:
         maxLength: 256
@@ -1036,6 +1045,7 @@ components:
     path_transactionId:
       name: transactionId
       in: path
+      description: ID of the transaction
       required: true
       schema:
         type: string
@@ -1112,16 +1122,16 @@ components:
       schema:
         type: string
 
-    offset:
-      name: offset
-      in: query
-      description: Optional parameter for pagination. The number of items to skip before starting to collect the result set.
-      required: false
-      schema:
-        type: integer
-        format: int32
-        example: 25
-        minimum: 0
+    #offset:
+    #  name: offset
+    #  in: query
+    #  description: Optional parameter for pagination. The number of items to skip before starting to collect the result set.
+    #  required: false
+    #  schema:
+    #    type: integer
+    #    format: int32
+    #    example: 25
+    #    minimum: 0
 
     limit:
       name: limit
