@@ -1557,7 +1557,7 @@ components:
       format: date
       example: 2018-04-13
 
-    #dateTime:
+    # dateTime:
     #  type: string
     #  format: date-time
     #  example: 2018-04-13T11:11:11Z
@@ -1578,14 +1578,14 @@ components:
         last:
           type: string
 
-    #currency:
+    # currency:
     #  title: Currency
     #  description: ISO 4217 code
     #  type: string
     #  pattern: '[A-Z]{3}'
     #  example: CHF
 
-    #amount:
+    # amount:
     #  title: Amount
     #  description: amount with currency
     #  type: object
@@ -1736,7 +1736,7 @@ components:
 
   # ---- Responses - Standard Errors Common Data Model ----
   responses:
-    #standard202:
+    # standard202:
     #  headers:
     #    X-Correlation-ID:
     #      $ref: '#/components/headers/X-Correlation-ID'
@@ -1746,9 +1746,8 @@ components:
     #    application/json:
     #      schema:
     #        type: object
-            # properties: ??
 
-    #standard204:
+    # standard204:
     #  headers:
     #    X-Correlation-ID:
     #      $ref: '#/components/headers/X-Correlation-ID'

@@ -561,7 +561,7 @@ components:
         entryReferenceInternalId:
           type: string
           maxLength: 35
-          example: '010001628'
+          example: '010001629'
         reversalIndicator:
           type: boolean
           example: 0
@@ -1024,7 +1024,7 @@ components:
       format: date
       example: 2018-04-13
 
-    #dateTime:
+    # dateTime:
     #  type: string
     #  format: date-time
     #  example: 2018-04-13T11:11:11Z
@@ -1122,7 +1122,7 @@ components:
       schema:
         type: string
 
-    #offset:
+    # offset:
     #  name: offset
     #  in: query
     #  description: Optional parameter for pagination. The number of items to skip before starting to collect the result set.
