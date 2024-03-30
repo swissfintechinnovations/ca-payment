@@ -556,7 +556,7 @@ components:
           $ref: '#/components/schemas/accountTransactionTransactionType'
         entryReference:
           type: string
-          example: "010001628"
+          example: 010001628
           maxLength: 35
         entryReferenceInternalId:
           type: string
