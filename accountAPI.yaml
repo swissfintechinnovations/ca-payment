@@ -556,12 +556,12 @@ components:
           $ref: '#/components/schemas/accountTransactionTransactionType'
         entryReference:
           type: string
-          example: '010001628'
+          example: '010301628'
           maxLength: 35
         entryReferenceInternalId:
           type: string
+          example: '0302016295'
           maxLength: 35
-          example: '010001629'
         reversalIndicator:
           type: boolean
           example: 0
