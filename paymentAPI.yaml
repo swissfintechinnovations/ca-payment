@@ -1512,9 +1512,8 @@ components:
     dayOfExecution:
       title: Day of Execution
       description: |
-        Day of execution as string.
-        This string consists of up two characters. Leading zeroes are not allowed.
-        31 is ultimo of the month.
+        Day of execution as integer.
+        This integer consists of up two characters. Leading zeroes are not allowed.
       type: integer
       maxLength: 2
       enum:
