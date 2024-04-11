@@ -62,8 +62,8 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/standingorderSubmissionRequest'
-                  _links:
-                    $ref: '#/components/schemas/links'
+                  _LinksPagination:
+                    $ref: '#/components/schemas/LinksPagination'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -282,8 +282,8 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/paymentSubmissionRequest'
-                  _links:
-                    $ref: '#/components/schemas/links'
+                  _LinksPagination:
+                    $ref: '#/components/schemas/LinksPagination'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -480,8 +480,8 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/singlepaymentsSubmissionRequest'
-                  _links:
-                    $ref: '#/components/schemas/links'
+                  _LinksPagination:
+                    $ref: '#/components/schemas/LinksPagination'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -1561,21 +1561,31 @@ components:
     #  format: date-time
     #  example: 2018-04-13T11:11:11Z
 
-    links:
-      title: Links
-      description: links returned in the answer of an API call
+    LinksPagination:
+      title: Pagination Links
+      description: Links (or cursors) returned in the answer of an API call.
       type: object
       properties:
         self:
           type: string
+          description: Link / cursor to the current result set (based on the submitted pagination approach)
+          example: /payment-app/api/v1/payments?offset=75&limit=25
         first:
           type: string
+          description: Link / cursor to the first result set (based on the submitted pagination approach)
+          example: /payment-app/api/v1/payments?offset=0&limit=25
         previous:
           type: string
+          description: Link / cursor to the previous result set (based on the submitted pagination approach)
+          example: /payment-app/api/v1/payments?offset=50&limit=25
         next:
           type: string
+          description: Link / cursor to the next result set (based on the submitted pagination approach)
+          example: /payment-app/api/v1/payments?offset=100&limit=25
         last:
           type: string
+          description: Link / cursor to the last result set (based on the submitted pagination approach)
+          example: /payment-app/api/v1/payments?offset=150&limit=25
 
     # currency:
     #  title: Currency
