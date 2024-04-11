@@ -61,7 +61,7 @@ paths:
                   paymentList:
                     type: array
                     items:
-                      $ref: '#/components/schemas/standingorderSubmissionRequest'
+                      $ref: '#/components/schemas/StandingorderSubmissionRequest'
                   _LinksPagination:
                     $ref: '#/components/schemas/LinksPagination'
         '400':
@@ -100,7 +100,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/standingorderSubmissionRequest'
+              $ref: '#/components/schemas/StandingorderSubmissionRequest'
       responses:
         '201':
           description: Created.
@@ -150,7 +150,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/standingorderSubmissionRequest'
+                $ref: '#/components/schemas/StandingorderSubmissionRequest'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -235,7 +235,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/standingorderSubmissionStatus'
+                $ref: '#/components/schemas/StandingorderSubmissionStatus'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -281,7 +281,7 @@ paths:
                   paymentList:
                     type: array
                     items:
-                      $ref: '#/components/schemas/paymentSubmissionRequest'
+                      $ref: '#/components/schemas/PaymentSubmissionRequest'
                   _LinksPagination:
                     $ref: '#/components/schemas/LinksPagination'
         '400':
@@ -320,7 +320,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/paymentSubmissionRequest'
+              $ref: '#/components/schemas/PaymentSubmissionRequest'
       responses:
         '201':
           description: Created.
@@ -413,7 +413,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/paymentSubmissionStatus'
+                $ref: '#/components/schemas/PaymentSubmissionStatus'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -479,7 +479,7 @@ paths:
                   paymentList:
                     type: array
                     items:
-                      $ref: '#/components/schemas/singlepaymentsSubmissionRequest'
+                      $ref: '#/components/schemas/SinglepaymentsSubmissionRequest'
                   _LinksPagination:
                     $ref: '#/components/schemas/LinksPagination'
         '400':
@@ -518,7 +518,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/singlepaymentsSubmissionRequest'
+              $ref: '#/components/schemas/SinglepaymentsSubmissionRequest'
       responses:
         '201':
           description: Created.
@@ -568,7 +568,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/singlepaymentsSubmissionRequest'
+                $ref: '#/components/schemas/SinglepaymentsSubmissionRequest'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -652,7 +652,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/paymentSubmissionStatus'
+                $ref: '#/components/schemas/PaymentSubmissionStatus'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -861,7 +861,7 @@ components:
 
   schemas:
     # /payments
-    paymentSubmissionRequest:
+    PaymentSubmissionRequest:
       title: Payment Submission Request
       type: object
       required:
@@ -883,15 +883,15 @@ components:
         requestedExecutionDate:
           $ref: '#/components/schemas/Date'
         debtorAccount:
-          $ref: '#/components/schemas/paymentIbanAccount'
+          $ref: '#/components/schemas/PaymentIbanAccount'
         bookingInstruction:
-          $ref: '#/components/schemas/paymentBookingInstruction'
+          $ref: '#/components/schemas/PaymentBookingInstruction'
         transactions:
           type: array
           items:
-            $ref: '#/components/schemas/paymentInstructionItem'
+            $ref: '#/components/schemas/PaymentInstructionItem'
 
-    paymentInstructionItem:
+    PaymentInstructionItem:
       title: Payment Instruction Item
       type: object
       required:
@@ -908,17 +908,17 @@ components:
           maxLength: 35
           example: ENDTOENDID-001
         instructedAmount:
-          $ref: '#/components/schemas/paymentCurrencyAmount'
+          $ref: '#/components/schemas/PaymentCurrencyAmount'
         ibanDetails:
-          $ref: '#/components/schemas/paymentIBANDetail'
+          $ref: '#/components/schemas/PaymentIBANDetail'
         isrDetails:
-          $ref: '#/components/schemas/paymentISRDetail'
+          $ref: '#/components/schemas/PaymentISRDetail'
         otherDetails:
-          $ref: '#/components/schemas/paymentOtherDetail'
+          $ref: '#/components/schemas/PaymentOtherDetail'
         qrDetails:
-          $ref: '#/components/schemas/paymentQRDetail'
+          $ref: '#/components/schemas/PaymentQRDetail'
 
-    paymentIBANDetail:
+    PaymentIBANDetail:
       title: Payment IBAN Detail
       type: object
       required:
@@ -929,19 +929,19 @@ components:
           type: boolean
           example: true
         creditorAccount:
-          $ref: '#/components/schemas/paymentIbanAccount'
+          $ref: '#/components/schemas/PaymentIbanAccount'
         creditorAgent:
-          $ref: '#/components/schemas/paymentCreditorAgent'
+          $ref: '#/components/schemas/PaymentCreditorAgent'
         creditor:
-          $ref: '#/components/schemas/paymentCreditor'
+          $ref: '#/components/schemas/PaymentCreditor'
         chargeBearer:
-          $ref: '#/components/schemas/paymentChargeBearerMethod'
+          $ref: '#/components/schemas/PaymentChargeBearerMethod'
         remittanceReference:
-          $ref: '#/components/schemas/paymentIbanRemittanceReference'
+          $ref: '#/components/schemas/PaymentIbanRemittanceReference'
         remittanceInformation:
-          $ref: '#/components/schemas/paymentRemittanceInformation'
+          $ref: '#/components/schemas/PaymentRemittanceInformation'
 
-    paymentOtherDetail:
+    PaymentOtherDetail:
       title: Payment Other Detail
       type: object
       required:
@@ -950,17 +950,17 @@ components:
         - creditor
       properties:
         creditorAccount:
-          $ref: '#/components/schemas/paymentOtherAccount'
+          $ref: '#/components/schemas/PaymentOtherAccount'
         creditorAgent:
-          $ref: '#/components/schemas/paymentCreditorAgent'
+          $ref: '#/components/schemas/PaymentCreditorAgent'
         creditor:
-          $ref: '#/components/schemas/paymentCreditor'
+          $ref: '#/components/schemas/PaymentCreditor'
         chargeBearer:
-          $ref: '#/components/schemas/paymentChargeBearerMethod'
+          $ref: '#/components/schemas/PaymentChargeBearerMethod'
         remittanceReference:
-          $ref: '#/components/schemas/paymentOtherRemittanceReference'
+          $ref: '#/components/schemas/PaymentOtherRemittanceReference'
 
-    paymentQRDetail:
+    PaymentQRDetail:
       title: Payment QR Detail
       type: object
       required:
@@ -968,32 +968,32 @@ components:
         - creditorAccount
       properties:
         creditorAccount:
-          $ref: '#/components/schemas/paymentQrIbanAccount'
+          $ref: '#/components/schemas/PaymentQrIbanAccount'
         creditor:
-          $ref: '#/components/schemas/paymentCreditor'
+          $ref: '#/components/schemas/PaymentCreditor'
         ultimateCreditor:
-          $ref: '#/components/schemas/paymentCreditor'
+          $ref: '#/components/schemas/PaymentCreditor'
         ultimateDebtor:
-          $ref: '#/components/schemas/paymentDebtor'
+          $ref: '#/components/schemas/PaymentDebtor'
         remittanceReference:
-          $ref: '#/components/schemas/paymentIbanRemittanceReference'
+          $ref: '#/components/schemas/PaymentIbanRemittanceReference'
         remittanceInformation:
-          $ref: '#/components/schemas/paymentRemittanceInformation'
+          $ref: '#/components/schemas/PaymentRemittanceInformation'
 
-    paymentISRDetail:
+    PaymentISRDetail:
       title: Payment ISR Detail
       type: object
       required:
         - remittanceReference
       properties:
         creditorAccount:
-          $ref: '#/components/schemas/paymentOtherAccount'
+          $ref: '#/components/schemas/PaymentOtherAccount'
         creditor:
-          $ref: '#/components/schemas/paymentCreditor'
+          $ref: '#/components/schemas/PaymentCreditor'
         remittanceReference:
-          $ref: '#/components/schemas/paymentIsrRemittanceReference'
+          $ref: '#/components/schemas/PaymentIsrRemittanceReference'
 
-    paymentCreditor:
+    PaymentCreditor:
       title: Payment Creditor
       type: object
       required:
@@ -1005,9 +1005,9 @@ components:
           maxLength: 140
           example: Hans Muster
         postalAddress:
-          $ref: '#/components/schemas/paymentStructuredOrUnstructuredAddress'
+          $ref: '#/components/schemas/PaymentStructuredOrUnstructuredAddress'
 
-    paymentDebtor:
+    PaymentDebtor:
       title: Payment Debtor
       type: object
       required:
@@ -1019,9 +1019,9 @@ components:
           maxLength: 70
           example: Hans Muster
         postalAddress:
-          $ref: '#/components/schemas/paymentStructuredOrUnstructuredAddress'
+          $ref: '#/components/schemas/PaymentStructuredOrUnstructuredAddress'
 
-    paymentChargeBearerMethod:
+    PaymentChargeBearerMethod:
       title: Payment Charge Bearer Method
       type: string
       enum:
@@ -1031,7 +1031,7 @@ components:
         - SLEV
       example: SHAR
 
-    paymentBookingInstruction:
+    PaymentBookingInstruction:
       title: Payment Booking Instruction
       type: string
       enum:
@@ -1044,7 +1044,7 @@ components:
         - BATCHBOOKING_CWD
       example: BATCHBOOKING_SALA_CND
 
-    paymentSubmissionStatus:
+    PaymentSubmissionStatus:
       title: Payment Submission Status
       type: object
       required:
@@ -1064,9 +1064,9 @@ components:
         transactions:
           type: array
           items:
-            $ref: '#/components/schemas/paymentInstructionItemStatus'
+            $ref: '#/components/schemas/PaymentInstructionItemStatus'
 
-    paymentInstructionItemStatus:
+    PaymentInstructionItemStatus:
       title: Payment Instruction Item Status
       type: object
       required:
@@ -1091,7 +1091,7 @@ components:
           maxLength: 105
           example: currency USD not allowed for payment type IBAN
 
-    paymentCreditorAgent:
+    PaymentCreditorAgent:
       type: object
       properties:
         bic:
@@ -1099,9 +1099,9 @@ components:
           maxLength: 11
           example: BDEMMXMM
         clearingSystemMemberIdentification:
-          $ref: '#/components/schemas/commonClearingSystemMemberIdentification'
+          $ref: '#/components/schemas/CommonClearingSystemMemberIdentification'
 
-    paymentIbanAccount:
+    PaymentIbanAccount:
       title: Payment IBAN Account
       type: object
       required:
@@ -1120,7 +1120,7 @@ components:
           pattern: '[A-Z]{2,2}[0-9]{2,2}[a-zA-Z0-9]{1,30}'
           example: CH9300762011623852957
 
-    paymentQrIbanAccount:
+    PaymentQrIbanAccount:
       title: Payment QR-IBAN Account
       type: object
       required:
@@ -1140,7 +1140,7 @@ components:
           example: CH9300762011623852957
           pattern: '[A-Z]{2,2}[0-9]{2,2}[a-zA-Z0-9]{1,30}'
 
-    paymentOtherAccount:
+    PaymentOtherAccount:
       title: Payment Other Account
       type: object
       required:
@@ -1158,7 +1158,7 @@ components:
           maxLength: 34
           example: 01-39139-1
 
-    paymentCurrencyAmount:
+    PaymentCurrencyAmount:
       title: Payment Currency-Amount
       type: object
       required:
@@ -1176,7 +1176,7 @@ components:
           maxLength: 18
           example: 10.25
 
-    paymentIbanRemittanceReference:
+    PaymentIbanRemittanceReference:
       title: Payment Remittance Reference
       description: either remittanceReference or remittanceInformation must be set
       type: object
@@ -1192,7 +1192,7 @@ components:
           maxLength: 35
           example: '210000000003139471430009017'
 
-    paymentOtherRemittanceReference:
+    PaymentOtherRemittanceReference:
       title: Payment Remittance Reference
       description: either remittanceReference or remittanceInformation must be set
       type: object
@@ -1207,7 +1207,7 @@ components:
           maxLength: 35
           example: '210000000003139471430009017'
 
-    paymentIsrRemittanceReference:
+    PaymentIsrRemittanceReference:
       title: Payment Remittance Reference
       description: either remittanceReference or remittanceInformation must be set
       type: object
@@ -1222,14 +1222,14 @@ components:
           maxLength: 35
           example: '210000000003139471430009017'
 
-    paymentRemittanceInformation:
+    PaymentRemittanceInformation:
       title: Payment Remittance Information
       description: either remittanceReference or remittanceInformation must be set
       type: string
       maxLength: 140
       example: Rechnung Nr. 408
 
-    paymentStructuredAddress:
+    PaymentStructuredAddress:
       title: Structured Address for Payments
       type: object
       required:
@@ -1259,7 +1259,7 @@ components:
           maxLength: 2
           example: CH
 
-    paymentUnstructuredAddress:
+    PaymentUnstructuredAddress:
       title: Unstructured Address for Payments
       type: object
       required:
@@ -1281,17 +1281,17 @@ components:
           maxLength: 2
           example: CH
 
-    paymentStructuredOrUnstructuredAddress:
+    PaymentStructuredOrUnstructuredAddress:
       title: Payment Structured or Unstructured Address
       description: Either structured or unstructured must be set
       type: object
       properties:
         structured:
-          $ref: '#/components/schemas/paymentStructuredAddress'
+          $ref: '#/components/schemas/PaymentStructuredAddress'
         unstructured:
-          $ref: '#/components/schemas/paymentUnstructuredAddress'
+          $ref: '#/components/schemas/PaymentUnstructuredAddress'
 
-    commonClearingSystemMemberIdentification:
+    CommonClearingSystemMemberIdentification:
       title: Common Clearing System Member Identification
       type: object
       required:
@@ -1308,7 +1308,7 @@ components:
           example: '00230'
 
     # ---- Payment Data Model - not supported by SIX bLink ----
-    singlepaymentsSubmissionRequest:
+    SinglepaymentsSubmissionRequest:
       title: Single Payment Submission Request
       type: object
       required:
@@ -1332,7 +1332,7 @@ components:
         requestedExecutionDate:
           $ref: '#/components/schemas/Date'
         debtorAccount:
-          $ref: '#/components/schemas/paymentIbanAccount'
+          $ref: '#/components/schemas/PaymentIbanAccount'
         instructionId:
           type: string
           maxLength: 35
@@ -1342,17 +1342,17 @@ components:
           maxLength: 35
           example: ENDTOENDID-001
         instructedAmount:
-          $ref: '#/components/schemas/paymentCurrencyAmount'
+          $ref: '#/components/schemas/PaymentCurrencyAmount'
         ibanDetails:
-          $ref: '#/components/schemas/paymentIBANDetail'
+          $ref: '#/components/schemas/PaymentIBANDetail'
         isrDetails:
-          $ref: '#/components/schemas/paymentISRDetail'
+          $ref: '#/components/schemas/PaymentISRDetail'
         otherDetails:
-          $ref: '#/components/schemas/paymentOtherDetail'
+          $ref: '#/components/schemas/PaymentOtherDetail'
         qrDetails:
-          $ref: '#/components/schemas/paymentQRDetail'
+          $ref: '#/components/schemas/PaymentQRDetail'
 
-    standingorderSubmissionRequest:
+    StandingorderSubmissionRequest:
       title: Standing Order Submission Request
       type: object
       required:
@@ -1376,7 +1376,7 @@ components:
         requestedExecutionDate:
           $ref: '#/components/schemas/Date'
         debtorAccount:
-          $ref: '#/components/schemas/paymentIbanAccount'
+          $ref: '#/components/schemas/PaymentIbanAccount'
         instructionId:
           type: string
           maxLength: 35
@@ -1386,26 +1386,26 @@ components:
           maxLength: 35
           example: ENDTOENDID-001
         instructedAmount:
-          $ref: '#/components/schemas/paymentCurrencyAmount'
+          $ref: '#/components/schemas/PaymentCurrencyAmount'
         ibanDetails:
-          $ref: '#/components/schemas/paymentIBANDetail'
+          $ref: '#/components/schemas/PaymentIBANDetail'
         isrDetails:
-          $ref: '#/components/schemas/paymentISRDetail'
+          $ref: '#/components/schemas/PaymentISRDetail'
         otherDetails:
-          $ref: '#/components/schemas/paymentOtherDetail'
+          $ref: '#/components/schemas/PaymentOtherDetail'
         qrDetails:
-          $ref: '#/components/schemas/paymentQRDetail'
+          $ref: '#/components/schemas/PaymentQRDetail'
         # Additional Information according NextGenPSD2 for periodic orders
         startDate:
-          $ref: '#/components/schemas/startDate'
+          $ref: '#/components/schemas/StartDate'
         endDate:
-          $ref: '#/components/schemas/endDate'
+          $ref: '#/components/schemas/EndDate'
         executionRule:
-          $ref: '#/components/schemas/executionRule'
+          $ref: '#/components/schemas/ExecutionRule'
         frequency:
-          $ref: '#/components/schemas/frequencyCode'
+          $ref: '#/components/schemas/FrequencyCode'
         dayOfExecution:
-          $ref: '#/components/schemas/dayOfExecution'
+          $ref: '#/components/schemas/DayOfExecution'
         # Additional Optional Information Standing Orders
         executionMode:
           type: string
@@ -1434,7 +1434,7 @@ components:
                   Date format YYYY-MM-DD.
                 $ref: '#/components/schemas/Date'
 
-    standingorderSubmissionStatus:
+    StandingorderSubmissionStatus:
       title: Standing Order Submission Status
       type: object
       required:
@@ -1453,10 +1453,10 @@ components:
         transactions:
           type: array
           items:
-            $ref: '#/components/schemas/paymentInstructionItemStatus'
+            $ref: '#/components/schemas/PaymentInstructionItemStatus'
 
     # Schema information NextGenPSD2 for periodic orders
-    startDate:
+    StartDate:
       title: Start Date
       description: |
         The first applicable day of execution starting from this date is the first payment.
@@ -1464,14 +1464,14 @@ components:
       format: date
       example: 2018-04-13
 
-    endDate:
+    EndDate:
       title: End Date
       description: The last applicable day of execution. If not given, it is an infinite standing order.
       type: string
       format: date
       example: 2018-04-13
 
-    executionRule:
+    ExecutionRule:
       title: Execution Rule
       description: |
         *following* or *preceding* supported as values.
@@ -1485,7 +1485,7 @@ components:
         - preceding
       example: following
 
-    frequencyCode:
+    FrequencyCode:
       title: Frequency Code
       description: |
         The following codes from the EventFrequency7Code of ISO 20022 are supported.
@@ -1509,7 +1509,7 @@ components:
         - Annual
       example: Daily
 
-    dayOfExecution:
+    DayOfExecution:
       title: Day of Execution
       description: |
         Day of execution as integer.
@@ -1556,7 +1556,7 @@ components:
       format: date
       example: 2018-04-13
 
-    # dateTime:
+    # DateTime:
     #  type: string
     #  format: date-time
     #  example: 2018-04-13T11:11:11Z
@@ -1587,14 +1587,14 @@ components:
           description: Link / cursor to the last result set (based on the submitted pagination approach)
           example: /payment-app/api/v1/payments?offset=150&limit=25
 
-    # currency:
+    # Currency:
     #  title: Currency
     #  description: ISO 4217 code
     #  type: string
     #  pattern: '[A-Z]{3}'
     #  example: CHF
 
-    # amount:
+    # Amount:
     #  title: Amount
     #  description: amount with currency
     #  type: object
@@ -1603,7 +1603,7 @@ components:
     #    - content
     #  properties:
     #    currency:
-    #      $ref: '#/components/schemas/currency'
+    #      $ref: '#/components/schemas/Currency'
     #    content:
     #      description: amount given with fractional digits, the separator is a dot
     #      type: string
