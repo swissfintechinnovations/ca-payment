@@ -556,7 +556,7 @@ components:
           $ref: '#/components/schemas/accountTransactionTransactionType'
         entryReference:
           type: string
-          example: '010001628'
+          example: '10001628'
           maxLength: 35
         entryReferenceInternalId:
           type: string
@@ -579,6 +579,7 @@ components:
           $ref: '#/components/schemas/accountTransactionBankTransactionCode'
         additionalEntryInformation:
           type: string
+          example: Online Shopping Visa Debit Card Nr. xxxx 1234
         transactions:
           type: array
           items:
@@ -619,6 +620,7 @@ components:
         additionalTransactionInformation:
           type: string
           maxLength: 140
+          example: Online Shopping Visa Debit Card Nr. xxxx 1234
 
     linksPagination:
       title: Pagination Links
