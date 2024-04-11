@@ -452,12 +452,12 @@ paths:
           description: Start date of the payments query
           name: dateFrom
           schema:
-            $ref: '#/components/schemas/date'
+            $ref: '#/components/schemas/Date'
         - in: query
           description: End date of the transaction query
           name: dateTo
           schema:
-            $ref: '#/components/schemas/date'
+            $ref: '#/components/schemas/Date'
         - $ref: '#/components/parameters/authorization_in_header'
         - $ref: '#/components/parameters/clientid_in_header'
         - $ref: '#/components/parameters/correlation_in_header'
@@ -881,7 +881,7 @@ components:
           maxLength: 32
           example: TPP01746
         requestedExecutionDate:
-          $ref: '#/components/schemas/date'
+          $ref: '#/components/schemas/Date'
         debtorAccount:
           $ref: '#/components/schemas/paymentIbanAccount'
         bookingInstruction:
@@ -1330,7 +1330,7 @@ components:
           maxLength: 32
           example: TPP01746
         requestedExecutionDate:
-          $ref: '#/components/schemas/date'
+          $ref: '#/components/schemas/Date'
         debtorAccount:
           $ref: '#/components/schemas/paymentIbanAccount'
         instructionId:
@@ -1374,7 +1374,7 @@ components:
           maxLength: 32
           example: TPP01746
         requestedExecutionDate:
-          $ref: '#/components/schemas/date'
+          $ref: '#/components/schemas/Date'
         debtorAccount:
           $ref: '#/components/schemas/paymentIbanAccount'
         instructionId:
@@ -1427,12 +1427,12 @@ components:
                 description: >
                   Start date of one break period. Standing order will not be processed from this date.
                   Date format YYYY-MM-DD.
-                $ref: '#/components/schemas/date'
+                $ref: '#/components/schemas/Date'
               validToDate:
                 description: >
                   End date of one break period. Standing order will not be processed to this date.
                   Date format YYYY-MM-DD.
-                $ref: '#/components/schemas/date'
+                $ref: '#/components/schemas/Date'
 
     standingorderSubmissionStatus:
       title: Standing Order Submission Status
@@ -1551,7 +1551,7 @@ components:
       example: 1
 
     # ---- Common Data Model ----
-    date:
+    Date:
       type: string
       format: date
       example: 2018-04-13
@@ -1611,12 +1611,12 @@ components:
     #      example: '10.25'
 
     # ---- Common Error Response (compliant to SIX b.Link) ----
-    commonErrorResponse:
+    CommonErrorResponse:
       title: Common Error Response
       type: object
       properties:
         type:
-          $ref: '#/components/schemas/commonErrorType'
+          $ref: '#/components/schemas/CommonErrorType'
         title:
           type: string
           example:
@@ -1630,9 +1630,9 @@ components:
           example:
             path/to/corresponding/resource
 
-    commonErrorType:
+    CommonErrorType:
       title: Common Error Type
-      description: Error Types for commonErrorResponse.
+      description: Error Types for CommonErrorResponse.
       type: string
       enum:
         - /problems/INVALID_PAYLOAD
@@ -1795,7 +1795,7 @@ components:
       content:
         application/problem+json:
           schema:
-            $ref: '#/components/schemas/commonErrorResponse'
+            $ref: '#/components/schemas/CommonErrorResponse'
 
     standard401:
       headers:
@@ -1810,7 +1810,7 @@ components:
       content:
         application/problem+json:
           schema:
-            $ref: '#/components/schemas/commonErrorResponse'
+            $ref: '#/components/schemas/CommonErrorResponse'
 
     standard403:
       headers:
@@ -1844,7 +1844,7 @@ components:
       content:
         application/problem+json:
           schema:
-            $ref: '#/components/schemas/commonErrorResponse'
+            $ref: '#/components/schemas/CommonErrorResponse'
 
     standard404:
       headers:
@@ -1884,7 +1884,7 @@ components:
       content:
         application/problem+json:
           schema:
-            $ref: '#/components/schemas/commonErrorResponse'
+            $ref: '#/components/schemas/CommonErrorResponse'
 
     standard405:
       headers:
@@ -1906,7 +1906,7 @@ components:
       content:
         application/problem+json:
           schema:
-            $ref: '#/components/schemas/commonErrorResponse'
+            $ref: '#/components/schemas/CommonErrorResponse'
 
     standard500:
       headers:
@@ -1934,7 +1934,7 @@ components:
       content:
         application/problem+json:
           schema:
-            $ref: '#/components/schemas/commonErrorResponse'
+            $ref: '#/components/schemas/CommonErrorResponse'
 
     standard501:
       headers:
@@ -1956,7 +1956,7 @@ components:
       content:
         application/problem+json:
           schema:
-            $ref: '#/components/schemas/commonErrorResponse'
+            $ref: '#/components/schemas/CommonErrorResponse'
 
     standard503:
       headers:
@@ -1971,4 +1971,4 @@ components:
       content:
         application/problem+json:
           schema:
-            $ref: '#/components/schemas/commonErrorResponse'
+            $ref: '#/components/schemas/CommonErrorResponse'
