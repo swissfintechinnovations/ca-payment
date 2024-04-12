@@ -1026,10 +1026,10 @@ components:
       format: date
       example: 2018-04-13
 
-    # DateTime:
-    #  type: string
-    #  format: date-time
-    #  example: 2018-04-13T11:11:11Z
+  # DateTime:
+  #   type: string
+  #   format: date-time
+  #   example: 2018-04-13T11:11:11Z
 
   # ---- Global Common Header Parameters ----
   parameters:
