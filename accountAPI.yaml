@@ -1124,16 +1124,16 @@ components:
       schema:
         type: string
 
-    # offset:
-    #  name: offset
-    #  in: query
-    #  description: Optional parameter for pagination. The number of items to skip before starting to collect the result set.
-    #  required: false
-    #  schema:
-    #    type: integer
-    #    format: int32
-    #    example: 25
-    #    minimum: 0
+  # offset:
+  #  name: offset
+  #  in: query
+  #  description: Optional parameter for pagination. The number of items to skip before starting to collect the result set.
+  #  required: false
+  #  schema:
+  #    type: integer
+  #    format: int32
+  #    example: 25
+  #    minimum: 0
 
     limit:
       name: limit
