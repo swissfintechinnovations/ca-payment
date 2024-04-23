@@ -18,16 +18,19 @@ servers:
 externalDocs:
   description: Find out more about SFTI API specifications
   url: https://www.common-api.ch
-security:
-  - OAuth2:
-      - read
-      - write
+
+basePath: /v4
 
 tags:
   - name: accounts
     description: Third party access to bank account service considering account information and transaction data operations (JSON).
   - name: iso20022
     description: Third party access to bank account service considering camt.053 operations (XML).
+
+security:
+  - OAuth2:
+      - read
+      - write
 
 paths:
   /accounts:
