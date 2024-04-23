@@ -19,8 +19,6 @@ externalDocs:
   description: Find out more about SFTI API specifications
   url: https://www.common-api.ch
 
-basePath: /v4
-
 tags:
   - name: accounts
     description: Third party access to bank account service considering account information and transaction data operations (JSON).
