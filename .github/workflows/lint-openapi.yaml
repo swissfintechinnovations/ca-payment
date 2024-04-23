@@ -11,6 +11,6 @@ on:
 
 jobs:
   openapi-lint:
-    uses: swissfintechinnovations/.github/.github/workflows/reusable-lint-openapi-workflow.yaml@naming-conventions-part-1
+    uses: swissfintechinnovations/.github/.github/workflows/reusable-lint-openapi-workflow.yaml@naming-conventions-part-2
     with:
       filenames: ${{ github.event.inputs.filenames || '*.yaml' }}
