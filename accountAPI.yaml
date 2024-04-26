@@ -14,7 +14,7 @@ info:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
 servers:
-  - url: account.common-api.ch
+  - url: account.common-api.ch/api/v4
 externalDocs:
   description: Find out more about SFTI API specifications
   url: https://www.common-api.ch
@@ -179,18 +179,17 @@ paths:
         - $ref: '#/components/parameters/authorization_in_header'
         - $ref: '#/components/parameters/path_accountId'
         - in: query
+          name: date_from
+          schema:
+            $ref: '#/components/schemas/Date'
           description: Start date of the transaction query
-          name: dateFrom
+        - in: query
+          name: date_to
           schema:
             $ref: '#/components/schemas/Date'
-        - in: query
           description: End date of the transaction query
-          name: dateTo
-          schema:
-            $ref: '#/components/schemas/Date'
         - in: query
-          description: Booking status of the transactions to be queried
-          name: bookingStatus
+          name: booking_status
           required: true
           schema:
             type: string
@@ -198,6 +197,7 @@ paths:
               - booked
               - pending
               - both
+          description: Booking status of the transactions to be queried
         - $ref: '#/components/parameters/cursor'
         - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/clientid_in_header'
@@ -1037,7 +1037,7 @@ components:
     path_accountId:
       name: accountId
       in: path
-      description: ID of the account
+      description: ID of the account.
       required: true
       schema:
         maxLength: 256
@@ -1065,7 +1065,7 @@ components:
     query_date:
       name: date
       in: query
-      description: 'The date to query, formatted as yyyy-mm-dd. Default value: current date'
+      description: 'The date to query, formatted as yyyy-mm-dd. Default value: current date.'
       schema:
         $ref: '#/components/schemas/Date'
 
@@ -1074,13 +1074,13 @@ components:
       in: header
       schema:
         type: string
-      description: 'ID of the client forwarded to the provider. (SCOPE: FI)'
+      description: 'ID of the client forwarded to the provider (SCOPE: FI).'
       required: true
 
     authorization_in_header:
       name: Authorization
       in: header
-      description: Bearer followed by a base64 encoded OAuth access token
+      description: Bearer followed by a base64 encoded OAuth access token.
       required: true
       schema:
         type: string
@@ -1104,7 +1104,7 @@ components:
     optional_targetid_in_header:
       name: X-CorAPI-Target-ID
       in: header
-      description: 'ID of the target, e.g., a financial institution. (SCOPE: FI - optional)'
+      description: 'ID of the target, e.g., a financial institution (SCOPE: FI - optional).'
       required: false
       schema:
         type: string
@@ -1112,7 +1112,7 @@ components:
     optional_psu_ip_in_header:
       name: X-PSU-IP-Address
       in: header
-      description: 'IP address of the user initiating the operation (SCOPE: FI - optional)'
+      description: 'IP address of the user initiating the operation (SCOPE: FI - optional).'
       required: false
       schema:
         type: string
@@ -1120,7 +1120,7 @@ components:
     optional_psu_user_agent_in_header:
       name: X-PSU-User-Agent
       in: header
-      description: 'User of the client software (SCOPE: FI - optional)'
+      description: 'User of the client software (SCOPE: FI - optional).'
       required: false
       schema:
         type: string
