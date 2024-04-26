@@ -182,12 +182,12 @@ paths:
           name: date_from
           schema:
             $ref: '#/components/schemas/Date'
-          description: Start date of the transaction query
+          description: Start date of the transaction query.
         - in: query
           name: date_to
           schema:
             $ref: '#/components/schemas/Date'
-          description: End date of the transaction query
+          description: End date of the transaction query.
         - in: query
           name: booking_status
           required: true
@@ -197,7 +197,7 @@ paths:
               - booked
               - pending
               - both
-          description: Booking status of the transactions to be queried
+          description: Booking status of the transactions to be queried.
         - $ref: '#/components/parameters/cursor'
         - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/clientid_in_header'
@@ -372,17 +372,6 @@ paths:
 # -------- Models ---------
 # -------------------------
 components:
-  securitySchemes:
-    OAuth2:
-      type: oauth2
-      flows:
-        authorizationCode:
-          authorizationUrl: https://example.com/oauth/authorize
-          tokenUrl: https://example.com/oauth/token
-          scopes:
-            read: Grants read access
-            write: Grants write access
-
   schemas:
     # /accounts
     AccountItem:
@@ -1156,23 +1145,16 @@ components:
         type: string
         example: cursorIDxyz
 
-  # ---- Response Headers - used by Standard Responses ----
-  headers:
-    Content-Language:
-      description: Response language - always en
-      schema:
-        type: string
-
-    Content-Type:
-      description: application/problem+json; charset=utf-8 according to RFC7807
-      schema:
-        type: string
-
-    X-Correlation-ID:
-      description: Client defined ID from request to correlates HTTP requests between a client and server
-      schema:
-        type: string
-        example: f058ebd6-02f7-4d3f-942e-904344e8cde5
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://example.com/oauth/authorize
+          tokenUrl: https://example.com/oauth/token
+          scopes:
+            read: Grants read access
+            write: Grants write access
 
   # ---- Responses - Standard Errors Common Data Model ----
   responses:
@@ -1404,3 +1386,21 @@ components:
         application/problem+json:
           schema:
             $ref: '#/components/schemas/CommonErrorResponse'
+
+  # ---- Response Headers - used by Standard Responses ----
+  headers:
+    Content-Language:
+      description: Response language - always en
+      schema:
+        type: string
+
+    Content-Type:
+      description: application/problem+json; charset=utf-8 according to RFC7807
+      schema:
+        type: string
+
+    X-Correlation-ID:
+      description: Client defined ID from request to correlates HTTP requests between a client and server
+      schema:
+        type: string
+        example: f058ebd6-02f7-4d3f-942e-904344e8cde5
