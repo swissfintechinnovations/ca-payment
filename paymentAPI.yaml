@@ -1646,14 +1646,14 @@ components:
   # ---- Global Common Header Parameters ----
   parameters:
     path_submissionId:
-      name: submissionId
       in: path
-      description: ID of payment submission to be retrieved.
+      name: submissionId
       required: true
       schema:
         maxLength: 35
         type: string
         example: submissionId
+      description: ID of payment submission to be retrieved.
 
     clientid_in_header:
       in: header
