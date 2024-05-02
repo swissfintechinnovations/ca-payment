@@ -14,7 +14,7 @@ info:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
 servers:
-  - url: account.common-api.ch
+  - url: account.common-api.ch/v4
 externalDocs:
   description: Find out more about SFTI API specifications
   url: https://www.common-api.ch
