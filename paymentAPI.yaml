@@ -12,7 +12,7 @@ info:
     email: info@common-api.ch
   license:
     name: Apache 2.0
-    url: http://www.apache.org/licenses/LICENSE-2.0.html
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
 servers:
   - url: payment.common-api.ch/api/v4
 externalDocs:
@@ -1560,23 +1560,23 @@ components:
       properties:
         self:
           type: string
-          description: Link / cursor to the current result set (based on the submitted pagination approach)
+          description: Link / cursor to the current result set (based on the submitted pagination approach).
           example: /payment-app/api/v1/payments?offset=75&limit=25
         first:
           type: string
-          description: Link / cursor to the first result set (based on the submitted pagination approach)
+          description: Link / cursor to the first result set (based on the submitted pagination approach).
           example: /payment-app/api/v1/payments?offset=0&limit=25
         previous:
           type: string
-          description: Link / cursor to the previous result set (based on the submitted pagination approach)
+          description: Link / cursor to the previous result set (based on the submitted pagination approach).
           example: /payment-app/api/v1/payments?offset=50&limit=25
         next:
           type: string
-          description: Link / cursor to the next result set (based on the submitted pagination approach)
+          description: Link / cursor to the next result set (based on the submitted pagination approach).
           example: /payment-app/api/v1/payments?offset=100&limit=25
         last:
           type: string
-          description: Link / cursor to the last result set (based on the submitted pagination approach)
+          description: Link / cursor to the last result set (based on the submitted pagination approach).
           example: /payment-app/api/v1/payments?offset=150&limit=25
 
     # Currency:
