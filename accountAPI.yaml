@@ -403,8 +403,8 @@ components:
           type: array
           items:
             type: string
-            description: Permitted currencies for the account.
             example: CHF
+          description: Permitted currencies for the account.
         designation:
           type: string
           maxLength: 140
@@ -413,7 +413,7 @@ components:
         accountTypeCode:
           type: string
           description: |
-            Contains the account type code according to the ISO external cash account type code list. It is strongly recommended to use only the 5 codes below as follows:
+            Contains the account type code according to the ISO20022 external cash account type code list. It is strongly recommended to use only the 5 codes below as follows:
             LOAN: Account used for loans (loan and mortgage accounts) - DE: Darlehenskonto, Kreditkonto, Baukreditkonto, Hypothekarkonto
             LLSV: Account used for savings with special interest and withdrawal terms (pension provision and vested benefits accounts) - DE: Vorsorge- und Freizügigkeitskonten
             SVGS: Account used for savings (all types of saving accounts)
@@ -446,7 +446,7 @@ components:
             - VACC
         _links:
           type: object
-          description: Contains the paths to additional resources for specific account (e.g. path to transactions resource).
+          description: Contains the paths to additional resources for specific account (e.g. path to balance and transactions resource).
           properties:
             self:
               type: string
@@ -487,7 +487,7 @@ components:
           $ref: '#/components/schemas/BalanceCurrencyAmount'
         _links:
           type: object
-          description: Contains the paths to additional resources for specific account (e.g. path to transactions resource).
+          description: Contains the paths to additional resources for specific account (e.g. path to account and transactions resource).
           properties:
             self:
               type: string
@@ -502,6 +502,7 @@ components:
     AccountTransactionReport:
       title: Account Transaction Report
       type: object
+      description: The account transaction report object.
       required:
         - iban
         - entries
@@ -510,19 +511,23 @@ components:
           type: string
           maxLength: 34
           pattern: '[A-Z]{2,2}[0-9]{2,2}[a-zA-Z0-9]{1,30}'
+          description: The international bank account number (IBAN) of the account.
           example: CH5481230000001998736
         designation:
           type: string
           maxLength: 140
-          example: Checking Account
+          description: The account designation of the account, i.e. savings account.
+          example: Payment account
         entries:
           type: array
+          description: The account transaction entry object.
           items:
             $ref: '#/components/schemas/AccountTransactionEntry'
         linksPagination:
           $ref: '#/components/schemas/LinksPagination'
         _links:
           type: object
+          description: Contains the paths to additional resources for specific account (e.g. path to account and balance resource).
           properties:
             self:
               type: string
@@ -537,6 +542,7 @@ components:
     AccountTransactionEntry:
       title: Account Transaction Entry
       type: object
+      description: The account transaction entry object.
       required:
         - entryId
         - transactionType
@@ -576,15 +582,18 @@ components:
           $ref: '#/components/schemas/AccountTransactionBankTransactionCode'
         additionalEntryInformation:
           type: string
+          description: Any additional information to the transaction entry.
           example: Online Shopping Visa Debit Card Nr. xxxx 1234
         transactions:
           type: array
+          description: The transaction itself.
           items:
             $ref: '#/components/schemas/AccountTransactionItem'
 
     AccountTransactionItem:
       title: Account Transaction Item
       type: object
+      description: The account transaction object.
       required:
         - transactionId
         - transactionType
@@ -593,6 +602,7 @@ components:
         transactionId:
           type: string
           maxLength: 35
+          description: The unique identifier of the transaction.
           example: TX12345A987
         transactionType:
           $ref: '#/components/schemas/AccountTransactionTransactionType'
@@ -617,6 +627,7 @@ components:
         additionalTransactionInformation:
           type: string
           maxLength: 140
+          description: Any additional information to the transaction.
           example: Online Shopping Visa Debit Card Nr. xxxx 1234
 
     LinksPagination:
@@ -648,6 +659,7 @@ components:
     AccountTransactionItemCharges:
       title: Account Transaction Item Charges
       type: object
+      description: The account transaction charges object.
       required:
         - amount
         - currency
@@ -656,11 +668,13 @@ components:
           type: number
           pattern: '[0-9]{1,12}([.][0-9]{1,5})?'
           maxLength: 18
+          description: The amount of the charge.
           example: 10.25
         currency:
           type: string
           maxLength: 3
           minLength: 3
+          description: The currency of the charge amount.
           example: CHF
         chargeRecords:
           type: array
@@ -670,16 +684,19 @@ components:
     AccountTransactionItemChargesRecord:
       title: Account Transaction Item Charges Record
       type: object
+      description: The account transaction charge record object.
       properties:
         amount:
           type: number
           pattern: '[0-9]{1,12}([.][0-9]{1,5})?'
           maxLength: 18
+          description: The amount of the charge.
           example: 10.25
         currency:
           type: string
           minLength: 3
           maxLength: 3
+          description: The currency of the charge amount.
           example: CHF
         type:
           type: string
@@ -692,10 +709,12 @@ components:
     AccountTransactionCounterparty:
       title: Account Transaction Counterparty
       type: object
+      description: The account transaction counterparty object.
       properties:
         name:
           type: string
           maxLength: 140
+          description: First name and last name of the counterparty.
           example: Hans Muster
         postalAddress:
           $ref: '#/components/schemas/AccountTransactionStructuredOrUnstructuredAddress'
@@ -707,10 +726,12 @@ components:
     AccountTransactionCounterpartyAgent:
       title: Account Transaction Counterparty Agent
       type: object
+      description: The account transaction counterparty agent object.
       properties:
         bic:
           type: string
           maxLength: 11
+          description: The bank identifier code (BIC) of the counterparty agent.
           example: DEUTDE5M101
         clearingSystemMemberIdentification:
           $ref: '#/components/schemas/CommonClearingSystemMemberIdentification'
@@ -718,6 +739,7 @@ components:
     AccountTransactionInstructedAmount:
       title: Account Transaction Instructed Amount
       type: object
+      description: The account transaction instructed amount object.
       required:
         - amount
         - sourceCurrency
@@ -727,22 +749,26 @@ components:
           type: number
           pattern: '[0-9]{1,12}([.][0-9]{1,5})?'
           maxLength: 18
+          description: The amount of the transaction.
           example: 10.25
         sourceCurrency:
           type: string
           minLength: 3
           maxLength: 3
+          description: The source currency of the transaction.
           example: CHF
         targetCurrency:
           type: string
           minLength: 3
           maxLength: 3
+          description: The target currency of the transaction.
           example: USD
         exchangeRate:
           type: number
-          example: 0.957
           pattern: '^\d{1,11}$|^(?=\d+[.]\d+$).{3,12}$'
           maxLength: 12
+          description: The applied exchange rate if source currency is not equal to target currency.
+          example: 0.957
         exchangeIndicator:
           type: string
           maxLength: 4
@@ -751,6 +777,7 @@ components:
     AccountTransactionBankTransactionCode:
       title: Account Transaction Bank Transaction Code
       type: object
+      description: The bank transaction code (ISO20022) object of an account transaction.
       required:
         - domainCode
         - familyCode
@@ -759,18 +786,22 @@ components:
         domainCode:
           type: string
           maxLength: 4
+          description: Highest definition level to identify the sub-ledger. The domain defines the business area of the underlying transaction (e.g., payments, securities...).
           example: PMNT
         familyCode:
           type: string
           maxLength: 4
+          description: 'Medium definition level: e.g. type of payments: credit transfer, direct debit.'
           example: RCDT
         subFamilyCode:
           type: string
           maxLength: 4
+          description: 'Lowest definition level: e.g. type of cheques: drafts, etc.'
           example: DMCT
 
     AccountTransactionTransactionType:
       title: Account Transaction Transaction Type
+      description: 'The transaction type of the account transaction, either credit (CRDT) or debit (DBIT).'
       type: string
       enum:
         - CRDT
@@ -779,6 +810,7 @@ components:
 
     AccountTransactionCounterpartyAccount:
       title: Account Transaction Counterparty Account
+      description: The counterparty account of an account transaction.
       type: object
       required:
         - type
@@ -789,14 +821,17 @@ components:
           enum:
             - IBAN
             - OTHER
+          description: The account idientification type of the counterparty account, either IBAN or OTHER.
           example: IBAN
         identification:
           type: string
           maxLength: 35
+          description: The account identification of the counterpary account. If account type equals IBAN then the identification is the international bank account number.
           example: CH9300762011623852957
 
     AccountTransactionRemittanceReference:
       title: Account Transaction Remittance Reference
+      description: The remittance reference of the account transaction.
       type: object
       properties:
         type:
@@ -886,10 +921,11 @@ components:
           type: number
           pattern: '-?[0-9]{1,12}([.][0-9]{1,5})?'
           maxLength: 18
+          description: The amount of the balance.
           example: 10.25
 
     Iso20022ReportReference:
-      title: ISO 20022 Report Reference
+      title: ISO20022 Report Reference
       type: object
       properties:
         name:
@@ -954,6 +990,7 @@ components:
           type: number
           pattern: '[0-9]{1,12}([.][0-9]{1,5})?'
           maxLength: 18
+          description: The amount of the payment.
           example: 10.25
 
     PaymentRemittanceInformation:
