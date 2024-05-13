@@ -377,6 +377,7 @@ components:
     AccountItem:
       title: Account Information Item
       type: object
+      description: The account object.
       required:
         - accountOwner
         - id
@@ -388,18 +389,21 @@ components:
         account:
           $ref: '#/components/schemas/PaymentIbanAccount'
         accountOwner:
-          maxLength: 140
           type: string
+          maxLength: 140
+          description: The owner of the account.
           example: Account Owner XYZ
         currency:
           type: string
           minLength: 3
           maxLength: 3
+          description: Account currency. 
           example: CHF
         allowedCurrencies:
           type: array
           items:
             type: string
+            description: Permitted currencies for the account.
             example: CHF
         designation:
           type: string
@@ -458,11 +462,13 @@ components:
       type: string
       pattern: '[A-Za-z0-9](([A-Za-z0-9._]|-){0,254}[A-Za-z0-9]){0,1}'
       maxLength: 256
+      description: The common ID of the account.
       example: abc123_abcxyz.123789.abcxyz.abcxyz_abcxyz_abcxyz_abcxyz_ccccc_123abc
 
     AccountBalanceItem:
       title: Account Balance Item
       type: object
+      description: The account balance object.
       required:
         - date
         - balanceType
@@ -475,6 +481,7 @@ components:
           enum:
             - ITBD
             - CLBD
+          description: The balance type. Either intraday (ITBD) or closing day (CLBD).
           example: CLBD
         balance:
           $ref: '#/components/schemas/BalanceCurrencyAmount'
