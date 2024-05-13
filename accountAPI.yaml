@@ -481,7 +481,7 @@ components:
           enum:
             - ITBD
             - CLBD
-          description: The balance type. Either intraday (ITBD) or closing day (CLBD).
+          description: The account balance type according to ISO20022. Either the interim booked balance (ITBD) or the closing booked balance (CLBD) type can be applied.
           example: CLBD
         balance:
           $ref: '#/components/schemas/BalanceCurrencyAmount'
