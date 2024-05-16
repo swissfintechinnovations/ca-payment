@@ -666,8 +666,8 @@ components:
       properties:
         amount:
           type: number
-          pattern: '[0-9]{1,12}([.][0-9]{1,5})?'
-          maxLength: 18
+          minimum: 0.0
+          maximum: 999999999999.99999
           description: The amount of the charge.
           example: 10.25
         currency:
@@ -688,8 +688,8 @@ components:
       properties:
         amount:
           type: number
-          pattern: '[0-9]{1,12}([.][0-9]{1,5})?'
-          maxLength: 18
+          minimum: 0.0
+          maximum: 999999999999.99999
           description: The amount of the charge.
           example: 10.25
         currency:
@@ -747,8 +747,8 @@ components:
       properties:
         amount:
           type: number
-          pattern: '[0-9]{1,12}([.][0-9]{1,5})?'
-          maxLength: 18
+          minimum: 0.0
+          maximum: 999999999999.99999
           description: The amount of the transaction.
           example: 10.25
         sourceCurrency:
@@ -765,8 +765,8 @@ components:
           example: USD
         exchangeRate:
           type: number
-          pattern: '^\d{1,11}$|^(?=\d+[.]\d+$).{3,12}$'
-          maxLength: 12
+          minimum: 0.000
+          maximum: 99999999.999
           description: The applied exchange rate if source currency is not equal to target currency.
           example: 0.957
         exchangeIndicator:
@@ -919,8 +919,8 @@ components:
           example: CHF
         amount:
           type: number
-          pattern: '-?[0-9]{1,12}([.][0-9]{1,5})?'
-          maxLength: 18
+          minimum: 0.0
+          maximum: 999999999999.99999
           description: The amount of the balance.
           example: 10.25
 
@@ -988,8 +988,8 @@ components:
           example: CHF
         amount:
           type: number
-          pattern: '[0-9]{1,12}([.][0-9]{1,5})?'
-          maxLength: 18
+          minimum: 0.0
+          maximum: 999999999999.99999
           description: The amount of the payment.
           example: 10.25
 
