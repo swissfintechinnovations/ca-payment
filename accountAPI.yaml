@@ -554,19 +554,23 @@ components:
       properties:
         entryId:
           type: string
+          description: Unique bank-defined ID for the transaction. Corresponds to the attribute 'Ntry ⇾ AddtlInfInd ⇾ MsgId' in SPS/ISO-20022.
           example: ENTRY123456789
         transactionType:
           $ref: '#/components/schemas/AccountTransactionTransactionType'
         entryReference:
           type: string
+          description: Mandatory for business cases ISR and QR-IBAN. Contains the ISR participant number or QR-IBAN of the account owner. Corresponds to the attribute 'NtryRef' in SPS/ISO-20022.
           example: '10001628'
           maxLength: 35
         entryReferenceInternalId:
           type: string
-          example: '11020162893'
+          description: Additional grouping criteria for business cases ISR and QR-IBAN. Contains the BISR-ID or first 6 characters of the QR reference. There's no corresponding attribute in SPS/ISO-20022.
+          example: '110201'
           maxLength: 35
         reversalIndicator:
           type: boolean
+          description: Indicates whether the transaction is a retransfer of a previous payment. '1' means that the transaction is a retransfer and '0' means that the transaction is not a retransfer. Corresponds to the attribute 'RvslInd' in SPS/ISO-20022.
           example: 0
         bookingDate:
           $ref: '#/components/schemas/Date'
