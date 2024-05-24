@@ -179,17 +179,17 @@ paths:
         - $ref: '#/components/parameters/authorization_in_header'
         - $ref: '#/components/parameters/path_accountId'
         - in: query
-          name: date_from
+          name: dateFrom
           schema:
             $ref: '#/components/schemas/Date'
           description: Start date of the transaction query.
         - in: query
-          name: date_to
+          name: dateTo
           schema:
             $ref: '#/components/schemas/Date'
           description: End date of the transaction query.
         - in: query
-          name: booking_status
+          name: bookingStatus
           required: true
           schema:
             type: string
@@ -674,9 +674,9 @@ components:
         - currency
       properties:
         amount:
-          type: number
-          minimum: 0.0
-          maximum: 999999999999.99999
+          type: string
+          pattern: '[0-9]{1,12}([.][0-9]{1,5})?'
+          maxLength: 18
           description: The total amount of account charges.
           example: 10.25
         currency:
@@ -696,9 +696,9 @@ components:
       description: Specifies the details about individual charges.
       properties:
         amount:
-          type: number
-          minimum: 0.0
-          maximum: 999999999999.99999
+          type: string
+          pattern: '[0-9]{1,12}([.][0-9]{1,5})?'
+          maxLength: 18
           description: The amount of individual charges.
           example: 10.25
         currency:
@@ -757,9 +757,9 @@ components:
         - targetCurrency
       properties:
         amount:
-          type: number
-          minimum: 0.0
-          maximum: 999999999999.99999
+          type: string
+          pattern: '[0-9]{1,12}([.][0-9]{1,5})?'
+          maxLength: 18
           description: The amount instructed by the customer to the bank to carry out the transaction.
           example: 10.25
         sourceCurrency:
@@ -775,9 +775,9 @@ components:
           description: The currency three-letter code which the recipient will receive after the currency conversion. Corresponds to the attribute _TrgtCcy_ in SPS/ISO-20022.
           example: CHF, USD
         exchangeRate:
-          type: number
-          minimum: 0.000
-          maximum: 99999999.999
+          type: string
+          pattern: '^\d{1,11}$|^(?=\d+[.]\d+$).{3,12}$'
+          maxLength: 12
           description: The rate at which the source currency will be exchanged for the target currency. Corresponds to the attribute _XchgRate_ in SPS/ISO-20022.
           example: 0.957
         exchangeIndicator:
@@ -942,9 +942,9 @@ components:
           description: The currency three-letter code in which the balance and the account are held.
           example: CHF
         amount:
-          type: number
-          minimum: 0.0
-          maximum: 999999999999.99999
+          type: string
+          pattern: '[0-9]{1,12}([.][0-9]{1,5})?'
+          maxLength: 18
           description: TThe amount of the requested account balance.
           example: 10.25
 
@@ -1014,9 +1014,9 @@ components:
           description: The currency three-letter code in which the entry was posed.
           example: CHF
         amount:
-          type: number
-          minimum: 0.0
-          maximum: 999999999999.99999
+          type: string
+          pattern: '[0-9]{1,12}([.][0-9]{1,5})?'
+          maxLength: 18
           description: The entry amount, which will be reflected in the account balance.
           example: 10.25
 

@@ -20,14 +20,15 @@ externalDocs:
   url: https://www.common-api.ch
 
 tags:
-  - name: iso20022
-    description: Third party payment service considering pain.001 and pain.002 operations (XML). PUT operation can be used for both payment submission and payment initiation (PSS/PIS), depending on security implementation.
+  - name: standing orders
+    description: Third party payment service considering standing order operations (JSON).
   - name: payments
     description: Third party payment service considering bulk payments operations (JSON). PUT operation can be used for both payment submission and payment initiation (PSS/PIS), depending on security implementation.
   - name: single payments
     description: Third party payment service considering single payments operations (JSON). PUT operation can be used for both payment submission and payment initiation (PSS/PIS), depending on security implementation.
-  - name: standing orders
-    description: Third party payment service considering standing order operations (JSON).
+  - name: iso20022
+    description: Third party payment service considering pain.001 and pain.002 operations (XML). PUT operation can be used for both payment submission and payment initiation (PSS/PIS), depending on security implementation.
+
 
 security:
   - OAuth2:
@@ -64,7 +65,7 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/StandingorderSubmissionRequest'
-                  _LinksPagination:
+                  _links:
                     $ref: '#/components/schemas/LinksPagination'
         '400':
           $ref: '#/components/responses/standard400'
@@ -284,7 +285,7 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/PaymentSubmissionRequest'
-                  _LinksPagination:
+                  _links::
                     $ref: '#/components/schemas/LinksPagination'
         '400':
           $ref: '#/components/responses/standard400'
@@ -441,7 +442,7 @@ paths:
       description: Return the list of all initiated payments of all types for the authenticated context.
       parameters:
         - in: query
-          name: entry_reference_from
+          name: entryReferenceFrom
           schema:
             type: string
           description: Get all objects after the one with the given ID.
@@ -451,12 +452,12 @@ paths:
             type: integer
           description: Number of items to be returned.
         - in: query
-          name: date_from
+          name: dateFrom
           schema:
             $ref: '#/components/schemas/Date'
           description: Start date of the payments query.
         - in: query
-          name: date_to
+          name: dateTo
           schema:
             $ref: '#/components/schemas/Date'
           description: End date of the transaction query.
@@ -482,7 +483,7 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/SinglepaymentsSubmissionRequest'
-                  _LinksPagination:
+                  _links:
                     $ref: '#/components/schemas/LinksPagination'
         '400':
           $ref: '#/components/responses/standard400'
@@ -1163,9 +1164,9 @@ components:
           minLength: 3
           example: CHF
         amount:
-          type: number
-          minimum: 0.00000
-          maximum: 999999999999.99999
+          type: string
+          pattern: '[0-9]{1,12}([.][0-9]{1,5})?'
+          maxLength: 18
           description: The payment amount.
           example: 10.25
 
@@ -1507,9 +1508,8 @@ components:
       description: |
         Day of execution as integer.
         This integer consists of up two characters. Leading zeroes are not allowed.
-      type: integer
-      minimum: 1
-      maximum: 31
+      type: string
+      maxLength: 2
       enum:
         - 1
         - 2
