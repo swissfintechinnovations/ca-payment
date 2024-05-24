@@ -773,8 +773,7 @@ components:
           minLength: 3
           maxLength: 3
           description: The currency three-letter code which the recipient will receive after the currency conversion. Corresponds to the attribute _TrgtCcy_ in SPS/ISO-20022.
-          example: CHF
-          example: USD
+          example: CHF, USD
         exchangeRate:
           type: number
           minimum: 0.000
