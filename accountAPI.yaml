@@ -573,7 +573,7 @@ components:
         reversalIndicator:
           type: boolean
           description: Indicates if the transaction is a reversing entry. Must always be true. Corresponds to the attribute _RvslInd_ in SPS/ISO-20022.
-          example: 1
+          example: true
         bookingDate:
           $ref: '#/components/schemas/Date'
           description: The booking date of the transaction set by the bank. Corresponds to the attribute _BookgDt_ in SPS/ISO-20022.
@@ -946,7 +946,7 @@ components:
           pattern: '[0-9]{1,12}([.][0-9]{1,5})?'
           maxLength: 18
           description: TThe amount of the requested account balance.
-          example: 10.25
+          example: '10.25'
 
     Iso20022ReportReference:
       title: ISO20022 Report Reference
