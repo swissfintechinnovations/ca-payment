@@ -767,13 +767,13 @@ components:
           minLength: 3
           maxLength: 3
           description: The currency three-letter code which is used to fund a currency conversion. Corresponds to the attribute _SrcCcy_ in SPS/ISO-20022.
-          example: CHF, EUR
+          example: CHF
         targetCurrency:
           type: string
           minLength: 3
           maxLength: 3
           description: The currency three-letter code which the recipient will receive after the currency conversion. Corresponds to the attribute _TrgtCcy_ in SPS/ISO-20022.
-          example: CHF, USD
+          example: EUR
         exchangeRate:
           type: string
           pattern: '^\d{1,11}$|^(?=\d+[.]\d+$).{3,12}$'
