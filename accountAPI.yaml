@@ -469,6 +469,13 @@ components:
       description: The ISO currency three-letter code.
       example: CHF
 
+    IBANIdentification:
+      type: string
+      maxLength: 34
+      pattern: '[A-Z]{2,2}[0-9]{2,2}[a-zA-Z0-9]{1,30}'
+      description: The International Bank Account Number (IBAN), associated with the account.
+      example: CH5481230000001998736
+
     CommonAccountId:
       type: string
       pattern: '[A-Za-z0-9](([A-Za-z0-9._]|-){0,254}[A-Za-z0-9]){0,1}'
@@ -520,11 +527,8 @@ components:
         - entries
       properties:
         iban:
-          type: string
-          maxLength: 34
-          pattern: '[A-Z]{2,2}[0-9]{2,2}[a-zA-Z0-9]{1,30}'
+          $ref: "#/components/schemas/IBANIdentification"
           description: The International Bank Account Number (IBAN), associated with the account.
-          example: CH5481230000001998736
         designation:
           type: string
           maxLength: 140
@@ -828,7 +832,7 @@ components:
         identification:
           type: string
           maxLength: 35
-          description: 'The account identification: IBAN, ISR participant number, bank account number.'
+          description: 'The account identification: IBAN, ISR participant number or bank account number.'
           example: CH9300762011623852957
 
     AccountTransactionRemittanceReference:
@@ -940,22 +944,26 @@ components:
       properties:
         name:
           type: string
+          description: The name of the referenced ISO20022 report, i.e. the camt.053 file.
           example: CH1100790016123456029_2023-01-16
         description:
           type: string
+          description: The description of the referenced ISO20022 report, i.e. the camt.053 file.
           example: Kontoauszug von CH1100790016123456029 am 16.01.2023
         type:
           type: string
+          description: The type of the referenced ISO20022 report.
           enum:
             - CAMT53
           example: CAMT53
         schemaVersion:
           type: string
           example: camt.053.001.01
-          description: Indicates the delivered camt.053 schema version.
+          description: The delivered schema version of the referenced ISO20022 report.
           pattern: camt\.053\.[0-9]{3}\.[0-9]{2}
         id:
           type: string
+          description: The unique identifier of the referenced ISO20022 report.
           example: '8265333'
         account:
           $ref: '#/components/schemas/PaymentIbanAccount'
@@ -970,6 +978,7 @@ components:
     PaymentIbanAccount:
       title: Payment IBAN Account
       type: object
+      description: The IBAN account object.
       required:
         - type
         - identification
@@ -981,11 +990,8 @@ components:
             - IBAN
           example: IBAN
         identification:
-          type: string
-          maxLength: 34
-          pattern: '[A-Z]{2,2}[0-9]{2,2}[a-zA-Z0-9]{1,30}'
+          $ref: "#/components/schemas/IBANIdentification"
           description: The International Bank Account Number (IBAN), associated with the account.
-          example: CH9300762011623852957
 
     PaymentCurrencyAmount:
       title: Payment Currency Amount
@@ -1032,17 +1038,21 @@ components:
     CommonErrorResponse:
       title: Common Error Response
       type: object
+      description: The common error response object.
       properties:
         type:
           $ref: '#/components/schemas/CommonErrorType'
         title:
           type: string
+          description: The title of the common error response.
           example: This is the general problem description
         detail:
           type: string
+          description: The details about the common error response.
           example: Detailed problem description with respect to the current request, e.g., invalid account number format
         instance:
           type: string
+          description: The path to the corresponding resource.
           example: path/to/corresponding/resource
 
     CommonErrorType:
