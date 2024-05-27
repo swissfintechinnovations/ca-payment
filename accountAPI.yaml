@@ -678,7 +678,7 @@ components:
           pattern: '[0-9]{1,12}([.][0-9]{1,5})?'
           maxLength: 18
           description: The total amount of account charges.
-          example: 10.25
+          example: '10.25'
         currency:
           type: string
           maxLength: 3
@@ -700,7 +700,7 @@ components:
           pattern: '[0-9]{1,12}([.][0-9]{1,5})?'
           maxLength: 18
           description: The amount of individual charges.
-          example: 10.25
+          example: '10.25'
         currency:
           type: string
           minLength: 3
@@ -761,13 +761,13 @@ components:
           pattern: '[0-9]{1,12}([.][0-9]{1,5})?'
           maxLength: 18
           description: The amount instructed by the customer to the bank to carry out the transaction.
-          example: 10.25
+          example: '10.25'
         sourceCurrency:
           type: string
           minLength: 3
           maxLength: 3
           description: The currency three-letter code which is used to fund a currency conversion. Corresponds to the attribute _SrcCcy_ in SPS/ISO-20022.
-          example: CHF
+          example: CHF, EUR
         targetCurrency:
           type: string
           minLength: 3
@@ -779,7 +779,7 @@ components:
           pattern: '^\d{1,11}$|^(?=\d+[.]\d+$).{3,12}$'
           maxLength: 12
           description: The rate at which the source currency will be exchanged for the target currency. Corresponds to the attribute _XchgRate_ in SPS/ISO-20022.
-          example: 0.957
+          example: '0.957'
         exchangeIndicator:
           type: string
           maxLength: 4
@@ -1018,7 +1018,7 @@ components:
           pattern: '[0-9]{1,12}([.][0-9]{1,5})?'
           maxLength: 18
           description: The entry amount, which will be reflected in the account balance.
-          example: 10.25
+          example: '10.25'
 
     PaymentRemittanceInformation:
       title: Payment Remittance Information
