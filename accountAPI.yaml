@@ -182,12 +182,12 @@ paths:
           name: dateFrom
           schema:
             $ref: '#/components/schemas/Date'
-          description: Start date of the transaction query.
+          description: The start date of the transaction query.
         - in: query
           name: dateTo
           schema:
             $ref: '#/components/schemas/Date'
-          description: End date of the transaction query.
+          description: The end date of the transaction query.
         - in: query
           name: bookingStatus
           required: true
@@ -394,11 +394,8 @@ components:
           description: The owner of the account.
           example: Account Owner XYZ
         currency:
-          type: string
-          minLength: 3
-          maxLength: 3
-          description: The currency three-letter code denominated and set for the account at the time it is opened.
-          example: CHF
+          $ref: "#/components/schemas/Currency"
+          description: The ISO currency three-letter code denominated and set for the account at the time it is opened.
         allowedCurrencies:
           type: array
           items:
@@ -458,6 +455,20 @@ components:
               type: string
               example: /accounts/550e8400-e29b-11d4-a716-446655440000/transactions
 
+    Amount:
+      type: string
+      pattern: '[0-9]{1,12}([.][0-9]{1,5})?'
+      maxLength: 18
+      description: An amount.
+      example: '10.25'
+
+    Currency:
+      type: string
+      maxLength: 3
+      minLength: 3
+      description: The ISO currency three-letter code.
+      example: CHF
+
     CommonAccountId:
       type: string
       pattern: '[A-Za-z0-9](([A-Za-z0-9._]|-){0,254}[A-Za-z0-9]){0,1}'
@@ -486,7 +497,6 @@ components:
           example: CLBD
         balance:
           $ref: '#/components/schemas/BalanceCurrencyAmount'
-          description: Specifies the requested account balance. Corresponds to the attribute _Bal_ in SPS/ISO-20022.
         _links:
           type: object
           description: Contains the paths to additional resources for specific account (e.g. path to account and transactions resource).
@@ -674,19 +684,14 @@ components:
         - currency
       properties:
         amount:
-          type: string
-          pattern: '[0-9]{1,12}([.][0-9]{1,5})?'
-          maxLength: 18
+          $ref: "#/components/schemas/Amount"
           description: The total amount of account charges.
-          example: '10.25'
         currency:
-          type: string
-          maxLength: 3
-          minLength: 3
-          description: The currency three-letter code in which the total amount of charges was posed.
-          example: CHF
+          $ref: "#/components/schemas/Currency"
+          description: The ISO currency three-letter code in which the total amount of charges was posed.
         chargeRecords:
           type: array
+          description: Specifies the details about individual charges.
           items:
             $ref: '#/components/schemas/AccountTransactionItemChargesRecord'
 
@@ -696,17 +701,11 @@ components:
       description: Specifies the details about individual charges.
       properties:
         amount:
-          type: string
-          pattern: '[0-9]{1,12}([.][0-9]{1,5})?'
-          maxLength: 18
+          $ref: "#/components/schemas/Amount"
           description: The amount of individual charges.
-          example: '10.25'
         currency:
-          type: string
-          minLength: 3
-          maxLength: 3
-          description: The currency three-letter code in which the amount of individual charges was posed based.
-          example: CHF
+          $ref: "#/components/schemas/Currency"
+          description: The ISO currency three-letter code in which the amount of individual charges was posed based.
         type:
           type: string
           maxLength: 35
@@ -715,7 +714,7 @@ components:
         chargesIncludedIndicator:
           description: Indicates whether the charges are included in the entry amount or not. Corresponds to the attribute _ChrgInclInd_ in SPS/ISO-20022.
           type: boolean
-          example: 0
+          example: true
 
     AccountTransactionCounterparty:
       title: Account Transaction Counterparty
@@ -757,23 +756,14 @@ components:
         - targetCurrency
       properties:
         amount:
-          type: string
-          pattern: '[0-9]{1,12}([.][0-9]{1,5})?'
-          maxLength: 18
+          $ref: "#/components/schemas/Amount"
           description: The amount instructed by the customer to the bank to carry out the transaction.
-          example: '10.25'
         sourceCurrency:
-          type: string
-          minLength: 3
-          maxLength: 3
-          description: The currency three-letter code which is used to fund a currency conversion. Corresponds to the attribute _SrcCcy_ in SPS/ISO-20022.
-          example: CHF
+          $ref: "#/components/schemas/Currency"
+          description: The ISO currency three-letter code which is used to fund a currency conversion. Corresponds to the attribute _SrcCcy_ in SPS/ISO-20022.
         targetCurrency:
-          type: string
-          minLength: 3
-          maxLength: 3
-          description: The currency three-letter code which the recipient will receive after the currency conversion. Corresponds to the attribute _TrgtCcy_ in SPS/ISO-20022.
-          example: EUR
+          $ref: "#/components/schemas/Currency"
+          description: The ISO currency three-letter code which the recipient will receive after the currency conversion. Corresponds to the attribute _TrgtCcy_ in SPS/ISO-20022.
         exchangeRate:
           type: string
           pattern: '^\d{1,11}$|^(?=\d+[.]\d+$).{3,12}$'
@@ -930,27 +920,23 @@ components:
 
     BalanceCurrencyAmount:
       title: Balance Currency-Amount
+      description: Specifies the requested account balance. Corresponds to the attribute _Bal_ in SPS/ISO-20022.
       type: object
       required:
         - currency
         - amount
       properties:
         currency:
-          type: string
-          minLength: 3
-          maxLength: 3
-          description: The currency three-letter code in which the balance and the account are held.
-          example: CHF
+          $ref: "#/components/schemas/Currency"
+          description: The ISO currency three-letter code in which the balance and the account are held.
         amount:
-          type: string
-          pattern: '[0-9]{1,12}([.][0-9]{1,5})?'
-          maxLength: 18
-          description: TThe amount of the requested account balance.
-          example: '10.25'
+          $ref: "#/components/schemas/Amount"
+          description: The amount of the requested account balance.
 
     Iso20022ReportReference:
       title: ISO20022 Report Reference
       type: object
+      description: The referenced ISO20022 report (camt.053).
       properties:
         name:
           type: string
@@ -975,8 +961,10 @@ components:
           $ref: '#/components/schemas/PaymentIbanAccount'
         dateFrom:
           $ref: '#/components/schemas/Date'
+          description: The start date of the transaction query period.
         dateTo:
           $ref: '#/components/schemas/Date'
+          description: The end date of the transaction query period.
 
     # Shared with payments module
     PaymentIbanAccount:
@@ -1000,7 +988,7 @@ components:
           example: CH9300762011623852957
 
     PaymentCurrencyAmount:
-      title: Payment Currency-Amount
+      title: Payment Currency Amount
       type: object
       description: Specifies the entry amount according to the account currency.
       required:
@@ -1008,17 +996,11 @@ components:
         - amount
       properties:
         currency:
-          type: string
-          maxLength: 3
-          minLength: 3
-          description: The currency three-letter code in which the entry was posed.
-          example: CHF
+          $ref: "#/components/schemas/Currency"
+          description: The ISO currency three-letter code in which the entry was posed.
         amount:
-          type: string
-          pattern: '[0-9]{1,12}([.][0-9]{1,5})?'
-          maxLength: 18
+          $ref: "#/components/schemas/Amount"
           description: The entry amount, which will be reflected in the account balance.
-          example: '10.25'
 
     PaymentRemittanceInformation:
       title: Payment Remittance Information
@@ -1088,6 +1070,7 @@ components:
     Date:
       type: string
       format: date
+      description: A date.
       example: 2018-04-13
 
   # DateTime:
