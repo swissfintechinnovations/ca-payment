@@ -862,13 +862,6 @@ components:
       description: An amount.
       example: '10.25'
 
-    Currency:
-      type: string
-      maxLength: 3
-      minLength: 3
-      description: The ISO currency three-letter code.
-      example: CHF
-
     IBANIdentification:
       type: string
       maxLength: 34
@@ -980,18 +973,23 @@ components:
     PaymentOtherDetail:
       title: Payment Other Detail
       type: object
+      description: The details of an OTHER payment.
       required:
         - creditorAccount
         - creditorAgent
         - creditor
       properties:
         creditorAccount:
+          description: The creditor account of the OTHER payment.
           $ref: '#/components/schemas/PaymentOtherAccount'
         creditorAgent:
+          description: The creditor agent of the OTHER payment.
           $ref: '#/components/schemas/PaymentCreditorAgent'
         creditor:
+          description: The creditor of the OTHER payment.
           $ref: '#/components/schemas/PaymentCreditor'
         chargeBearer:
+          description: The charge bearer of the OTHER payment.
           $ref: '#/components/schemas/PaymentChargeBearerMethod'
         remittanceReference:
           $ref: '#/components/schemas/PaymentOtherRemittanceReference'
@@ -1208,49 +1206,52 @@ components:
 
     PaymentIbanRemittanceReference:
       title: Payment Remittance Reference
-      description: Either remittanceReference or remittanceInformation must be set.
+      description: The IBAN payment remittance reference. A specific code or number that is used to identify and track payment transactions. Either remittanceReference or remittanceInformation must be set.
       type: object
       properties:
         type:
           type: string
+          description: The specific type of remittance reference. Either SCOR (Swiss QR Code Reference) or QRR (QR-Reference).
           enum:
             - SCOR
             - QRR
           example: SCOR
         reference:
-          type: string
-          maxLength: 35
-          example: '210000000003139471430009017'
+          $ref: "#/components/schemas/RemittanceReference"
 
     PaymentOtherRemittanceReference:
       title: Payment Remittance Reference
-      description: Either remittanceReference or remittanceInformation must be set
+      description: The OTHER payment remittance reference. A specific code or number that is used to identify and track payment transactions. Either remittanceReference or remittanceInformation must be set.
       type: object
       properties:
         type:
           type: string
+          description: The specific type of remittance reference. Has to be SCOR (Swiss QR Code Reference). 
           enum:
             - SCOR
           example: SCOR
         reference:
-          type: string
-          maxLength: 35
-          example: '210000000003139471430009017'
+          $ref: "#/components/schemas/RemittanceReference"
 
     PaymentIsrRemittanceReference:
       title: Payment Remittance Reference
-      description: either remittanceReference or remittanceInformation must be set
+      description: The ISR payment remittance reference. A specific code or number that is used to identify and track payment transactions. Either remittanceReference or remittanceInformation must be set.
       type: object
       properties:
         type:
           type: string
+          description: The specific type of remittance reference. Has to be ISR (Invoice Reference Number). 
           enum:
             - ISR
           example: ISR
         reference:
-          type: string
-          maxLength: 35
-          example: '210000000003139471430009017'
+          $ref: "#/components/schemas/RemittanceReference"
+
+    RemittanceReference:
+      type: string
+      maxLength: 35
+      description: The reference number associated to the choosen remittance type.
+      example: '210000000003139471430009017'
 
     PaymentRemittanceInformation:
       title: Payment Remittance Information
@@ -1597,11 +1598,6 @@ components:
       format: date
       example: 2018-04-13
 
-    # DateTime:
-    #  type: string
-    #  format: date-time
-    #  example: 2018-04-13T11:11:11Z
-
     LinksPagination:
       title: Pagination Links
       description: Links (or cursors) returned in the answer of an API call.
@@ -1627,29 +1623,6 @@ components:
           type: string
           description: Link / cursor to the last result set (based on the submitted pagination approach).
           example: /payment-app/api/v1/payments?offset=150&limit=25
-
-    # Currency:
-    #  title: Currency
-    #  description: ISO 4217 code
-    #  type: string
-    #  pattern: '[A-Z]{3}'
-    #  example: CHF
-
-    # Amount:
-    #  title: Amount
-    #  description: amount with currency
-    #  type: object
-    #  required:
-    #    - currency
-    #    - content
-    #  properties:
-    #    currency:
-    #      $ref: '#/components/schemas/Currency'
-    #    content:
-    #      description: amount given with fractional digits, the separator is a dot
-    #      type: string
-    #      pattern: '-?\d{1,14}(?:\.\d{1,3})?'
-    #      example: '10.25'
 
     # ---- Common Error Response (compliant to SIX b.Link) ----
     CommonErrorResponse:
@@ -1773,24 +1746,6 @@ components:
 
   # ---- Responses - Standard Errors Common Data Model ----
   responses:
-    # standard202:
-    #  headers:
-    #    X-Correlation-ID:
-    #      $ref: '#/components/headers/X-Correlation-ID'
-    #  description: |
-    #    Accepted - Valid request, requested data not available yet. The request may be attempted at a later time.
-    #  content:
-    #    application/json:
-    #      schema:
-    #        type: object
-
-    # standard204:
-    #  headers:
-    #    X-Correlation-ID:
-    #      $ref: '#/components/headers/X-Correlation-ID'
-    #  description: |
-    #    No content - The server has successfully fulfilled the request. There is no content to return and never will be.
-
     standard400:
       headers:
         Content-Type:
