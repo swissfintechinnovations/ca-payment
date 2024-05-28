@@ -862,6 +862,13 @@ components:
       description: An amount.
       example: '10.25'
 
+    Currency:
+      type: string
+      maxLength: 3
+      minLength: 3
+      description: The ISO currency three-letter code.
+      example: CHF
+
     IBANIdentification:
       type: string
       maxLength: 34
