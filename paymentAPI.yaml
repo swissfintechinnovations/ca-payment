@@ -1085,7 +1085,13 @@ components:
     PaymentChargeBearerMethod:
       title: Payment Charge Bearer Method
       type: string
-      description: 'The payment charge bearer method, i.e. who is responsible for paying the transaction fees associated with a payment. Possible methods are: DEBT (debtor), CRED (creditor), SHAR (shared) or SLEV (service level).'
+      description: |
+        The payment charge bearer method, i.e. who is responsible for paying the transaction fees associated with a payment. 
+        Possible methods are:
+        - DEBT (debtor)
+        - CRED (creditor)
+        - SHAR (shared)
+        - SLEV (service level)
       enum:
         - DEBT
         - CRED
@@ -1120,7 +1126,13 @@ components:
           example: eb6305c91f7f49deaed016487c27b42d
         statusCode:
           type: string
-          description: 'The status of the payment. Possilbe status values are: ACCP (accepted), RJCT (rejected), PART (partially accepted) and RCVD (received).'
+          description: |
+            The status of the payment.
+            Possible status values are:
+            - ACCP (accepted)
+            - RJCT (rejected)
+            - PART (partially accepted)
+            - RCVD (received)
           enum:
             - ACCP
             - RJCT
@@ -1129,8 +1141,8 @@ components:
           example: PART
         transactions:
           type: array
+          description: The payment transaction items.
           items:
-            description: The payment transaction items.
             $ref: '#/components/schemas/PaymentInstructionItemStatus'
 
     PaymentInstructionItemStatus:
@@ -1171,11 +1183,12 @@ components:
           type: string
           minLength: 8
           maxLength: 11
-          description: 'The bank identifier code (BIC) of the creditor agent of a payment. The BIC is an 8 or 11-character code that breaks down as follows:
-                        - First 4 characters - bank code (letters only)
-                        - Next 2 characters - ISO 3166-1 alpha-2 country code (letters only)
-                        - Next 2 characters - location code (letters and digits)
-                        - Last 3 characters (optional) - branch code, specifying a particular branch of the bank (letters and digits)'
+          description: | 
+            The bank identifier code (BIC) of the creditor agent of a payment. The BIC is an 8 or 11-character code that breaks down as follows:
+            - First 4 characters - bank code (letters only)
+            - Next 2 characters - ISO 3166-1 alpha-2 country code (letters only)
+            - Next 2 characters - location code (letters and digits)
+            - Last 3 characters (optional) - branch code, specifying a particular branch of the bank (letters and digits)
           example: BDEMMXMM
         clearingSystemMemberIdentification:
           description: The clearing system member identification of the creditor agend of a payment.
@@ -1202,6 +1215,7 @@ components:
     PaymentQrIbanAccount:
       title: Payment QR-IBAN Account
       type: object
+      description: The QR-IBAN account object.
       required:
         - type
         - identification
@@ -1220,19 +1234,21 @@ components:
     PaymentOtherAccount:
       title: Payment Other Account
       type: object
+      description: The OTHER account object.
       required:
         - type
         - identification
       properties:
         type:
           type: string
-          description: The allowed account identification type for the creditor account depends on the payment type. The debtor account must always be an IBAN.
+          description: The account identification type. Must always be OTHER.
           enum:
             - OTHER
           example: OTHER
         identification:
           type: string
           maxLength: 34
+          description: The unique identification (UUID) of the OTHER payment account.
           example: 01-39139-1
 
     PaymentCurrencyAmount:
