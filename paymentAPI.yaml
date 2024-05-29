@@ -951,7 +951,7 @@ components:
     PaymentIBANDetail:
       title: Payment IBAN Detail
       type: object
-      description: The details of an IBAN payment.
+      description: Details of an IBAN payment.
       required:
         - creditorAccount
         - creditor
@@ -973,14 +973,16 @@ components:
           description: The charge bearer of the IBAN payment.
           $ref: '#/components/schemas/PaymentChargeBearerMethod'
         remittanceReference:
+          description: The remittance reference of the IBAN payment.
           $ref: '#/components/schemas/PaymentIbanRemittanceReference'
         remittanceInformation:
+          description: The remittance information of the IBAN payment.
           $ref: '#/components/schemas/PaymentRemittanceInformation'
 
     PaymentOtherDetail:
       title: Payment Other Detail
       type: object
-      description: The details of an OTHER payment.
+      description: Details of an OTHER payment.
       required:
         - creditorAccount
         - creditorAgent
@@ -999,44 +1001,57 @@ components:
           description: The charge bearer of the OTHER payment.
           $ref: '#/components/schemas/PaymentChargeBearerMethod'
         remittanceReference:
+          description: The remittance reference of the OTHER payment.
           $ref: '#/components/schemas/PaymentOtherRemittanceReference'
 
     PaymentQRDetail:
       title: Payment QR Detail
       type: object
+      description: Details of a QR payment.
       required:
         - creditor
         - creditorAccount
       properties:
         creditorAccount:
+          description: The creditor account of the OR payment.
           $ref: '#/components/schemas/PaymentQrIbanAccount'
         creditor:
+          description: The creditor of the QR payment.
           $ref: '#/components/schemas/PaymentCreditor'
         ultimateCreditor:
+          description: The ultimate creditor of the QR payment.
           $ref: '#/components/schemas/PaymentCreditor'
         ultimateDebtor:
+          description: The ultimate debtor of the QR payment.
           $ref: '#/components/schemas/PaymentDebtor'
         remittanceReference:
+          description: The remittance reference of the QR payment.
           $ref: '#/components/schemas/PaymentIbanRemittanceReference'
         remittanceInformation:
+          description: The remittance information of the QR payment.
           $ref: '#/components/schemas/PaymentRemittanceInformation'
 
     PaymentISRDetail:
       title: Payment ISR Detail
       type: object
+      description: Details of a ISR payment.
       required:
         - remittanceReference
       properties:
         creditorAccount:
+          description: The creditor account of the ISR payment.
           $ref: '#/components/schemas/PaymentOtherAccount'
         creditor:
+          description: The creditor of the ISR payment.
           $ref: '#/components/schemas/PaymentCreditor'
         remittanceReference:
+          description: The remittance reference of the ISR payment.
           $ref: '#/components/schemas/PaymentIsrRemittanceReference'
 
     PaymentCreditor:
       title: Payment Creditor
       type: object
+      description: The creditor of a payment.
       required:
         - name
         - postalAddress
@@ -1044,13 +1059,16 @@ components:
         name:
           type: string
           maxLength: 140
+          description: The name of the creditor of a payment.
           example: Hans Muster
         postalAddress:
+          description: The postal address of the creditor of a payment.
           $ref: '#/components/schemas/PaymentStructuredOrUnstructuredAddress'
 
     PaymentDebtor:
       title: Payment Debtor
       type: object
+      description: The debtor of a payment.
       required:
         - name
         - postalAddress
@@ -1058,13 +1076,16 @@ components:
         name:
           type: string
           maxLength: 70
+          description: The name of the debtor of a payment.
           example: Hans Muster
         postalAddress:
+          description: The postal address of the debtor of a payment.
           $ref: '#/components/schemas/PaymentStructuredOrUnstructuredAddress'
 
     PaymentChargeBearerMethod:
       title: Payment Charge Bearer Method
       type: string
+      description: 'The payment charge bearer method, i.e. who is responsible for paying the transaction fees associated with a payment. Possible methods are: DEBT (debtor), CRED (creditor), SHAR (shared) or SLEV (service level).'
       enum:
         - DEBT
         - CRED
@@ -1075,6 +1096,7 @@ components:
     PaymentBookingInstruction:
       title: Payment Booking Instruction
       type: string
+      description: 'The payment booking instruction, i.e. the method for processing and grouping a payment. Possible methods are: SINGLEBOOKING_SIA, SINGLEBOOKING_NOA, BATCHBOOKING_SALA_NOA, BATCHBOOKING_SALA_CND, BATCHBOOKING_NOA, BATCHBOOKING_CND and BATCHBOOKING_CWD.'
       enum:
         - SINGLEBOOKING_SIA
         - SINGLEBOOKING_NOA
@@ -1088,14 +1110,17 @@ components:
     PaymentSubmissionStatus:
       title: Payment Submission Status
       type: object
+      description: The payment submission status.
       required:
         - statusCode
       properties:
         messageId:
           type: string
+          description: The unique identifier (UUID) of the payment.
           example: eb6305c91f7f49deaed016487c27b42d
         statusCode:
           type: string
+          description: 'The status of the payment. Possilbe status values are: ACCP (accepted), RJCT (rejected), PART (partially accepted) and RCVD (received).'
           enum:
             - ACCP
             - RJCT
@@ -1105,11 +1130,13 @@ components:
         transactions:
           type: array
           items:
+            description: The payment transaction items.
             $ref: '#/components/schemas/PaymentInstructionItemStatus'
 
     PaymentInstructionItemStatus:
       title: Payment Instruction Item Status
       type: object
+      description: The status of the payment instruction item.
       required:
         - instructionId
         - statusCode
@@ -1117,29 +1144,41 @@ components:
         instructionId:
           type: string
           maxLength: 35
+          description: The unique identifier (UUID) of the instruction.
           example: DNCS-20180322-IXN0-TXN0
         statusCode:
           type: string
+          description: 'The status of the payment instruction. Possilbe status values are: ACCP (accepted) and RJCT (rejected).'
           enum:
             - ACCP
             - RJCT
           example: RJCT
         reasonCode:
           type: string
+          description: The reason code for the instruction item.
           example: CURR
         reasonInformation:
           type: string
           maxLength: 105
+          description: The reason information for the instruction item.
           example: currency USD not allowed for payment type IBAN
 
     PaymentCreditorAgent:
       type: object
+      description: The creditor agent of a payment.
       properties:
         bic:
           type: string
+          minLength: 8
           maxLength: 11
+          description: 'The bank identifier code (BIC) of the creditor agent of a payment. The BIC is an 8 or 11-character code that breaks down as follows:
+                        - First 4 characters - bank code (letters only)
+                        - Next 2 characters - ISO 3166-1 alpha-2 country code (letters only)
+                        - Next 2 characters - location code (letters and digits)
+                        - Last 3 characters (optional) - branch code, specifying a particular branch of the bank (letters and digits)'
           example: BDEMMXMM
         clearingSystemMemberIdentification:
+          description: The clearing system member identification of the creditor agend of a payment.
           $ref: '#/components/schemas/CommonClearingSystemMemberIdentification'
 
     PaymentIbanAccount:
