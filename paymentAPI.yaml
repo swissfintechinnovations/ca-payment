@@ -1568,6 +1568,7 @@ components:
     StandingorderSubmissionStatus:
       title: Standing Order Submission Status
       type: object
+      description: The standing order submission status object.
       required:
         - statusCode
       properties:
@@ -1690,6 +1691,7 @@ components:
     # ---- Common Data Model ----
     Date:
       type: string
+      description: The date.
       format: date
       example: 2018-04-13
 
@@ -1723,21 +1725,22 @@ components:
     CommonErrorResponse:
       title: Common Error Response
       type: object
+      description: The common error response object.
       properties:
         type:
           $ref: '#/components/schemas/CommonErrorType'
         title:
           type: string
-          example:
-            This is the general problem description
+          description: The title of the common error response.
+          example: This is the general problem description
         detail:
           type: string
-          example:
-            Detailed problem description with respect to the current request
+          description: The details about the common error response.
+          example: Detailed problem description with respect to the current request
         instance:
           type: string
-          example:
-            path/to/corresponding/resource
+          description: The path to the corresponding resource.
+          example: path/to/corresponding/resource
 
     CommonErrorType:
       title: Common Error Type
