@@ -379,14 +379,14 @@ components:
       type: string
       pattern: '[0-9]{1,12}([.][0-9]{1,5})?'
       maxLength: 18
-      description: An amount.
+      description: An amount. Corresponds to the attribute _Amt_ in SPS/ISO-20022.
       example: '10.25'
 
     Currency:
       type: string
       maxLength: 3
       minLength: 3
-      description: The ISO currency three-letter code.
+      description: The ISO currency three-letter code. Corresponds to the attribute _Ccy_ in SPS/ISO-20022.
       example: CHF
 
     IBANIdentification:
@@ -632,7 +632,7 @@ components:
         endToEndId:
           type: string
           maxLength: 35
-          description: The unique reference of the debtor/creditor.
+          description: The unique reference of the debtor/creditor. Corresponds to the attribute _EndToEndId_ in SPS/ISO-20022.
           example: ENDTOENDID-01
         bankTransactionCode:
           $ref: '#/components/schemas/AccountTransactionBankTransactionCode'
@@ -651,7 +651,7 @@ components:
         additionalTransactionInformation:
           type: string
           maxLength: 140
-          description: Any additional information to the transaction.
+          description: Any additional information to the transaction. Corresponds to the attribute _AddtlTxInf_ in SPS/ISO-20022.
           example: Online Shopping Visa Debit Card Nr. xxxx 1234
 
     LinksPagination:
@@ -745,8 +745,15 @@ components:
       properties:
         bic:
           type: string
+          minLength: 8
           maxLength: 11
-          description: BIC of the debtor's financial institution (agent of the counterparty). If used, then "Clearing System Member Identification” must not be used. Corresponds to the attribute _CdtrAgt ⇾ FinInstnId ⇾ BIC_ in SPS/ISO-20022.
+          description: | 
+            The bank identifier code (BIC) of the creditor agent of a payment. Corresponds to the attribute _CdtrAgt ⇾ FinInstnId ⇾ BIC_ in SPS/ISO-20022.
+            The BIC is an 8 or 11-character code that breaks down as follows:
+            - First 4 characters - bank code (letters only)
+            - Next 2 characters - ISO 3166-1 alpha-2 country code (letters only)
+            - Next 2 characters - location code (letters and digits)
+            - Last 3 characters (optional) - branch code, specifying a particular branch of the bank (letters and digits)
           example: DEUTDE5M101
         clearingSystemMemberIdentification:
           $ref: '#/components/schemas/CommonClearingSystemMemberIdentification'
@@ -1083,11 +1090,6 @@ components:
       format: date
       description: A date.
       example: 2018-04-13
-
-  # DateTime:
-  #   type: string
-  #   format: date-time
-  #   example: 2018-04-13T11:11:11Z
 
   # ---- Global Common Header Parameters ----
   parameters:

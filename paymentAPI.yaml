@@ -859,14 +859,14 @@ components:
       type: string
       pattern: '[0-9]{1,12}([.][0-9]{1,5})?'
       maxLength: 18
-      description: An amount.
+      description: An amount. Corresponds to the attribute _Amt_ in SPS/ISO-20022.
       example: '10.25'
 
     Currency:
       type: string
       maxLength: 3
       minLength: 3
-      description: The ISO currency three-letter code.
+      description: The ISO currency three-letter code. Corresponds to the attribute _Ccy_ in SPS/ISO-20022.
       example: CHF
 
     IBANIdentification:
@@ -878,20 +878,21 @@ components:
 
     InstructionId:
       type: string
-      description: The unique identifier (UUID) of the instruction item.
+      description: The unique identifier (UUID) of the instruction item. Corresponds to the attribute _InstrId_ in SPS/ISO-20022.
+      example: CHF
       maxLength: 35
       example: INSTR-001
 
     EndToEndId:
       type: string
-      description: The endToEndId of the instruction item.
+      description: The endToEndId of the instruction item. Corresponds to the attribute _EndToEndId_ in SPS/ISO-20022.
       maxLength: 35
       example: ENDTOENDID-001
 
     MessageId:
       type: string
       maxLength: 35
-      description: The unique identifier (UUID) of the the instruction message.
+      description: The unique identifier (UUID) of the the instruction message. Corresponds to the attribute _MsgId_ in SPS/ISO-20022.
       example: eb6305c91f7f49deaed016487c27b42d
 
     InitiatingPartyId:
@@ -919,13 +920,13 @@ components:
           description: The identifier of the third party provider (TPP) who created the payment instruction message derived from the OAuth 2.0 flow.
           $ref: "#/components/schemas/InitiatingPartyId"
         requestedExecutionDate:
-          description: The requested execution date. In some cases, the financial institution can/will change this date, if the requested date is a bank / post holiday. If no date is chosen, the receiving financial institution will execute on the next possible date.
+          description: The requested execution date. In some cases, the financial institution can/will change this date, if the requested date is a bank / post holiday. If no date is chosen, the receiving financial institution will execute on the next possible date. Corresponds to the attribute _ReqdExctnDt_ in SPS/ISO-20022.
           $ref: '#/components/schemas/Date'
         debtorAccount:
-          description: The account of the debtor. The debtor account must always be an IBAN.
+          description: The account of the debtor. The debtor account must always be an IBAN. Corresponds to the attribute _DbtrAcct_ in SPS/ISO-20022.
           $ref: '#/components/schemas/PaymentIbanAccount'
         bookingInstruction:
-          description: The payment booking instruction.
+          description: The payment booking instruction. Corresponds to the attribute _DbtrAcct ⇾ Tp ⇾ Prtry_ in SPS/ISO-20022.
           $ref: '#/components/schemas/PaymentBookingInstruction'
         transactions:
           type: array
@@ -949,7 +950,7 @@ components:
           description: The endToEndId of the payment instruction item.
           $ref: "#/components/schemas/EndToEndId"
         instructedAmount:
-          description: The instructed amount of the payment.
+          description: The instructed amount of the payment. Corresponds to the attribute _InstdAmt_ in SPS/ISO-20022.
           $ref: '#/components/schemas/PaymentCurrencyAmount'
         ibanDetails:
           description: The IBAN details of the payment instruction item.
@@ -974,10 +975,10 @@ components:
       properties:
         sepaIndicator:
           type: boolean
-          description: Indicates if payment is a SEPA payment or not.
+          description: Indicates if payment is a SEPA payment or not. Corresponds to the attribute _InstrPrty ⇾ SvcLvl ⇾ Cd_ in SPS/ISO-20022.
           example: true
         creditorAccount:
-          description: The creditor account of the IBAN payment.
+          description: The creditor account of the IBAN payment. Corresponds to the attribute _CdtrAcct_ in SPS/ISO-20022.
           $ref: '#/components/schemas/PaymentIbanAccount'
         creditorAgent:
           description: The creditor agent of the IBAN payment.
@@ -1005,7 +1006,7 @@ components:
         - creditor
       properties:
         creditorAccount:
-          description: The creditor account of the OTHER payment.
+          description: The creditor account of the OTHER payment. Corresponds to the attribute _CdtrAcct_ in SPS/ISO-20022.
           $ref: '#/components/schemas/PaymentOtherAccount'
         creditorAgent:
           description: The creditor agent of the OTHER payment.
@@ -1029,7 +1030,7 @@ components:
         - creditorAccount
       properties:
         creditorAccount:
-          description: The creditor account of the OR payment.
+          description: The creditor account of the OR payment. Corresponds to the attribute _CdtrAcct_ in SPS/ISO-20022.
           $ref: '#/components/schemas/PaymentQrIbanAccount'
         creditor:
           description: The creditor of the QR payment.
@@ -1102,7 +1103,7 @@ components:
       title: Payment Charge Bearer Method
       type: string
       description: |
-        The payment charge bearer method, i.e. who is responsible for paying the transaction fees associated with a payment. 
+        The payment charge bearer method, i.e. who is responsible for paying the transaction fees associated with a payment. Corresponds to the attribute _SvcLvl ⇾ Cd_ in SPS/ISO-20022.
         Possible methods are:
         - DEBT (debtor)
         - CRED (creditor)
@@ -1118,7 +1119,16 @@ components:
     PaymentBookingInstruction:
       title: Payment Booking Instruction
       type: string
-      description: 'The payment booking instruction, i.e. the method for processing and grouping a payment. Possible methods are: SINGLEBOOKING_SIA, SINGLEBOOKING_NOA, BATCHBOOKING_SALA_NOA, BATCHBOOKING_SALA_CND, BATCHBOOKING_NOA, BATCHBOOKING_CND and BATCHBOOKING_CWD.'
+      description: |
+        The payment booking instruction, i.e. the method for processing and grouping a payment. Corresponds to the attribute _DbtrAcct ⇾ Tp ⇾ Prtry_ in SPS/ISO-20022.
+        Possible methods are:
+        - SINGLEBOOKING_SIA
+        - SINGLEBOOKING_NOA
+        - BATCHBOOKING_SALA_NOA
+        - BATCHBOOKING_SALA_CND
+        - BATCHBOOKING_NOA
+        - BATCHBOOKING_CND
+        - BATCHBOOKING_CWD
       enum:
         - SINGLEBOOKING_SIA
         - SINGLEBOOKING_NOA
@@ -1142,7 +1152,7 @@ components:
         statusCode:
           type: string
           description: |
-            The status of the payment.
+            The status of the payment. Corresponds to the attribute _TxSts_ in SPS/ISO-20022.
             Possible status values are:
             - ACCP (accepted)
             - RJCT (rejected)
@@ -1174,7 +1184,7 @@ components:
         statusCode:
           type: string
           description: |
-            The status of the payment.
+            The status of the payment. Corresponds to the attribute _TxSts_ in SPS/ISO-20022.
             Possible status values are:
             - ACCP (accepted)
             - RJCT (rejected)
@@ -1184,12 +1194,12 @@ components:
           example: RJCT
         reasonCode:
           type: string
-          description: The reason code for the instruction item.
+          description: The reason code for the instruction item. Corresponds to the attribute _StsRsnInf_ in SPS/ISO-20022.
           example: CURR
         reasonInformation:
           type: string
           maxLength: 105
-          description: The reason information for the instruction item.
+          description: The reason information for the instruction item. Corresponds to the attribute _StsRsnInf ⇾ Rsn ⇾ Prtry_ in SPS/ISO-20022.
           example: currency USD not allowed for payment type IBAN
 
     PaymentCreditorAgent:
@@ -1201,12 +1211,13 @@ components:
           minLength: 8
           maxLength: 11
           description: | 
-            The bank identifier code (BIC) of the creditor agent of a payment. The BIC is an 8 or 11-character code that breaks down as follows:
+            The bank identifier code (BIC) of the creditor agent of a payment. Corresponds to the attribute _CdtrAgt ⇾ FinInstnId ⇾ BIC_ in SPS/ISO-20022.
+            The BIC is an 8 or 11-character code that breaks down as follows:
             - First 4 characters - bank code (letters only)
             - Next 2 characters - ISO 3166-1 alpha-2 country code (letters only)
             - Next 2 characters - location code (letters and digits)
             - Last 3 characters (optional) - branch code, specifying a particular branch of the bank (letters and digits)
-          example: BDEMMXMM
+          example: DEUTDE5M101
         clearingSystemMemberIdentification:
           description: The clearing system member identification of the creditor agend of a payment.
           $ref: '#/components/schemas/CommonClearingSystemMemberIdentification'
@@ -1290,7 +1301,7 @@ components:
       properties:
         type:
           type: string
-          description: The specific type of remittance reference. Either SCOR (Swiss QR Code Reference) or QRR (QR-Reference).
+          description: The specific type of remittance reference. Either SCOR (Swiss QR Code Reference) or QRR (QR-Reference). Corresponds to the attribute _RmtInf ⇾ Strd ⇾ CdtrRefInf ⇾ Tp_ in SPS/ISO-20022.
           enum:
             - SCOR
             - QRR
@@ -1329,7 +1340,7 @@ components:
     RemittanceReference:
       type: string
       maxLength: 35
-      description: The reference number associated to the choosen remittance type.
+      description: The reference number associated to the choosen remittance type. Corresponds to the attribute _RmtInf ⇾ Strd ⇾ CdtrRefInf ⇾ Ref_ in SPS/ISO-20022.
       example: '210000000003139471430009017'
 
     PaymentRemittanceInformation:
@@ -1450,10 +1461,10 @@ components:
           description: The identifier of the third party provider (TPP) who created the payment instruction message derived from the OAuth 2.0 flow.
           $ref: "#/components/schemas/InitiatingPartyId"
         requestedExecutionDate:
-          description: The requested execution date. In some cases, the financial institution can/will change this date, if the requested date is a bank / post holiday. If no date is chosen, the receiving financial institution will execute on the next possible date.
+          description: The requested execution date. In some cases, the financial institution can/will change this date, if the requested date is a bank / post holiday. If no date is chosen, the receiving financial institution will execute on the next possible date. Corresponds to the attribute _ReqdExctnDt_ in SPS/ISO-20022.
           $ref: '#/components/schemas/Date'
         debtorAccount:
-          description: The account of the debtor. The debtor account must always be an IBAN.
+          description: The account of the debtor. The debtor account must always be an IBAN. Corresponds to the attribute _DbtrAcct_ in SPS/ISO-20022.
           $ref: '#/components/schemas/PaymentIbanAccount'
         instructionId:
           description: The unique identifier (UUID) of the single payment instruction item.
@@ -1462,7 +1473,7 @@ components:
           description: The endToEndId of the single payment instruction item.
           $ref: "#/components/schemas/EndToEndId"
         instructedAmount:
-          description: The instructed amount of the single payment.
+          description: The instructed amount of the single payment. Corresponds to the attribute _InstdAmt_ in SPS/ISO-20022.
           $ref: '#/components/schemas/PaymentCurrencyAmount'
         ibanDetails:
           description: The IBAN details of the single payment instruction item.
@@ -1498,10 +1509,10 @@ components:
           description: The identifier of the third party provider (TPP) who created the payment instruction message derived from the OAuth 2.0 flow.
           $ref: "#/components/schemas/InitiatingPartyId"
         requestedExecutionDate:
-          description: The requested execution date. In some cases, the financial institution can/will change this date, if the requested date is a bank / post holiday. If no date is chosen, the receiving financial institution will execute on the next possible date.
+          description: The requested execution date. In some cases, the financial institution can/will change this date, if the requested date is a bank / post holiday. If no date is chosen, the receiving financial institution will execute on the next possible date. Corresponds to the attribute _ReqdExctnDt_ in SPS/ISO-20022.
           $ref: '#/components/schemas/Date'
         debtorAccount:
-          description: The account of the debtor. The debtor account must always be an IBAN.
+          description: The account of the debtor. The debtor account must always be an IBAN. Corresponds to the attribute _DbtrAcct_ in SPS/ISO-20022.
           $ref: '#/components/schemas/PaymentIbanAccount'
         instructionId:
           description: The unique identifier (UUID) of the standing order instruction item.
@@ -1510,7 +1521,7 @@ components:
           description: The endToEndId of the standing order instruction item.
           $ref: "#/components/schemas/EndToEndId"
         instructedAmount:
-          description: The instructed amount of the standing order.
+          description: The instructed amount of the standing order. Corresponds to the attribute _InstdAmt_ in SPS/ISO-20022.
           $ref: '#/components/schemas/PaymentCurrencyAmount'
         ibanDetails:
           description: The IBAN details of the standing order instruction item.
@@ -1578,7 +1589,7 @@ components:
         statusCode:
           type: string
           description: |
-            The status of the payment.
+            The status of the payment. Corresponds to the attribute _TxSts_ in SPS/ISO-20022.
             Possible status values are:
             - ACCP (accepted)
             - RJCT (rejected)
