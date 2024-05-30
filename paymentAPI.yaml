@@ -876,6 +876,30 @@ components:
       description: The International Bank Account Number (IBAN), associated with the account.
       example: CH5481230000001998736
 
+    InstructionId:
+      type: string
+      description: The unique identifier (UUID) of the instruction item.
+      maxLength: 35
+      example: INSTR-001
+
+    EndToEndId:
+      type: string
+      description: The endToEndId of the instruction item.
+      maxLength: 35
+      example: ENDTOENDID-001
+
+    MessageId:
+      type: string
+      maxLength: 35
+      description: The unique identifier (UUID) of the the instruction message.
+      example: eb6305c91f7f49deaed016487c27b42d
+
+    InitiatingPartyId:
+      type: string
+      maxLength: 32
+      description: The identifier of the third party provider (TPP) who created the payment instruction message derived from the OAuth 2.0 flow.
+      example: TPP01746
+    
     PaymentSubmissionRequest:
       title: Payment Submission Request
       type: object
@@ -889,15 +913,11 @@ components:
         - requestedExecutionDate
       properties:
         messageId:
-          type: string
-          maxLength: 35
           description: The unique identifier (UUID) of the the payment instruction message.
-          example: eb6305c91f7f49deaed016487c27b42d
+          $ref: '#/components/schemas/MessageId'
         initiatingPartyId:
-          type: string
-          maxLength: 32
-          description: The identifier of the third party provider (TPP) who created the message derived from the OAuth 2.0 flow.
-          example: TPP01746
+          description: The identifier of the third party provider (TPP) who created the payment instruction message derived from the OAuth 2.0 flow.
+          $ref: "#/components/schemas/InitiatingPartyId"
         requestedExecutionDate:
           description: The requested execution date. In some cases, the financial institution can/will change this date, if the requested date is a bank / post holiday. If no date is chosen, the receiving financial institution will execute on the next possible date.
           $ref: '#/components/schemas/Date'
@@ -923,17 +943,13 @@ components:
         - instructedAmount
       properties:
         instructionId:
-          type: string
           description: The identifier of the payment instruction item.
-          maxLength: 35
-          example: INSTR-001
+          $ref: "#/components/schemas/InstructionId"
         endToEndId:
-          type: string
           description: The endToEndId of the payment instruction item.
-          maxLength: 35
-          example: ENDTOENDID-001
+          $ref: "#/components/schemas/EndToEndId"
         instructedAmount:
-          description: The instructed amount.
+          description: The instructed amount of the payment.
           $ref: '#/components/schemas/PaymentCurrencyAmount'
         ibanDetails:
           description: The IBAN details of the payment instruction item.
@@ -1121,9 +1137,8 @@ components:
         - statusCode
       properties:
         messageId:
-          type: string
-          description: The unique identifier (UUID) of the payment.
-          example: eb6305c91f7f49deaed016487c27b42d
+          description: The unique identifier (UUID) of the payment instruction message.
+          $ref: '#/components/schemas/MessageId'
         statusCode:
           type: string
           description: |
@@ -1154,13 +1169,15 @@ components:
         - statusCode
       properties:
         instructionId:
-          type: string
-          maxLength: 35
-          description: The unique identifier (UUID) of the instruction.
-          example: DNCS-20180322-IXN0-TXN0
+          description: The unique identifier (UUID) of the payment instruction item.
+          $ref: "#/components/schemas/InstructionId"
         statusCode:
           type: string
-          description: 'The status of the payment instruction. Possilbe status values are: ACCP (accepted) and RJCT (rejected).'
+          description: |
+            The status of the payment.
+            Possible status values are:
+            - ACCP (accepted)
+            - RJCT (rejected)
           enum:
             - ACCP
             - RJCT
@@ -1415,6 +1432,7 @@ components:
     SinglepaymentsSubmissionRequest:
       title: Single Payment Submission Request
       type: object
+      description: The single payment submission request object.
       required:
         - messageId
         - initiatingPartyId
@@ -1426,39 +1444,43 @@ components:
         - frequency
       properties:
         messageId:
-          type: string
-          maxLength: 35
-          example: eb6305c91f7f49deaed016487c27b42d
+          description: The unique identifier (UUID) of the the single payment instruction message.
+          $ref: '#/components/schemas/MessageId'
         initiatingPartyId:
-          type: string
-          maxLength: 32
-          example: TPP01746
+          description: The identifier of the third party provider (TPP) who created the payment instruction message derived from the OAuth 2.0 flow.
+          $ref: "#/components/schemas/InitiatingPartyId"
         requestedExecutionDate:
+          description: The requested execution date. In some cases, the financial institution can/will change this date, if the requested date is a bank / post holiday. If no date is chosen, the receiving financial institution will execute on the next possible date.
           $ref: '#/components/schemas/Date'
         debtorAccount:
+          description: The account of the debtor. The debtor account must always be an IBAN.
           $ref: '#/components/schemas/PaymentIbanAccount'
         instructionId:
-          type: string
-          maxLength: 35
-          example: INSTR-001
+          description: The unique identifier (UUID) of the single payment instruction item.
+          $ref: "#/components/schemas/InstructionId"
         endToEndId:
-          type: string
-          maxLength: 35
-          example: ENDTOENDID-001
+          description: The endToEndId of the single payment instruction item.
+          $ref: "#/components/schemas/EndToEndId"
         instructedAmount:
+          description: The instructed amount of the single payment.
           $ref: '#/components/schemas/PaymentCurrencyAmount'
         ibanDetails:
+          description: The IBAN details of the single payment instruction item.
           $ref: '#/components/schemas/PaymentIBANDetail'
         isrDetails:
+          description: The ISR details of the single payment instruction item.
           $ref: '#/components/schemas/PaymentISRDetail'
         otherDetails:
+          description: Other details of the single payment instruction item.
           $ref: '#/components/schemas/PaymentOtherDetail'
         qrDetails:
+          description: The QR details of the single payment instruction item.
           $ref: '#/components/schemas/PaymentQRDetail'
 
     StandingorderSubmissionRequest:
       title: Standing Order Submission Request
       type: object
+      description: The standing order submission request object.
       required:
         - messageId
         - initiatingPartyId
@@ -1470,45 +1492,53 @@ components:
         - frequency
       properties:
         messageId:
-          type: string
-          maxLength: 35
-          example: eb6305c91f7f49deaed016487c27b42d
+          description: The unique identifier (UUID) of the the standing order instruction message.
+          $ref: '#/components/schemas/MessageId'
         initiatingPartyId:
-          type: string
-          maxLength: 32
-          example: TPP01746
+          description: The identifier of the third party provider (TPP) who created the payment instruction message derived from the OAuth 2.0 flow.
+          $ref: "#/components/schemas/InitiatingPartyId"
         requestedExecutionDate:
+          description: The requested execution date. In some cases, the financial institution can/will change this date, if the requested date is a bank / post holiday. If no date is chosen, the receiving financial institution will execute on the next possible date.
           $ref: '#/components/schemas/Date'
         debtorAccount:
+          description: The account of the debtor. The debtor account must always be an IBAN.
           $ref: '#/components/schemas/PaymentIbanAccount'
         instructionId:
-          type: string
-          maxLength: 35
-          example: INSTR-001
+          description: The unique identifier (UUID) of the standing order instruction item.
+          $ref: "#/components/schemas/InstructionId"
         endToEndId:
-          type: string
-          maxLength: 35
-          example: ENDTOENDID-001
+          description: The endToEndId of the standing order instruction item.
+          $ref: "#/components/schemas/EndToEndId"
         instructedAmount:
+          description: The instructed amount of the standing order.
           $ref: '#/components/schemas/PaymentCurrencyAmount'
         ibanDetails:
+          description: The IBAN details of the standing order instruction item.
           $ref: '#/components/schemas/PaymentIBANDetail'
         isrDetails:
+          description: The ISR details of the standing order instruction item.
           $ref: '#/components/schemas/PaymentISRDetail'
         otherDetails:
+          description: Other details of the standing order instruction item.
           $ref: '#/components/schemas/PaymentOtherDetail'
         qrDetails:
+          description: The QR details of the standing order instruction item.
           $ref: '#/components/schemas/PaymentQRDetail'
         # Additional Information according NextGenPSD2 for periodic orders
         startDate:
+          description: The start date of the standing order instruction item.
           $ref: '#/components/schemas/StartDate'
         endDate:
+          description: The end date of the standing order instruction item.
           $ref: '#/components/schemas/EndDate'
         executionRule:
+          description: The execution rule of the standing order instruction item.
           $ref: '#/components/schemas/ExecutionRule'
         frequency:
+          description: The frequency of the standing order instruction item.
           $ref: '#/components/schemas/FrequencyCode'
         dayOfExecution:
+          description: The day of execution of the standing order instruction item.
           $ref: '#/components/schemas/DayOfExecution'
         # Additional Optional Information Standing Orders
         executionMode:
@@ -1526,16 +1556,13 @@ components:
           type: array
           items:
             type: object
+            description: The break period items.
             properties:
               validFromDate:
-                description: >
-                  Start date of one break period. Standing order will not be processed from this date.
-                  Date format YYYY-MM-DD.
+                description: Start date of one break period. Standing order will not be processed from this date.
                 $ref: '#/components/schemas/Date'
               validToDate:
-                description: >
-                  End date of one break period. Standing order will not be processed to this date.
-                  Date format YYYY-MM-DD.
+                description: End date of one break period. Standing order will not be processed to this date.
                 $ref: '#/components/schemas/Date'
 
     StandingorderSubmissionStatus:
@@ -1545,10 +1572,16 @@ components:
         - statusCode
       properties:
         messageId:
-          type: string
-          example: eb6305c91f7f49deaed016487c27b42d
+          description: The unique identifier (UUID) of the the standing order instruction message.
+          $ref: '#/components/schemas/MessageId'
         statusCode:
           type: string
+          description: |
+            The status of the payment.
+            Possible status values are:
+            - ACCP (accepted)
+            - RJCT (rejected)
+            - PART (partially accepted)
           enum:
             - ACCP
             - RJCT
@@ -1556,14 +1589,14 @@ components:
           example: PART
         transactions:
           type: array
+          description: The standing order transaction items.
           items:
             $ref: '#/components/schemas/PaymentInstructionItemStatus'
 
     # Schema information NextGenPSD2 for periodic orders
     StartDate:
       title: Start Date
-      description: |
-        The first applicable day of execution starting from this date is the first payment.
+      description: The first applicable day of execution starting from this date is the first payment.
       type: string
       format: date
       example: 2018-04-13
