@@ -879,7 +879,6 @@ components:
     InstructionId:
       type: string
       description: The unique identifier (UUID) of the instruction item. Corresponds to the attribute _InstrId_ in SPS/ISO-20022.
-      example: CHF
       maxLength: 35
       example: INSTR-001
 
