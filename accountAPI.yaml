@@ -416,7 +416,7 @@ components:
           description: The owner of the account.
           example: Account Owner XYZ
         currency:
-          $ref: "#/components/schemas/Currency"
+          $ref: '#/components/schemas/Currency'
           description: The ISO currency three-letter code denominated and set for the account at the time it is opened.
         allowedCurrencies:
           type: array
@@ -528,7 +528,7 @@ components:
         - entries
       properties:
         iban:
-          $ref: "#/components/schemas/IBANIdentification"
+          $ref: '#/components/schemas/IBANIdentification'
           description: The International Bank Account Number (IBAN), associated with the account.
         designation:
           type: string
@@ -689,10 +689,10 @@ components:
         - currency
       properties:
         amount:
-          $ref: "#/components/schemas/Amount"
+          $ref: '#/components/schemas/Amount'
           description: The total amount of account charges.
         currency:
-          $ref: "#/components/schemas/Currency"
+          $ref: '#/components/schemas/Currency'
           description: The ISO currency three-letter code in which the total amount of charges was posed.
         chargeRecords:
           type: array
@@ -706,10 +706,10 @@ components:
       description: Specifies the details about individual charges.
       properties:
         amount:
-          $ref: "#/components/schemas/Amount"
+          $ref: '#/components/schemas/Amount'
           description: The amount of individual charges.
         currency:
-          $ref: "#/components/schemas/Currency"
+          $ref: '#/components/schemas/Currency'
           description: The ISO currency three-letter code in which the amount of individual charges was posed based.
         type:
           type: string
@@ -747,7 +747,7 @@ components:
           type: string
           minLength: 8
           maxLength: 11
-          description: | 
+          description: |
             The bank identifier code (BIC) of the creditor agent of a payment. Corresponds to the attribute _CdtrAgt ⇾ FinInstnId ⇾ BIC_ in SPS/ISO-20022.
             The BIC is an 8 or 11-character code that breaks down as follows:
             - First 4 characters - bank code (letters only)
@@ -768,13 +768,13 @@ components:
         - targetCurrency
       properties:
         amount:
-          $ref: "#/components/schemas/Amount"
+          $ref: '#/components/schemas/Amount'
           description: The amount instructed by the customer to the bank to carry out the transaction.
         sourceCurrency:
-          $ref: "#/components/schemas/Currency"
+          $ref: '#/components/schemas/Currency'
           description: The ISO currency three-letter code which is used to fund a currency conversion. Corresponds to the attribute _SrcCcy_ in SPS/ISO-20022.
         targetCurrency:
-          $ref: "#/components/schemas/Currency"
+          $ref: '#/components/schemas/Currency'
           description: The ISO currency three-letter code which the recipient will receive after the currency conversion. Corresponds to the attribute _TrgtCcy_ in SPS/ISO-20022.
         exchangeRate:
           type: string
@@ -939,10 +939,10 @@ components:
         - amount
       properties:
         currency:
-          $ref: "#/components/schemas/Currency"
+          $ref: '#/components/schemas/Currency'
           description: The ISO currency three-letter code in which the balance and the account are held.
         amount:
-          $ref: "#/components/schemas/Amount"
+          $ref: '#/components/schemas/Amount'
           description: The amount of the requested account balance.
 
     Iso20022ReportReference:
@@ -998,7 +998,7 @@ components:
             - IBAN
           example: IBAN
         identification:
-          $ref: "#/components/schemas/IBANIdentification"
+          $ref: '#/components/schemas/IBANIdentification'
           description: The International Bank Account Number (IBAN), associated with the account.
 
     PaymentCurrencyAmount:
@@ -1010,10 +1010,10 @@ components:
         - amount
       properties:
         currency:
-          $ref: "#/components/schemas/Currency"
+          $ref: '#/components/schemas/Currency'
           description: The ISO currency three-letter code in which the entry was posed.
         amount:
-          $ref: "#/components/schemas/Amount"
+          $ref: '#/components/schemas/Amount'
           description: The entry amount, which will be reflected in the account balance.
 
     PaymentRemittanceInformation:
@@ -1203,17 +1203,6 @@ components:
       schema:
         type: string
       description: 'User of the client software (SCOPE: FI - optional).'
-
-    # offset:
-    #  name: offset
-    #  in: query
-    #  description: Optional parameter for pagination. The number of items to skip before starting to collect the result set.
-    #  required: false
-    #  schema:
-    #    type: integer
-    #    format: int32
-    #    example: 25
-    #    minimum: 0
 
   securitySchemes:
     OAuth2:

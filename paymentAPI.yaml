@@ -899,7 +899,7 @@ components:
       maxLength: 32
       description: The identifier of the third party provider (TPP) who created the payment instruction message derived from the OAuth 2.0 flow.
       example: TPP01746
-    
+
     PaymentSubmissionRequest:
       title: Payment Submission Request
       type: object
@@ -917,7 +917,7 @@ components:
           $ref: '#/components/schemas/MessageId'
         initiatingPartyId:
           description: The identifier of the third party provider (TPP) who created the payment instruction message derived from the OAuth 2.0 flow.
-          $ref: "#/components/schemas/InitiatingPartyId"
+          $ref: '#/components/schemas/InitiatingPartyId'
         requestedExecutionDate:
           description: The requested execution date. In some cases, the financial institution can/will change this date, if the requested date is a bank / post holiday. If no date is chosen, the receiving financial institution will execute on the next possible date. Corresponds to the attribute _ReqdExctnDt_ in SPS/ISO-20022.
           $ref: '#/components/schemas/Date'
@@ -944,10 +944,10 @@ components:
       properties:
         instructionId:
           description: The identifier of the payment instruction item.
-          $ref: "#/components/schemas/InstructionId"
+          $ref: '#/components/schemas/InstructionId'
         endToEndId:
           description: The endToEndId of the payment instruction item.
-          $ref: "#/components/schemas/EndToEndId"
+          $ref: '#/components/schemas/EndToEndId'
         instructedAmount:
           description: The instructed amount of the payment. Corresponds to the attribute _InstdAmt_ in SPS/ISO-20022.
           $ref: '#/components/schemas/PaymentCurrencyAmount'
@@ -1179,7 +1179,7 @@ components:
       properties:
         instructionId:
           description: The unique identifier (UUID) of the payment instruction item.
-          $ref: "#/components/schemas/InstructionId"
+          $ref: '#/components/schemas/InstructionId'
         statusCode:
           type: string
           description: |
@@ -1209,7 +1209,7 @@ components:
           type: string
           minLength: 8
           maxLength: 11
-          description: | 
+          description: |
             The bank identifier code (BIC) of the creditor agent of a payment. Corresponds to the attribute _CdtrAgt ⇾ FinInstnId ⇾ BIC_ in SPS/ISO-20022.
             The BIC is an 8 or 11-character code that breaks down as follows:
             - First 4 characters - bank code (letters only)
@@ -1236,7 +1236,7 @@ components:
             - IBAN
           example: IBAN
         identification:
-          $ref: "#/components/schemas/IBANIdentification"
+          $ref: '#/components/schemas/IBANIdentification'
           description: The International Bank Account Number (IBAN), associated with the debtor account.
 
     PaymentQrIbanAccount:
@@ -1255,9 +1255,9 @@ components:
             - QR_IBAN
           example: IBAN
         identification:
-          $ref: "#/components/schemas/IBANIdentification"
+          $ref: '#/components/schemas/IBANIdentification'
           description: The International Bank Account Number (IBAN), associated with the debtor account.
-  
+
     PaymentOtherAccount:
       title: Payment Other Account
       type: object
@@ -1287,10 +1287,10 @@ components:
         - amount
       properties:
         currency:
-          $ref: "#/components/schemas/Currency"
+          $ref: '#/components/schemas/Currency'
           description: The ISO currency three-letter code in which the entry was posed.
         amount:
-          $ref: "#/components/schemas/Amount"
+          $ref: '#/components/schemas/Amount'
           description: The entry amount, which will be reflected in the account balance.
 
     PaymentIbanRemittanceReference:
@@ -1306,7 +1306,7 @@ components:
             - QRR
           example: SCOR
         reference:
-          $ref: "#/components/schemas/RemittanceReference"
+          $ref: '#/components/schemas/RemittanceReference'
 
     PaymentOtherRemittanceReference:
       title: Payment Remittance Reference
@@ -1315,12 +1315,12 @@ components:
       properties:
         type:
           type: string
-          description: The specific type of remittance reference. Has to be SCOR (Swiss QR Code Reference). 
+          description: The specific type of remittance reference. Has to be SCOR (Swiss QR Code Reference).
           enum:
             - SCOR
           example: SCOR
         reference:
-          $ref: "#/components/schemas/RemittanceReference"
+          $ref: '#/components/schemas/RemittanceReference'
 
     PaymentIsrRemittanceReference:
       title: Payment Remittance Reference
@@ -1329,12 +1329,12 @@ components:
       properties:
         type:
           type: string
-          description: The specific type of remittance reference. Has to be ISR (Invoice Reference Number). 
+          description: The specific type of remittance reference. Has to be ISR (Invoice Reference Number).
           enum:
             - ISR
           example: ISR
         reference:
-          $ref: "#/components/schemas/RemittanceReference"
+          $ref: '#/components/schemas/RemittanceReference'
 
     RemittanceReference:
       type: string
@@ -1458,7 +1458,7 @@ components:
           $ref: '#/components/schemas/MessageId'
         initiatingPartyId:
           description: The identifier of the third party provider (TPP) who created the payment instruction message derived from the OAuth 2.0 flow.
-          $ref: "#/components/schemas/InitiatingPartyId"
+          $ref: '#/components/schemas/InitiatingPartyId'
         requestedExecutionDate:
           description: The requested execution date. In some cases, the financial institution can/will change this date, if the requested date is a bank / post holiday. If no date is chosen, the receiving financial institution will execute on the next possible date. Corresponds to the attribute _ReqdExctnDt_ in SPS/ISO-20022.
           $ref: '#/components/schemas/Date'
@@ -1467,10 +1467,10 @@ components:
           $ref: '#/components/schemas/PaymentIbanAccount'
         instructionId:
           description: The unique identifier (UUID) of the single payment instruction item.
-          $ref: "#/components/schemas/InstructionId"
+          $ref: '#/components/schemas/InstructionId'
         endToEndId:
           description: The endToEndId of the single payment instruction item.
-          $ref: "#/components/schemas/EndToEndId"
+          $ref: '#/components/schemas/EndToEndId'
         instructedAmount:
           description: The instructed amount of the single payment. Corresponds to the attribute _InstdAmt_ in SPS/ISO-20022.
           $ref: '#/components/schemas/PaymentCurrencyAmount'
@@ -1506,7 +1506,7 @@ components:
           $ref: '#/components/schemas/MessageId'
         initiatingPartyId:
           description: The identifier of the third party provider (TPP) who created the payment instruction message derived from the OAuth 2.0 flow.
-          $ref: "#/components/schemas/InitiatingPartyId"
+          $ref: '#/components/schemas/InitiatingPartyId'
         requestedExecutionDate:
           description: The requested execution date. In some cases, the financial institution can/will change this date, if the requested date is a bank / post holiday. If no date is chosen, the receiving financial institution will execute on the next possible date. Corresponds to the attribute _ReqdExctnDt_ in SPS/ISO-20022.
           $ref: '#/components/schemas/Date'
@@ -1515,10 +1515,10 @@ components:
           $ref: '#/components/schemas/PaymentIbanAccount'
         instructionId:
           description: The unique identifier (UUID) of the standing order instruction item.
-          $ref: "#/components/schemas/InstructionId"
+          $ref: '#/components/schemas/InstructionId'
         endToEndId:
           description: The endToEndId of the standing order instruction item.
-          $ref: "#/components/schemas/EndToEndId"
+          $ref: '#/components/schemas/EndToEndId'
         instructedAmount:
           description: The instructed amount of the standing order. Corresponds to the attribute _InstdAmt_ in SPS/ISO-20022.
           $ref: '#/components/schemas/PaymentCurrencyAmount'
