@@ -1087,6 +1087,62 @@ components:
       example: Rechnung Nr. 408
 
   parameters:
+
+    path_accountId:
+      in: path
+      name: accountId
+      required: true
+      schema:
+        maxLength: 256
+        pattern: '[A-Za-z0-9](([A-Za-z0-9._]|-){0,254}[A-Za-z0-9]){0,1}'
+        type: string
+        example: accountId
+      description: ID of the account.
+
+    path_reportId:
+      in: path
+      name: reportId
+      required: true
+      schema:
+        maxLength: 35
+        type: string
+      description: Unique ID of the requested ISO20022 XML camt.053 document.
+
+    path_transactionId:
+      in: path
+      name: transactionId
+      required: true
+      schema:
+        type: string
+      description: ID of the transaction.
+
+    cursor:
+      in: query
+      name: cursor
+      required: false
+      schema:
+        type: string
+        example: cursorIDxyz
+      description: Optional parameter for pagination. An opaque string value used for pagination.
+
+    date:
+      in: query
+      name: date
+      schema:
+        $ref: '#/components/schemas/Date'
+      description: 'The date to query, formatted as yyyy-mm-dd. Default value: current date.'
+
+    limit:
+      in: query
+      name: limit
+      required: false
+      schema:
+        type: integer
+        format: int32
+        example: 25
+        minimum: 1
+      description: Optional parameter for pagination. Maximum number of entries to be returned.
+
     agent_in_header:
       in: header
       name: User-Agent
@@ -1118,61 +1174,6 @@ components:
       schema:
         type: string
       description: Unique ID (defined by the caller) which will be reflected back in the response.
-
-    cursor:
-      in: query
-      name: cursor
-      required: false
-      schema:
-        type: string
-        example: cursorIDxyz
-      description: Optional parameter for pagination. An opaque string value used for pagination.
-
-    date:
-      in: query
-      name: date
-      schema:
-        $ref: '#/components/schemas/Date'
-      description: 'The date to query, formatted as yyyy-mm-dd. Default value: current date.'
-
-    limit:
-      in: query
-      name: limit
-      required: false
-      schema:
-        type: integer
-        format: int32
-        example: 25
-        minimum: 1
-      description: Optional parameter for pagination. Maximum number of entries to be returned.
-
-    path_accountId:
-      in: path
-      name: accountId
-      required: true
-      schema:
-        maxLength: 256
-        pattern: '[A-Za-z0-9](([A-Za-z0-9._]|-){0,254}[A-Za-z0-9]){0,1}'
-        type: string
-        example: accountId
-      description: ID of the account.
-
-    path_reportId:
-      in: path
-      name: reportId
-      required: true
-      schema:
-        maxLength: 35
-        type: string
-      description: Unique ID of the requested ISO20022 XML camt.053 document.
-
-    path_transactionId:
-      in: path
-      name: transactionId
-      required: true
-      schema:
-        type: string
-      description: ID of the transaction.
 
     optional_psu_ip_in_header:
       in: header
