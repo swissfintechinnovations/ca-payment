@@ -1831,7 +1831,7 @@ components:
       required: false
       schema:
         type: string
-      description: 'ID of the target, e.g., a financial institution. (SCOPE: FI - optional).'
+      description: 'ID of the target, e.g. a financial institution. (SCOPE: FI - optional).'
 
   securitySchemes:
     OAuth2:

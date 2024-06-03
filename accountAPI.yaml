@@ -1087,7 +1087,6 @@ components:
       example: Rechnung Nr. 408
 
   parameters:
-
     path_accountId:
       in: path
       name: accountId
