@@ -15,7 +15,6 @@ on:
       artifact:
         description: Add artifacts to the release. All files from the provided folder(s) are added to the release. Folders or files are seperated by a single whitespace (e.g. file.txt folder/). **Do not use docs/**.
         type: string
-        default: ''
         required: false
       force:
         description: "If force is true, already published releases can be overwritten. Caution: This action deletes already published releases and can **not** be undone!"
@@ -39,7 +38,7 @@ jobs:
     uses: swissfintechinnovations/.github/.github/workflows/reusable-release-workflow.yaml@main
     with:
       version: ${{ github.event.inputs.version }}
-      draft: ${{ fromJSON(github.event.inputs.draft) }}
-      artifact: ${{ fromJSON(github.event.inputs.artifact) }}
-      force: ${{ fromJSON(github.event.inputs.force) }}
+      draft: ${{ fromJSON(github.event.inputs.draft) }} # convert string to boolean
+      artifact: ${{ github.event.inputs.artifact }}
+      force: ${{ fromJSON(github.event.inputs.force) }} # convert string to boolean
     secrets: inherit
