@@ -8,7 +8,7 @@
 - [SFTI Guidelines and Coding Style](#sfti-guidelines-and-coding-style)
 
 
-> **This guide serves to set clear expectations for everyone involved within SFTI's XS2A/payment stream so that we can improve the API specifications together while also creating a welcoming space for everyone to participate. Following these guidelines will help preserve high-quality SFTI specifications and smooth and fast integrations supported by the whole SFTI community.**
+> **This guide serves to set clear expectations for everyone involved within SFTI's account and payment stream so that we can improve the API specifications together while also creating a welcoming space for everyone to participate. Following these guidelines will help preserve high-quality SFTI specifications and enable smooth and fast integrations supported by the whole SFTI community.**
 
 # First-time contribution
 If you are not yet part of the SFTI community but interested in contributing to the improvement and further development of the SFTI API's, then please follow the process described below.
@@ -43,4 +43,4 @@ The pull request will then be presented and discussed in one of the next working
 ![contrib](https://github.com/swissfintechinnovations/ca-payment/assets/116151702/4cad55d8-aed0-42cb-a2b6-b956d217fd0f)
 
 # SFTI guidelines and coding style
-At the [SFTI Wiki](https://github.com/swissfintechinnovations/.github/wiki) you can find more information about SFTI's API design principles, collaboration and implementation guidelines. If you contribute on API specifications, please pay special attention to SFTI's [style guide](https://github.com/swissfintechinnovations/.github/wiki/Style-Guide-Common-APIs) and [naming conventions](https://github.com/swissfintechinnovations/.github/wiki/Naming-Conventions). Make sure you are familiar with both guidelines before submitting your pull request, as there are special [GitHub Actions](https://github.com/swissfintechinnovations/.github/wiki/Github-Actions) implemented to check these rules automatically. Pull request that do not pass all checks cannot be merged in to the main branch.
+At the [SFTI Wiki](https://github.com/swissfintechinnovations/.github/wiki) you can find more information about SFTI's API design principles, collaboration and implementation guidelines. If you contribute on API specifications, please pay special attention to SFTI's [style guide](https://github.com/swissfintechinnovations/.github/wiki/Style-Guide-Common-APIs) and [naming conventions](https://github.com/swissfintechinnovations/.github/wiki/Naming-Conventions). Make sure you are familiar with both guidelines before submitting your pull request, as there are special [GitHub Actions](https://github.com/swissfintechinnovations/.github/wiki/Github-Actions) implemented to check these rules automatically. Pull requests that do not pass all checks cannot be merged in to the main branch.
