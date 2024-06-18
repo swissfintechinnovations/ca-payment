@@ -15,4 +15,6 @@ An easy-to-read representation of the Payment/XS2A APIs is accessible via the fo
 - [Account API](https://editor.swagger.io/?url=https://raw.githubusercontent.com/swissfintechinnovations/ca-payment/main/accountAPI.yaml) 
 - [Payment API](https://editor.swagger.io/?url=https://raw.githubusercontent.com/swissfintechinnovations/ca-payment/main/paymentAPI.yaml)
 
+All forms of contribution (i.e. raising issues and preparing pull requests) to the Payment/XS2A APIs is very welcome and highly appreciated. The contribution how-to can be found in the contribution [guidelines](https://github.com/swissfintechinnovations/ca-payment/blob/main/CONTRIBUTING.md).
+
 Note: SFTI's standardization recommendations for payment APIs can be implemented individually at each interested FI. The leading implementation of those APIs is currently realized in coordination with the Open Banking platform [bLink](https://blink.six-group.com/) of SIX.
