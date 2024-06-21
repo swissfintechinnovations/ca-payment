@@ -12,22 +12,23 @@ info:
     email: info@common-api.ch
   license:
     name: Apache 2.0
-    url: http://www.apache.org/licenses/LICENSE-2.0.html
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
 servers:
-  - url: account.common-api.ch
+  - url: account.common-api.ch/api/v4
 externalDocs:
   description: Find out more about SFTI API specifications
   url: https://www.common-api.ch
-security:
-  - OAuth2:
-      - read
-      - write
 
 tags:
   - name: accounts
     description: Third party access to bank account service considering account information and transaction data operations (JSON).
   - name: iso20022
     description: Third party access to bank account service considering camt.053 operations (XML).
+
+security:
+  - OAuth2:
+      - read
+      - write
 
 paths:
   /accounts:
@@ -55,7 +56,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/accountItem'
+                  $ref: '#/components/schemas/AccountItem'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -97,7 +98,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/accountItem'
+                $ref: '#/components/schemas/AccountItem'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -122,12 +123,12 @@ paths:
       summary: Retrieve account balance information
       description: |
         Returns account balance information of the specified account.
-        * Returns the intraday booked balance (ITBD) for the current day, if called without a date.
-        * Returns the closing booked balance (CLBD) for a specific day, if called for a past date (i.e. the closing booked balance (CLBD) of that day). In case the specified day has not yet been finalized, the response code will be 202.
+        * Returns the interim booked balance (ISO20022 Balance Type ITBD) for the current day, if called without a date. The balance is calculated in the course of the service provider's business day, at the time specified, and subject to further changes during the business day. The interim balance is calculated on the basis of booked credit and debit items during the calculation time/period specified.
+        * Returns the closing booked balance (ISO20022 Balance Type CLBD) for a specific day, if called for a past date. It is the sum of the opening booked balance at the beginning of that day and all entries booked to the account during that day. In case the specified day has not yet been finalized, the response code will be 202.
       parameters:
         - $ref: '#/components/parameters/authorization_in_header'
         - $ref: '#/components/parameters/path_accountId'
-        - $ref: '#/components/parameters/query_date'
+        - $ref: '#/components/parameters/date'
         - $ref: '#/components/parameters/clientid_in_header'
         - $ref: '#/components/parameters/correlation_in_header'
         - $ref: '#/components/parameters/agent_in_header'
@@ -143,7 +144,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/accountBalanceItem'
+                $ref: '#/components/schemas/AccountBalanceItem'
         '202':
           $ref: '#/components/responses/standard202'
         '204':
@@ -180,11 +181,13 @@ paths:
         - in: query
           name: dateFrom
           schema:
-            $ref: '#/components/schemas/date'
+            $ref: '#/components/schemas/Date'
+          description: The start date of the transaction query.
         - in: query
           name: dateTo
           schema:
-            $ref: '#/components/schemas/date'
+            $ref: '#/components/schemas/Date'
+          description: The end date of the transaction query.
         - in: query
           name: bookingStatus
           required: true
@@ -194,6 +197,7 @@ paths:
               - booked
               - pending
               - both
+          description: Booking status of the transactions to be queried.
         - $ref: '#/components/parameters/cursor'
         - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/clientid_in_header'
@@ -211,7 +215,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/accountTransactionReport'
+                $ref: '#/components/schemas/AccountTransactionReport'
         '202':
           $ref: '#/components/responses/standard202'
         '204':
@@ -237,8 +241,8 @@ paths:
     get:
       tags:
         - accounts
-      summary: Retrieve details of a specific transaction
-      description: Details of the specified transaction.
+      summary: Details of the specified transaction
+      description: Retrieves the details of the specified transaction.
       parameters:
         - $ref: '#/components/parameters/path_accountId'
         - $ref: '#/components/parameters/path_transactionId'
@@ -258,7 +262,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/accountTransactionEntry'
+                $ref: '#/components/schemas/AccountTransactionEntry'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -304,7 +308,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/iso20022ReportReference'
+                  $ref: '#/components/schemas/Iso20022ReportReference'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -326,7 +330,8 @@ paths:
     get:
       tags:
         - iso20022
-      summary: Retrieves the designated ISO20022 XML camt.053 document.
+      summary: Designated ISO20022 XML camt.053 document
+      description: Retrieves the designated ISO20022 XML camt.053 document.
       parameters:
         - $ref: '#/components/parameters/path_reportId'
         - $ref: '#/components/parameters/authorization_in_header'
@@ -367,22 +372,46 @@ paths:
 # -------- Models ---------
 # -------------------------
 components:
-  securitySchemes:
-    OAuth2:
-      type: oauth2
-      flows:
-        authorizationCode:
-          authorizationUrl: https://example.com/oauth/authorize
-          tokenUrl: https://example.com/oauth/token
-          scopes:
-            read: Grants read access
-            write: Grants write access
-
   schemas:
-    # /accounts
-    accountItem:
+    AccountBalanceItem:
+      title: Account Balance Item
+      type: object
+      description: The account balance object.
+      required:
+        - date
+        - balanceType
+        - balance
+      properties:
+        date:
+          $ref: '#/components/schemas/Date'
+          description: The date for which the balance was retrieved.
+        balanceType:
+          type: string
+          enum:
+            - ITBD
+            - CLBD
+          description: The account balance type according to ISO20022. Either the interim booked balance (ITBD) or the closing booked balance (CLBD) type can be applied. Corresponds to the attribute _Bal ⇾ Tp_ in SPS/ISO-20022.
+          example: CLBD
+        balance:
+          $ref: '#/components/schemas/BalanceCurrencyAmount'
+        _links:
+          type: object
+          description: Contains the paths to additional resources for specific account (e.g. path to account and transactions resource).
+          properties:
+            self:
+              type: string
+              example: /accounts/550e8400-e29b-11d4-a716-446655440000/balance
+            account:
+              type: string
+              example: /accounts/550e8400-e29b-11d4-a716-446655440000
+            transactions:
+              type: string
+              example: /accounts/550e8400-e29b-11d4-a716-446655440000/transactions
+
+    AccountItem:
       title: Account Information Item
       type: object
+      description: The account object.
       required:
         - accountOwner
         - id
@@ -390,37 +419,38 @@ components:
         - currency
       properties:
         id:
-          $ref: '#/components/schemas/commonAccountId'
+          $ref: '#/components/schemas/CommonAccountId'
         account:
-          $ref: '#/components/schemas/paymentIbanAccount'
+          $ref: '#/components/schemas/PaymentIbanAccount'
         accountOwner:
-          maxLength: 140
           type: string
+          maxLength: 140
+          description: The owner of the account.
           example: Account Owner XYZ
         currency:
-          type: string
-          minLength: 3
-          maxLength: 3
-          example: CHF
+          $ref: '#/components/schemas/Currency'
+          description: The ISO currency three-letter code denominated and set for the account at the time it is opened.
         allowedCurrencies:
           type: array
           items:
             type: string
             example: CHF
+          description: Permitted currencies for the account.
         designation:
           type: string
           maxLength: 140
-          description: This element shall always be populated with the account alias, if defined, otherwise with specific bank account name (e.g. bank saving account).
+          description: This element shall always be populated with the account alias, if defined, otherwise with specific bank account name (e.g. bank saving account). **NOTE:** This property will become mandatory with the next major release of this API.
           example: Firmenkonto
         accountTypeCode:
           type: string
           description: |
-            Contains the account type code according to the ISO external cash account type code list. It is strongly recommended to use only the 5 codes below as follows:
+            Contains the account type code according to the ISO20022 external cash account type code list. It is strongly recommended to use only the 5 codes below as follows:
             LOAN: Account used for loans (loan and mortgage accounts) - DE: Darlehenskonto, Kreditkonto, Baukreditkonto, Hypothekarkonto
             LLSV: Account used for savings with special interest and withdrawal terms (pension provision and vested benefits accounts) - DE: Vorsorge- und Freizügigkeitskonten
             SVGS: Account used for savings (all types of saving accounts)
             TRAN: Account used for transactions (all types of personal, current and payment accounts) - DE: Privat-, Kontokorent- und Zahlungsverkehrskonten
             OTHR: Account not otherwise specified (gathering pool for all other accounts)
+            **NOTE:** This property will become mandatory with the next major release of this API.
           example: TRAN
           enum:
             - CACC
@@ -448,7 +478,7 @@ components:
             - VACC
         _links:
           type: object
-          description: Contains the paths to additional resources for specific account (e.g. path to transactions resource).
+          description: Contains the paths to additional resources for specific account (e.g. path to balance and transactions resource).
           properties:
             self:
               type: string
@@ -460,82 +490,93 @@ components:
               type: string
               example: /accounts/550e8400-e29b-11d4-a716-446655440000/transactions
 
-    commonAccountId:
-      type: string
-      pattern: '[A-Za-z0-9](([A-Za-z0-9._]|-){0,254}[A-Za-z0-9]){0,1}'
-      maxLength: 256
-      example: abc123_abcxyz.123789.abcxyz.abcxyz_abcxyz_abcxyz_abcxyz_ccccc_123abc
-
-    accountBalanceItem:
-      title: Account Balance Item
+    AccountTransactionCounterpartyAccount:
+      title: Account Transaction Counterparty Account
+      description: Specifies the counterparty account (debtor account if transaction type = CRDT, creditor account if transaction type = DBIT).
       type: object
       required:
-        - date
-        - balanceType
-        - balance
+        - type
+        - identification
       properties:
-        date:
-          $ref: '#/components/schemas/date'
-        balanceType:
+        type:
           type: string
           enum:
-            - ITBD
-            - CLBD
-          example: CLBD
-        balance:
-          $ref: '#/components/schemas/balanceCurrencyAmount'
-        _links:
-          type: object
-          description: Contains the paths to additional resources for specific account (e.g. path to transactions resource).
-          properties:
-            self:
-              type: string
-              example: /accounts/550e8400-e29b-11d4-a716-446655440000/balance
-            account:
-              type: string
-              example: /accounts/550e8400-e29b-11d4-a716-446655440000
-            transactions:
-              type: string
-              example: /accounts/550e8400-e29b-11d4-a716-446655440000/transactions
-
-    accountTransactionReport:
-      title: Account Transaction Report
-      type: object
-      required:
-        - iban
-        - entries
-      properties:
-        iban:
+            - IBAN
+            - OTHER
+          description: The account idientification type of the counterparty account, either IBAN or OTHER.
+          example: IBAN
+        identification:
           type: string
-          maxLength: 34
-          pattern: '[A-Z]{2,2}[0-9]{2,2}[a-zA-Z0-9]{1,30}'
-          example: CH5481230000001998736
-        designation:
+          maxLength: 35
+          description: 'The account identification: IBAN, ISR participant number or bank account number.'
+          example: CH9300762011623852957
+
+    AccountTransactionBankTransactionCode:
+      title: Account Transaction Bank Transaction Code
+      type: object
+      description: The bank transaction code (ISO20022) object of an account transaction. Specifies a set of elements to fully identify the type of underlying transaction resulting in an entry.
+      required:
+        - domainCode
+        - familyCode
+        - subFamilyCode
+      properties:
+        domainCode:
+          type: string
+          maxLength: 4
+          description: The code of the business area of the underlying transaction according to the "Bank Transaction Code". Corresponds to the attribute _Domn ⇾ Cd_ in SPS/ISO-20022.
+          example: PMNT
+        familyCode:
+          type: string
+          maxLength: 4
+          description: The family code within a specific domain according to the "Bank Transaction Code". Corresponds to the attribute _Fmly ⇾ Cd_ in SPS/ISO-20022.
+          example: RCDT
+        subFamilyCode:
+          type: string
+          maxLength: 4
+          description: Specifies the sub-family code within a specific domain according to the "Bank Transaction Code". Corresponds to the attribute _SubFmlyCd_ in SPS/ISO-20022.
+          example: DMCT
+
+    AccountTransactionCounterparty:
+      title: Account Transaction Counterparty
+      type: object
+      description: Specifies the counterparty details (creditor or debtor).
+      properties:
+        name:
           type: string
           maxLength: 140
-          example: Checking Account
-        entries:
-          type: array
-          items:
-            $ref: '#/components/schemas/accountTransactionEntry'
-        linksPagination:
-          $ref: '#/components/schemas/linksPagination'
-        _links:
-          type: object
-          properties:
-            self:
-              type: string
-              example: /accounts/550e8400e29b11d4a716446655440000/statements
-            account:
-              type: string
-              example: /accounts/550e8400e29b11d4a716446655440000
-            balance:
-              type: string
-              example: /accounts/550e8400e29b11d4a716446655440000/balance
+          description: Name of the counterparty (debtor name if transaction type = CRDT, creditor name if transaction type = DBIT).
+          example: Hans Muster
+        postalAddress:
+          $ref: '#/components/schemas/AccountTransactionStructuredOrUnstructuredAddress'
+        account:
+          $ref: '#/components/schemas/AccountTransactionCounterpartyAccount'
+        agent:
+          $ref: '#/components/schemas/AccountTransactionCounterpartyAgent'
 
-    accountTransactionEntry:
+    AccountTransactionCounterpartyAgent:
+      title: Account Transaction Counterparty Agent
+      type: object
+      description: The account transaction counterparty agent object.
+      properties:
+        bic:
+          type: string
+          minLength: 8
+          maxLength: 11
+          description: |
+            The bank identifier code (BIC) of the creditor agent of a payment. Corresponds to the attribute _CdtrAgt ⇾ FinInstnId ⇾ BIC_ in SPS/ISO-20022.
+            The BIC is an 8 or 11-character code that breaks down as follows:
+            - First 4 characters - bank code (letters only)
+            - Next 2 characters - ISO 3166-1 alpha-2 country code (letters only)
+            - Next 2 characters - location code (letters and digits)
+            - Last 3 characters (optional) - branch code, specifying a particular branch of the bank (letters and digits)
+          example: DEUTDE5M101
+        clearingSystemMemberIdentification:
+          $ref: '#/components/schemas/CommonClearingSystemMemberIdentification'
+
+    AccountTransactionEntry:
       title: Account Transaction Entry
       type: object
+      description: The account transaction entry object.
       required:
         - entryId
         - transactionType
@@ -547,41 +588,82 @@ components:
       properties:
         entryId:
           type: string
+          description: Unique bank-defined ID for the transaction. Corresponds to the attribute _Ntry ⇾ AddtlInfInd ⇾ MsgId_ in SPS/ISO-20022.
           example: ENTRY123456789
         transactionType:
-          $ref: '#/components/schemas/accountTransactionTransactionType'
+          $ref: '#/components/schemas/AccountTransactionTransactionType'
         entryReference:
           type: string
-          example: 010001628
+          description: Mandatory for business cases ISR and QR-IBAN. Contains the ISR participant number or QR-IBAN of the account owner. Corresponds to the attribute _NtryRef_ in SPS/ISO-20022.
+          example: '10001628'
           maxLength: 35
         entryReferenceInternalId:
           type: string
+          description: Additional grouping criteria for business cases ISR and QR-IBAN. Contains the BISR-ID or first 6 characters of the QR reference.
+          example: '123456'
           maxLength: 35
-          example: 010001628
         reversalIndicator:
           type: boolean
+          description: Indicates if the transaction is a reversing entry. Must always be true. Corresponds to the attribute _RvslInd_ in SPS/ISO-20022.
+          example: true
         bookingDate:
-          $ref: '#/components/schemas/date'
+          $ref: '#/components/schemas/Date'
+          description: The booking date of the transaction set by the bank. Corresponds to the attribute _BookgDt_ in SPS/ISO-20022.
         valueDate:
-          $ref: '#/components/schemas/date'
+          $ref: '#/components/schemas/Date'
+          description: The value date of the transaction set by the bank. Corresponds to the attribute _ValDt_ in SPS/ISO-20022.
         amount:
-          $ref: '#/components/schemas/paymentCurrencyAmount'
+          $ref: '#/components/schemas/PaymentCurrencyAmount'
         instructedAmount:
-          $ref: '#/components/schemas/accountTransactionInstructedAmount'
+          $ref: '#/components/schemas/AccountTransactionInstructedAmount'
         totalChargesAmount:
-          $ref: '#/components/schemas/accountTransactionItemCharges'
+          $ref: '#/components/schemas/AccountTransactionItemCharges'
         bankTransactionCode:
-          $ref: '#/components/schemas/accountTransactionBankTransactionCode'
+          $ref: '#/components/schemas/AccountTransactionBankTransactionCode'
         additionalEntryInformation:
           type: string
+          description: Additional entry information. Corresponds to the attribute _AddtlNtryInf_ in SPS/ISO-20022.
+          example: Online Shopping Visa Debit Card Nr. xxxx 1234
         transactions:
           type: array
+          description: Specifies the transaction entries.
           items:
-            $ref: '#/components/schemas/accountTransactionItem'
+            $ref: '#/components/schemas/AccountTransactionItem'
 
-    accountTransactionItem:
+    AccountTransactionInstructedAmount:
+      title: Account Transaction Instructed Amount
+      type: object
+      description: Specifies the instructed amount according to the account currency.
+      required:
+        - amount
+        - sourceCurrency
+        - targetCurrency
+      properties:
+        amount:
+          $ref: '#/components/schemas/Amount'
+          description: The amount instructed by the customer to the bank to carry out the transaction.
+        sourceCurrency:
+          $ref: '#/components/schemas/Currency'
+          description: The ISO currency three-letter code which is used to fund a currency conversion. Corresponds to the attribute _SrcCcy_ in SPS/ISO-20022.
+        targetCurrency:
+          $ref: '#/components/schemas/Currency'
+          description: The ISO currency three-letter code which the recipient will receive after the currency conversion. Corresponds to the attribute _TrgtCcy_ in SPS/ISO-20022.
+        exchangeRate:
+          type: string
+          pattern: '^\d{1,11}$|^(?=\d+[.]\d+$).{3,12}$'
+          maxLength: 12
+          description: The rate at which the source currency will be exchanged for the target currency. Corresponds to the attribute _XchgRate_ in SPS/ISO-20022.
+          example: '0.957'
+        exchangeIndicator:
+          type: string
+          maxLength: 4
+          description: Indicates whether the amount has to be multiplied or divided by the exchange rate (MULT, DIV). Mandatory if the exchange rate is provided.
+          example: MULT
+
+    AccountTransactionItem:
       title: Account Transaction Item
       type: object
+      description: Specifies the transaction entry item.
       required:
         - transactionId
         - transactionType
@@ -590,206 +672,79 @@ components:
         transactionId:
           type: string
           maxLength: 35
+          description: The unique identifier to the listed transaction. Defined by the bank. Corresponds to the attribute _TxDtls ⇾ Refs ⇾ PmtInfId_ in SPS/ISO-20022.
           example: TX12345A987
         transactionType:
-          $ref: '#/components/schemas/accountTransactionTransactionType'
+          $ref: '#/components/schemas/AccountTransactionTransactionType'
         endToEndId:
           type: string
           maxLength: 35
+          description: The unique reference of the debtor/creditor. Corresponds to the attribute _EndToEndId_ in SPS/ISO-20022.
           example: ENDTOENDID-01
         bankTransactionCode:
-          $ref: '#/components/schemas/accountTransactionBankTransactionCode'
+          $ref: '#/components/schemas/AccountTransactionBankTransactionCode'
         amount:
-          $ref: '#/components/schemas/paymentCurrencyAmount'
+          $ref: '#/components/schemas/PaymentCurrencyAmount'
         instructedAmount:
-          $ref: '#/components/schemas/accountTransactionInstructedAmount'
+          $ref: '#/components/schemas/AccountTransactionInstructedAmount'
         totalChargesAmount:
-          $ref: '#/components/schemas/accountTransactionItemCharges'
+          $ref: '#/components/schemas/AccountTransactionItemCharges'
         counterparty:
-          $ref: '#/components/schemas/accountTransactionCounterparty'
+          $ref: '#/components/schemas/AccountTransactionCounterparty'
         remittanceInformation:
-          $ref: '#/components/schemas/paymentRemittanceInformation'
+          $ref: '#/components/schemas/PaymentRemittanceInformation'
         remittanceReference:
-          $ref: '#/components/schemas/accountTransactionRemittanceReference'
+          $ref: '#/components/schemas/AccountTransactionRemittanceReference'
         additionalTransactionInformation:
           type: string
           maxLength: 140
+          description: Any additional information to the transaction. Corresponds to the attribute _AddtlTxInf_ in SPS/ISO-20022.
+          example: Online Shopping Visa Debit Card Nr. xxxx 1234
 
-    linksPagination:
-      title: Pagination Links
-      description: Links (or cursors) returned in the answer of an API call.
-      type: object
-      properties:
-        self:
-          type: string
-          description: Link / cursor to the current result set (based on the submitted pagination approach)
-          example: /payment-app/api/v1/accounts/accountIDXY/transactions?offset=75&limit=25
-        first:
-          type: string
-          description: Link / cursor to the first result set (based on the submitted pagination approach)
-          example: /payment-app/api/v1/accounts/accountIDXY/transactions?offset=0&limit=25
-        previous:
-          type: string
-          description: Link / cursor to the previous result set (based on the submitted pagination approach)
-          example: /payment-app/api/v1/accounts/accountIDXY/transactions?offset=50&limit=25
-        next:
-          type: string
-          description: Link / cursor to the next result set (based on the submitted pagination approach)
-          example: /payment-app/api/v1/accounts/accountIDXY/transactions?offset=100&limit=25
-        last:
-          type: string
-          description: Link / cursor to the last result set (based on the submitted pagination approach)
-          example: /payment-app/api/v1/accounts/accountIDXY/transactions?offset=150&limit=25
-
-    accountTransactionItemCharges:
+    AccountTransactionItemCharges:
       title: Account Transaction Item Charges
       type: object
+      description: Specifies the total amount of account charges.
       required:
         - amount
         - currency
       properties:
         amount:
-          type: string
-          pattern: '[0-9]{1,12}([.][0-9]{1,5})?'
-          maxLength: 18
-          example: 10.25
+          $ref: '#/components/schemas/Amount'
+          description: The total amount of account charges.
         currency:
-          type: string
-          maxLength: 3
-          minLength: 3
-          example: CHF
+          $ref: '#/components/schemas/Currency'
+          description: The ISO currency three-letter code in which the total amount of charges was posed.
         chargeRecords:
           type: array
+          description: Specifies the details about individual charges.
           items:
-            $ref: '#/components/schemas/accountTransactionItemChargesRecord'
+            $ref: '#/components/schemas/AccountTransactionItemChargesRecord'
 
-    accountTransactionItemChargesRecord:
+    AccountTransactionItemChargesRecord:
       title: Account Transaction Item Charges Record
       type: object
+      description: Specifies the details about individual charges.
       properties:
         amount:
-          type: string
-          pattern: '[0-9]{1,12}([.][0-9]{1,5})?'
-          maxLength: 18
-          example: 10.25
+          $ref: '#/components/schemas/Amount'
+          description: The amount of individual charges.
         currency:
-          type: string
-          minLength: 3
-          maxLength: 3
-          example: CHF
+          $ref: '#/components/schemas/Currency'
+          description: The ISO currency three-letter code in which the amount of individual charges was posed based.
         type:
           type: string
           maxLength: 35
+          description: The type of charge. Corresponds to the attribute _Chrgs ⇾ Rcrd ⇾ Tp_ in SPS/ISO-20022.
           example: Some type of charge
         chargesIncludedIndicator:
+          description: Indicates whether the charges are included in the entry amount or not. Corresponds to the attribute _ChrgInclInd_ in SPS/ISO-20022.
           type: boolean
+          example: true
 
-    accountTransactionCounterparty:
-      title: Account Transaction Counterparty
-      type: object
-      properties:
-        name:
-          type: string
-          maxLength: 140
-          example: Hans Muster
-        postalAddress:
-          $ref: '#/components/schemas/accountTransactionStructuredOrUnstructuredAddress'
-        account:
-          $ref: '#/components/schemas/accountTransactionCounterpartyAccount'
-        agent:
-          $ref: '#/components/schemas/accountTransactionCounterpartyAgent'
-
-    accountTransactionCounterpartyAgent:
-      title: Account Transaction Counterparty Agent
-      type: object
-      properties:
-        bic:
-          type: string
-          maxLength: 11
-        clearingSystemMemberIdentification:
-          $ref: '#/components/schemas/commonClearingSystemMemberIdentification'
-
-    accountTransactionInstructedAmount:
-      title: Account Transaction Instructed Amount
-      type: object
-      required:
-        - amount
-        - sourceCurrency
-        - targetCurrency
-      properties:
-        amount:
-          type: string
-          pattern: '[0-9]{1,12}([.][0-9]{1,5})?'
-          maxLength: 18
-          example: 10.25
-        sourceCurrency:
-          type: string
-          minLength: 3
-          maxLength: 3
-          example: CHF
-        targetCurrency:
-          type: string
-          minLength: 3
-          maxLength: 3
-          example: USD
-        exchangeRate:
-          type: string
-          example: 0.957
-          pattern: '^\d{1,11}$|^(?=\d+[.]\d+$).{3,12}$'
-          maxLength: 12
-        exchangeIndicator:
-          type: string
-          maxLength: 4
-          example: MULT
-
-    accountTransactionBankTransactionCode:
-      title: Account Transaction Bank Transaction Code
-      type: object
-      required:
-        - domainCode
-        - familyCode
-        - subFamilyCode
-      properties:
-        domainCode:
-          type: string
-          maxLength: 4
-          example: PMNT
-        familyCode:
-          type: string
-          maxLength: 4
-          example: RCDT
-        subFamilyCode:
-          type: string
-          maxLength: 4
-          example: DMCT
-
-    accountTransactionTransactionType:
-      title: Account Transaction Transaction Type
-      type: string
-      enum:
-        - CRDT
-        - DBIT
-      example: CRDT
-
-    accountTransactionCounterpartyAccount:
-      title: Account Transaction Counterparty Account
-      type: object
-      required:
-        - type
-        - identification
-      properties:
-        type:
-          type: string
-          enum:
-            - IBAN
-            - OTHER
-        identification:
-          type: string
-          maxLength: 35
-          example: CH9300762011623852957
-
-    accountTransactionRemittanceReference:
+    AccountTransactionRemittanceReference:
       title: Account Transaction Remittance Reference
+      description: The remittance reference of the account transaction. Specifies the structured reference.
       type: object
       properties:
         type:
@@ -798,14 +753,64 @@ components:
             - SCOR
             - ISR
             - QRR
+          description: The reference type (QRR, SCOR, ISR). Corresponds to the attribute _RmtInf ⇾ Strd ⇾ CdtrRefInf ⇾ Tp_ in SPS/ISO-20022.
+          example: SCOR
         reference:
           type: string
           maxLength: 35
-          example: 210000000003139471430009017
+          description: The reference number associated to the choosen remittance type. Corresponds to the attribute _RmtInf ⇾ Strd ⇾ CdtrRefInf ⇾ Ref_ in SPS/ISO-20022.
+          example: '210000000003139471430009017'
 
-    accountTransactionStructuredAddress:
+    AccountTransactionReport:
+      title: Account Transaction Report
+      type: object
+      description: The account transaction report object.
+      required:
+        - iban
+        - entries
+      properties:
+        iban:
+          $ref: '#/components/schemas/IbanIdentification'
+          description: The International Bank Account Number (IBAN), associated with the account.
+        designation:
+          type: string
+          maxLength: 140
+          description: The account designation of the account, i.e. savings account.
+          example: Payment account
+        entries:
+          type: array
+          description: The account transaction entry object.
+          items:
+            $ref: '#/components/schemas/AccountTransactionEntry'
+        linksPagination:
+          $ref: '#/components/schemas/LinksPagination'
+        _links:
+          type: object
+          description: Contains the paths to additional resources for specific account (e.g. path to account and balance resource).
+          properties:
+            self:
+              type: string
+              example: /accounts/550e8400e29b11d4a716446655440000/statements
+            account:
+              type: string
+              example: /accounts/550e8400e29b11d4a716446655440000
+            balance:
+              type: string
+              example: /accounts/550e8400e29b11d4a716446655440000/balance
+
+    AccountTransactionTransactionType:
+      title: Account Transaction Transaction Type
+      description: The transaction type of the account transaction, either credit (CRDT) or debit (DBIT). Corresponds to the attribute _CdtDbtInd_ in SPS/ISO-20022.
+      type: string
+      enum:
+        - CRDT
+        - DBIT
+      example: CRDT
+
+    AccountTransactionStructuredAddress:
       title: Structured Postal Address for Transactions
       type: object
+      description: Specifies the details of the counterparty structured address.
       required:
         - streetName
         - postCode
@@ -814,33 +819,49 @@ components:
         streetName:
           type: string
           maxLength: 70
+          description: The counterparty street name. Corresponds to the attribute _StrtNm_ in SPS/ISO-20022.
           example: Rue de la gare
         buildingNumber:
           type: string
           maxLength: 16
-          example: 24
+          description: The counterparty building number. Corresponds to the attribute _BldgNb_ in SPS/ISO-20022.
+          example: '24'
         postCode:
           type: string
           maxLength: 16
-          example: 2501
+          description: The counterparty post code. Corresponds to the attribute _PstCd_ in SPS/ISO-20022.
+          example: '2501'
         townName:
           type: string
           maxLength: 35
+          description: The counterparty town name. Corresponds to the attribute _TwnNm_ in SPS/ISO-20022.
           example: Biel
         country:
           type: string
           maxLength: 2
+          description: The counterparty country. Corresponds to the attribute _Ctry_ in SPS/ISO-20022.
           example: CH
 
-    accountTransactionUnstructuredAddress:
+    AccountTransactionStructuredOrUnstructuredAddress:
+      title: Common Structured or Unstructured Address
+      description: Specifies the counterparty address (debtor address if transaction type = CRDT, creditor address if transaction type = DBIT).
+      type: object
+      properties:
+        structured:
+          $ref: '#/components/schemas/AccountTransactionStructuredAddress'
+        unstructured:
+          $ref: '#/components/schemas/AccountTransactionUnstructuredAddress'
+
+    AccountTransactionUnstructuredAddress:
       title: Unstructured Address for Transactions
       type: object
+      description: Specifies the details of the counterparty unstructured address.
       required:
         - addressLines
       properties:
         addressLines:
           type: array
-          description: max 4 lines of 70 characters
+          description: The counterparty address lines. Only four address lines allowed.
           maxItems: 4
           example:
             - Robert Schneider SA
@@ -850,109 +871,43 @@ components:
             maxLength: 70
         country:
           type: string
+          description: The counterparty country. Corresponds to the attribute _Ctry_ in SPS/ISO-20022.
           maxLength: 2
           example: CH
 
-    accountTransactionStructuredOrUnstructuredAddress:
-      title: Common Structured or Unstructured Address
-      type: object
-      properties:
-        structured:
-          $ref: '#/components/schemas/accountTransactionStructuredAddress'
-        unstructured:
-          $ref: '#/components/schemas/accountTransactionUnstructuredAddress'
-
-    balanceCurrencyAmount:
-      title: Balance Currency-Amount
-      type: object
-      required:
-        - currency
-        - amount
-      properties:
-        currency:
-          type: string
-          minLength: 3
-          maxLength: 3
-          example: CHF
-        amount:
-          type: string
-          pattern: '-?[0-9]{1,12}([.][0-9]{1,5})?'
-          maxLength: 18
-          example: 10.25
-
-    iso20022ReportReference:
-      title: ISO 20022 Report Reference
-      type: object
-      properties:
-        name:
-          type: string
-        description:
-          type: string
-        type:
-          type: string
-          enum:
-            - CAMT53
-        schemaVersion:
-          type: string
-          example: camt.053.001.01
-          description: Indicates the delivered camt.053 schema version.
-          pattern: camt\.053\.[0-9]{3}\.[0-9]{2}
-        id:
-          type: string
-        account:
-          $ref: '#/components/schemas/paymentIbanAccount'
-        dateFrom:
-          $ref: '#/components/schemas/date'
-        dateTo:
-          $ref: '#/components/schemas/date'
-
-    # Shared with payments module
-    paymentIbanAccount:
-      title: Payment IBAN Account
-      type: object
-      required:
-        - type
-        - identification
-      properties:
-        type:
-          type: string
-          description: The allowed account identification type for the creditor account depends on the payment type. The debtor account must always be an IBAN.
-          enum:
-            - IBAN
-        identification:
-          type: string
-          maxLength: 34
-          pattern: '[A-Z]{2,2}[0-9]{2,2}[a-zA-Z0-9]{1,30}'
-          example: CH9300762011623852957
-
-    paymentCurrencyAmount:
-      title: Payment Currency-Amount
-      type: object
-      required:
-        - currency
-        - amount
-      properties:
-        currency:
-          type: string
-          maxLength: 3
-          minLength: 3
-          example: CHF
-        amount:
-          type: string
-          pattern: '[0-9]{1,12}([.][0-9]{1,5})?'
-          maxLength: 18
-          example: 10.25
-
-    paymentRemittanceInformation:
-      title: Payment Remittance Information
-      description: Either remittanceReference or remittanceInformation must be set.
+    Amount:
       type: string
-      maxLength: 140
-      example: Rechnung Nr. 408
+      pattern: '[0-9]{1,12}([.][0-9]{1,5})?'
+      maxLength: 18
+      description: An amount. Corresponds to the attribute _Amt_ in SPS/ISO-20022.
+      example: '10.25'
 
-    commonClearingSystemMemberIdentification:
+    BalanceCurrencyAmount:
+      title: Balance Currency-Amount
+      description: Specifies the requested account balance. Corresponds to the attribute _Bal_ in SPS/ISO-20022.
+      type: object
+      required:
+        - currency
+        - amount
+      properties:
+        currency:
+          $ref: '#/components/schemas/Currency'
+          description: The ISO currency three-letter code in which the balance and the account are held.
+        amount:
+          $ref: '#/components/schemas/Amount'
+          description: The amount of the requested account balance.
+
+    CommonAccountId:
+      type: string
+      pattern: '[A-Za-z0-9](([A-Za-z0-9._]|-){0,254}[A-Za-z0-9]){0,1}'
+      maxLength: 256
+      description: Unique identifier (UUID) of the account for which information shall be retrieved.
+      example: abc123_abcxyz.123789.abcxyz.abcxyz_abcxyz_abcxyz_abcxyz_ccccc_123abc
+
+    CommonClearingSystemMemberIdentification:
       title: Common Clearing System Member Identification
       type: object
+      description: Specifies the Information used to identify a member within a clearing system.
       required:
         - code
         - memberId
@@ -960,30 +915,35 @@ components:
         code:
           type: string
           maxLength: 5
+          description: Identification code of a clearing system. Only "CHBCC" is permitted in Switzerland. Corresponds to the attribute _ClrSysId ⇾ Cd_ in SPS/ISO-20022.
           example: CHBCC
         memberId:
           type: string
           maxLength: 35
-          example: 00230
+          description: The identification of a clearing system member. Clearing ID (Bank Code, "National Identifier") of the financial institution. Corresponds to the attribute _ClrSysId ⇾ MmbId_ in SPS/ISO-20022.
+          example: '00230'
 
-    # ---- Common Error Response ----
-    commonErrorResponse:
+    CommonErrorResponse:
       title: Common Error Response
       type: object
+      description: The common error response object.
       properties:
         type:
-          $ref: '#/components/schemas/commonErrorType'
+          $ref: '#/components/schemas/CommonErrorType'
         title:
           type: string
+          description: The title of the common error response.
           example: This is the general problem description
         detail:
           type: string
+          description: The details about the common error response.
           example: Detailed problem description with respect to the current request, e.g., invalid account number format
         instance:
           type: string
+          description: The path to the corresponding resource.
           example: path/to/corresponding/resource
 
-    commonErrorType:
+    CommonErrorType:
       title: Common Error Type
       type: string
       description: Error Types for commonErrorResponse.
@@ -1004,159 +964,252 @@ components:
         - /problems/SERVICE_UNAVAILABLE
       example: /problems/TECHNICAL_ERROR
 
-    # ---- Date Formats ----
-    date:
+    Currency:
+      type: string
+      maxLength: 3
+      minLength: 3
+      description: The ISO currency three-letter code. Corresponds to the attribute _Ccy_ in SPS/ISO-20022.
+      example: CHF
+
+    Date:
       type: string
       format: date
+      description: A date.
       example: 2018-04-13
 
-    dateTime:
+    IbanIdentification:
       type: string
-      format: date-time
-      example: 2018-04-13T11:11:11Z
+      maxLength: 34
+      pattern: '[A-Z]{2,2}[0-9]{2,2}[a-zA-Z0-9]{1,30}'
+      description: The International Bank Account Number (IBAN), associated with the account.
+      example: CH5481230000001998736
 
-  # ---- Global Common Header Parameters ----
+    Iso20022ReportReference:
+      title: ISO20022 Report Reference
+      type: object
+      description: The referenced ISO20022 report (camt.053).
+      properties:
+        name:
+          type: string
+          description: The name of the referenced ISO20022 report, i.e. the camt.053 file.
+          example: CH1100790016123456029_2023-01-16
+        description:
+          type: string
+          description: The description of the referenced ISO20022 report, i.e. the camt.053 file.
+          example: Kontoauszug von CH1100790016123456029 am 16.01.2023
+        type:
+          type: string
+          description: The type of the referenced ISO20022 report.
+          enum:
+            - CAMT53
+          example: CAMT53
+        schemaVersion:
+          type: string
+          example: camt.053.001.01
+          description: The delivered schema version of the referenced ISO20022 report.
+          pattern: camt\.053\.[0-9]{3}\.[0-9]{2}
+        id:
+          type: string
+          description: The unique identifier of the referenced ISO20022 report.
+          example: '8265333'
+        account:
+          $ref: '#/components/schemas/PaymentIbanAccount'
+        dateFrom:
+          $ref: '#/components/schemas/Date'
+          description: The start date of the transaction query period.
+        dateTo:
+          $ref: '#/components/schemas/Date'
+          description: The end date of the transaction query period.
+
+    LinksPagination:
+      title: Pagination Links
+      description: Links (or cursors) returned in the answer of an API call.
+      type: object
+      properties:
+        self:
+          type: string
+          description: Link / cursor to the current result set (based on the submitted pagination approach).
+          example: /payment-app/api/v1/accounts/accountIDXY/transactions?offset=75&limit=25
+        first:
+          type: string
+          description: Link / cursor to the first result set (based on the submitted pagination approach).
+          example: /payment-app/api/v1/accounts/accountIDXY/transactions?offset=0&limit=25
+        previous:
+          type: string
+          description: Link / cursor to the previous result set (based on the submitted pagination approach).
+          example: /payment-app/api/v1/accounts/accountIDXY/transactions?offset=50&limit=25
+        next:
+          type: string
+          description: Link / cursor to the next result set (based on the submitted pagination approach).
+          example: /payment-app/api/v1/accounts/accountIDXY/transactions?offset=100&limit=25
+        last:
+          type: string
+          description: Link / cursor to the last result set (based on the submitted pagination approach).
+          example: /payment-app/api/v1/accounts/accountIDXY/transactions?offset=150&limit=25
+
+    PaymentCurrencyAmount:
+      title: Payment Currency Amount
+      type: object
+      description: Specifies the entry amount according to the account currency.
+      required:
+        - currency
+        - amount
+      properties:
+        currency:
+          $ref: '#/components/schemas/Currency'
+          description: The ISO currency three-letter code in which the entry was posed.
+        amount:
+          $ref: '#/components/schemas/Amount'
+          description: The entry amount, which will be reflected in the account balance.
+
+    PaymentIbanAccount:
+      title: Payment IBAN Account
+      type: object
+      description: The IBAN account object.
+      required:
+        - type
+        - identification
+      properties:
+        type:
+          type: string
+          description: The allowed account identification type for the creditor account depends on the payment type. The debtor account must always be an IBAN.
+          enum:
+            - IBAN
+          example: IBAN
+        identification:
+          $ref: '#/components/schemas/IbanIdentification'
+          description: The International Bank Account Number (IBAN), associated with the account.
+
+    PaymentRemittanceInformation:
+      title: Payment Remittance Information
+      description: Either remittanceReference or remittanceInformation must be set. Corresponds to the attribute _RmtInf ⇾ Ustrd_ in SPS/ISO-20022.
+      type: string
+      maxLength: 140
+      example: Rechnung Nr. 408
+
   parameters:
     path_accountId:
-      name: accountId
       in: path
-      description: id of account
+      name: accountId
       required: true
       schema:
         maxLength: 256
         pattern: '[A-Za-z0-9](([A-Za-z0-9._]|-){0,254}[A-Za-z0-9]){0,1}'
         type: string
         example: accountId
-
-    path_transactionId:
-      name: transactionId
-      in: path
-      required: true
-      schema:
-        type: string
+      description: ID of the account.
 
     path_reportId:
-      name: reportId
       in: path
-      description: Unique ID of the requested ISO20022 XML camt.053 document.
+      name: reportId
       required: true
       schema:
         maxLength: 35
         type: string
+      description: Unique ID of the requested ISO20022 XML camt.053 document.
 
-    query_date:
+    path_transactionId:
+      in: path
+      name: transactionId
+      required: true
+      schema:
+        type: string
+      description: ID of the transaction.
+
+    cursor:
+      in: query
+      name: cursor
+      required: false
+      schema:
+        type: string
+        example: cursorIDxyz
+      description: Optional parameter for pagination. An opaque string value used for pagination.
+
+    date:
+      in: query
       name: date
-      in: query
-      description: 'The date to query, formatted as yyyy-mm-dd. Default value: current date'
       schema:
-        $ref: '#/components/schemas/date'
-
-    clientid_in_header:
-      name: X-CorAPI-Client-ID
-      in: header
-      schema:
-        type: string
-      description: 'ID of the client forwarded to the provider. (SCOPE: FI)'
-      required: true
-
-    authorization_in_header:
-      name: Authorization
-      in: header
-      description: Bearer followed by a base64 encoded OAuth access token
-      required: true
-      schema:
-        type: string
-
-    correlation_in_header:
-      name: X-Correlation-ID
-      in: header
-      schema:
-        type: string
-      description: Unique ID (defined by the caller) which will be reflected back in the response.
-      required: true
-
-    agent_in_header:
-      name: User-Agent
-      in: header
-      schema:
-        type: string
-      description: Name and version of the of the Client software.
-      required: true
-
-    optional_targetid_in_header:
-      name: X-CorAPI-Target-ID
-      in: header
-      description: 'ID of the target, e.g., a financial institution. (SCOPE: FI - optional)'
-      required: false
-      schema:
-        type: string
-
-    optional_psu_ip_in_header:
-      name: X-PSU-IP-Address
-      in: header
-      description: 'IP address of the user initiating the operation (SCOPE: FI - optional)'
-      required: false
-      schema:
-        type: string
-
-    optional_psu_user_agent_in_header:
-      name: X-PSU-User-Agent
-      in: header
-      description: 'User of the client software (SCOPE: FI - optional)'
-      required: false
-      schema:
-        type: string
-
-    offset:
-      name: offset
-      in: query
-      description: Optional parameter for pagination. The number of items to skip before starting to collect the result set.
-      required: false
-      schema:
-        type: integer
-        format: int32
-        example: 25
-        minimum: 0
+        $ref: '#/components/schemas/Date'
+      description: 'The date to query, formatted as yyyy-mm-dd. Default value: current date.'
 
     limit:
-      name: limit
       in: query
-      description: Optional parameter for pagination. Maximum number of entries to be returned.
+      name: limit
       required: false
       schema:
         type: integer
         format: int32
         example: 25
         minimum: 1
+      description: Optional parameter for pagination. Maximum number of entries to be returned.
 
-    cursor:
-      name: cursor
-      in: query
-      description: Optional parameter for pagination. An opaque string value used for pagination.
+    agent_in_header:
+      in: header
+      name: User-Agent
+      required: true
+      schema:
+        type: string
+      description: Name and version of the of the Client software.
+
+    authorization_in_header:
+      in: header
+      name: Authorization
+      required: true
+      schema:
+        type: string
+      description: Bearer followed by a base64 encoded OAuth access token.
+
+    clientid_in_header:
+      in: header
+      name: X-CorAPI-Client-ID
+      required: true
+      schema:
+        type: string
+      description: 'ID of the client forwarded to the provider (SCOPE: FI).'
+
+    correlation_in_header:
+      in: header
+      name: X-Correlation-ID
+      required: true
+      schema:
+        type: string
+      description: Unique ID (defined by the caller) which will be reflected back in the response.
+
+    optional_psu_ip_in_header:
+      in: header
+      name: X-PSU-IP-Address
       required: false
       schema:
         type: string
-        example: cursorIDxyz
+      description: 'IP address of the user initiating the operation (SCOPE: FI - optional).'
 
-  # ---- Response Headers - used by Standard Responses ----
-  headers:
-    Content-Language:
-      description: Response language - always en
+    optional_psu_user_agent_in_header:
+      in: header
+      name: X-PSU-User-Agent
+      required: false
       schema:
         type: string
+      description: 'User of the client software (SCOPE: FI - optional).'
 
-    Content-Type:
-      description: application/problem+json; charset=utf-8 according to RFC7807
+    optional_targetid_in_header:
+      in: header
+      name: X-CorAPI-Target-ID
+      required: false
       schema:
         type: string
+      description: 'ID of the target, e.g., a financial institution (SCOPE: FI - optional).'
 
-    X-Correlation-ID:
-      description: Client defined ID from request to correlates HTTP requests between a client and server
-      schema:
-        type: string
-        example: f058ebd6-02f7-4d3f-942e-904344e8cde5
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://example.com/oauth/authorize
+          tokenUrl: https://example.com/oauth/token
+          scopes:
+            read: Grants read access
+            write: Grants write access
 
-  # ---- Responses - Standard Errors Common Data Model ----
   responses:
     standard202:
       headers:
@@ -1209,7 +1262,7 @@ components:
       content:
         application/problem+json:
           schema:
-            $ref: '#/components/schemas/commonErrorResponse'
+            $ref: '#/components/schemas/CommonErrorResponse'
 
     standard401:
       headers:
@@ -1224,7 +1277,7 @@ components:
       content:
         application/problem+json:
           schema:
-            $ref: '#/components/schemas/commonErrorResponse'
+            $ref: '#/components/schemas/CommonErrorResponse'
 
     standard403:
       headers:
@@ -1258,7 +1311,7 @@ components:
       content:
         application/problem+json:
           schema:
-            $ref: '#/components/schemas/commonErrorResponse'
+            $ref: '#/components/schemas/CommonErrorResponse'
 
     standard404:
       headers:
@@ -1298,7 +1351,7 @@ components:
       content:
         application/problem+json:
           schema:
-            $ref: '#/components/schemas/commonErrorResponse'
+            $ref: '#/components/schemas/CommonErrorResponse'
 
     standard405:
       headers:
@@ -1320,7 +1373,7 @@ components:
       content:
         application/problem+json:
           schema:
-            $ref: '#/components/schemas/commonErrorResponse'
+            $ref: '#/components/schemas/CommonErrorResponse'
 
     standard500:
       headers:
@@ -1348,7 +1401,7 @@ components:
       content:
         application/problem+json:
           schema:
-            $ref: '#/components/schemas/commonErrorResponse'
+            $ref: '#/components/schemas/CommonErrorResponse'
 
     standard501:
       headers:
@@ -1370,7 +1423,7 @@ components:
       content:
         application/problem+json:
           schema:
-            $ref: '#/components/schemas/commonErrorResponse'
+            $ref: '#/components/schemas/CommonErrorResponse'
 
     standard503:
       headers:
@@ -1385,4 +1438,21 @@ components:
       content:
         application/problem+json:
           schema:
-            $ref: '#/components/schemas/commonErrorResponse'
+            $ref: '#/components/schemas/CommonErrorResponse'
+
+  headers:
+    Content-Language:
+      description: Response language - always en
+      schema:
+        type: string
+
+    Content-Type:
+      description: application/problem+json; charset=utf-8 according to RFC7807
+      schema:
+        type: string
+
+    X-Correlation-ID:
+      description: Client defined ID from request to correlates HTTP requests between a client and server
+      schema:
+        type: string
+        example: f058ebd6-02f7-4d3f-942e-904344e8cde5
