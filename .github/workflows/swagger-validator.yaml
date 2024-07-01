@@ -1,0 +1,12 @@
+name: SFTI Validate Swagger
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  swagger-validate:
+    uses: swissfintechinnovations/.github/.github/workflows/reusable-swagger-validate-workflow.yaml@main
