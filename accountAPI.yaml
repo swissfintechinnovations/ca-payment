@@ -451,7 +451,6 @@ components:
             SVGS: Account used for savings (all types of saving accounts)
             TRAN: Account used for transactions (all types of personal, current and payment accounts) - DE: Privat-, Kontokorent- und Zahlungsverkehrskonten
             OTHR: Account not otherwise specified (gathering pool for all other accounts)
-            **NOTE:** This property will become mandatory with the next major release of this API.
           example: TRAN
           enum:
             - CACC
