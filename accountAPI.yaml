@@ -413,10 +413,11 @@ components:
       type: object
       description: The account object.
       required:
-        - accountOwner
-        - id
         - account
+        - accountOwner
+        - accountTypeCode
         - currency
+        - id
       properties:
         id:
           $ref: '#/components/schemas/CommonAccountId'
