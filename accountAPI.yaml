@@ -237,7 +237,7 @@ paths:
         '503':
           $ref: '#/components/responses/standard503'
 
-  /accounts/{accountId}/transactions/{transactionId}:
+  /accounts/{accountId}/transactions/{entryId}:
     get:
       tags:
         - accounts
@@ -245,7 +245,7 @@ paths:
       description: Retrieves the details of the specified transaction.
       parameters:
         - $ref: '#/components/parameters/path_accountId'
-        - $ref: '#/components/parameters/path_transactionId'
+        - $ref: '#/components/parameters/path_entryId'
         - $ref: '#/components/parameters/authorization_in_header'
         - $ref: '#/components/parameters/clientid_in_header'
         - $ref: '#/components/parameters/correlation_in_header'
@@ -1108,13 +1108,13 @@ components:
         type: string
       description: Unique ID of the requested ISO20022 XML camt.053 document.
 
-    path_transactionId:
+    path_entryId:
       in: path
-      name: transactionId
+      name: entryId
       required: true
       schema:
         type: string
-      description: ID of the transaction.
+      description: ID of the transaction entry.
 
     cursor:
       in: query
