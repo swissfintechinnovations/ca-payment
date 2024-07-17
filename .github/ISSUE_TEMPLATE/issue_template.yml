@@ -26,14 +26,14 @@ body:
           - Restriction - Issue is related to a functional restriction
           - Compliance - Issue is related to comply with existing specifications (e.g. RFC, ISO, etc.)
           - Bugfix - Issue is related to an existing production issue
-          - None - None of the catagories above fit for the issee
+          - Not applicable - None of the catagories above fit for the issee
       options:
         - Refinement
         - Enhancement
         - Restriction
         - Compliance
         - Bugfix
-        - None
+        - Not applicable
       default: 0
     validations:
       required: true
