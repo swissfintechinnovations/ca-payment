@@ -2,6 +2,9 @@ name: Issue Report
 description: Report a new issue
 title: "[Issue]: "
 labels: ["new"]
+assignees:
+  - svenbiellmann
+  - RaulGuirao
 body:
   - type: markdown
     attributes:
