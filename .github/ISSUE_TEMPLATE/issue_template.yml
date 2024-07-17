@@ -15,6 +15,21 @@ body:
       placeholder: ex. email@example.com
     validations:
       required: true
+  - type: dropdown
+    id: issue_category
+    attributes:
+      label: Issue category
+      description: To what category does your issue belong to?
+      options:
+        - Refinement - Issue is related to a refinement of existing functionalities
+        - Enhancement - Issue is related to a functional enhancement 
+        - Restriction - Issue is related to a functional restriction
+        - Compliance - Issue is related to comply with existing specifications
+        - Bugfix - Issue is related to an existing production issue
+        - Not sure/Don't know
+      default: 0
+    validations:
+      required: true
   - type: textarea
     id: issue_description
     attributes:
@@ -51,7 +66,7 @@ body:
         - None (issue does not affect the API's but other components)
       default: 0
     validations:
-      required: true
+      required: true      
   - type: checkboxes
     id: terms
     attributes:
