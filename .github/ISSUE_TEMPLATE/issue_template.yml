@@ -72,12 +72,12 @@ body:
           - AIS - Issue affects the accountAPI
           - PSS - Issue affects the paymentAPI
           - Both - Issue affects both API's
-          - None - Issue does not affect the API's but other components, i.e. readme.md, issue_template.md, etc.
+          - Not applicable - Issue does not affect the API's but other components, i.e. readme.md, issue_template.md, etc.
       options:
         - AIS
         - PSS
         - Both
-        - None
+        - Not applicable
       default: 0
     validations:
       required: true      
