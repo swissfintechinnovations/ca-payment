@@ -20,7 +20,8 @@ body:
     attributes:
       label: Issue category
       description: | 
-        To what category does your issue belong to? Options are as follows:
+        To what category does your issue belong to? 
+        Options are defined as follows:
           - Refinement - Issue is related to a refinement of existing functionalities
           - Enhancement - Issue is related to a functional enhancement 
           - Restriction - Issue is related to a functional restriction
