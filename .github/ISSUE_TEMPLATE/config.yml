@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Swiss Fintech Innovations (SFTI)
+    url: https://swissfintechinnovations.ch/contact/
+    about: SFTI contact information
+  - name: Common API
+    url: https://swissfintechinnovations.ch/projects/common-api/
+    about: General information about the Common API working group of SFTI
