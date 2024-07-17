@@ -19,7 +19,13 @@ body:
     id: issue_category
     attributes:
       label: Issue category
-      description: To what category does your issue belong to?
+      description: | To what category does your issue belong to? Options are as follows:
+      - Refinement - Issue is related to a refinement of existing functionalities
+      - Enhancement - Issue is related to a functional enhancement 
+      - Restriction - Issue is related to a functional restriction
+      - Compliance - Issue is related to comply with existing specifications
+      - Bugfix - Issue is related to an existing production issue
+      - None - None of the catagories above fit for the issee
       options:
         - Refinement - Issue is related to a refinement of existing functionalities
         - Enhancement - Issue is related to a functional enhancement 
