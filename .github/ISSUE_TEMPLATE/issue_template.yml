@@ -1,15 +1,12 @@
-name: Bug Report
-description: File a bug report.
-title: "[Bug]: "
-labels: ["bug", "triage"]
-projects: ["octo-org/1", "octo-org/44"]
-assignees:
-  - octocat
+name: Issue Report
+description: Report a new issue.
+title: "[Issue]: "
+labels: ["new"]
 body:
   - type: markdown
     attributes:
       value: |
-        Thanks for taking the time to fill out this bug report!
+        Thanks for taking the time to fill out this issue report!
   - type: input
     id: contact
     attributes:
@@ -19,46 +16,47 @@ body:
     validations:
       required: false
   - type: textarea
-    id: what-happened
+    id: issue_description
     attributes:
-      label: What happened?
-      description: Also tell us, what did you expect to happen?
-      placeholder: Tell us what you see!
-      value: "A bug happened!"
+      label: Issue description
+      description: Plese provide a clear and concise description of the issue, showing what should be changed.
+      placeholder: Clear and concise description of the issue
     validations:
       required: true
-  - type: dropdown
-    id: version
+  - type: textarea
+    id: issue_reasoning
     attributes:
-      label: Version
-      description: What version of our software are you running?
+      label: Issue reasoning
+      description: Please provide an explanation of why the proposed changes are necessary, including the benefits or issues they address.
+      placeholder: Explanation of why the proposed changes are necessary
+    validations:
+      required: true
+  - type: textarea
+    id: issue_request
+    attributes:
+      label: Request
+      description: Please provide a description of the request on which the working group is to decide.
+      placeholder: Request description the working group is to decide.
+    validations:
+      required: true      
+  - type: dropdown
+    id: affected_api
+    attributes:
+      label: Affected API's
+      description: Which API's are affected by the issue?
       options:
-        - 1.0.2 (Default)
-        - 1.0.3 (Edge)
+        - AIS - accountAPI
+        - PSS - paymentAPI
+        - Both
+        - None (issue does not affect the API's but other components)
       default: 0
     validations:
       required: true
-  - type: dropdown
-    id: browsers
-    attributes:
-      label: What browsers are you seeing the problem on?
-      multiple: true
-      options:
-        - Firefox
-        - Chrome
-        - Safari
-        - Microsoft Edge
-  - type: textarea
-    id: logs
-    attributes:
-      label: Relevant log output
-      description: Please copy and paste any relevant log output. This will be automatically formatted into code, so no need for backticks.
-      render: shell
   - type: checkboxes
     id: terms
     attributes:
       label: Code of Conduct
-      description: By submitting this issue, you agree to follow our [Code of Conduct](https://example.com). 
+      description: By submitting this issue, you agree to follow our [Contribution Guidelines](https://github.com/swissfintechinnovations/ca-payment/blob/main/CONTRIBUTING.md#how-to-contribute). 
       options:
-        - label: I agree to follow this project's Code of Conduct
+        - label: I agree to follow this project's Contribution Guidelines
           required: true
