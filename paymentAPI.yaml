@@ -21,14 +21,20 @@ externalDocs:
 
 tags:
   - name: standing orders
-    description: Third party payment service considering standing order operations (JSON).
+    description: >
+      Third party payment service considering standing order operations (JSON).
   - name: payments
-    description: Third party payment service considering bulk payments operations (JSON). PUT operation can be used for both payment submission and payment initiation (PSS/PIS), depending on security implementation.
+    description: >
+      Third party payment service considering bulk payments operations (JSON). PUT operation can be used for both payment submission
+      and payment initiation (PSS/PIS), depending on security implementation.
   - name: single payments
-    description: Third party payment service considering single payments operations (JSON). PUT operation can be used for both payment submission and payment initiation (PSS/PIS), depending on security implementation.
+    description: >
+      Third party payment service considering single payments operations (JSON). PUT operation can be used for both payment submission
+      and payment initiation (PSS/PIS), depending on security implementation.
   - name: iso20022
-    description: Third party payment service considering pain.001 and pain.002 operations (XML). PUT operation can be used for both payment submission and payment initiation (PSS/PIS), depending on security implementation.
-
+    description: >
+      Third party payment service considering pain.001 and pain.002 operations (XML). PUT operation can be used for both payment submission
+      and payment initiation (PSS/PIS), depending on security implementation.
 
 security:
   - OAuth2:
@@ -870,12 +876,16 @@ components:
         code:
           type: string
           maxLength: 5
-          description: Identification code of a clearing system. Only "CHBCC" is permitted in Switzerland. Corresponds to the attribute _ClrSysId ⇾ Cd_ in SPS/ISO-20022.
+          description: >
+            Identification code of a clearing system. Only "CHBCC" is permitted in Switzerland. Corresponds to the attribute _ClrSysId ⇾ Cd_
+            in SPS/ISO-20022.
           example: CHBCC
         memberId:
           type: string
           maxLength: 35
-          description: The identification of a clearing system member. Clearing ID (Bank Code, "National Identifier") of the financial institution. Corresponds to the attribute _ClrSysId ⇾ MmbId_ in SPS/ISO-20022.
+          description: >
+            The identification of a clearing system member. Clearing ID (Bank Code, "National Identifier") of the financial institution.
+            Corresponds to the attribute _ClrSysId ⇾ MmbId_ in SPS/ISO-20022.
           example: '00230'
 
     CommonErrorResponse:
@@ -1079,7 +1089,8 @@ components:
       title: Payment Booking Instruction
       type: string
       description: |
-        The payment booking instruction, i.e. the method for processing and grouping a payment. Corresponds to the attribute _DbtrAcct ⇾ Tp ⇾ Prtry_ in SPS/ISO-20022.
+        The payment booking instruction, i.e. the method for processing and grouping a payment. Corresponds to the attribute
+        _DbtrAcct ⇾ Tp ⇾ Prtry_ in SPS/ISO-20022.
         Possible methods are:
         - SINGLEBOOKING_SIA
         - SINGLEBOOKING_NOA
@@ -1102,7 +1113,8 @@ components:
       title: Payment Charge Bearer Method
       type: string
       description: |
-        The payment charge bearer method, i.e. who is responsible for paying the transaction fees associated with a payment. Corresponds to the attribute _SvcLvl ⇾ Cd_ in SPS/ISO-20022.
+        The payment charge bearer method, i.e. who is responsible for paying the transaction fees associated with a payment.
+        Corresponds to the attribute _SvcLvl ⇾ Cd_ in SPS/ISO-20022.
         Possible methods are:
         - DEBT (debtor)
         - CRED (creditor)
@@ -1141,7 +1153,8 @@ components:
           minLength: 8
           maxLength: 11
           description: |
-            The bank identifier code (BIC) of the creditor agent of a payment. Corresponds to the attribute _CdtrAgt ⇾ FinInstnId ⇾ BIC_ in SPS/ISO-20022.
+            The bank identifier code (BIC) of the creditor agent of a payment. Corresponds to the attribute
+            _CdtrAgt ⇾ FinInstnId ⇾ BIC_ in SPS/ISO-20022.
             The BIC is an 8 or 11-character code that breaks down as follows:
             - First 4 characters - bank code (letters only)
             - Next 2 characters - ISO 3166-1 alpha-2 country code (letters only)
@@ -1194,7 +1207,9 @@ components:
       properties:
         type:
           type: string
-          description: The allowed account identification type for the creditor account depends on the payment type. The debtor account must always be an IBAN.
+          description: >
+            The allowed account identification type for the creditor account depends on the payment type.
+            The debtor account must always be an IBAN.
           enum:
             - IBAN
           example: IBAN
@@ -1235,12 +1250,16 @@ components:
 
     PaymentIbanRemittanceReference:
       title: Payment Remittance Reference
-      description: The IBAN payment remittance reference. A specific code or number that is used to identify and track payment transactions. Either remittanceReference or remittanceInformation must be set.
+      description: >
+        The IBAN payment remittance reference. A specific code or number that is used to identify and track payment transactions.
+        Either remittanceReference or remittanceInformation must be set.
       type: object
       properties:
         type:
           type: string
-          description: The specific type of remittance reference. Either SCOR (Swiss QR Code Reference) or QRR (QR-Reference). Corresponds to the attribute _RmtInf ⇾ Strd ⇾ CdtrRefInf ⇾ Tp_ in SPS/ISO-20022.
+          description: >
+            The specific type of remittance reference. Either SCOR (Swiss QR Code Reference) or QRR (QR-Reference).
+            Corresponds to the attribute _RmtInf ⇾ Strd ⇾ CdtrRefInf ⇾ Tp_ in SPS/ISO-20022.
           enum:
             - SCOR
             - QRR
@@ -1330,7 +1349,9 @@ components:
 
     PaymentIsrRemittanceReference:
       title: Payment Remittance Reference
-      description: The ISR payment remittance reference. A specific code or number that is used to identify and track payment transactions. Either remittanceReference or remittanceInformation must be set.
+      description: >
+        The ISR payment remittance reference. A specific code or number that is used to identify and track payment transactions.
+        Either remittanceReference or remittanceInformation must be set.
       type: object
       properties:
         type:
@@ -1389,7 +1410,9 @@ components:
 
     PaymentOtherRemittanceReference:
       title: Payment Remittance Reference
-      description: The OTHER payment remittance reference. A specific code or number that is used to identify and track payment transactions. Either remittanceReference or remittanceInformation must be set.
+      description: >
+        The OTHER payment remittance reference. A specific code or number that is used to identify and track payment transactions.
+        Either remittanceReference or remittanceInformation must be set.
       type: object
       properties:
         type:
@@ -1519,7 +1542,10 @@ components:
           description: The identifier of the third party provider (TPP) who created the payment instruction message derived from the OAuth 2.0 flow.
           $ref: '#/components/schemas/InitiatingPartyId'
         requestedExecutionDate:
-          description: The requested execution date. In some cases, the financial institution can/will change this date, if the requested date is a bank / post holiday. If no date is chosen, the receiving financial institution will execute on the next possible date. Corresponds to the attribute _ReqdExctnDt_ in SPS/ISO-20022.
+          description: >
+            The requested execution date. In some cases, the financial institution can/will change this date, if the requested date is a bank /
+            post holiday. If no date is chosen, the receiving financial institution will execute on the next possible date. Corresponds to the
+            attribute _ReqdExctnDt_ in SPS/ISO-20022.
           $ref: '#/components/schemas/Date'
         debtorAccount:
           description: The account of the debtor. The debtor account must always be an IBAN. Corresponds to the attribute _DbtrAcct_ in SPS/ISO-20022.
@@ -1591,7 +1617,9 @@ components:
     RemittanceReference:
       type: string
       maxLength: 35
-      description: The reference number associated to the choosen remittance type. Corresponds to the attribute _RmtInf ⇾ Strd ⇾ CdtrRefInf ⇾ Ref_ in SPS/ISO-20022.
+      description: >
+        The reference number associated to the choosen remittance type. Corresponds to the attribute
+        _RmtInf ⇾ Strd ⇾ CdtrRefInf ⇾ Ref_ in SPS/ISO-20022.
       example: '210000000003139471430009017'
 
     SinglepaymentsSubmissionRequest:
@@ -1615,7 +1643,10 @@ components:
           description: The identifier of the third party provider (TPP) who created the payment instruction message derived from the OAuth 2.0 flow.
           $ref: '#/components/schemas/InitiatingPartyId'
         requestedExecutionDate:
-          description: The requested execution date. In some cases, the financial institution can/will change this date, if the requested date is a bank / post holiday. If no date is chosen, the receiving financial institution will execute on the next possible date. Corresponds to the attribute _ReqdExctnDt_ in SPS/ISO-20022.
+          description: >
+            The requested execution date. In some cases, the financial institution can/will change this date, if the requested date is a bank /
+            post holiday. If no date is chosen, the receiving financial institution will execute on the next possible date. Corresponds to the
+            attribute _ReqdExctnDt_ in SPS/ISO-20022.
           $ref: '#/components/schemas/Date'
         debtorAccount:
           description: The account of the debtor. The debtor account must always be an IBAN. Corresponds to the attribute _DbtrAcct_ in SPS/ISO-20022.
@@ -1663,7 +1694,10 @@ components:
           description: The identifier of the third party provider (TPP) who created the payment instruction message derived from the OAuth 2.0 flow.
           $ref: '#/components/schemas/InitiatingPartyId'
         requestedExecutionDate:
-          description: The requested execution date. In some cases, the financial institution can/will change this date, if the requested date is a bank / post holiday. If no date is chosen, the receiving financial institution will execute on the next possible date. Corresponds to the attribute _ReqdExctnDt_ in SPS/ISO-20022.
+          description: >
+            The requested execution date. In some cases, the financial institution can/will change this date, if the requested date is a bank /
+            post holiday. If no date is chosen, the receiving financial institution will execute on the next possible date. Corresponds to the
+            attribute _ReqdExctnDt_ in SPS/ISO-20022.
           $ref: '#/components/schemas/Date'
         debtorAccount:
           description: The account of the debtor. The debtor account must always be an IBAN. Corresponds to the attribute _DbtrAcct_ in SPS/ISO-20022.
@@ -1903,7 +1937,8 @@ components:
         X-Correlation-ID:
           $ref: '#/components/headers/X-Correlation-ID'
       description: |
-        Forbidden - A valid OAuth Token was received, but access was denied. (Depending on the security requirements, providers can return 404 instead)
+        Forbidden - A valid OAuth Token was received, but access was denied.
+        (Depending on the security requirements, providers can return 404 instead)
 
         Examples:
         - InsufficientPrivileges:
