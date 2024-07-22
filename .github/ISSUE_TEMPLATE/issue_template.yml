@@ -22,15 +22,15 @@ body:
     id: issue_category
     attributes:
       label: Issue category
-      description: | 
-        To what category does your issue belong to? 
+      description: |
+        To what category does your issue belong to?
         Options are defined as follows:
           - Refinement - Issue is related to a refinement of existing functionalities
-          - Enhancement - Issue is related to a functional enhancement 
+          - Enhancement - Issue is related to a functional enhancement
           - Restriction - Issue is related to a functional restriction
           - Compliance - Issue is related to comply with existing specifications, i.e. RFC, ISO, etc.
           - Bugfix - Issue is related to an existing production issue
-          - Not applicable - None of the catagories above fit for the issee
+          - Not applicable - None of the catagories above fit for the issue
       options:
         - Refinement
         - Enhancement
@@ -45,7 +45,7 @@ body:
     id: issue_description
     attributes:
       label: Issue description
-      description: Plese provide a clear and concise description of the issue, showing what should be changed.
+      description: Please provide a clear and concise description of the issue, showing what should be changed.
       placeholder: Clear and concise description of the issue
     validations:
       required: true
@@ -64,12 +64,12 @@ body:
       description: Please provide a description of the request on which the working group is to decide.
       placeholder: Request description the working group is to decide.
     validations:
-      required: true      
+      required: true
   - type: dropdown
     id: affected_api
     attributes:
       label: Affected API's
-      description: | 
+      description: |
         Which API's are affected by the issue?
         Options are defined as follows:
           - AIS - Issue affects the accountAPI
@@ -83,12 +83,12 @@ body:
         - Not applicable
       default: 0
     validations:
-      required: true      
+      required: true
   - type: checkboxes
     id: terms
     attributes:
       label: Code of Conduct
-      description: By submitting this issue, you agree to follow our [Contribution Guidelines](https://github.com/swissfintechinnovations/ca-payment/blob/main/CONTRIBUTING.md#how-to-contribute). 
+      description: By submitting this issue, you agree to follow our [Contribution Guidelines](https://github.com/swissfintechinnovations/ca-payment/blob/main/CONTRIBUTING.md#how-to-contribute).
       options:
         - label: I agree to follow this project's Contribution Guidelines
           required: true
