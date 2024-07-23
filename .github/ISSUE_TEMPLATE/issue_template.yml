@@ -1,6 +1,5 @@
 name: Issue Report
 description: Report a new issue
-title: "[Issue]: "
 labels: ["new"]
 assignees:
   - svenbiellmann
@@ -65,6 +64,20 @@ body:
       placeholder: Request description the working group is to decide.
     validations:
       required: true
+  - type: textarea
+    id: proposed_change
+    attributes:
+      label: Proposed change
+      description: Please specify the desired adjustments if considerations are already in place.
+      value: |
+        <<<<<<< Section As-Is
+        
+        ========
+        
+        >>>>>>> Section To-Be
+      render: oasv2-yaml
+    validations:
+      required: false
   - type: dropdown
     id: affected_api
     attributes:
