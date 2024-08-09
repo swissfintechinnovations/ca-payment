@@ -1230,6 +1230,7 @@ components:
       required: false
       schema:
         type: string
+        pattern: ^AUTO|\d{1,3}.\d{1,3}.\d{1,3}.\d{1,3}$
       description: 'IP address of the user initiating the operation (SCOPE: FI - optional).'
 
     optional_psu_user_agent_in_header:
