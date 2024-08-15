@@ -1110,7 +1110,7 @@ components:
     PaymentIbanAccount:
       title: Payment IBAN Account
       type: object
-      description: The IBAN account object A.
+      description: The IBAN account object.
       required:
         - type
         - identification
