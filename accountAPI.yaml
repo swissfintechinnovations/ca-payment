@@ -1020,7 +1020,7 @@ components:
       type: string
       maxLength: 140
       description: |
-        This element shall always be populated with the account alias, if defined, otherwise with specific 
+        This element shall always be populated with the account alias, if defined, otherwise with specific
         bank account name (e.g. bank saving account).
       example: Firmenkonto
 
