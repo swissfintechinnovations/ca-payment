@@ -1,0 +1,107 @@
+name: Issue Report
+description: Report a new issue
+labels: ["new"]
+assignees:
+  - svenbiellmann
+  - RaulGuirao
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this issue report!
+  - type: input
+    id: contact
+    attributes:
+      label: Contact Details
+      description: How can we get in touch with you if we need more info?
+      placeholder: ex. email@example.com
+    validations:
+      required: true
+  - type: dropdown
+    id: issue_category
+    attributes:
+      label: Issue category
+      description: |
+        To what category does your issue belong to?
+        Options are defined as follows:
+          - Refinement - Issue is related to a refinement of existing functionalities
+          - Enhancement - Issue is related to a functional enhancement
+          - Restriction - Issue is related to a functional restriction
+          - Compliance - Issue is related to comply with existing specifications, i.e. RFC, ISO, etc.
+          - Bugfix - Issue is related to an existing production issue
+          - Not applicable - None of the catagories above fit for the issue
+      options:
+        - Refinement
+        - Enhancement
+        - Restriction
+        - Compliance
+        - Bugfix
+        - Not applicable
+      default: 0
+    validations:
+      required: true
+  - type: textarea
+    id: issue_description
+    attributes:
+      label: Issue description
+      description: Please provide a clear and concise description of the issue, showing what should be changed.
+      placeholder: Clear and concise description of the issue
+    validations:
+      required: true
+  - type: textarea
+    id: issue_reasoning
+    attributes:
+      label: Issue reasoning
+      description: Please provide an explanation of why the proposed changes are necessary, including the benefits or issues they address.
+      placeholder: Explanation of why the proposed changes are necessary
+    validations:
+      required: true
+  - type: textarea
+    id: issue_request
+    attributes:
+      label: Request
+      description: Please provide a description of the request on which the working group is to decide.
+      placeholder: Request description the working group is to decide.
+    validations:
+      required: true
+  - type: textarea
+    id: proposed_change
+    attributes:
+      label: Proposed change
+      description: Please specify the desired adjustments if considerations are already in place.
+      value: |
+        <<<<<<< Section As-Is
+        
+        ========
+        
+        >>>>>>> Section To-Be
+      render: oasv2-yaml
+    validations:
+      required: false
+  - type: dropdown
+    id: affected_api
+    attributes:
+      label: Affected API's
+      description: |
+        Which API's are affected by the issue?
+        Options are defined as follows:
+          - AIS - Issue affects the accountAPI
+          - PSS - Issue affects the paymentAPI
+          - Both - Issue affects both API's
+          - Not applicable - Issue does not affect the API's but other components, i.e. readme.md, issue_template.md, etc.
+      options:
+        - AIS
+        - PSS
+        - Both
+        - Not applicable
+      default: 0
+    validations:
+      required: true
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Code of Conduct
+      description: By submitting this issue, you agree to follow our [Contribution Guidelines](https://github.com/swissfintechinnovations/ca-payment/blob/main/CONTRIBUTING.md#how-to-contribute).
+      options:
+        - label: I agree to follow this project's Contribution Guidelines
+          required: true
