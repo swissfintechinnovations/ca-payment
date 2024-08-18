@@ -1882,8 +1882,6 @@ components:
   responses:
     standard400:
       headers:
-        Content-Type:
-          $ref: '#/components/headers/Content-Type'
         Content-Language:
           $ref: '#/components/headers/Content-Language'
         X-Correlation-ID:
@@ -1916,8 +1914,6 @@ components:
 
     standard401:
       headers:
-        Content-Type:
-          $ref: '#/components/headers/Content-Type'
         Content-Language:
           $ref: '#/components/headers/Content-Language'
         X-Correlation-ID:
@@ -1931,8 +1927,6 @@ components:
 
     standard403:
       headers:
-        Content-Type:
-          $ref: '#/components/headers/Content-Type'
         Content-Language:
           $ref: '#/components/headers/Content-Language'
         X-Correlation-ID:
@@ -1966,8 +1960,6 @@ components:
 
     standard404:
       headers:
-        Content-Type:
-          $ref: '#/components/headers/Content-Type'
         Content-Language:
           $ref: '#/components/headers/Content-Language'
         X-Correlation-ID:
@@ -2006,8 +1998,6 @@ components:
 
     standard405:
       headers:
-        Content-Type:
-          $ref: '#/components/headers/Content-Type'
         Content-Language:
           $ref: '#/components/headers/Content-Language'
         X-Correlation-ID:
@@ -2028,8 +2018,6 @@ components:
 
     standard500:
       headers:
-        Content-Type:
-          $ref: '#/components/headers/Content-Type'
         Content-Language:
           $ref: '#/components/headers/Content-Language'
         X-Correlation-ID:
@@ -2056,8 +2044,6 @@ components:
 
     standard501:
       headers:
-        Content-Type:
-          $ref: '#/components/headers/Content-Type'
         Content-Language:
           $ref: '#/components/headers/Content-Language'
         X-Correlation-ID:
@@ -2078,8 +2064,6 @@ components:
 
     standard503:
       headers:
-        Content-Type:
-          $ref: '#/components/headers/Content-Type'
         Content-Language:
           $ref: '#/components/headers/Content-Language'
         X-Correlation-ID:
