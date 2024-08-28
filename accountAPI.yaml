@@ -185,7 +185,7 @@ paths:
         - accounts
       summary: Retrieve transactions of a specific account
       description: |
-        Returns the transaction list of the specified account. Only postings with status booked will be returned.
+        Returns the transaction list of the specified account.
         * Returns the transaction list of the current day, if called without a date.
         * Returns the transaction list for a specific day, if called for a past date (i.e. all transactions from that day).
         In case the specified day is not yet finalized, the response code will be 202.
