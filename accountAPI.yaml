@@ -1008,40 +1008,23 @@ components:
       description: The common error response object.
       properties:
         type:
-          $ref: '#/components/schemas/CommonErrorType'
+          type: string
+          description: |
+            A URI reference that identifies the problem type. When "about:blank" is used, the title SHOULD be the same as the recommended HTTP
+            status phrase for that code (e.g., "Not Found" for 404, and so on)
+          example: about:blank
         title:
           type: string
-          description: The title of the common error response.
+          description: A short, human-readable summary of the problem type.
           example: This is the general problem description
         detail:
           type: string
-          description: The details about the common error response.
+          description: A human-readable explanation specific to this occurrence of the problem.
           example: Detailed problem description with respect to the current request, e.g., invalid account number format
         instance:
           type: string
-          description: The path to the corresponding resource.
-          example: path/to/corresponding/resource
-
-    CommonErrorType:
-      title: Common Error Type
-      type: string
-      description: Error Types for commonErrorResponse.
-      enum:
-        - /problems/INVALID_PAYLOAD
-        - /problems/MALFORMED_PAYLOAD
-        - /problems/INVALID_TOKEN
-        - /problems/EXPIRED_TOKEN
-        - /problems/INSUFFICIENT_PRIVILEGES
-        - /problems/NO_ACCESS_TO_RESOURCE
-        - /problems/RESOURCE_DOES_NOT_EXIST
-        - /problems/RESOURCE_NOT_READY
-        - /problems/RESOURCE_TOO_LARGE
-        - /problems/WRONG_METHOD
-        - /problems/OPERATION_NOT_ALLOWED
-        - /problems/TECHNICAL_ERROR
-        - /problems/NOT_IMPLEMENTED
-        - /problems/SERVICE_UNAVAILABLE
-      example: /problems/TECHNICAL_ERROR
+          description: A (relative) URI reference that identifies the specific occurrence of the problem.
+          example: /path/to/corresponding/resource
 
     Currency:
       type: string
