@@ -424,6 +424,7 @@ components:
         - accountOwner
         - accountTypeCode
         - currency
+        - designation
         - id
       properties:
         id:
@@ -445,13 +446,7 @@ components:
             example: CHF
           description: Permitted currencies for the account.
         designation:
-          type: string
-          maxLength: 140
-          description: |
-            This element shall always be populated with the account alias, if defined, otherwise with specific bank account name
-            (e.g. bank saving account).
-            **NOTE:** This property will become mandatory with the next major release v5 of this API.
-          example: Firmenkonto
+          $ref: '#/components/schemas/Designation'
         accountTypeCode:
           type: string
           description: |
@@ -807,17 +802,15 @@ components:
       type: object
       description: The account transaction report object.
       required:
-        - iban
+        - designation
         - entries
+        - iban
       properties:
         iban:
           $ref: '#/components/schemas/IbanIdentification'
           description: The International Bank Account Number (IBAN), associated with the account.
         designation:
-          type: string
-          maxLength: 140
-          description: The account designation of the account, i.e. savings account.
-          example: Payment account
+          $ref: '#/components/schemas/Designation'
         entries:
           type: array
           description: The account transaction entry object.
@@ -1023,6 +1016,14 @@ components:
       format: date
       description: A date.
       example: 2018-04-13
+
+    Designation:
+      type: string
+      maxLength: 140
+      description: |
+        This element shall always be populated with the account alias, if defined, otherwise with specific
+        bank account name (e.g. bank saving account).
+      example: Firmenkonto
 
     IbanIdentification:
       type: string
