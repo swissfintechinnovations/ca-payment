@@ -422,6 +422,7 @@ components:
       required:
         - account
         - accountOwner
+        - accountTypeCode
         - currency
         - designation
         - id
