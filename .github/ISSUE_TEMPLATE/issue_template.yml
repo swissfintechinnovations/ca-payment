@@ -28,6 +28,7 @@ body:
           - Enhancement - Issue is related to a functional enhancement
           - Restriction - Issue is related to a functional restriction
           - Compliance - Issue is related to comply with existing specifications, i.e. RFC, ISO, etc.
+          - Documentation - Issue is related to improve the existing documentation only
           - Bugfix - Issue is related to an existing production issue
           - Not applicable - None of the catagories above fit for the issue
       options:
@@ -35,6 +36,7 @@ body:
         - Enhancement
         - Restriction
         - Compliance
+        - Documentation
         - Bugfix
         - Not applicable
       default: 0
