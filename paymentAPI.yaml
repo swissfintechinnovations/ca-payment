@@ -698,7 +698,7 @@ paths:
         description: The XML pain.001.
         required: true
         content:
-          application/xml:
+          application/xml; charset=utf-8:
             schema:
               type: string
       responses:
@@ -748,7 +748,7 @@ paths:
             X-Correlation-ID:
               $ref: '#/components/headers/X-Correlation-ID'
           content:
-            application/xml:
+            application/xml; charset=utf-8:
               schema:
                 type: string
         '400':
@@ -832,7 +832,7 @@ paths:
             X-Correlation-ID:
               $ref: '#/components/headers/X-Correlation-ID'
           content:
-            application/xml:
+            application/xml; charset=utf-8:
               schema:
                 type: string
         '400':
