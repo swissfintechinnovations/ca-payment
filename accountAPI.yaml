@@ -60,7 +60,7 @@ paths:
               schema:
                 type: object
                 required:
-                    - accounts
+                  - accounts
                 properties:
                   accounts:
                     type: array
