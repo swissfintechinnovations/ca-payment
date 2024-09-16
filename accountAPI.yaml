@@ -38,6 +38,8 @@ paths:
       summary: Retrieve list of authorized accounts
       description: Return the list of all accounts accessible for the logged in user.
       parameters:
+        - $ref: '#/components/parameters/cursor'
+        - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/authorization_in_header'
         - $ref: '#/components/parameters/clientid_in_header'
         - $ref: '#/components/parameters/correlation_in_header'
@@ -51,12 +53,19 @@ paths:
           headers:
             X-Correlation-ID:
               $ref: '#/components/headers/X-Correlation-ID'
+            X-Next-Cursor:
+              $ref: '#/components/headers/X-Next-Cursor'
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/AccountItem'
+                type: object
+                required:
+                  - accounts
+                properties:
+                  accounts:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/AccountItem'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -130,9 +139,9 @@ paths:
         booked balance at the beginning of that day and all entries booked to the account during that day. In case the specified day has not yet been
         finalized, the response code will be 202.
       parameters:
-        - $ref: '#/components/parameters/authorization_in_header'
         - $ref: '#/components/parameters/path_accountId'
         - $ref: '#/components/parameters/date'
+        - $ref: '#/components/parameters/authorization_in_header'
         - $ref: '#/components/parameters/clientid_in_header'
         - $ref: '#/components/parameters/correlation_in_header'
         - $ref: '#/components/parameters/agent_in_header'
@@ -181,7 +190,6 @@ paths:
         * Returns the transaction list for a specific day, if called for a past date (i.e. all transactions from that day).
         In case the specified day is not yet finalized, the response code will be 202.
       parameters:
-        - $ref: '#/components/parameters/authorization_in_header'
         - $ref: '#/components/parameters/path_accountId'
         - in: query
           name: dateFrom
@@ -205,6 +213,7 @@ paths:
           description: Booking status of the transactions to be queried.
         - $ref: '#/components/parameters/cursor'
         - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/authorization_in_header'
         - $ref: '#/components/parameters/clientid_in_header'
         - $ref: '#/components/parameters/correlation_in_header'
         - $ref: '#/components/parameters/agent_in_header'
@@ -217,10 +226,19 @@ paths:
           headers:
             X-Correlation-ID:
               $ref: '#/components/headers/X-Correlation-ID'
+            X-Next-Cursor:
+              $ref: '#/components/headers/X-Next-Cursor'
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AccountTransactionReport'
+                type: object
+                required:
+                  - transactions
+                properties:
+                  transactions:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/AccountTransactionReport'
         '202':
           $ref: '#/components/responses/standard202'
         '204':
@@ -295,6 +313,8 @@ paths:
         The returned account statements must be conform to the XML schema and
         implementation guidelines defined by Swiss Payment Standards.
       parameters:
+        - $ref: '#/components/parameters/cursor'
+        - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/authorization_in_header'
         - $ref: '#/components/parameters/clientid_in_header'
         - $ref: '#/components/parameters/correlation_in_header'
@@ -308,12 +328,19 @@ paths:
           headers:
             X-Correlation-ID:
               $ref: '#/components/headers/X-Correlation-ID'
+            X-Next-Cursor:
+              $ref: '#/components/headers/X-Next-Cursor'
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Iso20022ReportReference'
+                type: object
+                required:
+                  - statements
+                properties:
+                  statements:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Iso20022ReportReference'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -816,8 +843,6 @@ components:
           description: The account transaction entry object.
           items:
             $ref: '#/components/schemas/AccountTransactionEntry'
-        linksPagination:
-          $ref: '#/components/schemas/LinksPagination'
         _links:
           type: object
           description: Contains the paths to additional resources for specific account (e.g. path to account and balance resource).
@@ -1068,32 +1093,6 @@ components:
         dateTo:
           $ref: '#/components/schemas/Date'
           description: The end date of the transaction query period.
-
-    LinksPagination:
-      title: Pagination Links
-      description: Links (or cursors) returned in the answer of an API call.
-      type: object
-      properties:
-        self:
-          type: string
-          description: Link / cursor to the current result set (based on the submitted pagination approach).
-          example: /payment-app/api/v1/accounts/accountIDXY/transactions?offset=75&limit=25
-        first:
-          type: string
-          description: Link / cursor to the first result set (based on the submitted pagination approach).
-          example: /payment-app/api/v1/accounts/accountIDXY/transactions?offset=0&limit=25
-        previous:
-          type: string
-          description: Link / cursor to the previous result set (based on the submitted pagination approach).
-          example: /payment-app/api/v1/accounts/accountIDXY/transactions?offset=50&limit=25
-        next:
-          type: string
-          description: Link / cursor to the next result set (based on the submitted pagination approach).
-          example: /payment-app/api/v1/accounts/accountIDXY/transactions?offset=100&limit=25
-        last:
-          type: string
-          description: Link / cursor to the last result set (based on the submitted pagination approach).
-          example: /payment-app/api/v1/accounts/accountIDXY/transactions?offset=150&limit=25
 
     PaymentCurrencyAmount:
       title: Payment Currency Amount
@@ -1501,9 +1500,16 @@ components:
       description: application/problem+json; charset=utf-8 according to RFC7807
       schema:
         type: string
+        example: application/problem+json; charset=utf-8
 
     X-Correlation-ID:
       description: Client defined ID from request to correlates HTTP requests between a client and server
       schema:
         type: string
         example: f058ebd6-02f7-4d3f-942e-904344e8cde5
+
+    X-Next-Cursor:
+      description: An opaque string value, or an empty string if there are no more results.
+      schema:
+        type: string
+        example: cursorIDxyz
