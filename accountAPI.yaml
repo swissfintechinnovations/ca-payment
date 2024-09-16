@@ -1024,7 +1024,7 @@ components:
         instance:
           type: string
           description: A (relative) URI reference that identifies the specific occurrence of the problem.
-          example: /path/to/corresponding/resource
+          example: path/to/corresponding/resource
 
     Currency:
       type: string
