@@ -38,8 +38,8 @@ paths:
       summary: Retrieve list of authorized accounts
       description: Return the list of all accounts accessible for the logged in user.
       parameters:
-        - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/cursor'
+        - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/authorization_in_header'
         - $ref: '#/components/parameters/clientid_in_header'
         - $ref: '#/components/parameters/correlation_in_header'
@@ -211,8 +211,8 @@ paths:
               - pending
               - both
           description: Booking status of the transactions to be queried.
-        - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/cursor'
+        - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/authorization_in_header'
         - $ref: '#/components/parameters/clientid_in_header'
         - $ref: '#/components/parameters/correlation_in_header'
@@ -313,8 +313,8 @@ paths:
         The returned account statements must be conform to the XML schema and
         implementation guidelines defined by Swiss Payment Standards.
       parameters:
-        - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/cursor'
+        - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/authorization_in_header'
         - $ref: '#/components/parameters/clientid_in_header'
         - $ref: '#/components/parameters/correlation_in_header'
