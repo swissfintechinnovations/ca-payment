@@ -216,7 +216,7 @@ paths:
           headers:
             X-Correlation-ID:
               $ref: '#/components/headers/X-Correlation-ID'
-            nextCursor:
+            X-Next-Cursor:
               $ref: '#/components/headers/X-Next-Cursor'
           content:
             application/json:
@@ -1513,4 +1513,4 @@ components:
       required: false
       schema:
         type: string
-        example: "nextCursorIDxyz"
+        example: nextCursorIDxyz
