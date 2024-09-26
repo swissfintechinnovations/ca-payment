@@ -1067,32 +1067,6 @@ components:
           $ref: '#/components/schemas/Date'
           description: The end date of the transaction query period.
 
-    LinksPagination:
-      title: Pagination Links
-      description: Links (or cursors) returned in the answer of an API call.
-      type: object
-      properties:
-        self:
-          type: string
-          description: Link / cursor to the current result set (based on the submitted pagination approach).
-          example: /payment-app/api/v1/accounts/accountIDXY/transactions?offset=75&limit=25
-        first:
-          type: string
-          description: Link / cursor to the first result set (based on the submitted pagination approach).
-          example: /payment-app/api/v1/accounts/accountIDXY/transactions?offset=0&limit=25
-        previous:
-          type: string
-          description: Link / cursor to the previous result set (based on the submitted pagination approach).
-          example: /payment-app/api/v1/accounts/accountIDXY/transactions?offset=50&limit=25
-        next:
-          type: string
-          description: Link / cursor to the next result set (based on the submitted pagination approach).
-          example: /payment-app/api/v1/accounts/accountIDXY/transactions?offset=100&limit=25
-        last:
-          type: string
-          description: Link / cursor to the last result set (based on the submitted pagination approach).
-          example: /payment-app/api/v1/accounts/accountIDXY/transactions?offset=150&limit=25
-
     PaymentCurrencyAmount:
       title: Payment Currency Amount
       type: object
@@ -1190,7 +1164,7 @@ components:
         example: 25
         minimum: 1
         default: 25
-      description: Optional parameter for pagination, specifying the number of items to return. The actual maximum limit is defined by the provider.
+      description: Optional parameter for pagination, specifying the number of items to return. The actual maximum limit can be defined by the provider.
 
     agent_in_header:
       in: header
