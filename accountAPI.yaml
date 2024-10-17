@@ -920,7 +920,7 @@ components:
 
     Amount:
       type: string
-      pattern: '[0-9]{1,12}([.][0-9]{1,5})?'
+      pattern: '^[0-9]{1,12}([.][0-9]{1,5})?$'
       maxLength: 18
       description: An amount. Corresponds to the attribute _Amt_ in SPS/ISO-20022.
       example: '10.25'
@@ -942,7 +942,7 @@ components:
 
     CommonAccountId:
       type: string
-      pattern: '[A-Za-z0-9](([A-Za-z0-9._]|-){0,254}[A-Za-z0-9]){0,1}'
+      pattern: '^[A-Za-z0-9](([A-Za-z0-9._]|-){0,254}[A-Za-z0-9]){0,1}$'
       maxLength: 256
       description: Unique identifier (UUID) of the account for which information shall be retrieved.
       example: abc123_abcxyz.123789.abcxyz.abcxyz_abcxyz_abcxyz_abcxyz_ccccc_123abc
@@ -1027,7 +1027,7 @@ components:
     IbanIdentification:
       type: string
       maxLength: 34
-      pattern: '[A-Z]{2,2}[0-9]{2,2}[a-zA-Z0-9]{1,30}'
+      pattern: '^[A-Z]{2,2}[0-9]{2,2}[a-zA-Z0-9]{1,30}$'
       description: The International Bank Account Number (IBAN), associated with the account.
       example: CH5481230000001998736
 
@@ -1054,7 +1054,7 @@ components:
           type: string
           example: camt.053.001.01
           description: The delivered schema version of the referenced ISO20022 report.
-          pattern: camt\.053\.[0-9]{3}\.[0-9]{2}
+          pattern: '^camt\.053\.[0-9]{3}\.[0-9]{2}$'
         id:
           type: string
           description: The unique identifier of the referenced ISO20022 report.
@@ -1143,7 +1143,7 @@ components:
       required: true
       schema:
         maxLength: 256
-        pattern: '[A-Za-z0-9](([A-Za-z0-9._]|-){0,254}[A-Za-z0-9]){0,1}'
+        pattern: '^[A-Za-z0-9](([A-Za-z0-9._]|-){0,254}[A-Za-z0-9]){0,1}$'
         type: string
         example: accountId
       description: ID of the account.
