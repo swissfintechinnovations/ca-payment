@@ -185,22 +185,21 @@ paths:
         - accounts
       summary: Retrieve transactions of a specific account
       description: |
-        Returns the transaction list of the specified account. Only postings with status booked will be returned.
-        * Returns the transaction list of the current day, if called without a date.
-        * Returns the transaction list for a specific day, if called for a past date (i.e. all transactions from that day).
-        In case the specified day is not yet finalized, the response code will be 202.
+        Returns the transaction list of the specified account.
+        * When called without a date, it returns transactions for the current day. Both "pending" and "booked" entries may be included based on the entryStatus parameter.
+        * When called with a date range, only "booked" transactions from completed booking days are returned. For days not yet finalized, a 202 response code is returned.
       parameters:
         - $ref: '#/components/parameters/path_accountId'
         - in: query
           name: dateFrom
           schema:
             $ref: '#/components/schemas/Date'
-          description: The start date of the transaction query.
+          description: The start date for the query. Must be earlier than or equal to the dateTo parameter.
         - in: query
           name: dateTo
           schema:
             $ref: '#/components/schemas/Date'
-          description: The end date of the transaction query.
+          description: The end date for the query. Must be later than or equal to the dateFrom parameter.
         - in: query
           name: bookingStatus
           required: true
@@ -1172,7 +1171,7 @@ components:
       schema:
         type: string
         example: cursorIDxyz
-      description: Optional parameter for pagination. An opaque string value used for pagination.
+      description: Optional parameter for pagination. Use the ID of the last item from the previous response to retrieve the next set of results. 
 
     date:
       in: query
@@ -1190,7 +1189,8 @@ components:
         format: int32
         example: 25
         minimum: 1
-      description: Optional parameter for pagination. Maximum number of entries to be returned.
+        default: 25
+      description: Optional parameter for pagination, specifying the number of items to return. The actual maximum limit can be defined by the provider.
 
     agent_in_header:
       in: header
@@ -1507,9 +1507,11 @@ components:
       schema:
         type: string
         example: f058ebd6-02f7-4d3f-942e-904344e8cde5
-
+      
     X-Next-Cursor:
-      description: An opaque string value, or an empty string if there are no more results.
+      description: |
+        An opaque string value used for pagination. Include this value in the cursor parameter of the subsequent request to fetch the next page of results. An empty string indicates that there are no more results.
+      required: false
       schema:
         type: string
-        example: cursorIDxyz
+        example: nextCursorIDxyz
