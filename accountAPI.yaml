@@ -186,8 +186,10 @@ paths:
       summary: Retrieve transactions of a specific account
       description: |
         Returns the transaction list of the specified account.
-        * When called without a date, it returns transactions for the current day. Both "pending" and "booked" entries may be included based on the entryStatus parameter.
-        * When called with a date range, only "booked" transactions from completed booking days are returned. For days not yet finalized, a 202 response code is returned.
+        * When called without a date, it returns transactions for the current day. Both "pending"
+        and "booked" entries may be included based on the entryStatus parameter.
+        * When called with a date range, only "booked" transactions from completed booking days are
+        returned. For days not yet finalized, a 202 response code is returned.
       parameters:
         - $ref: '#/components/parameters/path_accountId'
         - in: query
@@ -1171,7 +1173,8 @@ components:
       schema:
         type: string
         example: cursorIDxyz
-      description: Optional parameter for pagination. Use the ID of the last item from the previous response to retrieve the next set of results. 
+      description: >
+        Optional parameter for pagination. Use the ID of the last item from the previous response to retrieve the next set of results.
 
     date:
       in: query
@@ -1190,7 +1193,9 @@ components:
         example: 25
         minimum: 1
         default: 25
-      description: Optional parameter for pagination, specifying the number of items to return. The actual maximum limit can be defined by the provider.
+      description: >
+        Optional parameter for pagination, specifying the number of items to return. The actual maximum limit can be defined by
+        the provider.
 
     agent_in_header:
       in: header
