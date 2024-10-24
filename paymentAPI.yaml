@@ -118,6 +118,10 @@ paths:
               $ref: '#/components/headers/Location'
             X-Correlation-ID:
               $ref: '#/components/headers/X-Correlation-ID'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StandingorderSubmissionResponse'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -338,6 +342,10 @@ paths:
               $ref: '#/components/headers/Location'
             X-Correlation-ID:
               $ref: '#/components/headers/X-Correlation-ID'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaymentSubmissionResponse'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -536,6 +544,10 @@ paths:
               $ref: '#/components/headers/Location'
             X-Correlation-ID:
               $ref: '#/components/headers/X-Correlation-ID'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SinglepaymentsSubmissionResponse'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -1559,6 +1571,17 @@ components:
           items:
             $ref: '#/components/schemas/PaymentInstructionItem'
 
+    PaymentSubmissionResponse:
+      title: Payment Submission Response (200)
+      type: object
+      description: The payment submission response object.
+      # SubmissionId is optional in Version 5 and will become mandatory in Version 6.
+      # required:
+      #  - submissionId
+      properties:
+        submissionId:
+          $ref: '#/components/schemas/SubmissionId'
+
     PaymentSubmissionStatus:
       title: Payment Submission Status
       type: object
@@ -1673,6 +1696,17 @@ components:
           description: The QR details of the single payment instruction item.
           $ref: '#/components/schemas/PaymentQrDetail'
 
+    SinglepaymentsSubmissionResponse:
+      title: Single Payment Submission Response
+      type: object
+      description: The single payment submission response object.
+      # SubmissionId is optional in Version 5 and will become mandatory in Version 6.
+      # required:
+      #  - submissionId
+      properties:
+        submissionId:
+          $ref: '#/components/schemas/SubmissionId'
+
     StandingorderSubmissionRequest:
       title: Standing Order Submission Request
       type: object
@@ -1764,6 +1798,17 @@ components:
                 description: End date of one break period. Standing order will not be processed to this date.
                 $ref: '#/components/schemas/Date'
 
+    StandingorderSubmissionResponse:
+      title: Standing Order Submission Response
+      type: object
+      description: The standing order submission response object.
+      # SubmissionId is optional in Version 5 and will become mandatory in Version 6.
+      # required:
+      #  - submissionId
+      properties:
+        submissionId:
+          $ref: '#/components/schemas/SubmissionId'
+          
     StandingorderSubmissionStatus:
       title: Standing Order Submission Status
       type: object
@@ -1800,6 +1845,13 @@ components:
       format: date
       example: 2018-04-13
 
+    SubmissionId:
+      title: Submission ID
+      description: ID of payment submission to be retrieved.
+      maxLength: 35
+      type: string
+      example: 618d4ac6e8a64e3d9f26aa3d8c4f323e
+
   parameters:
     path_submissionId:
       in: path
@@ -1808,7 +1860,7 @@ components:
       schema:
         maxLength: 35
         type: string
-        example: submissionId
+        example: 618d4ac6e8a64e3d9f26aa3d8c4f323e
       description: ID of payment submission to be retrieved.
 
     agent_in_header:
