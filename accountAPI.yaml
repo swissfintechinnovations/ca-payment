@@ -1276,8 +1276,6 @@ components:
 
     standard204:
       headers:
-        Content-Language:
-          $ref: '#/components/headers/Content-Language'
         X-Correlation-ID:
           $ref: '#/components/headers/X-Correlation-ID'
       description: |
