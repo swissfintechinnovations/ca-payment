@@ -900,8 +900,8 @@ components:
       type: object
       description: The common error response object.
       required:
+        - type
         - title
-        - status
       properties:
         type:
           $ref: '#/components/schemas/CommonErrorType'
