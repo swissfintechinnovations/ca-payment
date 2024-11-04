@@ -449,8 +449,7 @@ components:
           description: |
             This element shall always be populated with the account alias, if defined, otherwise with specific bank account name
             (e.g. bank saving account).
-
-            **NOTE:** This property will become mandatory with the next major release of this API.
+            **NOTE:** This property will become mandatory with the next major release v5 of this API.
           example: Firmenkonto
         accountTypeCode:
           type: string
@@ -464,7 +463,7 @@ components:
             * TRAN: Account used for transactions (all types of personal, current and payment accounts) - DE: Privat-, Kontokorent- und
             Zahlungsverkehrskonten
             * OTHR: Account not otherwise specified (gathering pool for all other accounts)
-            **NOTE:** This property will become mandatory with the next major release of this API.
+            **NOTE:** This property will become mandatory with the next major release v5 of this API.
           example: TRAN
           enum:
             - CACC
