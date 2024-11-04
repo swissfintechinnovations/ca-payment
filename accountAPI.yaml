@@ -380,7 +380,7 @@ paths:
             X-Correlation-ID:
               $ref: '#/components/headers/X-Correlation-ID'
           content:
-            application/xml:
+            application/xml; charset=utf-8:
               schema:
                 type: string
         '400':
