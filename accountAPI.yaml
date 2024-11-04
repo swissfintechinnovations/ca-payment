@@ -203,15 +203,19 @@ paths:
             $ref: '#/components/schemas/Date'
           description: The end date for the query. Must be later than or equal to the dateFrom parameter.
         - in: query
-          name: bookingStatus
-          required: true
+          name: entryStatus
+          required: false
           schema:
             type: string
             enum:
               - booked
               - pending
               - both
-          description: Booking status of the transactions to be queried.
+            default: booked
+          description: >
+            Specifies the status of the entries to be queried.
+            Intraday movements can have a status of either "pending" or "booked."
+            For completed booking days, only entries with a "booked" status will be returned.
         - $ref: '#/components/parameters/cursor'
         - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/authorization_in_header'
@@ -381,7 +385,7 @@ paths:
             X-Correlation-ID:
               $ref: '#/components/headers/X-Correlation-ID'
           content:
-            application/xml:
+            application/xml; charset=utf-8:
               schema:
                 type: string
         '400':
@@ -626,6 +630,7 @@ components:
       required:
         - entryId
         - transactionType
+        - entryStatus
         - bookingDate
         - valueDate
         - amount
@@ -638,6 +643,14 @@ components:
           example: ENTRY123456789
         transactionType:
           $ref: '#/components/schemas/AccountTransactionTransactionType'
+        entryStatus:
+          type: string
+          enum:
+            - booked
+            - pending
+          description: >
+            Indicates the status of an account movement. Corresponds to the attribute _Ntry ⇾ Sts ⇾ Cd_ in SPS/ISO-20022
+          example: booked
         entryReference:
           type: string
           description: >
