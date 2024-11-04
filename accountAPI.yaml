@@ -185,7 +185,7 @@ paths:
         - accounts
       summary: Retrieve transactions of a specific account
       description: |
-        Returns the transaction list of the specified account. Only postings with status booked will be returned.
+        Returns the transaction list of the specified account.
         * Returns the transaction list of the current day, if called without a date.
         * Returns the transaction list for a specific day, if called for a past date (i.e. all transactions from that day).
         In case the specified day is not yet finalized, the response code will be 202.
@@ -202,15 +202,19 @@ paths:
             $ref: '#/components/schemas/Date'
           description: The end date of the transaction query.
         - in: query
-          name: bookingStatus
-          required: true
+          name: entryStatus
+          required: false
           schema:
             type: string
             enum:
               - booked
               - pending
               - both
-          description: Booking status of the transactions to be queried.
+            default: booked
+          description: >
+            Specifies the status of the entries to be queried.
+            Intraday movements can have a status of either "pending" or "booked."
+            For completed booking days, only entries with a "booked" status will be returned.
         - $ref: '#/components/parameters/cursor'
         - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/authorization_in_header'
@@ -625,6 +629,7 @@ components:
       required:
         - entryId
         - transactionType
+        - entryStatus
         - bookingDate
         - valueDate
         - amount
@@ -637,6 +642,14 @@ components:
           example: ENTRY123456789
         transactionType:
           $ref: '#/components/schemas/AccountTransactionTransactionType'
+        entryStatus:
+          type: string
+          enum:
+            - booked
+            - pending
+          description: >
+            Indicates the status of an account movement. Corresponds to the attribute _Ntry ⇾ Sts ⇾ Cd_ in SPS/ISO-20022
+          example: booked
         entryReference:
           type: string
           description: >
