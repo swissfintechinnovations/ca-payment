@@ -1075,21 +1075,12 @@ components:
       title: ISO20022 Report Reference
       type: object
       description: The referenced ISO20022 report (camt.053).
+      required:
+        - account
+        - dateFrom
+        - dateTo
+        - schemaVersion
       properties:
-        name:
-          type: string
-          description: The name of the referenced ISO20022 report, i.e. the camt.053 file.
-          example: CH1100790016123456029_2023-01-16
-        description:
-          type: string
-          description: The description of the referenced ISO20022 report, i.e. the camt.053 file.
-          example: Kontoauszug von CH1100790016123456029 am 16.01.2023
-        type:
-          type: string
-          description: The type of the referenced ISO20022 report.
-          enum:
-            - CAMT53
-          example: CAMT53
         schemaVersion:
           type: string
           example: camt.053.001.01
