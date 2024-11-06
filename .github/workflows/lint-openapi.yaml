@@ -14,6 +14,6 @@ on:
 
 jobs:
   openapi-lint:
-    uses: swissfintechinnovations/.github/.github/workflows/reusable-lint-openapi-workflow.yaml@payment-naming-conventions-configuration
+    uses: swissfintechinnovations/.github/.github/workflows/reusable-lint-openapi-workflow.yaml@main
     with:
       filenames: ${{ github.event.inputs.filenames || '*.yaml' }}
