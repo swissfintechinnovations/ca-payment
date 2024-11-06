@@ -58,6 +58,7 @@ paths:
         - $ref: '#/components/parameters/optional_targetid_in_header'
         - $ref: '#/components/parameters/optional_psu_ip_in_header'
         - $ref: '#/components/parameters/optional_psu_user_agent_in_header'
+        - $ref: '#/components/parameters/optional_psu_accept_lang'
       responses:
         '200':
           description: List of standing orders.
@@ -107,6 +108,7 @@ paths:
         - $ref: '#/components/parameters/optional_targetid_in_header'
         - $ref: '#/components/parameters/optional_psu_ip_in_header'
         - $ref: '#/components/parameters/optional_psu_user_agent_in_header'
+        - $ref: '#/components/parameters/optional_psu_accept_lang'
       requestBody:
         description: Details of standing orders submission to be added.
         required: true
@@ -154,6 +156,7 @@ paths:
         - $ref: '#/components/parameters/optional_targetid_in_header'
         - $ref: '#/components/parameters/optional_psu_ip_in_header'
         - $ref: '#/components/parameters/optional_psu_user_agent_in_header'
+        - $ref: '#/components/parameters/optional_psu_accept_lang'
       responses:
         '200':
           description: The original standing order submission.
@@ -195,6 +198,7 @@ paths:
         - $ref: '#/components/parameters/optional_targetid_in_header'
         - $ref: '#/components/parameters/optional_psu_ip_in_header'
         - $ref: '#/components/parameters/optional_psu_user_agent_in_header'
+        - $ref: '#/components/parameters/optional_psu_accept_lang'
       responses:
         '200':
           description: Standing order has been deleted.
@@ -239,6 +243,7 @@ paths:
         - $ref: '#/components/parameters/optional_targetid_in_header'
         - $ref: '#/components/parameters/optional_psu_ip_in_header'
         - $ref: '#/components/parameters/optional_psu_user_agent_in_header'
+        - $ref: '#/components/parameters/optional_psu_accept_lang'        
       responses:
         '200':
           description: Status information for the specific standing order submission.
@@ -282,6 +287,7 @@ paths:
         - $ref: '#/components/parameters/optional_targetid_in_header'
         - $ref: '#/components/parameters/optional_psu_ip_in_header'
         - $ref: '#/components/parameters/optional_psu_user_agent_in_header'
+        - $ref: '#/components/parameters/optional_psu_accept_lang'
       responses:
         '200':
           description: List of payments.
@@ -331,6 +337,7 @@ paths:
         - $ref: '#/components/parameters/optional_targetid_in_header'
         - $ref: '#/components/parameters/optional_psu_ip_in_header'
         - $ref: '#/components/parameters/optional_psu_user_agent_in_header'
+        - $ref: '#/components/parameters/optional_psu_accept_lang'
       requestBody:
         description: Details of payments submission to be added.
         required: true
@@ -378,6 +385,7 @@ paths:
         - $ref: '#/components/parameters/optional_targetid_in_header'
         - $ref: '#/components/parameters/optional_psu_ip_in_header'
         - $ref: '#/components/parameters/optional_psu_user_agent_in_header'
+        - $ref: '#/components/parameters/optional_psu_accept_lang'
       responses:
         '200':
           description: Payment submission has been deleted.
@@ -421,6 +429,7 @@ paths:
         - $ref: '#/components/parameters/optional_targetid_in_header'
         - $ref: '#/components/parameters/optional_psu_ip_in_header'
         - $ref: '#/components/parameters/optional_psu_user_agent_in_header'
+        - $ref: '#/components/parameters/optional_psu_accept_lang'
       responses:
         '200':
           description: Status information for the specific payment submission.
@@ -479,6 +488,7 @@ paths:
         - $ref: '#/components/parameters/optional_targetid_in_header'
         - $ref: '#/components/parameters/optional_psu_ip_in_header'
         - $ref: '#/components/parameters/optional_psu_user_agent_in_header'
+        - $ref: '#/components/parameters/optional_psu_accept_lang'
       responses:
         '200':
           description: Paginated list of all payments.
@@ -528,6 +538,7 @@ paths:
         - $ref: '#/components/parameters/optional_targetid_in_header'
         - $ref: '#/components/parameters/optional_psu_ip_in_header'
         - $ref: '#/components/parameters/optional_psu_user_agent_in_header'
+        - $ref: '#/components/parameters/optional_psu_accept_lang'
       requestBody:
         description: Details of single payments submission to be added.
         required: true
@@ -575,6 +586,7 @@ paths:
         - $ref: '#/components/parameters/optional_targetid_in_header'
         - $ref: '#/components/parameters/optional_psu_ip_in_header'
         - $ref: '#/components/parameters/optional_psu_user_agent_in_header'
+        - $ref: '#/components/parameters/optional_psu_accept_lang'
       responses:
         '200':
           description: Details on the chosen payment.
@@ -616,6 +628,7 @@ paths:
         - $ref: '#/components/parameters/optional_targetid_in_header'
         - $ref: '#/components/parameters/optional_psu_ip_in_header'
         - $ref: '#/components/parameters/optional_psu_user_agent_in_header'
+        - $ref: '#/components/parameters/optional_psu_accept_lang'
       responses:
         '200':
           description: Payment has been deleted.
@@ -659,6 +672,7 @@ paths:
         - $ref: '#/components/parameters/optional_targetid_in_header'
         - $ref: '#/components/parameters/optional_psu_ip_in_header'
         - $ref: '#/components/parameters/optional_psu_user_agent_in_header'
+        - $ref: '#/components/parameters/optional_psu_accept_lang'
       responses:
         '200':
           description: Status information for the specific payment submission.
@@ -701,6 +715,7 @@ paths:
         - $ref: '#/components/parameters/optional_targetid_in_header'
         - $ref: '#/components/parameters/optional_psu_ip_in_header'
         - $ref: '#/components/parameters/optional_psu_user_agent_in_header'
+        - $ref: '#/components/parameters/optional_psu_accept_lang'
       requestBody:
         description: The XML pain.001.
         required: true
@@ -748,6 +763,7 @@ paths:
         - $ref: '#/components/parameters/optional_targetid_in_header'
         - $ref: '#/components/parameters/optional_psu_ip_in_header'
         - $ref: '#/components/parameters/optional_psu_user_agent_in_header'
+        - $ref: '#/components/parameters/optional_psu_accept_lang'
       responses:
         '200':
           description: Returns the requested ISO20022 XML pain.001 message.
@@ -789,6 +805,7 @@ paths:
         - $ref: '#/components/parameters/optional_targetid_in_header'
         - $ref: '#/components/parameters/optional_psu_ip_in_header'
         - $ref: '#/components/parameters/optional_psu_user_agent_in_header'
+        - $ref: '#/components/parameters/optional_psu_accept_lang'
       responses:
         '200':
           description: ISO20022 XML pain.001 message submission has been deleted.
@@ -832,6 +849,7 @@ paths:
         - $ref: '#/components/parameters/optional_targetid_in_header'
         - $ref: '#/components/parameters/optional_psu_ip_in_header'
         - $ref: '#/components/parameters/optional_psu_user_agent_in_header'
+        - $ref: '#/components/parameters/optional_psu_accept_lang'
       responses:
         '200':
           description: Returns the requested ISO20022 XML pain.002 message.
@@ -1859,6 +1877,14 @@ components:
       schema:
         type: string
       description: 'User of the client software (SCOPE: FI - optional).'
+
+    optional_psu_accept_lang:
+      in: header
+      name: X-PSU-Accept-Lang
+      required: false
+      schema:
+        type: string
+      description: 'Language of client software (SCOPE: FI - optional).'
 
     optional_targetid_in_header:
       in: header
