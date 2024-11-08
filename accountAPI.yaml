@@ -494,6 +494,94 @@ paths:
         '503':
           $ref: '#/components/responses/standard503'
 
+  /iso20022/{accountId}/notifications:
+    get:
+      tags:
+        - iso20022
+      summary: Retrieve a list of resource links to credit and debit notifications (camt.054)
+      description: >
+        Retrieves the resources links to available credit and debit notifications (camt.054),
+        which conform to Swiss Payment Standards and ISO20022 XML schema guidelines.
+      parameters:
+        - $ref: '#/components/parameters/authorization_in_header'
+        - $ref: '#/components/parameters/path_accountId'
+        - $ref: '#/components/parameters/clientid_in_header'
+        - $ref: '#/components/parameters/correlation_in_header'
+        - $ref: '#/components/parameters/agent_in_header'
+        - $ref: '#/components/parameters/optional_targetid_in_header'
+        - $ref: '#/components/parameters/optional_psu_ip_in_header'
+        - $ref: '#/components/parameters/optional_psu_user_agent_in_header'
+      responses:
+        '200':
+          description: Returns a list of resource links to ISO20022 XML camt.054 messages.
+          headers:
+            X-Correlation-ID:
+              $ref: '#/components/headers/X-Correlation-ID'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Iso20022ReportReference054'
+        '400':
+          $ref: '#/components/responses/standard400'
+        '401':
+          $ref: '#/components/responses/standard401'
+        '403':
+          $ref: '#/components/responses/standard403'
+        '404':
+          $ref: '#/components/responses/standard404'
+        '405':
+          $ref: '#/components/responses/standard405'
+        '500':
+          $ref: '#/components/responses/standard500'
+        '501':
+          $ref: '#/components/responses/standard501'
+        '503':
+          $ref: '#/components/responses/standard503'
+
+  /iso20022/{accountId}/notifications/{reportId}:
+    get:
+      tags:
+        - iso20022
+      summary: Retrieves the designated ISO20022 XML CAMT document.
+      parameters:
+        - $ref: '#/components/parameters/path_reportId'
+        - $ref: '#/components/parameters/authorization_in_header'
+        - $ref: '#/components/parameters/path_accountId'
+        - $ref: '#/components/parameters/clientid_in_header'
+        - $ref: '#/components/parameters/correlation_in_header'
+        - $ref: '#/components/parameters/agent_in_header'
+        - $ref: '#/components/parameters/optional_targetid_in_header'
+        - $ref: '#/components/parameters/optional_psu_ip_in_header'
+        - $ref: '#/components/parameters/optional_psu_user_agent_in_header'
+      responses:
+        '200':
+          description: Returns the requested ISO20022 XML camt.052 message.
+          headers:
+            X-Correlation-ID:
+              $ref: '#/components/headers/X-Correlation-ID'
+          content:
+            application/xml:
+              schema:
+                type: string
+        '400':
+          $ref: '#/components/responses/standard400'
+        '401':
+          $ref: '#/components/responses/standard401'
+        '403':
+          $ref: '#/components/responses/standard403'
+        '404':
+          $ref: '#/components/responses/standard404'
+        '405':
+          $ref: '#/components/responses/standard405'
+        '500':
+          $ref: '#/components/responses/standard500'
+        '501':
+          $ref: '#/components/responses/standard501'
+        '503':
+          $ref: '#/components/responses/standard503'
+
 # -------------------------
 # -------- Models ---------
 # -------------------------
@@ -1232,6 +1320,48 @@ components:
         dateTime:
           $ref: '#/components/schemas/DateTime'
           description: The end date of the transaction query period.
+
+    Iso20022ReportReference054:
+     title: ISO20022 Notification Reference
+     type: object
+     description: The referenced ISO20022 report (camt.054) for individual credit/debit notifications.
+     properties:
+        id:
+          type: string
+          description: Unique identifier for the camt.054 notification entry.
+          example: '9876543'
+        transactionId:
+          type: string
+          description: Unique transaction identifier for tracking individual credit/debit.
+          example: 'TX123456789'
+        endToEndId:
+          type: string
+          description: Unique identifier from the payer's payment instruction.
+          example: 'E2E123456789'
+        messageIdentification:
+          type: string
+          description: Unique identifier for the entire camt.054 message.
+          example: 'MSG987654321'
+        accountServicerReference:
+          type: string
+          description: Identifier assigned by the account servicer for this transaction.
+          example: 'ASR987654321'
+        schemaVersion:
+          type: string
+          example: camt.054.001.08
+          description: The delivered schema version of the referenced ISO20022 report.
+          pattern: '^camt\.054\.[0-9]{3}\.[0-9]{2}$'
+        type:
+          type: string
+          description: Type of notification.
+          enum:
+            - debit
+            - credit
+        account:
+          $ref: '#/components/schemas/PaymentIbanAccount'
+        dateTime:
+          $ref: '#/components/schemas/DateTime'
+          description: The timestamp of the notification.
 
     PaymentCurrencyAmount:
       title: Payment Currency Amount
