@@ -1329,7 +1329,7 @@ components:
         id:
           type: string
           description: Unique identifier for the camt.054 notification entry.
-          example: 9876543
+          example: 9876543ABC
         transactionId:
           type: string
           description: Unique transaction identifier for tracking individual credit/debit.
@@ -1354,6 +1354,7 @@ components:
         type:
           type: string
           description: Type of notification.
+          example: debit
           enum:
             - debit
             - credit
