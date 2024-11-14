@@ -1,0 +1,7 @@
+in: path
+name: reportId
+required: true
+schema:
+  maxLength: 35
+  type: string
+description: Unique ID of the requested ISO20022 XML camt.053 document.

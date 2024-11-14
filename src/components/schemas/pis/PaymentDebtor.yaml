@@ -1,0 +1,15 @@
+title: Payment Debtor
+type: object
+description: The debtor of a payment.
+required:
+  - name
+  - postalAddress
+properties:
+  name:
+    type: string
+    maxLength: 70
+    description: The name of the debtor of a payment.
+    example: Hans Muster
+  postalAddress:
+    description: The postal address of the debtor of a payment.
+    $ref: ./PaymentStructuredOrUnstructuredAddress.yaml

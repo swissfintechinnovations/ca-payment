@@ -1,0 +1,6 @@
+in: header
+name: X-CorAPI-Client-ID
+required: true
+schema:
+  type: string
+description: 'ID of the client forwarded to the provider (SCOPE: FI).'

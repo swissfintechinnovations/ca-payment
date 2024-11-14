@@ -1,0 +1,8 @@
+in: path
+name: submissionId
+required: true
+schema:
+  maxLength: 35
+  type: string
+  example: submissionId
+description: ID of payment submission to be retrieved.

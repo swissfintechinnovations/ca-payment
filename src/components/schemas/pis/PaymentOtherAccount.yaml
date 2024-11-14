@@ -1,0 +1,18 @@
+title: Payment Other Account
+type: object
+description: The OTHER account object.
+required:
+  - type
+  - identification
+properties:
+  type:
+    type: string
+    description: The account identification type. Must always be OTHER.
+    enum:
+      - OTHER
+    example: OTHER
+  identification:
+    type: string
+    maxLength: 34
+    description: The unique identification (UUID) of the OTHER payment account.
+    example: 01-39139-1

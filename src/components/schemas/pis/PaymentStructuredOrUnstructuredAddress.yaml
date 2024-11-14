@@ -1,0 +1,8 @@
+title: Payment Structured or Unstructured Address
+description: Either structured or unstructured address must be set.
+type: object
+properties:
+  structured:
+    $ref: ./PaymentStructuredAddress.yaml
+  unstructured:
+    $ref: ./PaymentUnstructuredAddress.yaml

@@ -1,0 +1,7 @@
+in: query
+name: cursor
+required: false
+schema:
+  type: string
+  example: cursorIDxyz
+description: Optional parameter for pagination. An opaque string value used for pagination.

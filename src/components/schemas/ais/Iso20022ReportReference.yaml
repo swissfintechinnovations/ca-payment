@@ -1,0 +1,35 @@
+title: ISO20022 Report Reference
+type: object
+description: The referenced ISO20022 report (camt.053).
+properties:
+  name:
+    type: string
+    description: The name of the referenced ISO20022 report, i.e. the camt.053 file.
+    example: CH1100790016123456029_2023-01-16
+  description:
+    type: string
+    description: The description of the referenced ISO20022 report, i.e. the camt.053 file.
+    example: Kontoauszug von CH1100790016123456029 am 16.01.2023
+  type:
+    type: string
+    description: The type of the referenced ISO20022 report.
+    enum:
+      - CAMT53
+    example: CAMT53
+  schemaVersion:
+    type: string
+    example: camt.053.001.01
+    description: The delivered schema version of the referenced ISO20022 report.
+    pattern: ^camt\.053\.[0-9]{3}\.[0-9]{2}$
+  id:
+    type: string
+    description: The unique identifier of the referenced ISO20022 report.
+    example: '8265333'
+  account:
+    $ref: ./PaymentIbanAccount.yaml
+  dateFrom:
+    $ref: ./Date.yaml
+    description: The start date of the transaction query period.
+  dateTo:
+    $ref: ./Date.yaml
+    description: The end date of the transaction query period.
