@@ -902,6 +902,7 @@ components:
       required:
         - type
         - title
+        - detail
       properties:
         type:
           $ref: '#/components/schemas/CommonErrorType'
