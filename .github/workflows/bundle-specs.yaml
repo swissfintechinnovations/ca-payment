@@ -1,0 +1,16 @@
+name: 'Bundle API specification'
+
+on:
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      filenames:
+        type: string
+        default: 'src/*.yaml'
+        description: 'API specifications to be bundled (list of files sperated by a whitespace, must be recognized by ls). Default: src/*.yaml'
+
+jobs:
+  yaml-lint:
+    uses: swissfintechinnovations/.github/.github/workflows/reusable-bundle-workflow.yaml@main
+    with:
+      filenames: ${{ github.event.inputs.filenames || 'src/*.yaml' }}
