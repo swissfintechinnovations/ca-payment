@@ -1,7 +1,6 @@
 name: 'SFTI Lint Specifications: Yaml Compliance'
 
 on:
-  pull_request:
   push:
     branches:
       - main
@@ -9,8 +8,8 @@ on:
     inputs:
       filenames:
         type: string
-        default: '*.yaml'
-        description: 'Files to be linted (list of files sperated by a whitespace). Default: *.yaml'
+        default: '.'
+        description: 'Files to be linted (list of files sperated by a whitespace). Default: . (all files recursively)'
 
 jobs:
   yaml-lint:

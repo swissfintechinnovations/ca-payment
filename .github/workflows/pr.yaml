@@ -1,0 +1,23 @@
+name: Bundle workflow
+# description: Check specifications for SFTI's openapi rules.
+on:
+  pull_request:
+
+jobs:
+  bundle-specs:
+    uses: swissfintechinnovations/.github/.github/workflows/reusable-bundle-workflow.yaml@main
+    with:
+      filenames: 'src/*.yaml'
+
+  yaml-lint:
+    uses: swissfintechinnovations/.github/.github/workflows/reusable-lint-yaml-workflow.yaml@main
+    with:
+      filenames: '.' # lint all files recursively
+
+  openapi-lint:
+    uses: swissfintechinnovations/.github/.github/workflows/reusable-lint-openapi-workflow.yaml@main
+    with:
+      filenames: '*.yaml'
+
+  swagger-validate:
+    uses: swissfintechinnovations/.github/.github/workflows/reusable-swagger-validate-workflow.yaml@main
