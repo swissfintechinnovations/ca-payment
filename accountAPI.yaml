@@ -388,6 +388,7 @@ paths:
             application/xml; charset=utf-8:
               schema:
                 type: string
+                format: binary
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -474,9 +475,10 @@ paths:
             X-Correlation-ID:
               $ref: '#/components/headers/X-Correlation-ID'
           content:
-            application/xml:
+            application/xml; charset=utf-8:
               schema:
                 type: string
+                format: binary
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -562,9 +564,10 @@ paths:
             X-Correlation-ID:
               $ref: '#/components/headers/X-Correlation-ID'
           content:
-            application/xml:
+            application/xml; charset=utf-8:
               schema:
                 type: string
+                format: binary
         '400':
           $ref: '#/components/responses/standard400'
         '401':
