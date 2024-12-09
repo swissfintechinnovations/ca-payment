@@ -559,7 +559,7 @@ paths:
         - $ref: '#/components/parameters/optional_psu_user_agent_in_header'
       responses:
         '200':
-          description: Returns the requested ISO20022 XML camt.052 message.
+          description: Returns the requested ISO20022 XML camt.054 message.
           headers:
             X-Correlation-ID:
               $ref: '#/components/headers/X-Correlation-ID'
