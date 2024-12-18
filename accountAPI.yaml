@@ -416,6 +416,8 @@ paths:
         The returned account statements must be conform to the XML schema and
         implementation guidelines defined by Swiss Payment Standards.
       parameters:
+        - $ref: '#/components/parameters/cursor'
+        - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/authorization_in_header'
         - $ref: '#/components/parameters/clientid_in_header'
         - $ref: '#/components/parameters/correlation_in_header'
@@ -429,12 +431,19 @@ paths:
           headers:
             X-Correlation-ID:
               $ref: '#/components/headers/X-Correlation-ID'
+            X-Next-Cursor:
+              $ref: '#/components/headers/X-Next-Cursor'
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Iso20022ReportReference052'
+                type: object
+                required:
+                  - reports
+                properties:
+                  reports:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Iso20022ReportReference052'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -513,6 +522,8 @@ paths:
           schema:
             $ref: '#/components/schemas/Date'
           description: The end date for the query. Must be later than or equal to the dateFrom parameter.
+        - $ref: '#/components/parameters/cursor'
+        - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/authorization_in_header'
         - $ref: '#/components/parameters/clientid_in_header'
         - $ref: '#/components/parameters/correlation_in_header'
@@ -526,12 +537,19 @@ paths:
           headers:
             X-Correlation-ID:
               $ref: '#/components/headers/X-Correlation-ID'
+            X-Next-Cursor:
+              $ref: '#/components/headers/X-Next-Cursor'
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Iso20022ReportReference054'
+                type: object
+                required:
+                  - notifications
+                properties:
+                  notifications:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Iso20022ReportReference054'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
