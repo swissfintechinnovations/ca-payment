@@ -1299,6 +1299,7 @@ components:
         - account
         - dateFrom
         - dateTo
+        - id
         - schemaVersion
       properties:
         schemaVersion:
@@ -1323,6 +1324,12 @@ components:
       title: ISO 20022 Report Reference
       type: object
       description: The referenced ISO20022 report (camt.052).
+      required:
+        - account
+        - dateTime
+        - id
+        - schemaVersion
+        - type
       properties:
         id:
           type: string
@@ -1353,6 +1360,12 @@ components:
       title: ISO20022 Notification Reference
       type: object
       description: The referenced ISO20022 report (camt.054) for individual credit/debit notifications.
+      required:
+        - account
+        - dateFrom
+        - dateTo
+        - id
+        - schemaVersion
       properties:
         id:
           type: string
