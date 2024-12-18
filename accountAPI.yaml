@@ -406,7 +406,7 @@ paths:
         '503':
           $ref: '#/components/responses/standard503'
 
-  /iso20022/{accountId}/reports:
+  /iso20022/reports:
     get:
       tags:
         - iso20022
@@ -417,7 +417,6 @@ paths:
         implementation guidelines defined by Swiss Payment Standards.
       parameters:
         - $ref: '#/components/parameters/authorization_in_header'
-        - $ref: '#/components/parameters/path_accountId'
         - $ref: '#/components/parameters/clientid_in_header'
         - $ref: '#/components/parameters/correlation_in_header'
         - $ref: '#/components/parameters/agent_in_header'
@@ -453,7 +452,7 @@ paths:
         '503':
           $ref: '#/components/responses/standard503'
 
-  /iso20022/{accountId}/reports/{reportId}:
+  /iso20022/reports/{reportId}:
     get:
       tags:
         - iso20022
@@ -461,7 +460,6 @@ paths:
       parameters:
         - $ref: '#/components/parameters/path_reportId'
         - $ref: '#/components/parameters/authorization_in_header'
-        - $ref: '#/components/parameters/path_accountId'
         - $ref: '#/components/parameters/clientid_in_header'
         - $ref: '#/components/parameters/correlation_in_header'
         - $ref: '#/components/parameters/agent_in_header'
@@ -496,17 +494,25 @@ paths:
         '503':
           $ref: '#/components/responses/standard503'
 
-  /iso20022/{accountId}/notifications:
+  /iso20022/notifications:
     get:
       tags:
         - iso20022
       summary: Retrieve a list of resource links to credit and debit notifications (camt.054)
       description: >
-        Retrieves the resources links to available credit and debit notifications (camt.054),
-        which conform to Swiss Payment Standards and ISO20022 XML schema guidelines.
+        Retrieves the resources links to available camt.054 notifications for credit and debit transactions, supporting external batch booking breakdowns where transaction details are not included in camt.053 account statements.
       parameters:
+        - in: query
+          name: dateFrom
+          schema:
+            $ref: '#/components/schemas/Date'
+          description: The start date for the query. Must be earlier than or equal to the dateTo parameter.
+        - in: query
+          name: dateTo
+          schema:
+            $ref: '#/components/schemas/Date'
+          description: The end date for the query. Must be later than or equal to the dateFrom parameter.
         - $ref: '#/components/parameters/authorization_in_header'
-        - $ref: '#/components/parameters/path_accountId'
         - $ref: '#/components/parameters/clientid_in_header'
         - $ref: '#/components/parameters/correlation_in_header'
         - $ref: '#/components/parameters/agent_in_header'
@@ -1333,39 +1339,23 @@ components:
           type: string
           description: Unique identifier for the camt.054 notification entry.
           example: 9876543ABC
-        transactionId:
-          type: string
-          description: Unique transaction identifier for tracking individual credit/debit.
-          example: TX123456789
-        endToEndId:
-          type: string
-          description: Unique identifier from the payer's payment instruction.
-          example: E2E123456789
-        messageIdentification:
-          type: string
-          description: Unique identifier for the entire camt.054 message.
-          example: MSG987654321
         accountServicerReference:
           type: string
-          description: Identifier assigned by the account servicer for this transaction.
+          description: Reference assigned by the account servicer. Corresponds to the attribute _Ntry ⇾ AcctSvcrRef_ in SPS/ISO-20022.
           example: ASR987654321
         schemaVersion:
           type: string
           example: camt.054.001.08
           description: The delivered schema version of the referenced ISO20022 report.
           pattern: '^camt\.054\.[0-9]{3}\.[0-9]{2}$'
-        type:
-          type: string
-          description: Type of notification.
-          example: debit
-          enum:
-            - debit
-            - credit
         account:
           $ref: '#/components/schemas/PaymentIbanAccount'
-        dateTime:
-          $ref: '#/components/schemas/DateTime'
-          description: The timestamp of the notification.
+        dateFrom:
+          $ref: '#/components/schemas/Date'
+          description: The start date of the transaction query period.
+        dateTo:
+          $ref: '#/components/schemas/Date'
+          description: The end date of the transaction query period.
 
     PaymentCurrencyAmount:
       title: Payment Currency Amount
