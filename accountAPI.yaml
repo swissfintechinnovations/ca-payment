@@ -500,7 +500,8 @@ paths:
         - iso20022
       summary: Retrieve a list of resource links to credit and debit notifications (camt.054)
       description: >
-        Retrieves the resources links to available camt.054 notifications for credit and debit transactions, supporting external batch booking breakdowns where transaction details are not included in camt.053 account statements.
+        Retrieves the resources links to available camt.054 notifications for credit and debit transactions,
+        supporting external batch booking breakdowns where transaction details are not included in camt.053 account statements.
       parameters:
         - in: query
           name: dateFrom
