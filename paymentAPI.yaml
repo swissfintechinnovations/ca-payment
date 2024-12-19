@@ -1138,11 +1138,11 @@ components:
         name:
           type: string
           maxLength: 140
-          description: The name of the creditor of a payment.
+          description: The name of the creditor of a payment. Restriction for payment type SEPA is 70 characters.
           example: Hans Muster
         postalAddress:
           description: The postal address of the creditor of a payment.
-          $ref: '#/components/schemas/PaymentStructuredOrUnstructuredAddress'
+          $ref: '#/components/schemas/PaymentAddress'
 
     PaymentCreditorAgent:
       type: object
@@ -1190,12 +1190,12 @@ components:
       properties:
         name:
           type: string
-          maxLength: 70
-          description: The name of the debtor of a payment.
+          maxLength: 140
+          description: The name of the debtor of a payment. Restriction for payment type SEPA is 70 characters.
           example: Hans Muster
         postalAddress:
           description: The postal address of the debtor of a payment.
-          $ref: '#/components/schemas/PaymentStructuredOrUnstructuredAddress'
+          $ref: '#/components/schemas/PaymentAddress'
 
     PaymentIbanAccount:
       title: Payment IBAN Account
@@ -1477,13 +1477,11 @@ components:
       maxLength: 140
       example: Rechnung Nr. 408
 
-    PaymentStructuredAddress:
-      title: Structured Address for Payments
+    PaymentAddress:
+      title: Address for Payments
       type: object
-      description: Specifies the details of a structured address.
+      description: Specifies the address details.
       required:
-        - streetName
-        - postCode
         - townName
         - country
       properties:
@@ -1512,16 +1510,16 @@ components:
           maxLength: 2
           description: The counterparty country. Corresponds to the attribute _Ctry_ in SPS/ISO-20022.
           example: CH
-
-    PaymentStructuredOrUnstructuredAddress:
-      title: Payment Structured or Unstructured Address
-      description: Either structured or unstructured address must be set.
-      type: object
-      properties:
-        structured:
-          $ref: '#/components/schemas/PaymentStructuredAddress'
-        unstructured:
-          $ref: '#/components/schemas/PaymentUnstructuredAddress'
+        addressLine1:
+          type: string
+          maxLength: 70
+          description: Additional address information, which cannot be supplied in structured elements. Corresponds to the attribute _AdrLine_ in SPS/ISO-20022.
+          example: Carribean At Keppel Bay
+        addressLine2:
+          type: string
+          maxLength: 70
+          description: Additional address information, which cannot be supplied in structured elements. Corresponds to the attribute _AdrLine_ in SPS/ISO-20022.
+          example: 05-66
 
     PaymentSubmissionRequest:
       title: Payment Submission Request
@@ -1589,30 +1587,6 @@ components:
           description: The payment transaction items.
           items:
             $ref: '#/components/schemas/PaymentInstructionItemStatus'
-
-    PaymentUnstructuredAddress:
-      title: Unstructured Address for Payments
-      type: object
-      description: Specifies the details of a unstructured address.
-      required:
-        - addressLines
-        - country
-      properties:
-        addressLines:
-          type: array
-          description: The address lines. Only two address lines of 70 characters allowed.
-          maxItems: 2
-          example:
-            - Robert Schneider SA
-            - Rue de la gare 24
-          items:
-            type: string
-            maxLength: 70
-        country:
-          type: string
-          maxLength: 2
-          description: The country. Corresponds to the attribute _Ctry_ in SPS/ISO-20022.
-          example: CH
 
     RemittanceReference:
       type: string
