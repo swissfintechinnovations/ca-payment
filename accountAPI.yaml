@@ -644,7 +644,7 @@ components:
           description: >
             Unique reference for the entry, assigned by the financial institution.
             Corresponds to the attribute _ntry ⇾ AcctSvcrRef_ in SPS/ISO-20022.
-          example: 12345ABC6789 
+          example: 12345ABC6789
           maxLength: 35
         amount:
           $ref: '#/components/schemas/PaymentCurrencyAmount'
