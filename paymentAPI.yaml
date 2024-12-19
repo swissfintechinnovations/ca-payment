@@ -49,6 +49,8 @@ paths:
       summary: Get the list of all standing orders.
       description: Return the list of all standing orders for the authenticated context.
       parameters:
+        - $ref: '#/components/parameters/cursor'
+        - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/authorization_in_header'
         - $ref: '#/components/parameters/clientid_in_header'
         - $ref: '#/components/parameters/correlation_in_header'
@@ -62,17 +64,19 @@ paths:
           headers:
             X-Correlation-ID:
               $ref: '#/components/headers/X-Correlation-ID'
+            X-Next-Cursor:
+              $ref: '#/components/headers/X-Next-Cursor'
           content:
             application/json:
               schema:
                 type: object
+                required:
+                  - submissions
                 properties:
-                  paymentList:
+                  submissions:
                     type: array
                     items:
                       $ref: '#/components/schemas/StandingorderSubmissionRequest'
-                  _links:
-                    $ref: '#/components/schemas/LinksPagination'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -269,6 +273,8 @@ paths:
       summary: Get the list of all payments.
       description: Return the list of all payments for the authenticated context.
       parameters:
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/cursor'
         - $ref: '#/components/parameters/authorization_in_header'
         - $ref: '#/components/parameters/clientid_in_header'
         - $ref: '#/components/parameters/correlation_in_header'
@@ -282,17 +288,19 @@ paths:
           headers:
             X-Correlation-ID:
               $ref: '#/components/headers/X-Correlation-ID'
+            X-Next-Cursor:
+              $ref: '#/components/headers/X-Next-Cursor'
           content:
             application/json:
               schema:
                 type: object
+                required:
+                  - payments
                 properties:
-                  paymentList:
+                  payments:
                     type: array
                     items:
                       $ref: '#/components/schemas/PaymentSubmissionRequest'
-                  _links::
-                    $ref: '#/components/schemas/LinksPagination'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -453,11 +461,6 @@ paths:
             type: string
           description: Get all objects after the one with the given ID.
         - in: query
-          name: limit
-          schema:
-            type: integer
-          description: Number of items to be returned.
-        - in: query
           name: dateFrom
           schema:
             $ref: '#/components/schemas/Date'
@@ -467,6 +470,8 @@ paths:
           schema:
             $ref: '#/components/schemas/Date'
           description: End date of the transaction query.
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/cursor'
         - $ref: '#/components/parameters/authorization_in_header'
         - $ref: '#/components/parameters/clientid_in_header'
         - $ref: '#/components/parameters/correlation_in_header'
@@ -480,17 +485,19 @@ paths:
           headers:
             X-Correlation-ID:
               $ref: '#/components/headers/X-Correlation-ID'
+            X-Next-Cursor:
+              $ref: '#/components/headers/X-Next-Cursor'
           content:
             application/json:
               schema:
                 type: object
+                required:
+                  - payments
                 properties:
-                  paymentList:
+                  payments:
                     type: array
                     items:
                       $ref: '#/components/schemas/SinglepaymentsSubmissionRequest'
-                  _links:
-                    $ref: '#/components/schemas/LinksPagination'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -698,7 +705,7 @@ paths:
         description: The XML pain.001.
         required: true
         content:
-          application/xml:
+          application/xml; charset=utf-8:
             schema:
               type: string
       responses:
@@ -748,7 +755,7 @@ paths:
             X-Correlation-ID:
               $ref: '#/components/headers/X-Correlation-ID'
           content:
-            application/xml:
+            application/xml; charset=utf-8:
               schema:
                 type: string
         '400':
@@ -832,7 +839,7 @@ paths:
             X-Correlation-ID:
               $ref: '#/components/headers/X-Correlation-ID'
           content:
-            application/xml:
+            application/xml; charset=utf-8:
               schema:
                 type: string
         '400':
@@ -1052,32 +1059,6 @@ components:
       description: The unique identifier (UUID) of the instruction item. Corresponds to the attribute _InstrId_ in SPS/ISO-20022.
       maxLength: 35
       example: INSTR-001
-
-    LinksPagination:
-      title: Pagination Links
-      description: Links (or cursors) returned in the answer of an API call.
-      type: object
-      properties:
-        self:
-          type: string
-          description: Link / cursor to the current result set (based on the submitted pagination approach).
-          example: /payment-app/api/v1/payments?offset=75&limit=25
-        first:
-          type: string
-          description: Link / cursor to the first result set (based on the submitted pagination approach).
-          example: /payment-app/api/v1/payments?offset=0&limit=25
-        previous:
-          type: string
-          description: Link / cursor to the previous result set (based on the submitted pagination approach).
-          example: /payment-app/api/v1/payments?offset=50&limit=25
-        next:
-          type: string
-          description: Link / cursor to the next result set (based on the submitted pagination approach).
-          example: /payment-app/api/v1/payments?offset=100&limit=25
-        last:
-          type: string
-          description: Link / cursor to the last result set (based on the submitted pagination approach).
-          example: /payment-app/api/v1/payments?offset=150&limit=25
 
     MessageId:
       type: string
@@ -1789,6 +1770,26 @@ components:
         example: submissionId
       description: ID of payment submission to be retrieved.
 
+    cursor:
+      in: query
+      name: cursor
+      required: false
+      schema:
+        type: string
+        example: cursorIDxyz
+      description: Optional parameter for pagination. An opaque string value used for pagination.
+
+    limit:
+      in: query
+      name: limit
+      required: false
+      schema:
+        type: integer
+        format: int32
+        example: 25
+        minimum: 1
+      description: Optional parameter for pagination. Maximum number of entries to be returned.
+
     agent_in_header:
       in: header
       name: User-Agent
@@ -1859,8 +1860,6 @@ components:
   responses:
     standard400:
       headers:
-        Content-Type:
-          $ref: '#/components/headers/Content-Type'
         Content-Language:
           $ref: '#/components/headers/Content-Language'
         X-Correlation-ID:
@@ -1893,8 +1892,6 @@ components:
 
     standard401:
       headers:
-        Content-Type:
-          $ref: '#/components/headers/Content-Type'
         Content-Language:
           $ref: '#/components/headers/Content-Language'
         X-Correlation-ID:
@@ -1908,8 +1905,6 @@ components:
 
     standard403:
       headers:
-        Content-Type:
-          $ref: '#/components/headers/Content-Type'
         Content-Language:
           $ref: '#/components/headers/Content-Language'
         X-Correlation-ID:
@@ -1943,8 +1938,6 @@ components:
 
     standard404:
       headers:
-        Content-Type:
-          $ref: '#/components/headers/Content-Type'
         Content-Language:
           $ref: '#/components/headers/Content-Language'
         X-Correlation-ID:
@@ -1983,8 +1976,6 @@ components:
 
     standard405:
       headers:
-        Content-Type:
-          $ref: '#/components/headers/Content-Type'
         Content-Language:
           $ref: '#/components/headers/Content-Language'
         X-Correlation-ID:
@@ -2005,8 +1996,6 @@ components:
 
     standard500:
       headers:
-        Content-Type:
-          $ref: '#/components/headers/Content-Type'
         Content-Language:
           $ref: '#/components/headers/Content-Language'
         X-Correlation-ID:
@@ -2033,8 +2022,6 @@ components:
 
     standard501:
       headers:
-        Content-Type:
-          $ref: '#/components/headers/Content-Type'
         Content-Language:
           $ref: '#/components/headers/Content-Language'
         X-Correlation-ID:
@@ -2055,8 +2042,6 @@ components:
 
     standard503:
       headers:
-        Content-Type:
-          $ref: '#/components/headers/Content-Type'
         Content-Language:
           $ref: '#/components/headers/Content-Language'
         X-Correlation-ID:
@@ -2074,11 +2059,6 @@ components:
       schema:
         type: string
 
-    Content-Type:
-      description: application/problem+json; charset=utf-8 according to RFC7807.
-      schema:
-        type: string
-
     Location:
       description: Location (URI-reference) of the submitted message. The relative path shall be returned as URI-reference.
       schema:
@@ -2090,3 +2070,9 @@ components:
       schema:
         type: string
         example: f058ebd6-02f7-4d3f-942e-904344e8cde5
+
+    X-Next-Cursor:
+      description: An opaque string value, or an empty string if there are no more results.
+      schema:
+        type: string
+        example: cursorIDxyz
