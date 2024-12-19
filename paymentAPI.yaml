@@ -1513,12 +1513,16 @@ components:
         addressLine1:
           type: string
           maxLength: 70
-          description: Additional address information, which cannot be supplied in structured elements. Corresponds to the attribute _AdrLine_ in SPS/ISO-20022.
+          description: >
+          Additional address information, which cannot be supplied in structured elements. 
+          Corresponds to the attribute _AdrLine_ in SPS/ISO-20022.
           example: Carribean At Keppel Bay
         addressLine2:
           type: string
           maxLength: 70
-          description: Additional address information, which cannot be supplied in structured elements. Corresponds to the attribute _AdrLine_ in SPS/ISO-20022.
+          description: >
+          Additional address information, which cannot be supplied in structured elements. 
+          Corresponds to the attribute _AdrLine_ in SPS/ISO-20022.
           example: 05-66
 
     PaymentSubmissionRequest:
