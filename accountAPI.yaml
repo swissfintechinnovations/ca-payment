@@ -1371,10 +1371,6 @@ components:
           type: string
           description: Unique identifier for the camt.054 notification entry.
           example: 9876543ABC
-        accountServicerReference:
-          type: string
-          description: Reference assigned by the account servicer. Corresponds to the attribute _Ntry ⇾ AcctSvcrRef_ in SPS/ISO-20022.
-          example: ASR987654321
         schemaVersion:
           type: string
           example: camt.054.001.08
