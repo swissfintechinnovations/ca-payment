@@ -567,7 +567,7 @@ paths:
         '503':
           $ref: '#/components/responses/standard503'
 
-  /iso20022/{accountId}/notifications/{reportId}:
+  /iso20022/notifications/{reportId}:
     get:
       tags:
         - iso20022
