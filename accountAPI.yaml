@@ -1144,7 +1144,6 @@ components:
           description: The International Bank Account Number (IBAN), associated with the account.
 
     PaymentRemittanceInformation:
-      title: Payment Remittance Information
       description: Either remittanceReference or remittanceInformation must be set. Corresponds to the attribute _RmtInf ⇾ Ustrd_ in SPS/ISO-20022.
       type: string
       maxLength: 140
