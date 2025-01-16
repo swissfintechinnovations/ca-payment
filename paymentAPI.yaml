@@ -1808,7 +1808,7 @@ components:
       properties:
         submissionId:
           $ref: '#/components/schemas/SubmissionId'
-          
+
     StandingorderSubmissionStatus:
       title: Standing Order Submission Status
       type: object
