@@ -7,3 +7,4 @@ on:
 jobs:
   yaml-lint:
     uses: swissfintechinnovations/.github/.github/workflows/reusable-license-update-workflow.yaml@main
+    secrets: inherit
