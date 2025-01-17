@@ -38,7 +38,7 @@ After a first review by the API stream leads you will be be invited to present a
 If the working group participants agree to your proposal a pull [request](https://github.com/swissfintechinnovations/ca-payment/pulls) will be created. Depending on the agreement with the stream leads, the pull request is created by you or the stream leads.
 
 **4. Approval of pull request**  
-The pull request will then be presented and discussed in one of the next working group meetings. The participants then decide if the pull request can be approved and implemented (by merging it to the main branch) in one of the next releases.
+The pull request will then be presented and discussed in one of the next working group meetings. The participants then decide if the pull request can be approved and implemented (by merging it to the main branch) in one of the next releases. With the approval of the pull request and with the merging into the main branch, the associated issue will be closed. The requestor is responsible for ensuring that unrealized parts of the request (if any) are covered by a new request.
 
 ![contrib](https://github.com/swissfintechinnovations/ca-payment/assets/116151702/4cad55d8-aed0-42cb-a2b6-b956d217fd0f)
 
