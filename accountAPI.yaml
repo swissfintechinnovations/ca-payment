@@ -489,6 +489,8 @@ components:
             - TRAN
             - TRAS
             - VACC
+        transactionsFrom:
+          $ref: '#/components/schemas/Date'
         _links:
           type: object
           description: Contains the paths to additional resources for specific account (e.g. path to balance and transactions resource).
