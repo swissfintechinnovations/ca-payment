@@ -1123,7 +1123,7 @@ components:
           example: Hans Muster
         postalAddress:
           description: The postal address of the creditor of a payment.
-          $ref: '#/components/schemas/PaymentAddress'
+          $ref: '#/components/schemas/PaymentPostalAddress'
 
     PaymentCreditorAgent:
       type: object
@@ -1176,7 +1176,7 @@ components:
           example: Hans Muster
         postalAddress:
           description: The postal address of the debtor of a payment.
-          $ref: '#/components/schemas/PaymentAddress'
+          $ref: '#/components/schemas/PaymentPostalAddress'
 
     PaymentIbanAccount:
       title: Payment IBAN Account
@@ -1458,10 +1458,10 @@ components:
       maxLength: 140
       example: Rechnung Nr. 408
 
-    PaymentAddress:
+    PaymentPostalAddress:
       title: Address for Payments
       type: object
-      description: Specifies the address details.
+      description: The postal adress of a participant within the payment. Corresponds to the attribute _PstlAdr_ in SPS/ISO-20022.
       required:
         - townName
         - country
@@ -1489,7 +1489,8 @@ components:
         country:
           type: string
           maxLength: 2
-          description: The counterparty country. Corresponds to the attribute _Ctry_ in SPS/ISO-20022.
+          pattern: '^[A-Z]{2}$'
+          description: The country. Corresponds to the attribute _Ctry_ in SPS/ISO-20022.
           example: CH
         addressLine1:
           type: string
