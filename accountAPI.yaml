@@ -1198,7 +1198,7 @@ components:
           $ref: '#/components/schemas/PaymentIbanAccount'
         creationDateTime:
           $ref: '#/components/schemas/DateTime'
-          description: Date and time when the message was created.
+          description: Date and time when the message was created. Corresponds to the attribute _GrpHdr ⇾ CreDtTm_ in SPS/ISO-20022.
 
     Iso20022ReportReference052:
       title: ISO20022 Report Reference (camt.052)
