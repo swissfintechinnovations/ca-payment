@@ -338,14 +338,9 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                required:
-                  - statements
-                properties:
-                  statements:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/Iso20022ReportReference'
+                type: array
+                items:
+                  $ref: '#/components/schemas/Iso20022ReportReference053'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -367,8 +362,8 @@ paths:
     get:
       tags:
         - iso20022
-      summary: Designated ISO20022 XML camt.053 document
-      description: Retrieves the designated ISO20022 XML camt.053 document.
+      summary: Retrieve the designated ISO20022 XML camt.053 document
+      description: Retrieve the designated ISO20022 XML camt.053 document.
       parameters:
         - $ref: '#/components/parameters/path_reportId'
         - $ref: '#/components/parameters/authorization_in_header'
@@ -410,7 +405,7 @@ paths:
     get:
       tags:
         - iso20022
-      summary: Retrieve a list of resource links to account reports (CAMT.052)
+      summary: Retrieve a list of resource links to account reports (camt.052)
       description: >
         Get the resources links to available account reports (camt.052).
         The returned account statements must be conform to the XML schema and
@@ -436,14 +431,9 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                required:
-                  - reports
-                properties:
-                  reports:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/Iso20022ReportReference052'
+                type: array
+                items:
+                  $ref: '#/components/schemas/Iso20022ReportReference052'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -465,7 +455,8 @@ paths:
     get:
       tags:
         - iso20022
-      summary: Retrieves the designated ISO20022 XML CAMT document.
+      summary: Retrieve the designated ISO20022 XML camt.052 document
+      description: Retrieve the designated ISO20022 XML camt.052 document.
       parameters:
         - $ref: '#/components/parameters/path_reportId'
         - $ref: '#/components/parameters/authorization_in_header'
@@ -1187,52 +1178,37 @@ components:
     Iso20022ReportReference:
       title: ISO20022 Report Reference
       type: object
-      description: The referenced ISO20022 report (camt.053).
+      description: The referenced ISO20022 report (common fields for camt.052 and camt.053).
       required:
         - account
-        - dateFrom
-        - dateTo
+        - creationDateTime
         - id
         - schemaVersion
       properties:
+        id:
+          type: string
+          description: The unique identifier of the referenced ISO20022 report.
+          example: '8265333'
         schemaVersion:
           type: string
           example: camt.053.001.01
           description: The delivered schema version of the referenced ISO20022 report.
-          pattern: '^camt\.053\.[0-9]{3}\.[0-9]{2}$'
-        id:
-          type: string
-          description: The unique identifier of the referenced ISO20022 report.
-          example: '8265333'
+          pattern: '^camt\.(052|053|054)\.[0-9]{3}\.[0-9]{2}$'
         account:
           $ref: '#/components/schemas/PaymentIbanAccount'
-        dateFrom:
-          $ref: '#/components/schemas/Date'
-          description: The start date of the transaction query period.
-        dateTo:
-          $ref: '#/components/schemas/Date'
-          description: The end date of the transaction query period.
+        creationDateTime:
+          $ref: '#/components/schemas/DateTime'
+          description: Date and time when the message was created.
 
     Iso20022ReportReference052:
-      title: ISO 20022 Report Reference
+      title: ISO20022 Report Reference (camt.052)
       type: object
       description: The referenced ISO20022 report (camt.052).
+      allOf:
+        - $ref: '#/components/schemas/Iso20022ReportReference'  # Reuse the base schema
       required:
-        - account
-        - dateTime
-        - id
-        - schemaVersion
         - type
       properties:
-        id:
-          type: string
-          description: The unique identifier of the referenced ISO20022 report.
-          example: '8265333'
-        schemaVersion:
-          type: string
-          example: camt.052.001.08
-          description: The delivered schema version of the referenced ISO20022 report.
-          pattern: '^camt\.052\.[0-9]{3}\.[0-9]{2}$'
         type:
           type: string
           enum:
@@ -1243,11 +1219,29 @@ components:
             Indicates the type of ISO 20022 report being referenced.
             * incremental: Contains only the transactions that occurred since the last intraday statement (camt.052).
             * full: Contains all transactions since the last regular account statement (camt.053).
-        account:
-          $ref: '#/components/schemas/PaymentIbanAccount'
-        dateTime:
-          $ref: '#/components/schemas/DateTime'
-          description: The end date of the transaction query period.
+        dateFrom:
+          $ref: '#/components/schemas/Date'
+          description: The start date of the transaction query period, optional for camt.052.
+        dateTo:
+          $ref: '#/components/schemas/Date'
+          description: The end date of the transaction query period, optional for camt.052.
+
+    Iso20022ReportReference053:
+      title: ISO20022 Report Reference (camt.053)
+      type: object
+      description: The referenced ISO20022 report (camt.053).
+      allOf:
+        - $ref: '#/components/schemas/Iso20022ReportReference'  # Reuse the base schema
+      required:
+        - dateFrom
+        - dateTo
+      properties:
+        dateFrom:
+          $ref: '#/components/schemas/Date'
+          description: The start date of the transaction query period, mandatory for camt.053.
+        dateTo:
+          $ref: '#/components/schemas/Date'
+          description: The end date of the transaction query period, mandatory for camt.053.
 
     PaymentCurrencyAmount:
       title: Payment Currency Amount
