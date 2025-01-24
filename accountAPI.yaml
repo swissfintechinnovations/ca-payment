@@ -318,6 +318,18 @@ paths:
         The returned account statements must be conform to the XML schema and
         implementation guidelines defined by Swiss Payment Standards.
       parameters:
+        - in: query
+          name: dateFrom
+          required: true
+          schema:
+            $ref: '#/components/schemas/Date'
+          description: The start date for the query. Must be earlier than or equal to the dateTo parameter.
+        - in: query
+          name: dateTo
+          required: true
+          schema:
+            $ref: '#/components/schemas/Date'
+          description: The end date for the query. Must be later than or equal to the dateFrom parameter.
         - $ref: '#/components/parameters/cursor'
         - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/authorization_in_header'
