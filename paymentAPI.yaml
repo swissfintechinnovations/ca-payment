@@ -1845,7 +1845,7 @@ components:
         Globally unique reference Reference assigned by the debtor (optional) or by the debtor agent.
         Corresponds to the attribute _CdtTrfTxInf ⇾ PmtId ⇾ UETR_ in SPS/ISO-20022.
       example: fdc01a3e-4567-4abc-8def-1234567890ab
-      
+
     SubmissionId:
       title: Submission ID
       description: ID of payment submission to be retrieved.
