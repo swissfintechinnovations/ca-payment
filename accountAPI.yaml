@@ -11,7 +11,7 @@ info:
   contact:
     email: info@common-api.ch
   license:
-    name: Apache-2.0
+    name: Apache 2.0
     url: https://www.apache.org/licenses/LICENSE-2.0.html
 servers:
   - url: account.common-api.ch/api/v4
@@ -392,7 +392,7 @@ paths:
             X-Correlation-ID:
               $ref: '#/components/headers/X-Correlation-ID'
           content:
-            application/xml; charset=utf-8:
+            application/xml:
               schema:
                 type: string
                 format: binary
@@ -485,7 +485,7 @@ paths:
             X-Correlation-ID:
               $ref: '#/components/headers/X-Correlation-ID'
           content:
-            application/xml; charset=utf-8:
+            application/xml:
               schema:
                 type: string
                 format: binary
