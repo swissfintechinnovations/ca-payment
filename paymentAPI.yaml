@@ -247,7 +247,7 @@ paths:
         - $ref: '#/components/parameters/optional_targetid_in_header'
         - $ref: '#/components/parameters/optional_psu_ip_in_header'
         - $ref: '#/components/parameters/optional_psu_user_agent_in_header'
-        - $ref: '#/components/parameters/optional_psu_accept_lang_in_header'        
+        - $ref: '#/components/parameters/optional_psu_accept_lang_in_header'
       responses:
         '200':
           description: Status information for the specific standing order submission.
