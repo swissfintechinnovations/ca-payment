@@ -46,7 +46,7 @@ paths:
     get:
       tags:
         - standing orders
-      summary: Get the list of all standing orders.
+      summary: Get the list of all standing orders
       description: Return the list of all standing orders for the authenticated context.
       parameters:
         - $ref: '#/components/parameters/cursor'
@@ -274,7 +274,7 @@ paths:
     get:
       tags:
         - payments
-      summary: Get the list of all payments.
+      summary: Get the list of all payments
       description: Return the list of all payments for the authenticated context.
       parameters:
         - $ref: '#/components/parameters/limit'
@@ -464,17 +464,17 @@ paths:
       description: Return the list of all initiated payments of all types for the authenticated context.
       parameters:
         - in: query
-          name: entryReferenceFrom
+          name: entry_reference_from
           schema:
             type: string
           description: Get all objects after the one with the given ID.
         - in: query
-          name: dateFrom
+          name: date_from
           schema:
             $ref: '#/components/schemas/Date'
           description: Start date of the payments query.
         - in: query
-          name: dateTo
+          name: date_to
           schema:
             $ref: '#/components/schemas/Date'
           description: End date of the transaction query.
@@ -717,7 +717,7 @@ paths:
         description: The XML pain.001.
         required: true
         content:
-          application/xml; charset=utf-8:
+          application/xml:
             schema:
               type: string
       responses:
@@ -767,7 +767,7 @@ paths:
             X-Correlation-ID:
               $ref: '#/components/headers/X-Correlation-ID'
           content:
-            application/xml; charset=utf-8:
+            application/xml:
               schema:
                 type: string
         '400':
@@ -851,7 +851,7 @@ paths:
             X-Correlation-ID:
               $ref: '#/components/headers/X-Correlation-ID'
           content:
-            application/xml; charset=utf-8:
+            application/xml:
               schema:
                 type: string
         '400':
@@ -1140,11 +1140,11 @@ components:
         name:
           type: string
           maxLength: 140
-          description: The name of the creditor of a payment.
+          description: The name of the creditor of a payment. Restriction for payment type SEPA is 70 characters.
           example: Hans Muster
         postalAddress:
           description: The postal address of the creditor of a payment.
-          $ref: '#/components/schemas/PaymentStructuredOrUnstructuredAddress'
+          $ref: '#/components/schemas/PaymentPostalAddress'
 
     PaymentCreditorAgent:
       type: object
@@ -1192,12 +1192,12 @@ components:
       properties:
         name:
           type: string
-          maxLength: 70
-          description: The name of the debtor of a payment.
+          maxLength: 140
+          description: The name of the debtor of a payment. Restriction for payment type SEPA is 70 characters.
           example: Hans Muster
         postalAddress:
           description: The postal address of the debtor of a payment.
-          $ref: '#/components/schemas/PaymentStructuredOrUnstructuredAddress'
+          $ref: '#/components/schemas/PaymentPostalAddress'
 
     PaymentIbanAccount:
       title: Payment IBAN Account
@@ -1284,6 +1284,9 @@ components:
         endToEndId:
           description: The endToEndId of the payment instruction item.
           $ref: '#/components/schemas/EndToEndId'
+        uetr:
+          description: The uetr of the payment instruction item.
+          $ref: '#/components/schemas/Uetr'
         instructedAmount:
           description: The instructed amount of the payment. Corresponds to the attribute _InstdAmt_ in SPS/ISO-20022.
           $ref: '#/components/schemas/PaymentCurrencyAmount'
@@ -1479,13 +1482,11 @@ components:
       maxLength: 140
       example: Rechnung Nr. 408
 
-    PaymentStructuredAddress:
-      title: Structured Address for Payments
+    PaymentPostalAddress:
+      title: Address for Payments
       type: object
-      description: Specifies the details of a structured address.
+      description: The postal adress of a participant within the payment. Corresponds to the attribute _PstlAdr_ in SPS/ISO-20022.
       required:
-        - streetName
-        - postCode
         - townName
         - country
       properties:
@@ -1512,18 +1513,23 @@ components:
         country:
           type: string
           maxLength: 2
-          description: The counterparty country. Corresponds to the attribute _Ctry_ in SPS/ISO-20022.
+          pattern: '^[A-Z]{2}$'
+          description: The ISO country two-letter code. Corresponds to the attribute _Ctry_ in SPS/ISO-20022.
           example: CH
-
-    PaymentStructuredOrUnstructuredAddress:
-      title: Payment Structured or Unstructured Address
-      description: Either structured or unstructured address must be set.
-      type: object
-      properties:
-        structured:
-          $ref: '#/components/schemas/PaymentStructuredAddress'
-        unstructured:
-          $ref: '#/components/schemas/PaymentUnstructuredAddress'
+        addressLine1:
+          type: string
+          maxLength: 70
+          description: >
+            Additional address information, which cannot be supplied in structured elements.
+            Corresponds to the attribute _AdrLine_ in SPS/ISO-20022.
+          example: Carribean At Keppel Bay
+        addressLine2:
+          type: string
+          maxLength: 70
+          description: >
+            Additional address information, which cannot be supplied in structured elements.
+            Corresponds to the attribute _AdrLine_ in SPS/ISO-20022.
+          example: 05-66
 
     PaymentSubmissionRequest:
       title: Payment Submission Request
@@ -1602,30 +1608,6 @@ components:
           description: The payment transaction items.
           items:
             $ref: '#/components/schemas/PaymentInstructionItemStatus'
-
-    PaymentUnstructuredAddress:
-      title: Unstructured Address for Payments
-      type: object
-      description: Specifies the details of a unstructured address.
-      required:
-        - addressLines
-        - country
-      properties:
-        addressLines:
-          type: array
-          description: The address lines. Only two address lines of 70 characters allowed.
-          maxItems: 2
-          example:
-            - Robert Schneider SA
-            - Rue de la gare 24
-          items:
-            type: string
-            maxLength: 70
-        country:
-          type: string
-          maxLength: 2
-          description: The country. Corresponds to the attribute _Ctry_ in SPS/ISO-20022.
-          example: CH
 
     RemittanceReference:
       type: string
@@ -1834,6 +1816,14 @@ components:
       type: string
       format: date
       example: 2018-04-13
+
+    Uetr:
+      type: string
+      pattern: '^[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$'
+      description: >
+        Globally unique reference Reference assigned by the debtor (optional) or by the debtor agent.
+        Corresponds to the attribute _CdtTrfTxInf ⇾ PmtId ⇾ UETR_ in SPS/ISO-20022.
+      example: fdc01a3e-4567-4abc-8def-1234567890ab
 
     SubmissionId:
       title: Submission ID
@@ -2138,7 +2128,7 @@ components:
 
   headers:
     Content-Language:
-      description: Response language - always en
+      description: Response language - always en.
       schema:
         type: string
 
