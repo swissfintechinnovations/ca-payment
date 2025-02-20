@@ -633,6 +633,7 @@ components:
         - entryStatus
         - bookingDate
         - valueDate
+        - accountServicerReference
         - amount
         - bankTransactionCode
         - additionalEntryInformation
@@ -675,6 +676,13 @@ components:
         valueDate:
           $ref: '#/components/schemas/Date'
           description: The value date of the transaction set by the bank. Corresponds to the attribute _ValDt_ in SPS/ISO-20022.
+        accountServicerReference:
+          type: string
+          description: >
+            Unique reference for the entry, assigned by the financial institution.
+            Corresponds to the attribute _ntry ⇾ AcctSvcrRef_ in SPS/ISO-20022.
+          example: 12345ABC6789
+          maxLength: 35
         amount:
           $ref: '#/components/schemas/PaymentCurrencyAmount'
         instructedAmount:
@@ -738,6 +746,7 @@ components:
       required:
         - transactionId
         - transactionType
+        - accountServicerReference
         - amount
       properties:
         transactionId:
@@ -749,11 +758,32 @@ components:
           example: TX12345A987
         transactionType:
           $ref: '#/components/schemas/AccountTransactionTransactionType'
+        accountServicerReference:
+          type: string
+          maxLength: 35
+          description: >
+            Unique booking (transaction) reference assigned by the financial institution.
+            Corresponds to the attribute _TxDtls ⇾ Refs ⇾ AcctSvcrRef_ in SPS/ISO-20022.
+          example: 12345ABC6789
+        instructionId:
+          type: string
+          maxLength: 35
+          description: >
+            ID of the C-Level from the original payment instruction.
+            Corresponds to the attribute _TxDtls ⇾ Refs ⇾ InstrId_ in SPS/ISO-20022.
+          example: 12345ABC6789
         endToEndId:
           type: string
           maxLength: 35
           description: The unique reference of the debtor/creditor. Corresponds to the attribute _EndToEndId_ in SPS/ISO-20022.
           example: ENDTOENDID-01
+        uetr:
+          type: string
+          pattern: '^[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$'
+          description: >
+            Globally unique reference Reference assigned by the debtor (optional) or by the debtor agent.
+            Corresponds to the attribute _TxDtls ⇾ Refs ⇾ UETR_ in SPS/ISO-20022
+          example: fdc01a3e-4567-4abc-8def-1234567890ab
         bankTransactionCode:
           $ref: '#/components/schemas/AccountTransactionBankTransactionCode'
         amount:
