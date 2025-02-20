@@ -419,8 +419,9 @@ paths:
         - iso20022
       summary: Retrieve a list of resource links to account reports (camt.052)
       description: >
-        Get the resources links to available account reports (camt.052).
-        The returned account statements must be conform to the XML schema and
+        Get the resources links to available account reports (camt.052) generated since the last 
+        End-of-Day (EOD) processing. Only intraday reports created after the most recent EOD cycle are included.
+        The returned account reports must conform to the XML schema and
         implementation guidelines defined by Swiss Payment Standards.
       parameters:
         - $ref: '#/components/parameters/cursor'
