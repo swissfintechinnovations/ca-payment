@@ -16,14 +16,14 @@ info:
 servers:
   - url: account.common-api.ch/api/v4
 externalDocs:
-  description: Find out more about SFTI API specifications
+  description: Find out more about SFTI API specifications.
   url: https://www.common-api.ch
 
 tags:
   - name: accounts
     description: Third party access to bank account service considering account information and transaction data operations (JSON).
   - name: iso20022
-    description: Third party access to bank account service considering camt.053 operations (XML).
+    description: Third party access to bank account service considering camt operations (XML).
 
 security:
   - OAuth2:
@@ -193,17 +193,17 @@ paths:
       parameters:
         - $ref: '#/components/parameters/path_accountId'
         - in: query
-          name: dateFrom
+          name: date_from
           schema:
             $ref: '#/components/schemas/Date'
           description: The start date for the query. Must be earlier than or equal to the dateTo parameter.
         - in: query
-          name: dateTo
+          name: date_to
           schema:
             $ref: '#/components/schemas/Date'
           description: The end date for the query. Must be later than or equal to the dateFrom parameter.
         - in: query
-          name: entryStatus
+          name: entry_status
           required: false
           schema:
             type: string
@@ -318,6 +318,18 @@ paths:
         The returned account statements must be conform to the XML schema and
         implementation guidelines defined by Swiss Payment Standards.
       parameters:
+        - in: query
+          name: dateFrom
+          required: true
+          schema:
+            $ref: '#/components/schemas/Date'
+          description: The start date for the query. Must be earlier than or equal to the dateTo parameter.
+        - in: query
+          name: dateTo
+          required: true
+          schema:
+            $ref: '#/components/schemas/Date'
+          description: The end date for the query. Must be later than or equal to the dateFrom parameter.
         - $ref: '#/components/parameters/cursor'
         - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/authorization_in_header'
@@ -338,14 +350,9 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                required:
-                  - statements
-                properties:
-                  statements:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/Iso20022ReportReference'
+                type: array
+                items:
+                  $ref: '#/components/schemas/Iso20022ReportReference053'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -367,8 +374,8 @@ paths:
     get:
       tags:
         - iso20022
-      summary: Designated ISO20022 XML camt.053 document
-      description: Retrieves the designated ISO20022 XML camt.053 document.
+      summary: Retrieve the designated ISO20022 XML camt.053 document
+      description: Retrieve the designated ISO20022 XML camt.053 document.
       parameters:
         - $ref: '#/components/parameters/path_reportId'
         - $ref: '#/components/parameters/authorization_in_header'
@@ -385,9 +392,104 @@ paths:
             X-Correlation-ID:
               $ref: '#/components/headers/X-Correlation-ID'
           content:
-            application/xml; charset=utf-8:
+            application/xml:
               schema:
                 type: string
+                format: binary
+        '400':
+          $ref: '#/components/responses/standard400'
+        '401':
+          $ref: '#/components/responses/standard401'
+        '403':
+          $ref: '#/components/responses/standard403'
+        '404':
+          $ref: '#/components/responses/standard404'
+        '405':
+          $ref: '#/components/responses/standard405'
+        '500':
+          $ref: '#/components/responses/standard500'
+        '501':
+          $ref: '#/components/responses/standard501'
+        '503':
+          $ref: '#/components/responses/standard503'
+
+  /iso20022/reports:
+    get:
+      tags:
+        - iso20022
+      summary: Retrieve a list of resource links to account reports (camt.052)
+      description: >
+        Get the resources links to available account reports (camt.052) generated since the last
+        End-of-Day (EOD) processing. Only intraday reports created after the most recent EOD cycle are included.
+        The returned account reports must conform to the XML schema and
+        implementation guidelines defined by Swiss Payment Standards.
+      parameters:
+        - $ref: '#/components/parameters/cursor'
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/authorization_in_header'
+        - $ref: '#/components/parameters/clientid_in_header'
+        - $ref: '#/components/parameters/correlation_in_header'
+        - $ref: '#/components/parameters/agent_in_header'
+        - $ref: '#/components/parameters/optional_targetid_in_header'
+        - $ref: '#/components/parameters/optional_psu_ip_in_header'
+        - $ref: '#/components/parameters/optional_psu_user_agent_in_header'
+      responses:
+        '200':
+          description: Returns a list of resource links to ISO20022 XML camt.052 messages.
+          headers:
+            X-Correlation-ID:
+              $ref: '#/components/headers/X-Correlation-ID'
+            X-Next-Cursor:
+              $ref: '#/components/headers/X-Next-Cursor'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Iso20022ReportReference052'
+        '400':
+          $ref: '#/components/responses/standard400'
+        '401':
+          $ref: '#/components/responses/standard401'
+        '403':
+          $ref: '#/components/responses/standard403'
+        '404':
+          $ref: '#/components/responses/standard404'
+        '405':
+          $ref: '#/components/responses/standard405'
+        '500':
+          $ref: '#/components/responses/standard500'
+        '501':
+          $ref: '#/components/responses/standard501'
+        '503':
+          $ref: '#/components/responses/standard503'
+
+  /iso20022/reports/{reportId}:
+    get:
+      tags:
+        - iso20022
+      summary: Retrieve the designated ISO20022 XML camt.052 document
+      description: Retrieve the designated ISO20022 XML camt.052 document.
+      parameters:
+        - $ref: '#/components/parameters/path_reportId'
+        - $ref: '#/components/parameters/authorization_in_header'
+        - $ref: '#/components/parameters/clientid_in_header'
+        - $ref: '#/components/parameters/correlation_in_header'
+        - $ref: '#/components/parameters/agent_in_header'
+        - $ref: '#/components/parameters/optional_targetid_in_header'
+        - $ref: '#/components/parameters/optional_psu_ip_in_header'
+        - $ref: '#/components/parameters/optional_psu_user_agent_in_header'
+      responses:
+        '200':
+          description: Returns the requested ISO20022 XML camt.052 message.
+          headers:
+            X-Correlation-ID:
+              $ref: '#/components/headers/X-Correlation-ID'
+          content:
+            application/xml:
+              schema:
+                type: string
+                format: binary
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -1095,6 +1197,12 @@ components:
       description: A date.
       example: 2018-04-13
 
+    DateTime:
+      type: string
+      format: date-time
+      description: The date and time formatted as YYYY-MM-DDTHH:mm:ssZ.
+      example: 2018-04-13T11:11:11Z
+
     Designation:
       type: string
       maxLength: 140
@@ -1113,30 +1221,70 @@ components:
     Iso20022ReportReference:
       title: ISO20022 Report Reference
       type: object
-      description: The referenced ISO20022 report (camt.053).
+      description: The referenced ISO20022 report (common fields for camt.052 and camt.053).
       required:
         - account
-        - dateFrom
-        - dateTo
+        - creationDateTime
+        - id
         - schemaVersion
       properties:
-        schemaVersion:
-          type: string
-          example: camt.053.001.01
-          description: The delivered schema version of the referenced ISO20022 report.
-          pattern: '^camt\.053\.[0-9]{3}\.[0-9]{2}$'
         id:
           type: string
           description: The unique identifier of the referenced ISO20022 report.
           example: '8265333'
+        schemaVersion:
+          type: string
+          example: camt.053.001.01
+          description: The delivered schema version of the referenced ISO20022 report.
+          pattern: '^camt\.(052|053)\.[0-9]{3}\.[0-9]{2}$'
         account:
           $ref: '#/components/schemas/PaymentIbanAccount'
+        creationDateTime:
+          $ref: '#/components/schemas/DateTime'
+          description: Date and time when the message was created. Corresponds to the attribute _GrpHdr ⇾ CreDtTm_ in SPS/ISO-20022.
+
+    Iso20022ReportReference052:
+      title: ISO20022 Report Reference (camt.052)
+      type: object
+      description: The referenced ISO20022 report (camt.052).
+      allOf:
+        - $ref: '#/components/schemas/Iso20022ReportReference'  # Reuse the base schema
+      required:
+        - type
+      properties:
+        type:
+          type: string
+          enum:
+            - incremental
+            - full
+          example: full
+          description: >
+            Indicates the type of ISO 20022 report being referenced.
+            * incremental: Contains only the transactions that occurred since the last intraday statement (camt.052).
+            * full: Contains all transactions since the last regular account statement (camt.053).
         dateFrom:
           $ref: '#/components/schemas/Date'
-          description: The start date of the transaction query period.
+          description: The start date of the transaction query period, optional for camt.052.
         dateTo:
           $ref: '#/components/schemas/Date'
-          description: The end date of the transaction query period.
+          description: The end date of the transaction query period, optional for camt.052.
+
+    Iso20022ReportReference053:
+      title: ISO20022 Report Reference (camt.053)
+      type: object
+      description: The referenced ISO20022 report (camt.053).
+      allOf:
+        - $ref: '#/components/schemas/Iso20022ReportReference'  # Reuse the base schema
+      required:
+        - dateFrom
+        - dateTo
+      properties:
+        dateFrom:
+          $ref: '#/components/schemas/Date'
+          description: The start date of the transaction query period, mandatory for camt.053.
+        dateTo:
+          $ref: '#/components/schemas/Date'
+          description: The end date of the transaction query period, mandatory for camt.053.
 
     PaymentCurrencyAmount:
       title: Payment Currency Amount
@@ -1533,12 +1681,12 @@ components:
 
   headers:
     Content-Language:
-      description: Response language - always en
+      description: Response language - always en.
       schema:
         type: string
 
     X-Correlation-ID:
-      description: Client defined ID from request to correlates HTTP requests between a client and server
+      description: Client defined ID from request to correlates HTTP requests between a client and server.
       schema:
         type: string
         example: f058ebd6-02f7-4d3f-942e-904344e8cde5
