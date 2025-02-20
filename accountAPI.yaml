@@ -1287,6 +1287,14 @@ components:
         type: string
       description: 'User of the client software (SCOPE: FI - optional).'
 
+    optional_psu_accept_lang_in_header:
+      in: header
+      name: X-PSU-Accept-Lang
+      required: false
+      schema:
+        type: string
+      description: 'Language of client software (SCOPE: FI - optional).'
+
     optional_targetid_in_header:
       in: header
       name: X-CorAPI-Target-ID
