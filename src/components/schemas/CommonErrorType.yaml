@@ -1,0 +1,19 @@
+title: Common Error Type
+description: Error Types for CommonErrorResponse.
+type: string
+enum:
+  - /problems/INVALID_PAYLOAD
+  - /problems/MALFORMED_PAYLOAD
+  - /problems/INVALID_TOKEN
+  - /problems/EXPIRED_TOKEN
+  - /problems/INSUFFICIENT_PRIVILEGES
+  - /problems/NO_ACCESS_TO_RESOURCE
+  - /problems/RESOURCE_DOES_NOT_EXIST
+  - /problems/RESOURCE_NOT_READY
+  - /problems/RESOURCE_TOO_LARGE
+  - /problems/WRONG_METHOD
+  - /problems/OPERATION_NOT_ALLOWED
+  - /problems/TECHNICAL_ERROR
+  - /problems/NOT_IMPLEMENTED
+  - /problems/SERVICE_UNAVAILABLE
+example: /problems/TECHNICAL_ERROR

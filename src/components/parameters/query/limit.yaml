@@ -1,0 +1,10 @@
+in: query
+name: limit
+required: false
+schema:
+  type: integer
+  format: int32
+  example: 25
+  minimum: 1
+  default: 25
+description: Optional parameter for pagination, specifying the number of items to return. The actual maximum limit can be defined by the provider.

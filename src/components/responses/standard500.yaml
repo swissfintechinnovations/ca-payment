@@ -1,0 +1,25 @@
+headers:
+  Content-Language:
+    $ref: ../headers/Content-Language.yaml
+  X-Correlation-ID:
+    $ref: ../headers/X-Correlation-ID.yaml
+description: |
+  Internal Server Error - The server encountered an unexpected condition that
+  prevented it from fulfilling the request.
+
+  Examples:
+  - TechnicalServerError:
+  type: /problems/TECHNICAL_ERROR
+  title: Technical error on server side
+  detail: Processing yielded a technical error
+  instance: path/to/corresponding/resource
+
+  - ResourceTooLarge:
+  type: /problems/RESOURCE_TOO_LARGE
+  title: Generated resource was too large
+  detail: The generated resource exceeded the size limit
+  instance: path/to/corresponding/resource
+content:
+  application/problem+json:
+    schema:
+      $ref: ../schemas/CommonErrorResponse.yaml

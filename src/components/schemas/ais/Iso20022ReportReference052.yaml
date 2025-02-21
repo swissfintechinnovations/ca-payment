@@ -1,0 +1,24 @@
+title: ISO20022 Report Reference (camt.052)
+type: object
+description: The referenced ISO20022 report (camt.052).
+allOf:
+  - $ref: ./Iso20022ReportReference.yaml
+required:
+  - type
+properties:
+  type:
+    type: string
+    enum:
+      - incremental
+      - full
+    example: full
+    description: |
+      Indicates the type of ISO 20022 report being referenced. 
+      * incremental: Contains only the transactions that occurred since the last intraday statement (camt.052). 
+      * full: Contains all transactions since the last regular account statement (camt.053).
+  dateFrom:
+    $ref: ../generic/Date.yaml
+    description: The start date of the transaction query period, optional for camt.052.
+  dateTo:
+    $ref: ../generic/Date.yaml
+    description: The end date of the transaction query period, optional for camt.052.

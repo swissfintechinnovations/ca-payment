@@ -1,0 +1,47 @@
+title: Address for Payments
+type: object
+description: >-
+  The postal adress of a participant within the payment. Corresponds to the
+  attribute _PstlAdr_ in SPS/ISO-20022.
+required:
+  - townName
+  - country
+properties:
+  streetName:
+    type: string
+    maxLength: 70
+    description: The street name. Corresponds to the attribute _StrtNm_ in SPS/ISO-20022.
+    example: Rue de la gare
+  buildingNumber:
+    type: string
+    maxLength: 16
+    description: >-
+      The building number. Corresponds to the attribute _BldgNb_ in
+      SPS/ISO-20022.
+    example: '24'
+  postCode:
+    type: string
+    maxLength: 16
+    description: The post code. Corresponds to the attribute _PstCd_ in SPS/ISO-20022.
+    example: '2501'
+  townName:
+    type: string
+    maxLength: 35
+    description: The town name. Corresponds to the attribute _TwnNm_ in SPS/ISO-20022.
+    example: Biel
+  country:
+    type: string
+    maxLength: 2
+    pattern: ^[A-Z]{2}$
+    description: The ISO country two-letter code. Corresponds to the attribute _Ctry_ in SPS/ISO-20022.
+    example: CH
+  addressLine1:
+    type: string
+    maxLength: 70
+    description: Additional address information, which cannot be supplied in structured elements. Corresponds to the attribute _AdrLine_ in SPS/ISO-20022.
+    example: Carribean At Keppel Bay
+  addressLine2:
+    type: string
+    maxLength: 70
+    description: Additional address information, which cannot be supplied in structured elements. Corresponds to the attribute _AdrLine_ in SPS/ISO-20022.
+    example: 05-66

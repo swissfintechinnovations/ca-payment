@@ -1,0 +1,78 @@
+title: Account Information Item
+type: object
+description: The account object.
+required:
+  - account
+  - accountOwner
+  - accountTypeCode
+  - currency
+  - designation
+  - id
+properties:
+  id:
+    $ref: ./CommonAccountId.yaml
+  account:
+    $ref: ./PaymentIbanAccount.yaml
+  accountOwner:
+    type: string
+    maxLength: 140
+    description: The owner of the account.
+    example: Account Owner XYZ
+  currency:
+    $ref: ../generic/Currency.yaml
+    description: The ISO currency three-letter code denominated and set for the account at the time it is opened.
+  allowedCurrencies:
+    type: array
+    items:
+      type: string
+      example: CHF
+    description: Permitted currencies for the account.
+  designation:
+    $ref: ./Designation.yaml
+  accountTypeCode:
+    type: string
+    description: |
+      Contains the account type code according to the ISO20022 external cash account type code list. It is strongly recommended to use only the 5 codes below as follows:
+      * LOAN: Account used for loans (loan and mortgage accounts) - DE: Darlehenskonto, Kreditkonto, Baukreditkonto, Hypothekarkonto
+      * LLSV: Account used for savings with special interest and withdrawal terms (pension provision and vested benefits accounts) - DE: Vorsorge- und Freizügigkeitskonten
+      * SVGS: Account used for savings (all types of saving accounts)
+      * TRAN: Account used for transactions (all types of personal, current and payment accounts) - DE: Privat-, Kontokorent- und Zahlungsverkehrskonten
+      * OTHR: Account not otherwise specified (gathering pool for all other accounts)
+    example: TRAN
+    enum:
+      - CACC
+      - CARD
+      - CASH
+      - CHAR
+      - CISH
+      - COMM
+      - CPAC
+      - LLSV
+      - LOAN
+      - MGLD
+      - MOMA
+      - NFCA
+      - NREX
+      - ODFT
+      - ONDP
+      - OTHR
+      - SACC
+      - SLRY
+      - SVGS
+      - TAXE
+      - TRAN
+      - TRAS
+      - VACC
+  _links:
+    type: object
+    description: Contains the paths to additional resources for specific account (e.g. path to balance and transactions resource).
+    properties:
+      self:
+        type: string
+        example: /accounts/550e8400-e29b-11d4-a716-446655440000
+      balance:
+        type: string
+        example: /accounts/550e8400-e29b-11d4-a716-446655440000/balance
+      transactions:
+        type: string
+        example: /accounts/550e8400-e29b-11d4-a716-446655440000/transactions

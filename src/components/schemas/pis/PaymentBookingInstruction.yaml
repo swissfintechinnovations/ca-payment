@@ -1,0 +1,20 @@
+title: Payment Booking Instruction
+type: string
+description: |
+  The payment booking instruction, i.e. the method for processing and grouping a payment. Corresponds to the attribute _DbtrAcct ⇾ Tp ⇾ Prtry_ in SPS/ISO-20022. Possible methods are:
+  - SINGLEBOOKING_SIA
+  - SINGLEBOOKING_NOA
+  - BATCHBOOKING_SALA_NOA
+  - BATCHBOOKING_SALA_CND
+  - BATCHBOOKING_NOA
+  - BATCHBOOKING_CND
+  - BATCHBOOKING_CWD
+enum:
+  - SINGLEBOOKING_SIA
+  - SINGLEBOOKING_NOA
+  - BATCHBOOKING_SALA_NOA
+  - BATCHBOOKING_SALA_CND
+  - BATCHBOOKING_NOA
+  - BATCHBOOKING_CND
+  - BATCHBOOKING_CWD
+example: BATCHBOOKING_SALA_CND

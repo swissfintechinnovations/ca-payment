@@ -1,0 +1,11 @@
+in: query
+name: entry_status
+required: false
+schema:
+  type: string
+  enum:
+    - booked
+    - pending
+    - both
+  default: booked
+description: Specifies the status of the entries to be queried. Intraday movements can have a status of either "pending" or "booked." For completed booking days, only entries with a "booked" status will be returned.

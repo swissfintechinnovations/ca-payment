@@ -1,0 +1,5 @@
+title: Shared date
+type: string
+format: date
+description: A date.
+example: '2018-04-13'

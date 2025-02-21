@@ -1,0 +1,17 @@
+title: Payment QR-IBAN Account
+type: object
+description: The QR-IBAN account object.
+required:
+  - type
+  - identification
+properties:
+  type:
+    type: string
+    description: IBAN or QR-IBAN of the creditor, only IBANs with CH or LI country code permitted.
+    enum:
+      - IBAN
+      - QR_IBAN
+    example: IBAN
+  identification:
+    $ref: ./IbanIdentification.yaml
+    description:  The International Bank Account Number (IBAN), associated with the debtor  account.

@@ -1,0 +1,6 @@
+in: header
+name: X-PSU-User-Agent
+required: false
+schema:
+  type: string
+description: 'User of the client software (SCOPE: FI - optional).'

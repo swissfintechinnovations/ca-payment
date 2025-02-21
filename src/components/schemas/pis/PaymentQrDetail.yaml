@@ -1,0 +1,25 @@
+title: Payment QR Detail
+type: object
+description: Details of a QR payment.
+required:
+  - creditor
+  - creditorAccount
+properties:
+  creditorAccount:
+    description: The creditor account of the OR payment. Corresponds to the attribute _CdtrAcct_ in SPS/ISO-20022.
+    $ref: ./PaymentQrIbanAccount.yaml
+  creditor:
+    description: The creditor of the QR payment.
+    $ref: ./PaymentCreditor.yaml
+  ultimateCreditor:
+    description: The ultimate creditor of the QR payment.
+    $ref: ./PaymentCreditor.yaml
+  ultimateDebtor:
+    description: The ultimate debtor of the QR payment.
+    $ref: ./PaymentDebtor.yaml
+  remittanceReference:
+    description: The remittance reference of the QR payment.
+    $ref: ./PaymentIbanRemittanceReference.yaml
+  remittanceInformation:
+    description: The remittance information of the QR payment.
+    $ref: ./PaymentRemittanceInformation.yaml

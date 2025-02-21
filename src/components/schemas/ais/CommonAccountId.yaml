@@ -1,0 +1,5 @@
+type: string
+pattern: ^[A-Za-z0-9](([A-Za-z0-9._]|-){0,254}[A-Za-z0-9]){0,1}$
+maxLength: 256
+description: Unique identifier (UUID) of the account for which information shall be retrieved.
+example: abc123_abcxyz.123789.abcxyz.abcxyz_abcxyz_abcxyz_abcxyz_ccccc_123abc

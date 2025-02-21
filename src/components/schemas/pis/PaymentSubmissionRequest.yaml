@@ -1,0 +1,31 @@
+title: Payment Submission Request
+type: object
+description: The payment submission request object.
+required:
+  - messageId
+  - initiatingPartyId
+  - debtorAccount
+  - bookingInstruction
+  - transactions
+  - requestedExecutionDate
+properties:
+  messageId:
+    description: The unique identifier (UUID) of the the payment instruction message.
+    $ref: ./MessageId.yaml
+  initiatingPartyId:
+    description: The identifier of the third party provider (TPP) who created the payment instruction message derived from the OAuth 2.0 flow.
+    $ref: ./InitiatingPartyId.yaml
+  requestedExecutionDate:
+    description: The requested execution date. In some cases, the financial institution can/will change this date, if the requested date is a bank / post holiday. If no date is chosen, the receiving financial institution will execute on the next possible date. Corresponds to the attribute _ReqdExctnDt_ in SPS/ISO-20022.
+    $ref: ../generic/Date.yaml
+  debtorAccount:
+    description: The account of the debtor. The debtor account must always be an IBAN. Corresponds to the attribute _DbtrAcct_ in SPS/ISO-20022.
+    $ref: ./PaymentIbanAccount.yaml
+  bookingInstruction:
+    description: The payment booking instruction. Corresponds to the attribute _DbtrAcct ⇾ Tp ⇾ Prtry_ in SPS/ISO-20022.
+    $ref: ./PaymentBookingInstruction.yaml
+  transactions:
+    type: array
+    description: The transaction items.
+    items:
+      $ref: ./PaymentInstructionItem.yaml

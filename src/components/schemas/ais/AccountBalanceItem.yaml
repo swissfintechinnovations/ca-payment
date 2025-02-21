@@ -1,0 +1,33 @@
+title: Account Balance Item
+type: object
+description: The account balance object.
+required:
+  - date
+  - balanceType
+  - balance
+properties:
+  date:
+    $ref: ../generic/Date.yaml
+    description: The date for which the balance was retrieved.
+  balanceType:
+    type: string
+    enum:
+      - ITBD
+      - CLBD
+    description: The account balance type according to ISO20022. Either the interim booked balance (ITBD) or the closing booked balance (CLBD) type can be applied. Corresponds to the attribute _Bal ⇾ Tp_ in SPS/ISO-20022.
+    example: CLBD
+  balance:
+    $ref: ./BalanceCurrencyAmount.yaml
+  _links:
+    type: object
+    description: Contains the paths to additional resources for specific account (e.g. path to account and transactions resource).
+    properties:
+      self:
+        type: string
+        example: /accounts/550e8400-e29b-11d4-a716-446655440000/balance
+      account:
+        type: string
+        example: /accounts/550e8400-e29b-11d4-a716-446655440000
+      transactions:
+        type: string
+        example: /accounts/550e8400-e29b-11d4-a716-446655440000/transactions

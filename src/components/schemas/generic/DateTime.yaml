@@ -1,0 +1,5 @@
+title: Shared date-time
+type: string
+format: date-time
+description: The date and time formatted as YYYY-MM-DDTHH:mm:ssZ.
+example: '2018-04-13T11:11:11Z'

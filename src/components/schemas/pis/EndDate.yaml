@@ -1,0 +1,5 @@
+title: End Date
+description: The last applicable day of execution. If not given, it is an infinite standing order.
+type: string
+format: date
+example: '2018-04-13'

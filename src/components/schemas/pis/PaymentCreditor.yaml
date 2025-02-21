@@ -1,0 +1,15 @@
+title: Payment Creditor
+type: object
+description: The creditor of a payment.
+required:
+  - name
+  - postalAddress
+properties:
+  name:
+    type: string
+    maxLength: 140
+    description: The name of the creditor of a payment. Restriction for payment type SEis 70 characters.
+    example: Hans Muster
+  postalAddress:
+    description: The postal address of the creditor of a payment.
+    $ref: ./PaymentPostalAddress.yaml

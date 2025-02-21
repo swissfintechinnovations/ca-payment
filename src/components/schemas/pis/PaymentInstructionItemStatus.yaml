@@ -1,0 +1,29 @@
+title: Payment Instruction Item Status
+type: object
+description: The status of the payment instruction item.
+required:
+  - instructionId
+  - statusCode
+properties:
+  instructionId:
+    description: The unique identifier (UUID) of the payment instruction item.
+    $ref: ./InstructionId.yaml
+  statusCode:
+    type: string
+    description: |
+      The status of the payment. Corresponds to the attribute _TxSts_ in SPS/ISO-20022. Possible status values are:
+      - ACCP (accepted)
+      - RJCT (rejected)
+    enum:
+      - ACCP
+      - RJCT
+    example: RJCT
+  reasonCode:
+    type: string
+    description: The reason code for the instruction item. Corresponds to the attribute _StsRsnInf_ in SPS/ISO-20022.
+    example: CURR
+  reasonInformation:
+    type: string
+    maxLength: 105
+    description: The reason information for the instruction item. Corresponds to the attribute _StsRsnInf ⇾ Rsn ⇾ Prtry_ in SPS/ISO-20022.
+    example: currency USD not allowed for payment type IBAN

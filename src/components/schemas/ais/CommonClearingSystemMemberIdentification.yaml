@@ -1,0 +1,17 @@
+title: Common Clearing System Member Identification
+type: object
+description: Specifies the Information used to identify a member within a clearing system.
+required:
+  - code
+  - memberId
+properties:
+  code:
+    type: string
+    maxLength: 5
+    description: Identification code of a clearing system. Only "CHBCC" is permitted in Switzerland. Corresponds to the attribute _ClrSysId ⇾ Cd_ in SPS/ISO-20022.
+    example: CHBCC
+  memberId:
+    type: string
+    maxLength: 35
+    description: The identification of a clearing system member. Clearing ID (Bank Code, "National Identifier") of the financial institution. Corresponds to the attribute _ClrSysId ⇾ MmbId_ in SPS/ISO-20022.
+    example: '00230'

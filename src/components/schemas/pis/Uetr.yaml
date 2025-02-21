@@ -1,0 +1,4 @@
+type: string
+pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$
+description: Globally unique reference Reference assigned by the debtor (optional) or by the debtor agent. Corresponds to the attribute _CdtTrfTxInf ⇾ PmtId ⇾ UETR_ in SPS/ISO-20022.
+example: fdc01a3e-4567-4abc-8def-1234567890ab

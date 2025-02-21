@@ -1,0 +1,6 @@
+title: Standing Order Submission Response
+type: object
+description: The standing order submission response object.
+properties:
+  submissionId:
+    $ref: ./SubmissionId.yaml

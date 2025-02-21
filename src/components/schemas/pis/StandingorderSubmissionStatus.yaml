@@ -1,0 +1,26 @@
+title: Standing Order Submission Status
+type: object
+description: The standing order submission status object.
+required:
+  - statusCode
+properties:
+  messageId:
+    description: The unique identifier (UUID) of the the standing order instruction message.
+    $ref: ./MessageId.yaml
+  statusCode:
+    type: string
+    description: |
+      The status of the payment. Corresponds to the attribute _TxSts_ in SPS/ISO-20022. Possible status values are:
+      - ACCP (accepted)
+      - RJCT (rejected)
+      - PART (partially accepted)
+    enum:
+      - ACCP
+      - RJCT
+      - PART
+    example: PART
+  transactions:
+    type: array
+    description: The standing order transaction items.
+    items:
+      $ref: ./PaymentInstructionItemStatus.yaml

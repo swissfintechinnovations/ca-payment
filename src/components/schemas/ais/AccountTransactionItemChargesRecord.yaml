@@ -1,0 +1,19 @@
+title: Account Transaction Item Charges Record
+type: object
+description: Specifies the details about individual charges.
+properties:
+  amount:
+    $ref: ../generic/Amount.yaml
+    description: The amount of individual charges.
+  currency:
+    $ref: ../generic/Currency.yaml
+    description: The ISO currency three-letter code in which the amount of individual charges was posed based.
+  type:
+    type: string
+    maxLength: 35
+    description: The type of charge. Corresponds to the attribute _Chrgs ⇾ Rcrd ⇾ Tp_ in SPS/ISO-20022.
+    example: Some type of charge
+  chargesIncludedIndicator:
+    description: Indicates whether the charges are included in the entry amount or not. Corresponds to the attribute _ChrgInclInd_ in SPS/ISO-20022.
+    type: boolean
+    example: true

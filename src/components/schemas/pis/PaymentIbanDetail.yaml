@@ -1,0 +1,31 @@
+title: Payment IBAN Detail
+type: object
+description: Details of an IBAN payment.
+required:
+  - creditorAccount
+  - creditor
+properties:
+  sepaIndicator:
+    type: boolean
+    description: >-
+      Indicates if payment is a SEPA payment or not. Corresponds to the
+      attribute _InstrPrty ⇾ SvcLvl ⇾ Cd_ in SPS/ISO-20022.
+    example: true
+  creditorAccount:
+    description: The creditor account of the IBAN payment. Corresponds to the attribute _CdtrAcct_ in SPS/ISO-20022.
+    $ref: ./PaymentIbanAccount.yaml
+  creditorAgent:
+    description: The creditor agent of the IBAN payment.
+    $ref: ./PaymentCreditorAgent.yaml
+  creditor:
+    description: The creditor of the IBAN payment.
+    $ref: ./PaymentCreditor.yaml
+  chargeBearer:
+    description: The charge bearer of the IBAN payment.
+    $ref: ./PaymentChargeBearerMethod.yaml
+  remittanceReference:
+    description: The remittance reference of the IBAN payment.
+    $ref: ./PaymentIbanRemittanceReference.yaml
+  remittanceInformation:
+    description: The remittance information of the IBAN payment.
+    $ref: ./PaymentRemittanceInformation.yaml

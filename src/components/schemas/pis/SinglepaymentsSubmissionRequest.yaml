@@ -1,0 +1,46 @@
+title: Single Payment Submission Request
+type: object
+description: The single payment submission request object.
+required:
+  - messageId
+  - initiatingPartyId
+  - debtorAccount
+  - instructionId
+  - endToEndId
+  - instructedAmount
+  - startDate
+  - frequency
+properties:
+  messageId:
+    description: The unique identifier (UUID) of the the single payment instruction message.
+    $ref: ./MessageId.yaml
+  initiatingPartyId:
+    description: The identifier of the third party provider (TPP) who created the payment instruction message derived from the OAuth 2.0 flow.
+    $ref: ./InitiatingPartyId.yaml
+  requestedExecutionDate:
+    description: The requested execution date. In some cases, the financial institution can/will change this date, if the requested date is a bank / post holiday. If no date is chosen, the receiving financial institution will execute on the next possible date. Corresponds to the attribute _ReqdExctnDt_ in SPS/ISO-20022.
+    $ref: ../generic/Date.yaml
+  debtorAccount:
+    description: The account of the debtor. The debtor account must always be an IBAN. Corresponds to the attribute _DbtrAcct_ in SPS/ISO-20022.
+    $ref: ./PaymentIbanAccount.yaml
+  instructionId:
+    description: The unique identifier (UUID) of the single payment instruction item.
+    $ref: ./InstructionId.yaml
+  endToEndId:
+    description: The endToEndId of the single payment instruction item.
+    $ref: ./EndToEndId.yaml
+  instructedAmount:
+    description: The instructed amount of the single payment. Corresponds to the attribute _InstdAmt_ in SPS/ISO-20022.
+    $ref: ./PaymentCurrencyAmount.yaml
+  ibanDetails:
+    description: The IBAN details of the single payment instruction item.
+    $ref: ./PaymentIbanDetail.yaml
+  isrDetails:
+    description: The ISR details of the single payment instruction item.
+    $ref: ./PaymentIsrDetail.yaml
+  otherDetails:
+    description: Other details of the single payment instruction item.
+    $ref: ./PaymentOtherDetail.yaml
+  qrDetails:
+    description: The QR details of the single payment instruction item.
+    $ref: ./PaymentQrDetail.yaml

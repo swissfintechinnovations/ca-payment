@@ -1,0 +1,4 @@
+type: string
+maxLength: 35
+description: The unique identifier (UUID) of the the instruction message. Corresponds to the attribute _MsgId_ in SPS/ISO-20022.
+example: eb6305c91f7f49deaed016487c27b42d
