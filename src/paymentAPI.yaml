@@ -310,7 +310,7 @@ paths:
           $ref: ./components/responses/standard501.yaml
         '503':
           $ref: ./components/responses/standard503.yaml
-    
+
     post:
       tags:
         - payments

@@ -75,7 +75,7 @@ paths:
           $ref: ./components/responses/standard501.yaml
         '503':
           $ref: ./components/responses/standard503.yaml
-  
+
   /accounts/{accountId}:
     get:
       tags:
@@ -118,7 +118,6 @@ paths:
         '503':
           $ref: ./components/responses/standard503.yaml
 
-  
   /accounts/{accountId}/balance:
     get:
       tags:
@@ -184,7 +183,6 @@ paths:
         '503':
           $ref: ./components/responses/standard503.yaml
 
-  
   /accounts/{accountId}/transactions:
     get:
       tags:
@@ -347,7 +345,7 @@ paths:
           $ref: ./components/responses/standard501.yaml
         '503':
           $ref: ./components/responses/standard503.yaml
-  
+
   /iso20022/statements/{reportId}:
     get:
       tags:
@@ -355,7 +353,7 @@ paths:
       summary: Retrieve the designated ISO20022 XML camt.053 document
       description: Retrieve the designated ISO20022 XML camt.053 document.
       parameters:
-        - $ref: './components/parameters/path/report_id.yaml'
+        - $ref: ./components/parameters/path/report_id.yaml
         - $ref: ./components/parameters/header/authorization.yaml
         - $ref: ./components/parameters/header/client_id.yaml
         - $ref: ./components/parameters/header/correlation.yaml
@@ -390,7 +388,7 @@ paths:
           $ref: ./components/responses/standard501.yaml
         '503':
           $ref: ./components/responses/standard503.yaml
-  
+
   /iso20022/reports:
     get:
       tags:
@@ -437,7 +435,7 @@ paths:
           $ref: ./components/responses/standard501.yaml
         '503':
           $ref: ./components/responses/standard503.yaml
-  
+
   /iso20022/reports/{reportId}:
     get:
       tags:
@@ -445,7 +443,7 @@ paths:
       summary: Retrieve the designated ISO20022 XML camt.052 document
       description: Retrieve the designated ISO20022 XML camt.052 document.
       parameters:
-        - $ref: './components/parameters/path/report_id.yaml'
+        - $ref: ./components/parameters/path/report_id.yaml
         - $ref: ./components/parameters/header/authorization.yaml
         - $ref: ./components/parameters/header/client_id.yaml
         - $ref: ./components/parameters/header/correlation.yaml
