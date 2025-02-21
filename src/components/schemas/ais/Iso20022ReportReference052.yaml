@@ -13,8 +13,8 @@ properties:
       - full
     example: full
     description: |
-      Indicates the type of ISO 20022 report being referenced. 
-      * incremental: Contains only the transactions that occurred since the last intraday statement (camt.052). 
+      Indicates the type of ISO 20022 report being referenced.
+      * incremental: Contains only the transactions that occurred since the last intraday statement (camt.052).
       * full: Contains all transactions since the last regular account statement (camt.053).
   dateFrom:
     $ref: ../generic/Date.yaml
