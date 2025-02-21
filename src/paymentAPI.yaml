@@ -16,11 +16,11 @@ externalDocs:
   url: https://www.common-api.ch
 tags:
   - name: iso20022
-    description: Third party payment service considering pain.001 and pain.002 operations (XML). PUT operation can be used for both payment submission and payment initiation (PSS/PIS), depending on security implementation.
+    description: Third party payment service considering pain.001 and pain.002 operations (XML). PUT operation can be used for both payment submission and payment initiation (PSS/pss), depending on security implementation.
   - name: payments
-    description: Third party payment service considering bulk payments operations (JSON). PUT operation can be used for both payment submission and payment initiation (PSS/PIS), depending on security implementation.
+    description: Third party payment service considering bulk payments operations (JSON). PUT operation can be used for both payment submission and payment initiation (PSS/pss), depending on security implementation.
   - name: single payments
-    description: Third party payment service considering single payments operations (JSON). PUT operation can be used for both payment submission and payment initiation (PSS/PIS), depending on security implementation.
+    description: Third party payment service considering single payments operations (JSON). PUT operation can be used for both payment submission and payment initiation (PSS/pss), depending on security implementation.
   - name: standing orders
     description: Third party payment service considering standing order operations (JSON).
 security:
@@ -63,7 +63,7 @@ paths:
                   submissions:
                     type: array
                     items:
-                      $ref: ./components/schemas/pis/StandingorderSubmissionRequest.yaml
+                      $ref: ./components/schemas/pss/StandingorderSubmissionRequest.yaml
         '400':
           $ref: ./components/responses/standard400.yaml
         '401':
@@ -100,7 +100,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: ./components/schemas/pis/StandingorderSubmissionRequest.yaml
+              $ref: ./components/schemas/pss/StandingorderSubmissionRequest.yaml
       responses:
         '201':
           description: Created.
@@ -112,7 +112,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: ./components/schemas/pis/StandingorderSubmissionResponse.yaml
+                $ref: ./components/schemas/pss/StandingorderSubmissionResponse.yaml
         '400':
           $ref: ./components/responses/standard400.yaml
         '401':
@@ -154,7 +154,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: ./components/schemas/pis/StandingorderSubmissionRequest.yaml
+                $ref: ./components/schemas/pss/StandingorderSubmissionRequest.yaml
         '400':
           $ref: ./components/responses/standard400.yaml
         '401':
@@ -238,7 +238,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: ./components/schemas/pis/StandingorderSubmissionStatus.yaml
+                $ref: ./components/schemas/pss/StandingorderSubmissionStatus.yaml
         '400':
           $ref: ./components/responses/standard400.yaml
         '401':
@@ -290,7 +290,7 @@ paths:
                   payments:
                     type: array
                     items:
-                      $ref: ./components/schemas/pis/PaymentSubmissionRequest.yaml
+                      $ref: ./components/schemas/pss/PaymentSubmissionRequest.yaml
         '400':
           $ref: ./components/responses/standard400.yaml
         '401':
@@ -327,7 +327,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: ./components/schemas/pis/PaymentSubmissionRequest.yaml
+              $ref: ./components/schemas/pss/PaymentSubmissionRequest.yaml
       responses:
         '201':
           description: Created.
@@ -339,7 +339,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: ./components/schemas/pis/PaymentSubmissionResponse.yaml
+                $ref: ./components/schemas/pss/PaymentSubmissionResponse.yaml
         '400':
           $ref: ./components/responses/standard400.yaml
         '401':
@@ -424,7 +424,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: ./components/schemas/pis/PaymentSubmissionStatus.yaml
+                $ref: ./components/schemas/pss/PaymentSubmissionStatus.yaml
         '400':
           $ref: ./components/responses/standard400.yaml
         '401':
@@ -479,7 +479,7 @@ paths:
                   payments:
                     type: array
                     items:
-                      $ref: ./components/schemas/pis/SinglepaymentsSubmissionRequest.yaml
+                      $ref: ./components/schemas/pss/SinglepaymentsSubmissionRequest.yaml
         '400':
           $ref: ./components/responses/standard400.yaml
         '401':
@@ -516,7 +516,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: ./components/schemas/pis/SinglepaymentsSubmissionRequest.yaml
+              $ref: ./components/schemas/pss/SinglepaymentsSubmissionRequest.yaml
       responses:
         '201':
           description: Created.
@@ -528,7 +528,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: ./components/schemas/pis/SinglepaymentsSubmissionResponse.yaml
+                $ref: ./components/schemas/pss/SinglepaymentsSubmissionResponse.yaml
         '400':
           $ref: ./components/responses/standard400.yaml
         '401':
@@ -570,7 +570,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: ./components/schemas/pis/SinglepaymentsSubmissionRequest.yaml
+                $ref: ./components/schemas/pss/SinglepaymentsSubmissionRequest.yaml
         '400':
           $ref: ./components/responses/standard400.yaml
         '401':
@@ -654,7 +654,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: ./components/schemas/pis/PaymentSubmissionStatus.yaml
+                $ref: ./components/schemas/pss/PaymentSubmissionStatus.yaml
         '400':
           $ref: ./components/responses/standard400.yaml
         '401':
