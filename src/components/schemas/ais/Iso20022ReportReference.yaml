@@ -1,12 +1,17 @@
 title: ISO20022 Report Reference
-type: object
 description: The referenced ISO20022 report (common fields for camt.052 and camt.053).
+type: object
 required:
   - account
   - creationDateTime
   - id
   - schemaVersion
 properties:
+  account:
+    $ref: ./PaymentIbanAccount.yaml
+  creationDateTime:
+    $ref: ../generic/DateTime.yaml
+    description: Date and time when the message was created. Corresponds to the attribute _GrpHdr ⇾ CreDtTm_ in SPS/ISO-20022.
   id:
     type: string
     description: The unique identifier of the referenced ISO20022 report.
@@ -16,8 +21,3 @@ properties:
     example: camt.053.001.01
     description: The delivered schema version of the referenced ISO20022 report.
     pattern: ^camt\.(052|053)\.[0-9]{3}\.[0-9]{2}$
-  account:
-    $ref: ./PaymentIbanAccount.yaml
-  creationDateTime:
-    $ref: ../generic/DateTime.yaml
-    description: Date and time when the message was created. Corresponds to the attribute _GrpHdr ⇾ CreDtTm_ in SPS/ISO-20022.

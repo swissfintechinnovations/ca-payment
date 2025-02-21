@@ -1,5 +1,5 @@
-type: object
 description: The creditor agent of a payment.
+type: object
 properties:
   bic:
     type: string

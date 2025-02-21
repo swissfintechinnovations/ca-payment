@@ -1,5 +1,5 @@
-type: string
-maxLength: 3
-minLength: 3
 description: The ISO currency three-letter code. Corresponds to the attribute _Ccy_ in SPS/ISO-20022.
+type: string
+minLength: 3
+maxLength: 3
 example: CHF

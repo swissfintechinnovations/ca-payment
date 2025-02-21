@@ -1,6 +1,6 @@
 title: Payment Instruction Item Status
-type: object
 description: The status of the payment instruction item.
+type: object
 required:
   - instructionId
   - statusCode

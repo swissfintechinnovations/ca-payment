@@ -15,14 +15,14 @@ externalDocs:
   description: Find out more about SFTI API specifications.
   url: https://www.common-api.ch
 tags:
-  - name: standing orders
-    description: Third party payment service considering standing order operations (JSON).
+  - name: iso20022
+    description: Third party payment service considering pain.001 and pain.002 operations (XML). PUT operation can be used for both payment submission and payment initiation (PSS/PIS), depending on security implementation.
   - name: payments
     description: Third party payment service considering bulk payments operations (JSON). PUT operation can be used for both payment submission and payment initiation (PSS/PIS), depending on security implementation.
   - name: single payments
     description: Third party payment service considering single payments operations (JSON). PUT operation can be used for both payment submission and payment initiation (PSS/PIS), depending on security implementation.
-  - name: iso20022
-    description: Third party payment service considering pain.001 and pain.002 operations (XML). PUT operation can be used for both payment submission and payment initiation (PSS/PIS), depending on security implementation.
+  - name: standing orders
+    description: Third party payment service considering standing order operations (JSON).
 security:
   - OAuth2:
       - read
@@ -129,7 +129,6 @@ paths:
           $ref: ./components/responses/standard501.yaml
         '503':
           $ref: ./components/responses/standard503.yaml
-
   /standing-orders/{submissionId}:
     get:
       tags:
@@ -214,7 +213,6 @@ paths:
           $ref: ./components/responses/standard501.yaml
         '503':
           $ref: ./components/responses/standard503.yaml
-
   /standing-orders/{submissionId}/status:
     get:
       tags:
@@ -257,7 +255,6 @@ paths:
           $ref: ./components/responses/standard501.yaml
         '503':
           $ref: ./components/responses/standard503.yaml
-
   /payments:
     get:
       tags:
@@ -310,7 +307,6 @@ paths:
           $ref: ./components/responses/standard501.yaml
         '503':
           $ref: ./components/responses/standard503.yaml
-
     post:
       tags:
         - payments
@@ -360,7 +356,6 @@ paths:
           $ref: ./components/responses/standard501.yaml
         '503':
           $ref: ./components/responses/standard503.yaml
-
   /payments/{submissionId}:
     delete:
       tags:
@@ -404,7 +399,6 @@ paths:
           $ref: ./components/responses/standard501.yaml
         '503':
           $ref: ./components/responses/standard503.yaml
-
   /payments/{submissionId}/status:
     get:
       tags:
@@ -447,7 +441,6 @@ paths:
           $ref: ./components/responses/standard501.yaml
         '503':
           $ref: ./components/responses/standard503.yaml
-
   /single-payments:
     get:
       tags:
@@ -552,7 +545,6 @@ paths:
           $ref: ./components/responses/standard501.yaml
         '503':
           $ref: ./components/responses/standard503.yaml
-
   /single-payments/{submissionId}:
     get:
       tags:
@@ -637,7 +629,6 @@ paths:
           $ref: ./components/responses/standard501.yaml
         '503':
           $ref: ./components/responses/standard503.yaml
-
   /single-payments/{submissionId}/status:
     get:
       tags:
@@ -680,7 +671,6 @@ paths:
           $ref: ./components/responses/standard501.yaml
         '503':
           $ref: ./components/responses/standard503.yaml
-
   /iso20022/payments:
     post:
       tags:
@@ -727,7 +717,6 @@ paths:
           $ref: ./components/responses/standard501.yaml
         '503':
           $ref: ./components/responses/standard503.yaml
-
   /iso20022/payments/{submissionId}:
     get:
       tags:
@@ -770,7 +759,6 @@ paths:
           $ref: ./components/responses/standard501.yaml
         '503':
           $ref: ./components/responses/standard503.yaml
-
     delete:
       tags:
         - iso20022
@@ -813,7 +801,6 @@ paths:
           $ref: ./components/responses/standard501.yaml
         '503':
           $ref: ./components/responses/standard503.yaml
-
   /iso20022/payments/{submissionId}/status:
     get:
       tags:
@@ -856,7 +843,6 @@ paths:
           $ref: ./components/responses/standard501.yaml
         '503':
           $ref: ./components/responses/standard503.yaml
-
 components:
   securitySchemes:
     OAuth2:

@@ -1,7 +1,6 @@
-
 in: path
 name: entryId
+description: ID of the transaction entry.
 required: true
 schema:
   type: string
-description: ID of the transaction entry.

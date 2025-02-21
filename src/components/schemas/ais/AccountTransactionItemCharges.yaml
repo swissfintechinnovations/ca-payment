@@ -1,6 +1,6 @@
 title: Account Transaction Item Charges
-type: object
 description: Specifies the total amount of account charges.
+type: object
 required:
   - amount
   - currency

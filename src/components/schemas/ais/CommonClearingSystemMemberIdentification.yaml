@@ -1,6 +1,6 @@
 title: Common Clearing System Member Identification
-type: object
 description: Specifies the Information used to identify a member within a clearing system.
+type: object
 required:
   - code
   - memberId

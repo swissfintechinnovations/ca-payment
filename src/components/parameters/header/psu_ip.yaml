@@ -1,6 +1,6 @@
 in: header
 name: X-PSU-IP-Address
+description: 'IP address of the user initiating the operation (SCOPE: FI - optional).'
 required: false
 schema:
   type: string
-description: 'IP address of the user initiating the operation (SCOPE: FI - optional).'

@@ -1,6 +1,6 @@
 title: Payment Debtor
-type: object
 description: The debtor of a payment.
+type: object
 required:
   - name
   - postalAddress
@@ -8,7 +8,7 @@ properties:
   name:
     type: string
     maxLength: 140
-    description:  The name of the debtor of a payment. Restriction for payment type SEPA is 70 characters.
+    description: The name of the debtor of a payment. Restriction for payment type SEPA is 70 characters.
     example: Hans Muster
   postalAddress:
     description: The postal address of the debtor of a payment.

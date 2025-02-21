@@ -75,7 +75,6 @@ paths:
           $ref: ./components/responses/standard501.yaml
         '503':
           $ref: ./components/responses/standard503.yaml
-
   /accounts/{accountId}:
     get:
       tags:
@@ -117,30 +116,18 @@ paths:
           $ref: ./components/responses/standard501.yaml
         '503':
           $ref: ./components/responses/standard503.yaml
-
   /accounts/{accountId}/balance:
     get:
       tags:
         - accounts
       summary: Retrieve account balance information
-      description: >
+      description: |
         Returns account balance information of the specified account.
-
-        * Returns the interim booked balance (ISO20022 Balance Type ITBD) for the
-        current day, if called without a date. The balance is calculated
-
-        in the course of the service provider's business day, at the time specified,
-        and subject to further changes during the business day. The
-
-        interim balance is calculated on the basis of booked credit and debit items
-        during the calculation time/period specified.
-
-        * Returns the closing booked balance (ISO20022 Balance Type CLBD) for a
-        specific day, if called for a past date. It is the sum of the opening
-
-        booked balance at the beginning of that day and all entries booked to the
-        account during that day. In case the specified day has not yet been
-
+        * Returns the interim booked balance (ISO20022 Balance Type ITBD) for the current day, if called without a date. The balance is calculated
+        in the course of the service provider's business day, at the time specified, and subject to further changes during the business day. The
+        interim balance is calculated on the basis of booked credit and debit items during the calculation time/period specified.
+        * Returns the closing booked balance (ISO20022 Balance Type CLBD) for a specific day, if called for a past date. It is the sum of the opening
+        booked balance at the beginning of that day and all entries booked to the account during that day. In case the specified day has not yet been
         finalized, the response code will be 202.
       parameters:
         - $ref: ./components/parameters/path/account_id.yaml
@@ -182,24 +169,15 @@ paths:
           $ref: ./components/responses/standard501.yaml
         '503':
           $ref: ./components/responses/standard503.yaml
-
   /accounts/{accountId}/transactions:
     get:
       tags:
         - accounts
       summary: Retrieve transactions of a specific account
-      description: >
+      description: |
         Returns the transaction list of the specified account.
-
-        * When called without a date, it returns transactions for the current day.
-        Both "pending"
-
-        and "booked" entries may be included based on the entryStatus parameter.
-
-        * When called with a date range, only "booked" transactions from completed
-        booking days are
-
-        returned. For days not yet finalized, a 202 response code is returned.
+        * When called without a date, it returns transactions for the current day. Both "pending" and "booked" entries may be included based on the entryStatus parameter.
+        * When called with a date range, only "booked" transactions from completed booking days are returned. For days not yet finalized, a 202 response code is returned.
       parameters:
         - $ref: ./components/parameters/path/account_id.yaml
         - $ref: ./components/parameters/query/date_from.yaml
@@ -253,7 +231,6 @@ paths:
           $ref: ./components/responses/standard501.yaml
         '503':
           $ref: ./components/responses/standard503.yaml
-
   /accounts/{accountId}/transactions/{entryId}:
     get:
       tags:
@@ -296,7 +273,6 @@ paths:
           $ref: ./components/responses/standard501.yaml
         '503':
           $ref: ./components/responses/standard503.yaml
-
   /iso20022/statements:
     get:
       tags:
@@ -345,7 +321,6 @@ paths:
           $ref: ./components/responses/standard501.yaml
         '503':
           $ref: ./components/responses/standard503.yaml
-
   /iso20022/statements/{reportId}:
     get:
       tags:
@@ -388,7 +363,6 @@ paths:
           $ref: ./components/responses/standard501.yaml
         '503':
           $ref: ./components/responses/standard503.yaml
-
   /iso20022/reports:
     get:
       tags:
@@ -435,7 +409,6 @@ paths:
           $ref: ./components/responses/standard501.yaml
         '503':
           $ref: ./components/responses/standard503.yaml
-
   /iso20022/reports/{reportId}:
     get:
       tags:
@@ -478,7 +451,6 @@ paths:
           $ref: ./components/responses/standard501.yaml
         '503':
           $ref: ./components/responses/standard503.yaml
-
 components:
   securitySchemes:
     OAuth2:

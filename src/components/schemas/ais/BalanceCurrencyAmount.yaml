@@ -2,12 +2,12 @@ title: Balance Currency-Amount
 description: Specifies the requested account balance. Corresponds to the attribute _Bal_ in SPS/ISO-20022.
 type: object
 required:
-  - currency
   - amount
+  - currency
 properties:
-  currency:
-    $ref: ../generic/Currency.yaml
-    description: The ISO currency three-letter code in which the balance and the account are held.
   amount:
     $ref: ../generic/Amount.yaml
     description: The amount of the requested account balance.
+  currency:
+    $ref: ../generic/Currency.yaml
+    description: The ISO currency three-letter code in which the balance and the account are held.

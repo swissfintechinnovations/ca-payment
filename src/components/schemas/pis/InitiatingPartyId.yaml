@@ -1,4 +1,4 @@
+description: The identifier of the third party provider (TPP) who created the payment instruction message derived from the OAuth 2.0 flow.
 type: string
 maxLength: 32
-description: The identifier of the third party provider (TPP) who created the payment instruction message derived from the OAuth 2.0 flow.
 example: TPP01746

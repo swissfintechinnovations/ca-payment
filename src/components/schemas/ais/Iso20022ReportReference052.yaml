@@ -1,8 +1,6 @@
 title: ISO20022 Report Reference (camt.052)
-type: object
 description: The referenced ISO20022 report (camt.052).
-allOf:
-  - $ref: ./Iso20022ReportReference.yaml
+type: object
 required:
   - type
 properties:
@@ -22,3 +20,5 @@ properties:
   dateTo:
     $ref: ../generic/Date.yaml
     description: The end date of the transaction query period, optional for camt.052.
+allOf:
+  - $ref: ./Iso20022ReportReference.yaml

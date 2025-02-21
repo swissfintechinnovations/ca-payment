@@ -1,6 +1,6 @@
 title: Payment Creditor
-type: object
 description: The creditor of a payment.
+type: object
 required:
   - name
   - postalAddress

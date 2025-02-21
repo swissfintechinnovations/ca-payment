@@ -1,6 +1,6 @@
 title: Account Information Item
-type: object
 description: The account object.
+type: object
 required:
   - account
   - accountOwner
@@ -9,8 +9,6 @@ required:
   - designation
   - id
 properties:
-  id:
-    $ref: ./CommonAccountId.yaml
   account:
     $ref: ./PaymentIbanAccount.yaml
   accountOwner:
@@ -18,17 +16,6 @@ properties:
     maxLength: 140
     description: The owner of the account.
     example: Account Owner XYZ
-  currency:
-    $ref: ../generic/Currency.yaml
-    description: The ISO currency three-letter code denominated and set for the account at the time it is opened.
-  allowedCurrencies:
-    type: array
-    items:
-      type: string
-      example: CHF
-    description: Permitted currencies for the account.
-  designation:
-    $ref: ./Designation.yaml
   accountTypeCode:
     type: string
     description: |
@@ -63,6 +50,13 @@ properties:
       - TRAN
       - TRAS
       - VACC
+  currency:
+    $ref: ../generic/Currency.yaml
+    description: The ISO currency three-letter code denominated and set for the account at the time it is opened.
+  designation:
+    $ref: ./Designation.yaml
+  id:
+    $ref: ./CommonAccountId.yaml
   _links:
     type: object
     description: Contains the paths to additional resources for specific account (e.g. path to balance and transactions resource).
@@ -76,3 +70,9 @@ properties:
       transactions:
         type: string
         example: /accounts/550e8400-e29b-11d4-a716-446655440000/transactions
+  allowedCurrencies:
+    type: array
+    items:
+      type: string
+      example: CHF
+    description: Permitted currencies for the account.

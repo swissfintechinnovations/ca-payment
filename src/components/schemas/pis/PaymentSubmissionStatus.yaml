@@ -1,12 +1,9 @@
 title: Payment Submission Status
-type: object
 description: The payment submission status.
+type: object
 required:
   - statusCode
 properties:
-  messageId:
-    description: The unique identifier (UUID) of the payment instruction message.
-    $ref: ./MessageId.yaml
   statusCode:
     type: string
     description: |
@@ -21,6 +18,9 @@ properties:
       - PART
       - RCVD
     example: PART
+  messageId:
+    description: The unique identifier (UUID) of the payment instruction message.
+    $ref: ./MessageId.yaml
   transactions:
     type: array
     description: The payment transaction items.

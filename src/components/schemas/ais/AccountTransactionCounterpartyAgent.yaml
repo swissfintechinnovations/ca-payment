@@ -1,6 +1,6 @@
 title: Account Transaction Counterparty Agent
-type: object
 description: The account transaction counterparty agent object.
+type: object
 properties:
   bic:
     type: string

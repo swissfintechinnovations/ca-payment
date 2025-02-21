@@ -1,6 +1,6 @@
 title: Unstructured Address for Transactions
-type: object
 description: Specifies the details of the counterparty unstructured address.
+type: object
 required:
   - addressLines
 properties:

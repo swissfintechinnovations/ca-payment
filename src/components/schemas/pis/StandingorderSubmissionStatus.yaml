@@ -1,12 +1,9 @@
 title: Standing Order Submission Status
-type: object
 description: The standing order submission status object.
+type: object
 required:
   - statusCode
 properties:
-  messageId:
-    description: The unique identifier (UUID) of the the standing order instruction message.
-    $ref: ./MessageId.yaml
   statusCode:
     type: string
     description: |
@@ -19,6 +16,9 @@ properties:
       - RJCT
       - PART
     example: PART
+  messageId:
+    description: The unique identifier (UUID) of the the standing order instruction message.
+    $ref: ./MessageId.yaml
   transactions:
     type: array
     description: The standing order transaction items.

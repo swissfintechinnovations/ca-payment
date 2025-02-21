@@ -3,7 +3,6 @@ description: |
   Day of execution as integer.
   This integer consists of up two characters. Leading zeroes are not allowed.
 type: string
-maxLength: 2
 enum:
   - '1'
   - '2'
@@ -36,4 +35,5 @@ enum:
   - '29'
   - '30'
   - '31'
+maxLength: 2
 example: '1'

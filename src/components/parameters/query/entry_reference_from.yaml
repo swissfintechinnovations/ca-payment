@@ -1,5 +1,5 @@
 in: query
 name: entry_reference_from
+description: Get all objects after the one with the given ID.
 schema:
   type: string
-description: Get all objects after the one with the given ID.

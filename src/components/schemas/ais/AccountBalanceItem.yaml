@@ -1,14 +1,13 @@
 title: Account Balance Item
-type: object
 description: The account balance object.
+type: object
 required:
-  - date
-  - balanceType
   - balance
+  - balanceType
+  - date
 properties:
-  date:
-    $ref: ../generic/Date.yaml
-    description: The date for which the balance was retrieved.
+  balance:
+    $ref: ./BalanceCurrencyAmount.yaml
   balanceType:
     type: string
     enum:
@@ -16,8 +15,9 @@ properties:
       - CLBD
     description: The account balance type according to ISO20022. Either the interim booked balance (ITBD) or the closing booked balance (CLBD) type can be applied. Corresponds to the attribute _Bal ⇾ Tp_ in SPS/ISO-20022.
     example: CLBD
-  balance:
-    $ref: ./BalanceCurrencyAmount.yaml
+  date:
+    $ref: ../generic/Date.yaml
+    description: The date for which the balance was retrieved.
   _links:
     type: object
     description: Contains the paths to additional resources for specific account (e.g. path to account and transactions resource).

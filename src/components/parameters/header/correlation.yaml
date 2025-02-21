@@ -1,6 +1,6 @@
 in: header
 name: X-Correlation-ID
+description: Unique ID (defined by the caller) which will be reflected back in the response.
 required: true
 schema:
   type: string
-description: Unique ID (defined by the caller) which will be reflected back in the response.

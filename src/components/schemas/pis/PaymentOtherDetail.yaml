@@ -1,20 +1,20 @@
 title: Payment Other Detail
-type: object
 description: Details of an OTHER payment.
+type: object
 required:
+  - creditor
   - creditorAccount
   - creditorAgent
-  - creditor
 properties:
+  creditor:
+    description: The creditor of the OTHER payment.
+    $ref: ./PaymentCreditor.yaml
   creditorAccount:
     description: The creditor account of the OTHER payment. Corresponds to the attribute _CdtrAcct_ in SPS/ISO-20022.
     $ref: ./PaymentOtherAccount.yaml
   creditorAgent:
     description: The creditor agent of the OTHER payment.
     $ref: ./PaymentCreditorAgent.yaml
-  creditor:
-    description: The creditor of the OTHER payment.
-    $ref: ./PaymentCreditor.yaml
   chargeBearer:
     description: The charge bearer of the OTHER payment.
     $ref: ./PaymentChargeBearerMethod.yaml
