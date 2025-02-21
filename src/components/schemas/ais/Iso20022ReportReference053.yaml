@@ -1,0 +1,15 @@
+title: ISO20022 Report Reference (camt.053)
+description: The referenced ISO20022 report (camt.053).
+type: object
+required:
+  - dateFrom
+  - dateTo
+properties:
+  dateFrom:
+    $ref: ../generic/Date.yaml
+    description: The start date of the transaction query period, mandatory for camt.053.
+  dateTo:
+    $ref: ../generic/Date.yaml
+    description: The end date of the transaction query period, mandatory for camt.053.
+allOf:
+  - $ref: ./Iso20022ReportReference.yaml

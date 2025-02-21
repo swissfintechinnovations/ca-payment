@@ -1,0 +1,31 @@
+title: Account Transaction Report
+description: The account transaction report object.
+type: object
+required:
+  - designation
+  - entries
+  - iban
+properties:
+  designation:
+    $ref: ./Designation.yaml
+  entries:
+    type: array
+    description: The account transaction entry object.
+    items:
+      $ref: ./AccountTransactionEntry.yaml
+  iban:
+    $ref: ./IbanIdentification.yaml
+    description: The International Bank Account Number (IBAN), associated with the account.
+  _links:
+    type: object
+    description: Contains the paths to additional resources for specific account (e.g. path to account and balance resource).
+    properties:
+      self:
+        type: string
+        example: /accounts/550e8400e29b11d4a716446655440000/statements
+      account:
+        type: string
+        example: /accounts/550e8400e29b11d4a716446655440000
+      balance:
+        type: string
+        example: /accounts/550e8400e29b11d4a716446655440000/balance

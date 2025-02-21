@@ -1,0 +1,8 @@
+title: Common Structured or Unstructured Address
+description: Specifies the counterparty address (debtor address if transaction type = CRDT, creditor address if transaction type = DBIT).
+type: object
+properties:
+  structured:
+    $ref: ./AccountTransactionStructuredAddress.yaml
+  unstructured:
+    $ref: ./AccountTransactionUnstructuredAddress.yaml

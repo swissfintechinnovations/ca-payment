@@ -1,0 +1,15 @@
+title: Payment ISR Detail
+description: Details of a ISR payment.
+type: object
+required:
+  - remittanceReference
+properties:
+  remittanceReference:
+    description: The remittance reference of the ISR payment.
+    $ref: ./PaymentIsrRemittanceReference.yaml
+  creditor:
+    description: The creditor of the ISR payment.
+    $ref: ./PaymentCreditor.yaml
+  creditorAccount:
+    description: The creditor account of the ISR payment.
+    $ref: ./PaymentOtherAccount.yaml

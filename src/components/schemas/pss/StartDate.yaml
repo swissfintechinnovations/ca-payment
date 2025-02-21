@@ -1,0 +1,5 @@
+title: Start Date
+description: The first applicable day of execution starting from this date is the first payment.
+type: string
+format: date
+example: '2018-04-13'

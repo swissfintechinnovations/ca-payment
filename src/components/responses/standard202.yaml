@@ -1,0 +1,10 @@
+headers:
+  Content-Language:
+    $ref: ../headers/Content-Language.yaml
+  X-Correlation-ID:
+    $ref: ../headers/X-Correlation-ID.yaml
+description: Accepted - Valid request, requested data not available yet. The request may be attempted at a later time.
+content:
+  application/json:
+    schema:
+      type: object

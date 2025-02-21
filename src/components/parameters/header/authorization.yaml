@@ -1,0 +1,6 @@
+in: header
+name: Authorization
+description: Bearer followed by a base64 encoded OAuth access token.
+required: true
+schema:
+  type: string

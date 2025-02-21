@@ -1,0 +1,6 @@
+in: header
+name: User-Agent
+description: Name and version of the of the Client software.
+required: true
+schema:
+  type: string

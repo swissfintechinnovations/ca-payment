@@ -1,0 +1,7 @@
+in: query
+name: cursor
+description: Optional parameter for pagination. Use the ID of the last item from the previous response to retrieve the next set of results.
+required: false
+schema:
+  type: string
+  example: cursorIDxyz

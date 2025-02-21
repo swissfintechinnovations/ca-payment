@@ -1,0 +1,5 @@
+description: An opaque string value used for pagination. Include this value in the cursor parameter of the subsequent request to fetch the next page of results. An empty string indicates that there are no more results.
+required: false
+schema:
+  type: string
+  example: nextCursorIDxyz

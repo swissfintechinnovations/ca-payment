@@ -1,0 +1,464 @@
+openapi: 3.0.0
+info:
+  version: 4.1.1
+  title: Common Account API
+  description: This specification defines a simple API to access information about bank accounts. The API is supposed to be used by customers who want to get information about their accounts such as current balance or transactions. This specification uses schema definitions from the Common Data Model v1.2.1.
+  termsOfService: tbd
+  contact:
+    email: info@common-api.ch
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+servers:
+  - url: account.common-api.ch/api/v4
+externalDocs:
+  description: Find out more about SFTI API specifications.
+  url: https://www.common-api.ch
+tags:
+  - name: accounts
+    description: Third party access to bank account service considering account information and transaction data operations (JSON).
+  - name: iso20022
+    description: Third party access to bank account service considering camt operations (XML).
+security:
+  - OAuth2:
+      - read
+      - write
+paths:
+  /accounts:
+    get:
+      tags:
+        - accounts
+      summary: Retrieve list of authorized accounts
+      description: Return the list of all accounts accessible for the logged in user.
+      parameters:
+        - $ref: ./components/parameters/query/cursor.yaml
+        - $ref: ./components/parameters/query/limit.yaml
+        - $ref: ./components/parameters/header/authorization.yaml
+        - $ref: ./components/parameters/header/client_id.yaml
+        - $ref: ./components/parameters/header/correlation.yaml
+        - $ref: ./components/parameters/header/agent.yaml
+        - $ref: ./components/parameters/header/target_id.yaml
+        - $ref: ./components/parameters/header/psu_ip.yaml
+        - $ref: ./components/parameters/header/psu_user_agent.yaml
+      responses:
+        '200':
+          description: Paginated list of all accounts.
+          headers:
+            X-Correlation-ID:
+              $ref: ./components/headers/X-Correlation-ID.yaml
+            X-Next-Cursor:
+              $ref: ./components/headers/X-Next-Cursor.yaml
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - accounts
+                properties:
+                  accounts:
+                    type: array
+                    items:
+                      $ref: ./components/schemas/ais/AccountItem.yaml
+        '400':
+          $ref: ./components/responses/standard400.yaml
+        '401':
+          $ref: ./components/responses/standard401.yaml
+        '403':
+          $ref: ./components/responses/standard403.yaml
+        '404':
+          $ref: ./components/responses/standard404.yaml
+        '405':
+          $ref: ./components/responses/standard405.yaml
+        '500':
+          $ref: ./components/responses/standard500.yaml
+        '501':
+          $ref: ./components/responses/standard501.yaml
+        '503':
+          $ref: ./components/responses/standard503.yaml
+  /accounts/{accountId}:
+    get:
+      tags:
+        - accounts
+      summary: Retrieve information about a single specific account
+      description: Returns the accounts details of the specified account.
+      parameters:
+        - $ref: ./components/parameters/path/account_id.yaml
+        - $ref: ./components/parameters/header/authorization.yaml
+        - $ref: ./components/parameters/header/client_id.yaml
+        - $ref: ./components/parameters/header/correlation.yaml
+        - $ref: ./components/parameters/header/agent.yaml
+        - $ref: ./components/parameters/header/target_id.yaml
+        - $ref: ./components/parameters/header/psu_ip.yaml
+        - $ref: ./components/parameters/header/psu_user_agent.yaml
+      responses:
+        '200':
+          description: Account details of the specified account.
+          headers:
+            X-Correlation-ID:
+              $ref: ./components/headers/X-Correlation-ID.yaml
+          content:
+            application/json:
+              schema:
+                $ref: ./components/schemas/ais/AccountItem.yaml
+        '400':
+          $ref: ./components/responses/standard400.yaml
+        '401':
+          $ref: ./components/responses/standard401.yaml
+        '403':
+          $ref: ./components/responses/standard403.yaml
+        '404':
+          $ref: ./components/responses/standard404.yaml
+        '405':
+          $ref: ./components/responses/standard405.yaml
+        '500':
+          $ref: ./components/responses/standard500.yaml
+        '501':
+          $ref: ./components/responses/standard501.yaml
+        '503':
+          $ref: ./components/responses/standard503.yaml
+  /accounts/{accountId}/balance:
+    get:
+      tags:
+        - accounts
+      summary: Retrieve account balance information
+      description: |
+        Returns account balance information of the specified account.
+        * Returns the interim booked balance (ISO20022 Balance Type ITBD) for the current day, if called without a date. The balance is calculated
+        in the course of the service provider's business day, at the time specified, and subject to further changes during the business day. The
+        interim balance is calculated on the basis of booked credit and debit items during the calculation time/period specified.
+        * Returns the closing booked balance (ISO20022 Balance Type CLBD) for a specific day, if called for a past date. It is the sum of the opening
+        booked balance at the beginning of that day and all entries booked to the account during that day. In case the specified day has not yet been
+        finalized, the response code will be 202.
+      parameters:
+        - $ref: ./components/parameters/path/account_id.yaml
+        - $ref: ./components/parameters/query/date.yaml
+        - $ref: ./components/parameters/header/authorization.yaml
+        - $ref: ./components/parameters/header/client_id.yaml
+        - $ref: ./components/parameters/header/correlation.yaml
+        - $ref: ./components/parameters/header/agent.yaml
+        - $ref: ./components/parameters/header/target_id.yaml
+        - $ref: ./components/parameters/header/psu_ip.yaml
+        - $ref: ./components/parameters/header/psu_user_agent.yaml
+      responses:
+        '200':
+          description: Account balance information of the specified account.
+          headers:
+            X-Correlation-ID:
+              $ref: ./components/headers/X-Correlation-ID.yaml
+          content:
+            application/json:
+              schema:
+                $ref: ./components/schemas/ais/AccountBalanceItem.yaml
+        '202':
+          $ref: ./components/responses/standard202.yaml
+        '204':
+          $ref: ./components/responses/standard204.yaml
+        '400':
+          $ref: ./components/responses/standard400.yaml
+        '401':
+          $ref: ./components/responses/standard401.yaml
+        '403':
+          $ref: ./components/responses/standard403.yaml
+        '404':
+          $ref: ./components/responses/standard404.yaml
+        '405':
+          $ref: ./components/responses/standard405.yaml
+        '500':
+          $ref: ./components/responses/standard500.yaml
+        '501':
+          $ref: ./components/responses/standard501.yaml
+        '503':
+          $ref: ./components/responses/standard503.yaml
+  /accounts/{accountId}/transactions:
+    get:
+      tags:
+        - accounts
+      summary: Retrieve transactions of a specific account
+      description: |
+        Returns the transaction list of the specified account.
+        * When called without a date, it returns transactions for the current day. Both "pending" and "booked" entries may be included based on the entryStatus parameter.
+        * When called with a date range, only "booked" transactions from completed booking days are returned. For days not yet finalized, a 202 response code is returned.
+      parameters:
+        - $ref: ./components/parameters/path/account_id.yaml
+        - $ref: ./components/parameters/query/date_from.yaml
+        - $ref: ./components/parameters/query/date_to.yaml
+        - $ref: ./components/parameters/query/entry_status.yaml
+        - $ref: ./components/parameters/query/cursor.yaml
+        - $ref: ./components/parameters/query/limit.yaml
+        - $ref: ./components/parameters/header/authorization.yaml
+        - $ref: ./components/parameters/header/client_id.yaml
+        - $ref: ./components/parameters/header/correlation.yaml
+        - $ref: ./components/parameters/header/agent.yaml
+        - $ref: ./components/parameters/header/target_id.yaml
+        - $ref: ./components/parameters/header/psu_ip.yaml
+        - $ref: ./components/parameters/header/psu_user_agent.yaml
+      responses:
+        '200':
+          description: Account details of the requested account.
+          headers:
+            X-Correlation-ID:
+              $ref: ./components/headers/X-Correlation-ID.yaml
+            X-Next-Cursor:
+              $ref: ./components/headers/X-Next-Cursor.yaml
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - transactions
+                properties:
+                  transactions:
+                    type: array
+                    items:
+                      $ref: ./components/schemas/ais/AccountTransactionReport.yaml
+        '202':
+          $ref: ./components/responses/standard202.yaml
+        '204':
+          $ref: ./components/responses/standard204.yaml
+        '400':
+          $ref: ./components/responses/standard400.yaml
+        '401':
+          $ref: ./components/responses/standard401.yaml
+        '403':
+          $ref: ./components/responses/standard403.yaml
+        '404':
+          $ref: ./components/responses/standard404.yaml
+        '405':
+          $ref: ./components/responses/standard405.yaml
+        '500':
+          $ref: ./components/responses/standard500.yaml
+        '501':
+          $ref: ./components/responses/standard501.yaml
+        '503':
+          $ref: ./components/responses/standard503.yaml
+  /accounts/{accountId}/transactions/{entryId}:
+    get:
+      tags:
+        - accounts
+      summary: Details of the specified transaction
+      description: Retrieves the details of the specified transaction.
+      parameters:
+        - $ref: ./components/parameters/path/account_id.yaml
+        - $ref: ./components/parameters/path/entry_id.yaml
+        - $ref: ./components/parameters/header/authorization.yaml
+        - $ref: ./components/parameters/header/client_id.yaml
+        - $ref: ./components/parameters/header/correlation.yaml
+        - $ref: ./components/parameters/header/agent.yaml
+        - $ref: ./components/parameters/header/target_id.yaml
+        - $ref: ./components/parameters/header/psu_ip.yaml
+        - $ref: ./components/parameters/header/psu_user_agent.yaml
+      responses:
+        '200':
+          description: Account details of the requested account.
+          headers:
+            X-Correlation-ID:
+              $ref: ./components/headers/X-Correlation-ID.yaml
+          content:
+            application/json:
+              schema:
+                $ref: ./components/schemas/ais/AccountTransactionEntry.yaml
+        '400':
+          $ref: ./components/responses/standard400.yaml
+        '401':
+          $ref: ./components/responses/standard401.yaml
+        '403':
+          $ref: ./components/responses/standard403.yaml
+        '404':
+          $ref: ./components/responses/standard404.yaml
+        '405':
+          $ref: ./components/responses/standard405.yaml
+        '500':
+          $ref: ./components/responses/standard500.yaml
+        '501':
+          $ref: ./components/responses/standard501.yaml
+        '503':
+          $ref: ./components/responses/standard503.yaml
+  /iso20022/statements:
+    get:
+      tags:
+        - iso20022
+      summary: Retrieve a list of resource links to account statements (camt.053)
+      description: Get the resources links to available account statements (camt.053). The returned account statements must be conform to the XML schema and implementation guidelines defined by Swiss Payment Standards.
+      parameters:
+        - $ref: ./components/parameters/query/date_from.yaml
+        - $ref: ./components/parameters/query/date_to.yaml
+        - $ref: ./components/parameters/query/cursor.yaml
+        - $ref: ./components/parameters/query/limit.yaml
+        - $ref: ./components/parameters/header/authorization.yaml
+        - $ref: ./components/parameters/header/client_id.yaml
+        - $ref: ./components/parameters/header/correlation.yaml
+        - $ref: ./components/parameters/header/agent.yaml
+        - $ref: ./components/parameters/header/target_id.yaml
+        - $ref: ./components/parameters/header/psu_ip.yaml
+        - $ref: ./components/parameters/header/psu_user_agent.yaml
+      responses:
+        '200':
+          description: Returns a list of resource links to ISO20022 XML camt.053 messages.
+          headers:
+            X-Correlation-ID:
+              $ref: ./components/headers/X-Correlation-ID.yaml
+            X-Next-Cursor:
+              $ref: ./components/headers/X-Next-Cursor.yaml
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: ./components/schemas/ais/Iso20022ReportReference053.yaml
+        '400':
+          $ref: ./components/responses/standard400.yaml
+        '401':
+          $ref: ./components/responses/standard401.yaml
+        '403':
+          $ref: ./components/responses/standard403.yaml
+        '404':
+          $ref: ./components/responses/standard404.yaml
+        '405':
+          $ref: ./components/responses/standard405.yaml
+        '500':
+          $ref: ./components/responses/standard500.yaml
+        '501':
+          $ref: ./components/responses/standard501.yaml
+        '503':
+          $ref: ./components/responses/standard503.yaml
+  /iso20022/statements/{reportId}:
+    get:
+      tags:
+        - iso20022
+      summary: Retrieve the designated ISO20022 XML camt.053 document
+      description: Retrieve the designated ISO20022 XML camt.053 document.
+      parameters:
+        - $ref: ./components/parameters/path/report_id.yaml
+        - $ref: ./components/parameters/header/authorization.yaml
+        - $ref: ./components/parameters/header/client_id.yaml
+        - $ref: ./components/parameters/header/correlation.yaml
+        - $ref: ./components/parameters/header/agent.yaml
+        - $ref: ./components/parameters/header/target_id.yaml
+        - $ref: ./components/parameters/header/psu_ip.yaml
+        - $ref: ./components/parameters/header/psu_user_agent.yaml
+      responses:
+        '200':
+          description: Returns the requested ISO20022 XML camt.053 message.
+          headers:
+            X-Correlation-ID:
+              $ref: ./components/headers/X-Correlation-ID.yaml
+          content:
+            application/xml:
+              schema:
+                type: string
+                format: binary
+        '400':
+          $ref: ./components/responses/standard400.yaml
+        '401':
+          $ref: ./components/responses/standard401.yaml
+        '403':
+          $ref: ./components/responses/standard403.yaml
+        '404':
+          $ref: ./components/responses/standard404.yaml
+        '405':
+          $ref: ./components/responses/standard405.yaml
+        '500':
+          $ref: ./components/responses/standard500.yaml
+        '501':
+          $ref: ./components/responses/standard501.yaml
+        '503':
+          $ref: ./components/responses/standard503.yaml
+  /iso20022/reports:
+    get:
+      tags:
+        - iso20022
+      summary: Retrieve a list of resource links to account reports (camt.052)
+      description: Get the resources links to available account reports (camt.052) generated since the last End-of-Day (EOD) processing. Only intraday reports created after the most recent EOD cycle are included. The returned account reports must conform to the XML schema and implementation guidelines defined by Swiss Payment Standards.
+      parameters:
+        - $ref: ./components/parameters/query/cursor.yaml
+        - $ref: ./components/parameters/query/limit.yaml
+        - $ref: ./components/parameters/header/authorization.yaml
+        - $ref: ./components/parameters/header/client_id.yaml
+        - $ref: ./components/parameters/header/correlation.yaml
+        - $ref: ./components/parameters/header/agent.yaml
+        - $ref: ./components/parameters/header/target_id.yaml
+        - $ref: ./components/parameters/header/psu_ip.yaml
+        - $ref: ./components/parameters/header/psu_user_agent.yaml
+      responses:
+        '200':
+          description: Returns a list of resource links to ISO20022 XML camt.052 messages.
+          headers:
+            X-Correlation-ID:
+              $ref: ./components/headers/X-Correlation-ID.yaml
+            X-Next-Cursor:
+              $ref: ./components/headers/X-Next-Cursor.yaml
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: ./components/schemas/ais/Iso20022ReportReference052.yaml
+        '400':
+          $ref: ./components/responses/standard400.yaml
+        '401':
+          $ref: ./components/responses/standard401.yaml
+        '403':
+          $ref: ./components/responses/standard403.yaml
+        '404':
+          $ref: ./components/responses/standard404.yaml
+        '405':
+          $ref: ./components/responses/standard405.yaml
+        '500':
+          $ref: ./components/responses/standard500.yaml
+        '501':
+          $ref: ./components/responses/standard501.yaml
+        '503':
+          $ref: ./components/responses/standard503.yaml
+  /iso20022/reports/{reportId}:
+    get:
+      tags:
+        - iso20022
+      summary: Retrieve the designated ISO20022 XML camt.052 document
+      description: Retrieve the designated ISO20022 XML camt.052 document.
+      parameters:
+        - $ref: ./components/parameters/path/report_id.yaml
+        - $ref: ./components/parameters/header/authorization.yaml
+        - $ref: ./components/parameters/header/client_id.yaml
+        - $ref: ./components/parameters/header/correlation.yaml
+        - $ref: ./components/parameters/header/agent.yaml
+        - $ref: ./components/parameters/header/target_id.yaml
+        - $ref: ./components/parameters/header/psu_ip.yaml
+        - $ref: ./components/parameters/header/psu_user_agent.yaml
+      responses:
+        '200':
+          description: Returns the requested ISO20022 XML camt.052 message.
+          headers:
+            X-Correlation-ID:
+              $ref: ./components/headers/X-Correlation-ID.yaml
+          content:
+            application/xml:
+              schema:
+                type: string
+                format: binary
+        '400':
+          $ref: ./components/responses/standard400.yaml
+        '401':
+          $ref: ./components/responses/standard401.yaml
+        '403':
+          $ref: ./components/responses/standard403.yaml
+        '404':
+          $ref: ./components/responses/standard404.yaml
+        '405':
+          $ref: ./components/responses/standard405.yaml
+        '500':
+          $ref: ./components/responses/standard500.yaml
+        '501':
+          $ref: ./components/responses/standard501.yaml
+        '503':
+          $ref: ./components/responses/standard503.yaml
+components:
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://example.com/oauth/authorize
+          tokenUrl: https://example.com/oauth/token
+          scopes:
+            read: Grants read access
+            write: Grants write access

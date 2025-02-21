@@ -1,0 +1,5 @@
+in: query
+name: date
+description: 'The date to query, formatted as yyyy-mm-dd. Default value: current date.'
+schema:
+  $ref: ../../schemas/generic/Date.yaml

@@ -1,0 +1,21 @@
+title: Unstructured Address for Transactions
+description: Specifies the details of the counterparty unstructured address.
+type: object
+required:
+  - addressLines
+properties:
+  addressLines:
+    type: array
+    description: The counterparty address lines. Only four address lines allowed.
+    maxItems: 4
+    example:
+      - Robert Schneider SA
+      - Rue de la gare 24
+    items:
+      type: string
+      maxLength: 70
+  country:
+    type: string
+    description: The counterparty country. Corresponds to the attribute _Ctry_ in SPS/ISO-20022.
+    maxLength: 2
+    example: CH

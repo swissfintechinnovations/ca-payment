@@ -1,0 +1,30 @@
+headers:
+  Content-Language:
+    $ref: ../headers/Content-Language.yaml
+  X-Correlation-ID:
+    $ref: ../headers/X-Correlation-ID.yaml
+description: |
+  Bad Request - The format of the request was invalid.
+
+  Examples:
+  - InvalidPayload:
+  type: /problems/INVALID_PAYLOAD
+  title: Payload does not comply with API specification
+  detail: Malformed JSON
+  instance: path/to/corresponding/resource
+
+  - InvalidParameter:
+  type: /problems/INVALID_PAYLOAD
+  title: Invalid parameter values have been detected
+  detail: Sent data could not processed
+  instance: path/to/corresponding/resource
+
+  - MissingId:
+  type: /problems/INVALID_PAYLOAD
+  title: The payload was not valid
+  detail: ID is missing
+  instance: path/to/corresponding/resource
+content:
+  application/problem+json:
+    schema:
+      $ref: ../schemas/CommonErrorResponse.yaml

@@ -1,0 +1,6 @@
+in: header
+name: X-CorAPI-Target-ID
+description: 'ID of the target, e.g., a financial institution (SCOPE: FI - optional).'
+required: false
+schema:
+  type: string

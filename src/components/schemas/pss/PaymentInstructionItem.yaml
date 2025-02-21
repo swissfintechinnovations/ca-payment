@@ -1,0 +1,32 @@
+title: Payment Instruction Item
+description: The payment instruction item object.
+type: object
+required:
+  - endToEndId
+  - instructedAmount
+  - instructionId
+properties:
+  endToEndId:
+    description: The endToEndId of the payment instruction item.
+    $ref: ./EndToEndId.yaml
+  instructedAmount:
+    description: The instructed amount of the payment. Corresponds to the attribute _InstdAmt_ in SPS/ISO-20022.
+    $ref: ./PaymentCurrencyAmount.yaml
+  instructionId:
+    description: The identifier of the payment instruction item.
+    $ref: ./InstructionId.yaml
+  ibanDetails:
+    description: The IBAN details of the payment instruction item.
+    $ref: ./PaymentIbanDetail.yaml
+  isrDetails:
+    description: The ISR details of the payment instruction item.
+    $ref: ./PaymentIsrDetail.yaml
+  otherDetails:
+    description: Other details of the payment instruction item.
+    $ref: ./PaymentOtherDetail.yaml
+  qrDetails:
+    description: The QR details of the payment instruction item.
+    $ref: ./PaymentQrDetail.yaml
+  uetr:
+    description: The uetr of the payment instruction item.
+    $ref: ./Uetr.yaml

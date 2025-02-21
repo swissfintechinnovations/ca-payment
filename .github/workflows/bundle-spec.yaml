@@ -1,0 +1,24 @@
+name: 'SFTI Bundle API specification' 
+# caution: do not rename filename as pr workflow depends on its name
+
+on:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+    paths:
+      - 'src/**'
+  workflow_dispatch:
+    inputs:
+      filenames:
+        type: string
+        default: 'src/*.yaml'
+        description: 'API specifications to be bundled (list of files separated by a whitespace, must be recognized by ls). Default: src/*.yaml'
+
+jobs:
+  bundle-api:
+    uses: swissfintechinnovations/.github/.github/workflows/reusable-bundle-workflow.yaml@main
+    with:
+      filenames: ${{ github.event.inputs.filenames || 'src/*.yaml' }}
+    secrets: inherit

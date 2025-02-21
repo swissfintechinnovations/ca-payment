@@ -1,0 +1,13 @@
+title: Payment Currency Amount
+description: Specifies the entry amount according to the account currency.
+type: object
+required:
+  - amount
+  - currency
+properties:
+  amount:
+    $ref: ../generic/Amount.yaml
+    description: The entry amount, which will be reflected in the account balance.
+  currency:
+    $ref: ../generic/Currency.yaml
+    description: The ISO currency three-letter code in which the entry was posed.

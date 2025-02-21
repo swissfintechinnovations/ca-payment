@@ -1,0 +1,17 @@
+title: Account Transaction Counterparty Agent
+description: The account transaction counterparty agent object.
+type: object
+properties:
+  bic:
+    type: string
+    minLength: 8
+    maxLength: 11
+    description: |
+      The bank identifier code (BIC) of the creditor agent of a payment. Corresponds to the attribute _CdtrAgt ⇾ FinInstnId ⇾ BIC_ in SPS/ISO-20022. The BIC is an 8 or 11-character code that breaks down as follows:
+      - First 4 characters - bank code (letters only)
+      - Next 2 characters - ISO 3166-1 alpha-2 country code (letters only)
+      - Next 2 characters - location code (letters and digits)
+      - Last 3 characters (optional) - branch code, specifying a particular branch of the bank (letters and digits)
+    example: DEUTDE5M101
+  clearingSystemMemberIdentification:
+    $ref: ./CommonClearingSystemMemberIdentification.yaml

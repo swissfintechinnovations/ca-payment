@@ -1,0 +1,5 @@
+description: An amount. Corresponds to the attribute _Amt_ in SPS/ISO-20022.
+type: string
+maxLength: 18
+pattern: ^[0-9]{1,12}([.][0-9]{1,5})?$
+example: '10.25'

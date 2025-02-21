@@ -1,0 +1,10 @@
+title: Payment Charge Bearer Method
+description: |
+  The payment charge bearer method, i.e. who is responsible for paying the transaction fees associated with a payment. Corresponds to the attribute _SvcLvl ⇾ Cd_ in SPS/ISO-20022. Possible methods are: - DEBT (debtor) - CRED (creditor) - SHAR (shared) - SLEV (service level)
+type: string
+enum:
+  - DEBT
+  - CRED
+  - SHAR
+  - SLEV
+example: SHAR

@@ -1,0 +1,33 @@
+title: Structured Postal Address for Transactions
+description: Specifies the details of the counterparty structured address.
+type: object
+required:
+  - postCode
+  - streetName
+  - townName
+properties:
+  postCode:
+    type: string
+    maxLength: 16
+    description: The counterparty post code. Corresponds to the attribute _PstCd_ in SPS/ISO-20022.
+    example: '2501'
+  streetName:
+    type: string
+    maxLength: 70
+    description: The counterparty street name. Corresponds to the attribute _StrtNm_ in SPS/ISO-20022.
+    example: Rue de la gare
+  townName:
+    type: string
+    maxLength: 35
+    description: The counterparty town name. Corresponds to the attribute _TwnNm_ in SPS/ISO-20022.
+    example: Biel
+  buildingNumber:
+    type: string
+    maxLength: 16
+    description: The counterparty building number. Corresponds to the attribute _BldgNb_ in SPS/ISO-20022.
+    example: '24'
+  country:
+    type: string
+    maxLength: 2
+    description: The counterparty country. Corresponds to the attribute _Ctry_ in SPS/ISO-20022.
+    example: CH

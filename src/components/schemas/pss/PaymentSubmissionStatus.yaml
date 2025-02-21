@@ -1,0 +1,28 @@
+title: Payment Submission Status
+description: The payment submission status.
+type: object
+required:
+  - statusCode
+properties:
+  statusCode:
+    type: string
+    description: |
+      The status of the payment. Corresponds to the attribute _TxSts_ in SPS/ISO-20022. Possible status values are:
+      - ACCP (accepted)
+      - RJCT (rejected)
+      - PART (partially accepted)
+      - RCVD (received)
+    enum:
+      - ACCP
+      - RJCT
+      - PART
+      - RCVD
+    example: PART
+  messageId:
+    description: The unique identifier (UUID) of the payment instruction message.
+    $ref: ./MessageId.yaml
+  transactions:
+    type: array
+    description: The payment transaction items.
+    items:
+      $ref: ./PaymentInstructionItemStatus.yaml

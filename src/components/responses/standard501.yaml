@@ -1,0 +1,18 @@
+headers:
+  Content-Language:
+    $ref: ../headers/Content-Language.yaml
+  X-Correlation-ID:
+    $ref: ../headers/X-Correlation-ID.yaml
+description: |
+  Not Implemented - The server does not support the functionality required to fulfill the request.
+
+  Examples:
+  - EndpointNotImplemented:
+  type: /problems/NOT_IMPLEMENTED
+  title: Target endpoint is not implemented
+  detail: This endpoint is not implemented
+  instance: path/to/corresponding/resource
+content:
+  application/problem+json:
+    schema:
+      $ref: ../schemas/CommonErrorResponse.yaml

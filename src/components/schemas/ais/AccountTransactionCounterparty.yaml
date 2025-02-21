@@ -1,0 +1,15 @@
+title: Account Transaction Counterparty
+description: Specifies the counterparty details (creditor or debtor).
+type: object
+properties:
+  account:
+    $ref: ./AccountTransactionCounterpartyAccount.yaml
+  agent:
+    $ref: ./AccountTransactionCounterpartyAgent.yaml
+  name:
+    type: string
+    maxLength: 140
+    description: Name of the counterparty (debtor name if transaction type = CRDT, creditor name if transaction type = DBIT).
+    example: Hans Muster
+  postalAddress:
+    $ref: ./AccountTransactionStructuredOrUnstructuredAddress.yaml

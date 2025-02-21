@@ -1,0 +1,85 @@
+title: Standing Order Submission Request
+description: The standing order submission request object.
+type: object
+required:
+  - debtorAccount
+  - endToEndId
+  - frequency
+  - initiatingPartyId
+  - instructedAmount
+  - instructionId
+  - messageId
+  - startDate
+properties:
+  debtorAccount:
+    description: The account of the debtor. The debtor account must always be an IBAN. Corresponds to the attribute _DbtrAcct_ in SPS/ISO-20022.
+    $ref: ./PaymentIbanAccount.yaml
+  endToEndId:
+    description: The endToEndId of the standing order instruction item.
+    $ref: ./EndToEndId.yaml
+  frequency:
+    description: The frequency of the standing order instruction item.
+    $ref: ./FrequencyCode.yaml
+  initiatingPartyId:
+    description: The identifier of the third party provider (TPP) who created the payment instruction message derived from the OAuth 2.0 flow.
+    $ref: ./InitiatingPartyId.yaml
+  instructedAmount:
+    description: The instructed amount of the standing order. Corresponds to the attribute _InstdAmt_ in SPS/ISO-20022.
+    $ref: ./PaymentCurrencyAmount.yaml
+  instructionId:
+    description: The unique identifier (UUID) of the standing order instruction item.
+    $ref: ./InstructionId.yaml
+  messageId:
+    description: The unique identifier (UUID) of the the standing order instruction message.
+    $ref: ./MessageId.yaml
+  startDate:
+    description: The start date of the standing order instruction item.
+    $ref: ./StartDate.yaml
+  dayOfExecution:
+    description: The day of execution of the standing order instruction item.
+    $ref: ./DayOfExecution.yaml
+  endDate:
+    description: The end date of the standing order instruction item.
+    $ref: ./EndDate.yaml
+  executionBreaks:
+    description: List of break periods.
+    type: array
+    items:
+      type: object
+      description: The break period items.
+      properties:
+        validFromDate:
+          description: Start date of one break period. Standing order will not be processed from this date.
+          $ref: ../generic/Date.yaml
+        validToDate:
+          description: End date of one break period. Standing order will not be processed to this date.
+          $ref: ../generic/Date.yaml
+  executionMode:
+    type: string
+    description: |
+      The code of execution mode defines when or how standing order will be cancelled, processed the last time.
+      * UNTIL_DATE - standing order is valid until specific date - field endDate.
+      * UNTIL_CANCELLATION - standing order is valid forever and must be cancelled by client.
+    example: UNTIL_DATE
+    enum:
+      - UNTIL_DATE
+      - UNTIL_CANCELLATION
+  executionRule:
+    description: The execution rule of the standing order instruction item.
+    $ref: ./ExecutionRule.yaml
+  ibanDetails:
+    description: The IBAN details of the standing order instruction item.
+    $ref: ./PaymentIbanDetail.yaml
+  isrDetails:
+    description: The ISR details of the standing order instruction item.
+    $ref: ./PaymentIsrDetail.yaml
+  otherDetails:
+    description: Other details of the standing order instruction item.
+    $ref: ./PaymentOtherDetail.yaml
+  qrDetails:
+    description: The QR details of the standing order instruction item.
+    $ref: ./PaymentQrDetail.yaml
+  requestedExecutionDate:
+    description: |
+      The requested execution date. In some cases, the financial institution can/will change this date, if the requested date is a bank / post holiday. If no date is chosen, the receiving financial institution will execute on the next possible date. Corresponds to the attribute _ReqdExctnDt_ in SPS/ISO-20022.
+    $ref: ../generic/Date.yaml

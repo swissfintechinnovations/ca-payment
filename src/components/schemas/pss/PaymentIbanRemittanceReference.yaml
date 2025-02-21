@@ -1,0 +1,14 @@
+title: Payment Remittance Reference
+description: |
+  The IBAN payment remittance reference. A specific code or number that is used to identify and track payment transactions. Either remittanceReference or remittanceInformation must be set.
+type: object
+properties:
+  reference:
+    $ref: ./RemittanceReference.yaml
+  type:
+    type: string
+    description: The specific type of remittance reference. Either SCOR (Swiss QR Code Reference) or QRR (QR-Reference). Corresponds to the attribute _RmtInf ⇾ Strd ⇾ CdtrRefInf ⇾ Tp_ in SPS/ISO-20022.
+    enum:
+      - SCOR
+      - QRR
+    example: SCOR

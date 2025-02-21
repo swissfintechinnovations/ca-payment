@@ -1,0 +1,17 @@
+title: Account Transaction Remittance Reference
+description: The remittance reference of the account transaction. Specifies the structured reference.
+type: object
+properties:
+  reference:
+    type: string
+    maxLength: 35
+    description: The reference number associated to the choosen remittance type. Corresponds to the attribute _RmtInf ⇾ Strd ⇾ CdtrRefInf ⇾ Ref_ in SPS/ISO-20022.
+    example: '210000000003139471430009017'
+  type:
+    type: string
+    enum:
+      - SCOR
+      - ISR
+      - QRR
+    description: The reference type (QRR, SCOR, ISR). Corresponds to the attribute _RmtInf ⇾ Strd ⇾ CdtrRefInf ⇾ Tp_ in SPS/ISO-20022.
+    example: SCOR

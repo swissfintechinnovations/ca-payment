@@ -1,0 +1,4 @@
+description: Client defined ID from request to correlates HTTP requests between a client and server.
+schema:
+  type: string
+  example: f058ebd6-02f7-4d3f-942e-904344e8cde5

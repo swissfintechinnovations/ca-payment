@@ -1,0 +1,4 @@
+description: This element shall always be populated with the account alias, if defined, otherwise with specific bank account name (e.g. bank saving account).
+type: string
+maxLength: 140
+example: Firmenkonto

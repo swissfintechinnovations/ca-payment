@@ -1,0 +1,6 @@
+title: Single Payment Submission Response
+description: The single payment submission response object.
+type: object
+properties:
+  submissionId:
+    $ref: ./SubmissionId.yaml

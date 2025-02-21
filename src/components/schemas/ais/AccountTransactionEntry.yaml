@@ -1,0 +1,69 @@
+title: Account Transaction Entry
+description: The account transaction entry object.
+type: object
+required:
+  - accountServicerReference
+  - additionalEntryInformation
+  - amount
+  - bankTransactionCode
+  - bookingDate
+  - entryId
+  - entryStatus
+  - transactionType
+  - valueDate
+properties:
+  accountServicerReference:
+    type: string
+    description: Unique reference for the entry, assigned by the financial institution. Corresponds to the attribute _ntry ⇾ AcctSvcrRef_ in SPS/ISO-20022.
+    example: 12345ABC6789
+    maxLength: 35
+  additionalEntryInformation:
+    type: string
+    description: Additional entry information. Corresponds to the attribute _AddtlNtryInf_ in SPS/ISO-20022.
+    example: Online Shopping Visa Debit Card Nr. xxxx 1234
+  amount:
+    $ref: ./PaymentCurrencyAmount.yaml
+  bankTransactionCode:
+    $ref: ./AccountTransactionBankTransactionCode.yaml
+  bookingDate:
+    $ref: ../generic/Date.yaml
+    description: The booking date of the transaction set by the bank. Corresponds to the attribute _BookgDt_ in SPS/ISO-20022.
+  entryId:
+    type: string
+    description: Unique bank-defined ID for the transaction. Corresponds to the attribute _Ntry ⇾ AddtlInfInd ⇾ MsgId_ in SPS/ISO-20022.
+    example: ENTRY123456789
+  entryStatus:
+    type: string
+    enum:
+      - booked
+      - pending
+    description: Indicates the status of an account movement. Corresponds to the attribute _Ntry ⇾ Sts ⇾ Cd_ in SPS/ISO-20022
+    example: booked
+  transactionType:
+    $ref: ./AccountTransactionTransactionType.yaml
+  valueDate:
+    $ref: ../generic/Date.yaml
+    description: The value date of the transaction set by the bank. Corresponds to the attribute _ValDt_ in SPS/ISO-20022.
+  entryReference:
+    type: string
+    description: Mandatory for business cases ISR and QR-IBAN. Contains the ISR participant number or QR-IBAN of the account owner. Corresponds to the attribute _NtryRef_ in SPS/ISO-20022.
+    example: '10001628'
+    maxLength: 35
+  entryReferenceInternalId:
+    type: string
+    description: Additional grouping criteria for business cases ISR and QR-IBAN. Contains the BISR-ID or first 6 characters of the QR reference.
+    example: '123456'
+    maxLength: 35
+  instructedAmount:
+    $ref: ./AccountTransactionInstructedAmount.yaml
+  reversalIndicator:
+    type: boolean
+    description: Indicates if the transaction is a reversing entry. Must always be true. Corresponds to the attribute _RvslInd_ in SPS/ISO-20022.
+    example: true
+  totalChargesAmount:
+    $ref: ./AccountTransactionItemCharges.yaml
+  transactions:
+    type: array
+    description: Specifies the transaction entries.
+    items:
+      $ref: ./AccountTransactionItem.yaml

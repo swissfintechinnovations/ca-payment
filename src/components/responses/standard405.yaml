@@ -1,0 +1,18 @@
+headers:
+  Content-Language:
+    $ref: ../headers/Content-Language.yaml
+  X-Correlation-ID:
+    $ref: ../headers/X-Correlation-ID.yaml
+description: |
+  Method Not Allowed - The method received in the request-line is known by the origin server but not supported by the target resource.
+
+  Examples:
+  - NotSupportedOperation:
+  type: /problems/WRONG_METHOD
+  title: This HTTP operation is not allowed on this endpoint
+  detail: Only GET operations are allowed
+  instance: path/to/corresponding/resource
+content:
+  application/problem+json:
+    schema:
+      $ref: ../schemas/CommonErrorResponse.yaml

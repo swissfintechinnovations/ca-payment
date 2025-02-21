@@ -1,0 +1,3 @@
+description: Response language - always en.
+schema:
+  type: string

@@ -1,0 +1,18 @@
+title: Account Transaction Item Charges
+description: Specifies the total amount of account charges.
+type: object
+required:
+  - amount
+  - currency
+properties:
+  amount:
+    $ref: ../generic/Amount.yaml
+    description: The total amount of account charges.
+  currency:
+    $ref: ../generic/Currency.yaml
+    description: The ISO currency three-letter code in which the total amount of charges was posed.
+  chargeRecords:
+    type: array
+    description: Specifies the details about individual charges.
+    items:
+      $ref: ./AccountTransactionItemChargesRecord.yaml

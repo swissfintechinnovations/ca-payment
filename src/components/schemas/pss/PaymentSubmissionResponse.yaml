@@ -1,0 +1,6 @@
+title: Payment Submission Response (200)
+description: The payment submission response object.
+type: object
+properties:
+  submissionId:
+    $ref: ./SubmissionId.yaml

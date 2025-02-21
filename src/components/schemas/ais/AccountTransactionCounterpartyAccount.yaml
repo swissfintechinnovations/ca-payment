@@ -1,0 +1,19 @@
+title: Account Transaction Counterparty Account
+description: Specifies the counterparty account (debtor account if transaction type = CRDT creditor account if transaction type = DBIT).
+type: object
+required:
+  - identification
+  - type
+properties:
+  identification:
+    type: string
+    maxLength: 35
+    description: 'The account identification: IBAN, ISR participant number or bank account number.'
+    example: CH9300762011623852957
+  type:
+    type: string
+    enum:
+      - IBAN
+      - OTHER
+    description: The account idientification type of the counterparty account, either IBAN or OTHER.
+    example: IBAN

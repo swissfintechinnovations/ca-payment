@@ -1,0 +1,4 @@
+description: The unique identifier (UUID) of the instruction item. Corresponds to the attribute _InstrId_ in SPS/ISO-20022.
+type: string
+maxLength: 35
+example: INSTR-001
