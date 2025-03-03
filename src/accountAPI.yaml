@@ -302,9 +302,14 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: ./components/schemas/ais/Iso20022ReportReference053.yaml
+                type: object
+                required:
+                  - statements
+                properties:
+                  statements:
+                    type: array
+                    items:
+                      $ref: ./components/schemas/ais/Iso20022ReportReference053.yaml
         '400':
           $ref: ./components/responses/standard400.yaml
         '401':
@@ -390,9 +395,14 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: ./components/schemas/ais/Iso20022ReportReference052.yaml
+                type: object
+                required:
+                  - reports
+                properties:
+                  reports:
+                    type: array
+                    items:
+                      $ref: ./components/schemas/ais/Iso20022ReportReference052.yaml
         '400':
           $ref: ./components/responses/standard400.yaml
         '401':
