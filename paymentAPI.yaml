@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  version: 5.0.0
+  version: 4.1.1
   title: Common Payment API
   description: >-
     This specification defines a simple payment API for payment types used in Switzerland. The API is supposed to be used by customers who want to
@@ -710,6 +710,10 @@ paths:
               $ref: '#/components/headers/Location'
             X-Correlation-ID:
               $ref: '#/components/headers/X-Correlation-ID'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaymentSubmissionResponse'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
