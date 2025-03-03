@@ -701,6 +701,10 @@ paths:
               $ref: ./components/headers/Location.yaml
             X-Correlation-ID:
               $ref: ./components/headers/X-Correlation-ID.yaml
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaymentSubmissionResponse'
         '400':
           $ref: ./components/responses/standard400.yaml
         '401':
