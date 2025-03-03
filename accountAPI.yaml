@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  version: 5.0.0
+  version: 4.1.1
   title: Common Account API
   description: >-
     This specification defines a simple API to access information about bank accounts. The API is supposed to be used by customers who want to get
@@ -311,9 +311,14 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Iso20022ReportReference053'
+                type: object
+                required:
+                  - statements
+                properties:
+                  statements:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Iso20022ReportReference053'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -402,9 +407,14 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Iso20022ReportReference052'
+                type: object
+                required:
+                  - reports
+                properties:
+                  reports:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Iso20022ReportReference052'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
