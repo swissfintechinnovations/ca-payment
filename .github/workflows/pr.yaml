@@ -11,7 +11,7 @@ on:
 
 jobs:
   bundle-run-status:
-    uses: swissfintechinnovations/.github/.github/workflows/reusable-bundle-status-workflow.yaml@bundle-status-workflow # TODO change to main
+    uses: swissfintechinnovations/.github/.github/workflows/reusable-bundle-status-workflow.yaml@main
 
   yaml-lint-src:
     needs: bundle-run-status
