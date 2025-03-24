@@ -7,7 +7,9 @@ properties:
     $ref: ./RemittanceReference.yaml
   type:
     type: string
-    description: The specific type of remittance reference. Either SCOR (Swiss QR Code Reference) or QRR (QR-Reference). Corresponds to the attribute _RmtInf ⇾ Strd ⇾ CdtrRefInf ⇾ Tp_ in SPS/ISO-20022.
+    description: >-
+      The specific type of remittance reference. Either SCOR (Swiss QR Code Reference) or QRR (QR-Reference). Corresponds to the attribute
+      _RmtInf ⇾ Strd ⇾ CdtrRefInf ⇾ Tp_ in SPS/ISO-20022.
     enum:
       - SCOR
       - QRR
