@@ -748,7 +748,8 @@ components:
           $ref: '#/components/schemas/AccountTransactionInstructedAmount'
         reversalIndicator:
           type: boolean
-          description: Indicates if the transaction is a reversing entry. Must always be true. Corresponds to the attribute _RvslInd_ in SPS/ISO-20022.
+          description: |
+            Indicates if the transaction is a reversing entry. Must always be true. Corresponds to the attribute _RvslInd_ in SPS/ISO-20022.
           example: true
         totalChargesAmount:
           $ref: '#/components/schemas/AccountTransactionItemCharges'
@@ -841,7 +842,8 @@ components:
         instructionId:
           type: string
           maxLength: 35
-          description: ID of the C-Level from the original payment instruction. Corresponds to the attribute _TxDtls ⇾ Refs ⇾ InstrId_ in SPS/ISO-20022.
+          description: |
+            ID of the C-Level from the original payment instruction. Corresponds to the attribute _TxDtls ⇾ Refs ⇾ InstrId_ in SPS/ISO-20022.
           example: 12345ABC6789
         remittanceInformation:
           $ref: '#/components/schemas/PaymentRemittanceInformation'
@@ -884,7 +886,8 @@ components:
           $ref: '#/components/schemas/Amount'
           description: The amount of individual charges.
         chargesIncludedIndicator:
-          description: Indicates whether the charges are included in the entry amount or not. Corresponds to the attribute _ChrgInclInd_ in SPS/ISO-20022.
+          description: |
+            Indicates whether the charges are included in the entry amount or not. Corresponds to the attribute _ChrgInclInd_ in SPS/ISO-20022.
           type: boolean
           example: true
         currency:
@@ -1531,7 +1534,8 @@ components:
     limit:
       in: query
       name: limit
-      description: Optional parameter for pagination, specifying the number of items to return. The actual maximum limit can be defined by the provider.
+      description: |
+        Optional parameter for pagination, specifying the number of items to return. The actual maximum limit can be defined by the provider.
       required: false
       schema:
         type: integer
