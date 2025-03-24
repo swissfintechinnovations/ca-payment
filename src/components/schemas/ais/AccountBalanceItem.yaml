@@ -13,9 +13,9 @@ properties:
     enum:
       - ITBD
       - CLBD
-    description: >-
-      The account balance type according to ISO20022. Either the interim booked balance (ITBD) or the closing booked balance (CLBD) type can be
-      applied. Corresponds to the attribute _Bal ⇾ Tp_ in SPS/ISO-20022.
+    description: |
+      The account balance type according to ISO20022. Either the interim booked balance (ITBD) or the closing booked balance (CLBD) type can
+      be applied. Corresponds to the attribute _Bal ⇾ Tp_ in SPS/ISO-20022.
     example: CLBD
   date:
     $ref: ../generic/Date.yaml

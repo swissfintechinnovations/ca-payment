@@ -11,18 +11,26 @@ properties:
     description: The amount instructed by the customer to the bank to carry out transaction.
   sourceCurrency:
     $ref: ../generic/Currency.yaml
-    description: The ISO currency three-letter code which is used to fund a currency conversion. Corresponds to the attribute _SrcCcy_ in SPS/ISO-20022.
+    description: |
+      The ISO currency three-letter code which is used to fund a currency conversion. Corresponds to the attribute _SrcCcy_ in
+      SPS/ISO-20022.
   targetCurrency:
     $ref: ../generic/Currency.yaml
-    description: The ISO currency three-letter code which the recipient will receive after the currency conversion. Corresponds to the attribute _TrgtCcy_ in SPS/ISO-20022.
+    description: |
+      The ISO currency three-letter code which the recipient will receive after the currency conversion. Corresponds to the attribute
+      _TrgtCcy_ in SPS/ISO-20022.
   exchangeIndicator:
     type: string
     maxLength: 4
-    description: Indicates whether the amount has to be multiplied or divided by the exchange rate (MULT, DIV). Mandatory if the exchange rate is provided.
+    description: |
+      Indicates whether the amount has to be multiplied or divided by the exchange rate (MULT, DIV). Mandatory if the exchange rate is
+      provided.
     example: MULT
   exchangeRate:
     type: string
     pattern: ^\d{1,11}$|^(?=\d+[.]\d+$).{3,12}$
     maxLength: 12
-    description: The rate at which the source currency will be exchanged for the target currency. Corresponds to the attribute _XchgRate_ in SPS/ISO-20022.
+    description: |
+      The rate at which the source currency will be exchanged for the target currency. Corresponds to the attribute _XchgRate_ in
+      SPS/ISO-20022.
     example: '0.957'

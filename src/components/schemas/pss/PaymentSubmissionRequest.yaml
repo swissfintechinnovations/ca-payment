@@ -22,7 +22,10 @@ properties:
     description: The unique identifier (UUID) of the the payment instruction message.
     $ref: ./MessageId.yaml
   requestedExecutionDate:
-    description: The requested execution date. In some cases, the financial institution can/will change this date, if the requested date is a bank / post holiday. If no date is chosen, the receiving financial institution will execute on the next possible date. Corresponds to the attribute _ReqdExctnDt_ in SPS/ISO-20022.
+    description: |
+      The requested execution date. In some cases, the financial institution can/will change this date, if the requested date is a bank /
+      post holiday. If no date is chosen, the receiving financial institution will execute on the next possible date. Corresponds to the
+      attribute _ReqdExctnDt_ in SPS/ISO-20022.
     $ref: ../generic/Date.yaml
   transactions:
     type: array

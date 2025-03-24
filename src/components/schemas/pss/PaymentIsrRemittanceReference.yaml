@@ -1,6 +1,7 @@
 title: Payment Remittance Reference
 description: |
-  The ISR payment remittance reference. A specific code or number that is used to identify and track payment transactions. Either remittanceReference or remittanceInformation must be set.
+  The ISR payment remittance reference. A specific code or number that is used to identify and track payment transactions. Either
+  remittanceReference or remittanceInformation must be set.
 type: object
 properties:
   reference:

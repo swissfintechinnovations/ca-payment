@@ -1,6 +1,4 @@
-description: >-
-  Location (URI-reference) of the submitted message. The relative path shall be
-  returned as URI-reference.
+description: Location (URI-reference) of the submitted message. The relative path shall be returned as URI-reference.
 schema:
   type: string
   example: /single-payments/618d4ac6e8a64e3d9f26aa3d8c4f323e
