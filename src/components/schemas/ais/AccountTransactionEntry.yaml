@@ -55,16 +55,16 @@ properties:
     maxLength: 35
   entryReferenceInternalId:
     type: string
-    description: > 
-      Additional grouping criteria for business cases ISR and QR-IBAN. Contains the BISR-ID or first 6 characters
-      of the QR reference.
+    description: |
+      Additional grouping criteria for business cases ISR and QR-IBAN. Contains the BISR-ID or first 6 characters of the QR reference.
     example: '123456'
     maxLength: 35
   instructedAmount:
     $ref: ./AccountTransactionInstructedAmount.yaml
   reversalIndicator:
     type: boolean
-    description: Indicates if the transaction is a reversing entry. Must always be true. Corresponds to the attribute _RvslInd_ in SPS/ISO-20022.
+    description: |
+      Indicates if the transaction is a reversing entry. Must always be true. Corresponds to the attribute _RvslInd_ in SPS/ISO-20022.
     example: true
   totalChargesAmount:
     $ref: ./AccountTransactionItemCharges.yaml

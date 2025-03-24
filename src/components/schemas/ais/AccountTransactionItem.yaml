@@ -44,7 +44,8 @@ properties:
   instructionId:
     type: string
     maxLength: 35
-    description: ID of the C-Level from the original payment instruction. Corresponds to the attribute _TxDtls ⇾ Refs ⇾ InstrId_ in SPS/ISO-20022.
+    description: |
+      ID of the C-Level from the original payment instruction. Corresponds to the attribute _TxDtls ⇾ Refs ⇾ InstrId_ in SPS/ISO-20022.
     example: 12345ABC6789
   remittanceInformation:
     $ref: ./PaymentRemittanceInformation.yaml

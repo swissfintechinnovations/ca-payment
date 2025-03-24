@@ -1,6 +1,7 @@
 in: query
 name: limit
-description: Optional parameter for pagination, specifying the number of items to return. The actual maximum limit can be defined by the provider.
+description: |
+  Optional parameter for pagination, specifying the number of items to return. The actual maximum limit can be defined by the provider.
 required: false
 schema:
   type: integer
