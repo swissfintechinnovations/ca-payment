@@ -2,10 +2,10 @@ openapi: 3.0.0
 info:
   version: 5.0.0
   title: Common Account API
-  description: >-
-    This specification defines a simple API to access information about bank accounts. The API is supposed to be used by customers who want to get
-    information about their accounts such as current balance or transactions. This specification uses schema definitions from the Common Data Model
-    v1.2.1.
+  description: |
+    This specification defines a simple API to access information about bank accounts. The API is supposed to be used by customers who want
+    to get information about their accounts such as current balance or transactions. This specification uses schema definitions from the
+    Common Data Model v1.2.1.
   termsOfService: tbd
   contact:
     email: info@common-api.ch
@@ -126,11 +126,15 @@ paths:
       summary: Retrieve account balance information
       description: |
         Returns account balance information of the specified account.
-        * Returns the interim booked balance (ISO20022 Balance Type ITBD) for the current day, if called without a date. The balance is calculated
-        in the course of the service provider's business day, at the time specified, and subject to further changes during the business day. The
+        * Returns the interim booked balance (ISO20022 Balance Type ITBD) for the current day, if called without a date. The balance is
+        calculated
+        in the course of the service provider's business day, at the time specified, and subject to further changes during the business day.
+        The
         interim balance is calculated on the basis of booked credit and debit items during the calculation time/period specified.
-        * Returns the closing booked balance (ISO20022 Balance Type CLBD) for a specific day, if called for a past date. It is the sum of the opening
-        booked balance at the beginning of that day and all entries booked to the account during that day. In case the specified day has not yet been
+        * Returns the closing booked balance (ISO20022 Balance Type CLBD) for a specific day, if called for a past date. It is the sum of
+        the opening
+        booked balance at the beginning of that day and all entries booked to the account during that day. In case the specified day has not
+        yet been
         finalized, the response code will be 202.
       parameters:
         - $ref: '#/components/parameters/account_id'
@@ -177,12 +181,12 @@ paths:
       tags:
         - accounts
       summary: Retrieve transactions of a specific account
-      description: >
+      description: |
         Returns the transaction list of the specified account.
-        * When called without a date, it returns transactions for the current day. Both "pending" and "booked" entries may be included based on the
-        entryStatus parameter.
-        * When called with a date range, only "booked" transactions from completed booking days are returned. For days not yet finalized, a 202
-        response code is returned.
+        * When called without a date, it returns transactions for the current day. Both "pending" and "booked" entries may be included based
+        on the entryStatus parameter.
+        * When called with a date range, only "booked" transactions from completed booking days are returned. For days not yet finalized, a
+        202 response code is returned.
       parameters:
         - $ref: '#/components/parameters/account_id'
         - $ref: '#/components/parameters/date_from'
@@ -283,9 +287,9 @@ paths:
       tags:
         - iso20022
       summary: Retrieve a list of resource links to account statements (camt.053)
-      description: >-
-        Get the resources links to available account statements (camt.053). The returned account statements must be conform to the XML schema and
-        implementation guidelines defined by Swiss Payment Standards.
+      description: |
+        Get the resources links to available account statements (camt.053). The returned account statements must be conform to the XML
+        schema and implementation guidelines defined by Swiss Payment Standards.
       parameters:
         - $ref: '#/components/parameters/date_from'
         - $ref: '#/components/parameters/date_to'
@@ -380,10 +384,10 @@ paths:
       tags:
         - iso20022
       summary: Retrieve a list of resource links to account reports (camt.052)
-      description: >-
-        Get the resources links to available account reports (camt.052) generated since the last End-of-Day (EOD) processing. Only intraday reports
-        created after the most recent EOD cycle are included. The returned account reports must conform to the XML schema and implementation
-        guidelines defined by Swiss Payment Standards.
+      description: |
+        Get the resources links to available account reports (camt.052) generated since the last End-of-Day (EOD) processing. Only intraday
+        reports created after the most recent EOD cycle are included. The returned account reports must conform to the XML schema and
+        implementation guidelines defined by Swiss Payment Standards.
       parameters:
         - $ref: '#/components/parameters/cursor'
         - $ref: '#/components/parameters/limit'
@@ -489,9 +493,9 @@ components:
           enum:
             - ITBD
             - CLBD
-          description: >-
-            The account balance type according to ISO20022. Either the interim booked balance (ITBD) or the closing booked balance (CLBD) type can be
-            applied. Corresponds to the attribute _Bal ⇾ Tp_ in SPS/ISO-20022.
+          description: |
+            The account balance type according to ISO20022. Either the interim booked balance (ITBD) or the closing booked balance (CLBD) type can
+            be applied. Corresponds to the attribute _Bal ⇾ Tp_ in SPS/ISO-20022.
           example: CLBD
         date:
           $ref: '#/components/schemas/Date'
@@ -530,9 +534,9 @@ components:
           example: Account Owner XYZ
         accountTypeCode:
           type: string
-          description: >
-            Contains the account type code according to the ISO20022 external cash account type code list. It is strongly recommended to use only the
-            5 codes below as follows:
+          description: |
+            Contains the account type code according to the ISO20022 external cash account type code list. It is strongly recommended to use only
+            the 5 codes below as follows:
             * LOAN: Account used for loans (loan and mortgage accounts) - DE: Darlehenskonto, Kreditkonto, Baukreditkonto, Hypothekarkonto
             * LLSV: Account used for savings with special interest and withdrawal terms (pension provision and vested benefits accounts) - DE:
             Vorsorge- und Freizügigkeitskonten
@@ -593,9 +597,9 @@ components:
           description: Permitted currencies for the account.
     AccountTransactionBankTransactionCode:
       title: Account Transaction Bank Transaction Code
-      description: >-
-        The bank transaction code (ISO20022) object of an account transaction. Specifies a set of elements to fully identify the type of underlying
-        transaction resulting in an entry.
+      description: |
+        The bank transaction code (ISO20022) object of an account transaction. Specifies a set of elements to fully identify the type of
+        underlying transaction resulting in an entry.
       type: object
       required:
         - domainCode
@@ -605,23 +609,23 @@ components:
         domainCode:
           type: string
           maxLength: 4
-          description: >-
-            The code of the business area of the underlying transaction according to the "Bank Transaction Code". Corresponds to the attribute _Domn ⇾
-            Cd_ in SPS/ISO-20022.
+          description: |
+            The code of the business area of the underlying transaction according to the "Bank Transaction Code". Corresponds to the attribute
+            _Domn ⇾ Cd_ in SPS/ISO-20022.
           example: PMNT
         familyCode:
           type: string
           maxLength: 4
-          description: >-
+          description: |
             The family code within a specific domain according to the "Bank Transaction Code". Corresponds to the attribute _Fmly ⇾ Cd_ in
             SPS/ISO-20022.
           example: RCDT
         subFamilyCode:
           type: string
           maxLength: 4
-          description: >-
-            Specifies the sub-family code within a specific domain according to the "Bank Transaction Code". Corresponds to the attribute _SubFmlyCd_
-            in SPS/ISO-20022.
+          description: |
+            Specifies the sub-family code within a specific domain according to the "Bank Transaction Code". Corresponds to the attribute
+            _SubFmlyCd_ in SPS/ISO-20022.
           example: DMCT
     AccountTransactionCounterparty:
       title: Account Transaction Counterparty
@@ -668,7 +672,7 @@ components:
           type: string
           minLength: 8
           maxLength: 11
-          description: >
+          description: |
             The bank identifier code (BIC) of the creditor agent of a payment. Corresponds to the attribute _CdtrAgt ⇾ FinInstnId ⇾ BIC_ in
             SPS/ISO-20022. The BIC is an 8 or 11-character code that breaks down as follows:
             - First 4 characters - bank code (letters only)
@@ -695,8 +699,8 @@ components:
       properties:
         accountServicerReference:
           type: string
-          description: >
-            Unique reference for the entry, assigned by the financial institution. Corresponds to the attribute  _ntry ⇾ AcctSvcrRef_ in
+          description: |
+            Unique reference for the entry, assigned by the financial institution. Corresponds to the attribute _ntry ⇾ AcctSvcrRef_ in
             SPS/ISO-20022.
           example: 12345ABC6789
           maxLength: 35
@@ -729,7 +733,7 @@ components:
           description: The value date of the transaction set by the bank. Corresponds to the attribute _ValDt_ in SPS/ISO-20022.
         entryReference:
           type: string
-          description: >
+          description: |
             Mandatory for business cases ISR and QR-IBAN. Contains the ISR participant number or QR-IBAN of the account owner. Corresponds to the
             attribute _NtryRef_ in SPS/ISO-20022.
           example: '10001628'
@@ -767,22 +771,28 @@ components:
           description: The amount instructed by the customer to the bank to carry out transaction.
         sourceCurrency:
           $ref: '#/components/schemas/Currency'
-          description: The ISO currency three-letter code which is used to fund a currency conversion. Corresponds to the attribute _SrcCcy_ in SPS/ISO-20022.
+          description: |
+            The ISO currency three-letter code which is used to fund a currency conversion. Corresponds to the attribute _SrcCcy_ in
+            SPS/ISO-20022.
         targetCurrency:
           $ref: '#/components/schemas/Currency'
-          description: >-
-            The ISO currency three-letter code which the recipient will receive after the currency conversion. Corresponds to the attribute _TrgtCcy_
-            in SPS/ISO-20022.
+          description: |
+            The ISO currency three-letter code which the recipient will receive after the currency conversion. Corresponds to the attribute
+            _TrgtCcy_ in SPS/ISO-20022.
         exchangeIndicator:
           type: string
           maxLength: 4
-          description: Indicates whether the amount has to be multiplied or divided by the exchange rate (MULT, DIV). Mandatory if the exchange rate is provided.
+          description: |
+            Indicates whether the amount has to be multiplied or divided by the exchange rate (MULT, DIV). Mandatory if the exchange rate is
+            provided.
           example: MULT
         exchangeRate:
           type: string
           pattern: ^\d{1,11}$|^(?=\d+[.]\d+$).{3,12}$
           maxLength: 12
-          description: The rate at which the source currency will be exchanged for the target currency. Corresponds to the attribute _XchgRate_ in SPS/ISO-20022.
+          description: |
+            The rate at which the source currency will be exchanged for the target currency. Corresponds to the attribute _XchgRate_ in
+            SPS/ISO-20022.
           example: '0.957'
     AccountTransactionItem:
       title: Account Transaction Item
@@ -797,16 +807,16 @@ components:
         accountServicerReference:
           type: string
           maxLength: 35
-          description: >-
-            Unique booking (transaction) reference assigned by the financial institution. Corresponds to the attribute _TxDtls ⇾ Refs ⇾ AcctSvcrRef_
-            in SPS/ISO-20022.
+          description: |
+            Unique booking (transaction) reference assigned by the financial institution. Corresponds to the attribute _TxDtls ⇾ Refs ⇾
+            AcctSvcrRef_ in SPS/ISO-20022.
           example: 12345ABC6789
         amount:
           $ref: '#/components/schemas/PaymentCurrencyAmount'
         transactionId:
           type: string
           maxLength: 35
-          description: >-
+          description: |
             The unique identifier to the listed transaction. Defined by the bank. Corresponds to the attribute _TxDtls ⇾ Refs ⇾ PmtInfId_ in
             SPS/ISO-20022.
           example: TX12345A987
@@ -842,9 +852,9 @@ components:
         uetr:
           type: string
           pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$
-          description: >-
-            Globally unique reference Reference assigned by the debtor (optional) or by the debtor agent. Corresponds to the attribute _TxDtls ⇾ Refs
-            ⇾ UETR_ in SPS/ISO-20022
+          description: |
+            Globally unique reference Reference assigned by the debtor (optional) or by the debtor agent. Corresponds to the attribute _TxDtls ⇾
+            Refs ⇾ UETR_ in SPS/ISO-20022
           example: fdc01a3e-4567-4abc-8def-1234567890ab
     AccountTransactionItemCharges:
       title: Account Transaction Item Charges
@@ -893,7 +903,7 @@ components:
         reference:
           type: string
           maxLength: 35
-          description: >-
+          description: |
             The reference number associated to the choosen remittance type. Corresponds to the attribute _RmtInf ⇾ Strd ⇾ CdtrRefInf ⇾ Ref_ in
             SPS/ISO-20022.
           example: '210000000003139471430009017'
@@ -982,7 +992,7 @@ components:
           $ref: '#/components/schemas/AccountTransactionUnstructuredAddress'
     AccountTransactionTransactionType:
       title: Account Transaction Transaction Type
-      description: >-
+      description: |
         The transaction type of the account transaction, either credit (CRDT) or debit (DBIT). Corresponds to the attribute _CdtDbtInd_ in
         SPS/ISO-20022.
       type: string
@@ -1049,16 +1059,16 @@ components:
         code:
           type: string
           maxLength: 5
-          description: >-
+          description: |
             Identification code of a clearing system. Only "CHBCC" is permitted in Switzerland. Corresponds to the attribute _ClrSysId ⇾ Cd_ in
             SPS/ISO-20022.
           example: CHBCC
         memberId:
           type: string
           maxLength: 35
-          description: >-
-            The identification of a clearing system member. Clearing ID (Bank Code, "National Identifier") of the financial institution. Corresponds
-            to the attribute _ClrSysId ⇾ MmbId_ in SPS/ISO-20022.
+          description: |
+            The identification of a clearing system member. Clearing ID (Bank Code, "National Identifier") of the financial institution.
+            Corresponds to the attribute _ClrSysId ⇾ MmbId_ in SPS/ISO-20022.
           example: '00230'
     CommonErrorResponse:
       title: Common Error Response
@@ -1127,7 +1137,7 @@ components:
       format: date-time
       example: '2018-04-13T11:11:11Z'
     Designation:
-      description: >-
+      description: |
         This element shall always be populated with the account alias, if defined, otherwise with specific bank account name (e.g. bank saving
         account).
       type: string
@@ -1231,7 +1241,9 @@ components:
           description: The International Bank Account Number (IBAN), associated with the account.
         type:
           type: string
-          description: The allowed account identification type for the creditor account depends on the payment type. The debtor account must always be an IBAN.
+          description: |
+            The allowed account identification type for the creditor account depends on the payment type. The debtor account must always be an
+            IBAN.
           enum:
             - IBAN
           example: IBAN
@@ -1302,23 +1314,20 @@ components:
           $ref: '#/components/headers/Content-Language'
         X-Correlation-ID:
           $ref: '#/components/headers/X-Correlation-ID'
-      description: >
+      description: |
         Forbidden - A valid OAuth Token was received, but access was denied. (Depending on the security requirements, providers can return 404
         instead)
-
         Examples:
         - InsufficientPrivileges:
         type: /problems/INSUFFICIENT_PRIVILEGES
         title: No privileges for the requested operation
         detail: Insufficient privileges for the requested operation
         instance: path/to/corresponding/resource
-
         - ExpiredToken:
         type: /problems/EXPIRED_TOKEN
         title: The OAuth Token is expired
         detail: The token is no longer valid
         instance: path/to/corresponding/resource
-
         - NoFutureDateSupported:
         type: /problems/MALFORMED_PAYLOAD
         title: Invalid parameter values have been detected
@@ -1508,9 +1517,9 @@ components:
     entry_status:
       in: query
       name: entry_status
-      description: >-
-        Specifies the status of the entries to be queried. Intraday movements can have a status of either "pending" or "booked." For completed booking
-        days, only entries with a "booked" status will be returned.
+      description: |
+        Specifies the status of the entries to be queried. Intraday movements can have a status of either "pending" or "booked." For completed
+        booking days, only entries with a "booked" status will be returned.
       required: false
       schema:
         type: string
@@ -1570,7 +1579,7 @@ components:
         type: string
         example: f058ebd6-02f7-4d3f-942e-904344e8cde5
     X-Next-Cursor:
-      description: >-
+      description: |
         An opaque string value used for pagination. Include this value in the cursor parameter of the subsequent request to fetch the next page of
         results. An empty string indicates that there are no more results.
       required: false

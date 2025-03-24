@@ -2,10 +2,10 @@ openapi: 3.0.0
 info:
   version: 5.0.0
   title: Common Payment API
-  description: >-
-    This specification defines a simple payment API for payment types used in Switzerland. The API is supposed to be used by customers who want to
-    initiate a payment at their bank. Note that, consents and SCA will be handled in a dedicated specification file. This specification uses schema
-    definitions from the Common Data Model v1.2.1.
+  description: |
+    This specification defines a simple payment API for payment types used in Switzerland. The API is supposed to be used by customers who
+    want to initiate a payment at their bank. Note that, consents and SCA will be handled in a dedicated specification file. This
+    specification uses schema definitions from the Common Data Model v1.2.1.
   termsOfService: Tbd
   contact:
     email: info@common-api.ch
@@ -19,19 +19,19 @@ externalDocs:
   url: https://www.common-api.ch
 tags:
   - name: payments
-    description: >-
-      Third party payment service considering bulk payments operations (JSON). PUT operation can be used for both payment submission and payment
-      initiation (PSS/pss), depending on security implementation.
+    description: |
+      Third party payment service considering bulk payments operations (JSON). PUT operation can be used for both payment submission and
+      payment initiation (PSS/pss), depending on security implementation.
   - name: single payments
-    description: >-
-      Third party payment service considering single payments operations (JSON). PUT operation can be used for both payment submission and payment
-      initiation (PSS/pss), depending on security implementation.
+    description: |
+      Third party payment service considering single payments operations (JSON). PUT operation can be used for both payment submission and
+      payment initiation (PSS/pss), depending on security implementation.
   - name: standing orders
     description: Third party payment service considering standing order operations (JSON).
   - name: iso20022
-    description: >-
-      Third party payment service considering pain.001 and pain.002 operations (XML). PUT operation can be used for both payment submission and
-      payment initiation (PSS/pss), depending on security implementation.
+    description: |
+      Third party payment service considering pain.001 and pain.002 operations (XML). PUT operation can be used for both payment submission
+      and payment initiation (PSS/pss), depending on security implementation.
 security:
   - OAuth2:
       - read
@@ -875,16 +875,16 @@ components:
         code:
           type: string
           maxLength: 5
-          description: >-
+          description: |
             Identification code of a clearing system. Only "CHBCC" is permitted inSwitzerland. Corresponds to the attribute _ClrSysId ⇾ Cd_
             inSPS/ISO-20022.
           example: CHBCC
         memberId:
           type: string
           maxLength: 35
-          description: >-
-            The identification of a clearing system member. Clearing ID (Bank Code, "National Identifier") of the financial institution. Corresponds
-            to the attribute _ClrSysId ⇾ MmbId_ in SPS/ISO-20022.
+          description: |
+            The identification of a clearing system member. Clearing ID (Bank Code, "National Identifier") of the financial institution.
+            Corresponds to the attribute _ClrSysId ⇾ MmbId_ in SPS/ISO-20022.
           example: '00230'
     CommonErrorResponse:
       title: Common Error Response
@@ -999,10 +999,10 @@ components:
       example: ENDTOENDID-001
     ExecutionRule:
       title: Execution Rule
-      description: >
+      description: |
         *following* or *preceding* supported as values.
-        This data attribute defines the behaviour when recurring payment dates falls on a weekend or bank holiday. The payment is then executed either
-        the *preceding* or *following* workin day.
+        This data attribute defines the behaviour when recurring payment dates falls on a weekend or bank holiday. The payment is then executed
+        either the *preceding* or *following* workin day.
         ASPSP might reject the request due to the communicated value, if rules in Online-Banking are not supporting this execution rule.
       type: string
       enum:
@@ -1055,9 +1055,9 @@ components:
       example: eb6305c91f7f49deaed016487c27b42d
     PaymentBookingInstruction:
       title: Payment Booking Instruction
-      description: >
-        The payment booking instruction, i.e. the method for processing and grouping a payment. Corresponds to the attribute _DbtrAcct ⇾ Tp ⇾ Prtry_
-        in SPS/ISO-20022. Possible methods are:
+      description: |
+        The payment booking instruction, i.e. the method for processing and grouping a payment. Corresponds to the attribute _DbtrAcct ⇾ Tp ⇾
+        Prtry_ in SPS/ISO-20022. Possible methods are:
         - SINGLEBOOKING_SIA
         - SINGLEBOOKING_NOA
         - BATCHBOOKING_SALA_NOA
@@ -1077,7 +1077,7 @@ components:
       example: BATCHBOOKING_SALA_CND
     PaymentChargeBearerMethod:
       title: Payment Charge Bearer Method
-      description: >
+      description: |
         The payment charge bearer method, i.e. who is responsible for paying the transaction fees associated with a payment. Corresponds to the
         attribute _SvcLvl ⇾ Cd_ in SPS/ISO-20022. Possible methods are: - DEBT (debtor) - CRED (creditor) - SHAR (shared) - SLEV (service level)
       type: string
@@ -1111,7 +1111,7 @@ components:
           type: string
           minLength: 8
           maxLength: 11
-          description: >
+          description: |
             The bank identifier code (BIC) of the creditor agent of a payment. Corresponds to the attribute _CdtrAgt ⇾ FinInstnId ⇾ BIC_ in
             SPS/ISO-20022. The BIC is an 8 or 11-character code that breaks down as follows:
             - First 4 characters - bank code (letters only)
@@ -1165,7 +1165,9 @@ components:
           description: The International Bank Account Number (IBAN), associated with the debtor account.
         type:
           type: string
-          description: The allowed account identification type for the creditor account depends on the payment type. The debtor account must always be an IBAN.
+          description: |
+            The allowed account identification type for the creditor account depends on the payment type. The debtor account must always be an
+            IBAN.
           enum:
             - IBAN
           example: IBAN
@@ -1201,7 +1203,7 @@ components:
           example: true
     PaymentIbanRemittanceReference:
       title: Payment Remittance Reference
-      description: >
+      description: |
         The IBAN payment remittance reference. A specific code or number that is used to identify and track payment transactions. Either
         remittanceReference or remittanceInformation must be set.
       type: object
@@ -1210,7 +1212,7 @@ components:
           $ref: '#/components/schemas/RemittanceReference'
         type:
           type: string
-          description: >-
+          description: |
             The specific type of remittance reference. Either SCOR (Swiss QR Code Reference) or QRR (QR-Reference). Corresponds to the attribute
             _RmtInf ⇾ Strd ⇾ CdtrRefInf ⇾ Tp_ in SPS/ISO-20022.
           enum:
@@ -1298,7 +1300,7 @@ components:
           $ref: '#/components/schemas/PaymentOtherAccount'
     PaymentIsrRemittanceReference:
       title: Payment Remittance Reference
-      description: >
+      description: |
         The ISR payment remittance reference. A specific code or number that is used to identify and track payment transactions. Either
         remittanceReference or remittanceInformation must be set.
       type: object
@@ -1356,7 +1358,7 @@ components:
           $ref: '#/components/schemas/PaymentOtherRemittanceReference'
     PaymentOtherRemittanceReference:
       title: Payment Remittance Reference
-      description: >
+      description: |
         The OTHER payment remittance reference. A specific code or number that is used to identify and track payment transactions. Either
         remittanceReference or remittanceInformation must be set.
       type: object
@@ -1391,12 +1393,16 @@ components:
         addressLine1:
           type: string
           maxLength: 70
-          description: Additional address information, which cannot be supplied in structured elements. Corresponds to the attribute _AdrLine_ in SPS/ISO-20022.
+          description: |
+            Additional address information, which cannot be supplied in structured elements. Corresponds to the attribute _AdrLine_ in
+            SPS/ISO-20022.
           example: Carribean At Keppel Bay
         addressLine2:
           type: string
           maxLength: 70
-          description: Additional address information, which cannot be supplied in structured elements. Corresponds to the attribute _AdrLine_ in SPS/ISO-20022.
+          description: |
+            Additional address information, which cannot be supplied in structured elements. Corresponds to the attribute _AdrLine_ in
+            SPS/ISO-20022.
           example: 05-66
         buildingNumber:
           type: string
@@ -1488,10 +1494,10 @@ components:
           description: The unique identifier (UUID) of the the payment instruction message.
           $ref: '#/components/schemas/MessageId'
         requestedExecutionDate:
-          description: >-
-            The requested execution date. In some cases, the financial institution can/will change this date, if the requested date is a bank / post
-            holiday. If no date is chosen, the receiving financial institution will execute on the next possible date. Corresponds to the attribute
-            _ReqdExctnDt_ in SPS/ISO-20022.
+          description: |
+            The requested execution date. In some cases, the financial institution can/will change this date, if the requested date is a bank /
+            post holiday. If no date is chosen, the receiving financial institution will execute on the next possible date. Corresponds to the
+            attribute _ReqdExctnDt_ in SPS/ISO-20022.
           $ref: '#/components/schemas/Date'
         transactions:
           type: array
@@ -1535,7 +1541,7 @@ components:
           items:
             $ref: '#/components/schemas/PaymentInstructionItemStatus'
     RemittanceReference:
-      description: >-
+      description: |
         The reference number associated to the choosen remittance type. Corresponds to the attribute _RmtInf ⇾ Strd ⇾ CdtrRefInf ⇾ Ref_ in
         SPS/ISO-20022.
       type: string
@@ -1586,10 +1592,10 @@ components:
           description: The QR details of the single payment instruction item.
           $ref: '#/components/schemas/PaymentQrDetail'
         requestedExecutionDate:
-          description: >-
-            The requested execution date. In some cases, the financial institution can/will change this date, if the requested date is a bank / post
-            holiday. If no date is chosen, the receiving financial institution will execute on the next possible date. Corresponds to the attribute
-            _ReqdExctnDt_ in SPS/ISO-20022.
+          description: |
+            The requested execution date. In some cases, the financial institution can/will change this date, if the requested date is a bank /
+            post holiday. If no date is chosen, the receiving financial institution will execute on the next possible date. Corresponds to the
+            attribute _ReqdExctnDt_ in SPS/ISO-20022.
           $ref: '#/components/schemas/Date'
     SinglepaymentsSubmissionResponse:
       title: Single Payment Submission Response
@@ -1681,10 +1687,10 @@ components:
           description: The QR details of the standing order instruction item.
           $ref: '#/components/schemas/PaymentQrDetail'
         requestedExecutionDate:
-          description: >
-            The requested execution date. In some cases, the financial institution can/will change this date, if the requested date is a bank / post
-            holiday. If no date is chosen, the receiving financial institution will execute on the next possible date. Corresponds to the attribute
-            _ReqdExctnDt_ in SPS/ISO-20022.
+          description: |
+            The requested execution date. In some cases, the financial institution can/will change this date, if the requested date is a bank /
+            post holiday. If no date is chosen, the receiving financial institution will execute on the next possible date. Corresponds to the
+            attribute _ReqdExctnDt_ in SPS/ISO-20022.
           $ref: '#/components/schemas/Date'
     StandingorderSubmissionResponse:
       title: Standing Order Submission Response
@@ -1733,7 +1739,7 @@ components:
       maxLength: 35
       example: 618d4ac6e8a64e3d9f26aa3d8c4f323e
     Uetr:
-      description: >-
+      description: |
         Globally unique reference Reference assigned by the debtor (optional) or by the debtor agent. Corresponds to the attribute _CdtTrfTxInf ⇾
         PmtId ⇾ UETR_ in SPS/ISO-20022.
       type: string
@@ -1785,23 +1791,20 @@ components:
           $ref: '#/components/headers/Content-Language'
         X-Correlation-ID:
           $ref: '#/components/headers/X-Correlation-ID'
-      description: >
+      description: |
         Forbidden - A valid OAuth Token was received, but access was denied. (Depending on the security requirements, providers can return 404
         instead)
-
         Examples:
         - InsufficientPrivileges:
         type: /problems/INSUFFICIENT_PRIVILEGES
         title: No privileges for the requested operation
         detail: Insufficient privileges for the requested operation
         instance: path/to/corresponding/resource
-
         - ExpiredToken:
         type: /problems/EXPIRED_TOKEN
         title: The OAuth Token is expired
         detail: The token is no longer valid
         instance: path/to/corresponding/resource
-
         - NoFutureDateSupported:
         type: /problems/MALFORMED_PAYLOAD
         title: Invalid parameter values have been detected
@@ -2035,7 +2038,7 @@ components:
         type: string
         example: f058ebd6-02f7-4d3f-942e-904344e8cde5
     X-Next-Cursor:
-      description: >-
+      description: |
         An opaque string value used for pagination. Include this value in the cursor parameter of the subsequent request to fetch the next page of
         results. An empty string indicates that there are no more results.
       required: false
