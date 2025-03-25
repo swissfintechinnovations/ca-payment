@@ -10,7 +10,9 @@ properties:
     description: The International Bank Account Number (IBAN), associated with the account.
   type:
     type: string
-    description: The allowed account identification type for the creditor account depends on the payment type. The debtor account must always be an IBAN.
+    description: |
+      The allowed account identification type for the creditor account depends on the payment type. The debtor account must always be an
+      IBAN.
     enum:
       - IBAN
     example: IBAN

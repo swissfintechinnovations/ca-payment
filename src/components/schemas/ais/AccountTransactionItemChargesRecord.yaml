@@ -6,7 +6,8 @@ properties:
     $ref: ../generic/Amount.yaml
     description: The amount of individual charges.
   chargesIncludedIndicator:
-    description: Indicates whether the charges are included in the entry amount or not. Corresponds to the attribute _ChrgInclInd_ in SPS/ISO-20022.
+    description: |
+      Indicates whether the charges are included in the entry amount or not. Corresponds to the attribute _ChrgInclInd_ in SPS/ISO-20022.
     type: boolean
     example: true
   currency:

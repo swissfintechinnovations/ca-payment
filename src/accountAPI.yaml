@@ -1,8 +1,11 @@
 openapi: 3.0.0
 info:
-  version: 4.1.1
+  version: 5.0.0
   title: Common Account API
-  description: This specification defines a simple API to access information about bank accounts. The API is supposed to be used by customers who want to get information about their accounts such as current balance or transactions. This specification uses schema definitions from the Common Data Model v1.2.1.
+  description: |
+    This specification defines a simple API to access information about bank accounts. The API is supposed to be used by customers who want
+    to get information about their accounts such as current balance or transactions. This specification uses schema definitions from the
+    Common Data Model v1.2.1.
   termsOfService: tbd
   contact:
     email: info@common-api.ch
@@ -10,7 +13,7 @@ info:
     name: Apache 2.0
     url: https://www.apache.org/licenses/LICENSE-2.0.html
 servers:
-  - url: account.common-api.ch/api/v4
+  - url: account.common-api.ch/api/v5
 externalDocs:
   description: Find out more about SFTI API specifications.
   url: https://www.common-api.ch
@@ -123,11 +126,15 @@ paths:
       summary: Retrieve account balance information
       description: |
         Returns account balance information of the specified account.
-        * Returns the interim booked balance (ISO20022 Balance Type ITBD) for the current day, if called without a date. The balance is calculated
-        in the course of the service provider's business day, at the time specified, and subject to further changes during the business day. The
+        * Returns the interim booked balance (ISO20022 Balance Type ITBD) for the current day, if called without a date. The balance is
+        calculated
+        in the course of the service provider's business day, at the time specified, and subject to further changes during the business day.
+        The
         interim balance is calculated on the basis of booked credit and debit items during the calculation time/period specified.
-        * Returns the closing booked balance (ISO20022 Balance Type CLBD) for a specific day, if called for a past date. It is the sum of the opening
-        booked balance at the beginning of that day and all entries booked to the account during that day. In case the specified day has not yet been
+        * Returns the closing booked balance (ISO20022 Balance Type CLBD) for a specific day, if called for a past date. It is the sum of
+        the opening
+        booked balance at the beginning of that day and all entries booked to the account during that day. In case the specified day has not
+        yet been
         finalized, the response code will be 202.
       parameters:
         - $ref: ./components/parameters/path/account_id.yaml
@@ -176,8 +183,10 @@ paths:
       summary: Retrieve transactions of a specific account
       description: |
         Returns the transaction list of the specified account.
-        * When called without a date, it returns transactions for the current day. Both "pending" and "booked" entries may be included based on the entryStatus parameter.
-        * When called with a date range, only "booked" transactions from completed booking days are returned. For days not yet finalized, a 202 response code is returned.
+        * When called without a date, it returns transactions for the current day. Both "pending" and "booked" entries may be included based
+        on the entryStatus parameter.
+        * When called with a date range, only "booked" transactions from completed booking days are returned. For days not yet finalized, a
+        202 response code is returned.
       parameters:
         - $ref: ./components/parameters/path/account_id.yaml
         - $ref: ./components/parameters/query/date_from.yaml
@@ -278,7 +287,9 @@ paths:
       tags:
         - iso20022
       summary: Retrieve a list of resource links to account statements (camt.053)
-      description: Get the resources links to available account statements (camt.053). The returned account statements must be conform to the XML schema and implementation guidelines defined by Swiss Payment Standards.
+      description: |
+        Get the resources links to available account statements (camt.053). The returned account statements must be conform to the XML
+        schema and implementation guidelines defined by Swiss Payment Standards.
       parameters:
         - $ref: ./components/parameters/query/date_from.yaml
         - $ref: ./components/parameters/query/date_to.yaml
@@ -373,7 +384,10 @@ paths:
       tags:
         - iso20022
       summary: Retrieve a list of resource links to account reports (camt.052)
-      description: Get the resources links to available account reports (camt.052) generated since the last End-of-Day (EOD) processing. Only intraday reports created after the most recent EOD cycle are included. The returned account reports must conform to the XML schema and implementation guidelines defined by Swiss Payment Standards.
+      description: |
+        Get the resources links to available account reports (camt.052) generated since the last End-of-Day (EOD) processing. Only intraday
+        reports created after the most recent EOD cycle are included. The returned account reports must conform to the XML schema and
+        implementation guidelines defined by Swiss Payment Standards.
       parameters:
         - $ref: ./components/parameters/query/cursor.yaml
         - $ref: ./components/parameters/query/limit.yaml
