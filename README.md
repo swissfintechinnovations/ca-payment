@@ -3,7 +3,7 @@
 
 ---
 [![GitHub release](https://img.shields.io/github/release/swissfintechinnovations/ca-payment?color=blue)](https://github.com/swissfintechinnovations/ca-payment/releases/)
-![Payment Major Version](https://img.shields.io/badge/major_version-v4-blue)
+![Payment Major Version](https://img.shields.io/badge/major_version-v5-blue)
 [![OpenAPI version](https://img.shields.io/badge/dynamic/yaml?url=https%3A%2F%2Fgithub.com%2Fswissfintechinnovations%2Fca-payment%2Fraw%2Fmain%2FaccountAPI.yaml&query=openapi&prefix=v&label=OpenAPI&color=blue)](https://swagger.io/resources/open-api/)
 [![GitHub license](https://img.shields.io/github/license/swissfintechinnovations/ca-payment?color=de980d)](https://github.com/swissfintechinnovations/ca-payment/blob/main/LICENSE)
 

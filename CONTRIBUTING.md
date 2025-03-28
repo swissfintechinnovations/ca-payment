@@ -14,13 +14,15 @@
 If you are not yet part of the SFTI community but interested in contributing to the improvement and further development of the SFTI API's, then please follow the process described below.
 
 **1. Request a GitHub account**  
-Send an email to [info@common-api.ch](mailto:info@common-api.ch) and explain your interest to contribute to SFTI API's. SFTI will get in touch with the requestor to clarify next steps.
+Create your account on GitHub site. The registration can be carried out autonomously: after fulfilling your email address, password and user name your new account will be verified by captcha and code on registered email address.
+By completing the GitHub account registration you will be able to participate on the GitHub by raising issues and providing comments on issues and pull requests of the respective API stream.
 
-**2. Onboarding to SFTI and GitHub**  
-Your request will be checked normally within 5 working days. If your request is approved, you will get the information on how to collaborate in GitHub.
+**2. Sign-in and inform [info@common-api.ch](mailto:info@common-api.ch)**  
+Reach out to [info@common-api.ch](mailto:info@common-api.ch) by providing your GitHub user name and tell briefly for which API you are interested in contributing. You will be added to the list of community members.
+In case that you want to issue pull requests and code actively please state it on your email. SFTI will get in touch with you and inform you about next steps within 5 working days.
 
-**3. Complete GitHub onboarding**  
-After completing the onboarding process, you can access GitHub and start contributing.
+**3. Optional step: Completed GitHub onboarding with write permissions**  
+After approval of write permissions you will be informed about the completed onboarding and you can access GitHub with the write permissions.
 
 **4. Start contributing**  
 Now you are ready to contribute. Please check the process [how to contribute](#how-to-contribute) in the next section.
