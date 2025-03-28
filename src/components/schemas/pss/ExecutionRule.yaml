@@ -1,7 +1,8 @@
 title: Execution Rule
 description: |
   *following* or *preceding* supported as values.
-  This data attribute defines the behaviour when recurring payment dates falls on a weekend or bank holiday. The payment is then executed either the *preceding* or *following* workin day.
+  This data attribute defines the behaviour when recurring payment dates falls on a weekend or bank holiday. The payment is then executed
+  either the *preceding* or *following* workin day.
   ASPSP might reject the request due to the communicated value, if rules in Online-Banking are not supporting this execution rule.
 type: string
 enum:

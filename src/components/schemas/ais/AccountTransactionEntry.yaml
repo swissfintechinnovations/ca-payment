@@ -14,7 +14,9 @@ required:
 properties:
   accountServicerReference:
     type: string
-    description: Unique reference for the entry, assigned by the financial institution. Corresponds to the attribute _ntry ⇾ AcctSvcrRef_ in SPS/ISO-20022.
+    description: |
+      Unique reference for the entry, assigned by the financial institution. Corresponds to the attribute _ntry ⇾ AcctSvcrRef_ in
+      SPS/ISO-20022.
     example: 12345ABC6789
     maxLength: 35
   additionalEntryInformation:
@@ -46,19 +48,23 @@ properties:
     description: The value date of the transaction set by the bank. Corresponds to the attribute _ValDt_ in SPS/ISO-20022.
   entryReference:
     type: string
-    description: Mandatory for business cases ISR and QR-IBAN. Contains the ISR participant number or QR-IBAN of the account owner. Corresponds to the attribute _NtryRef_ in SPS/ISO-20022.
+    description: |
+      Mandatory for business cases ISR and QR-IBAN. Contains the ISR participant number or QR-IBAN of the account owner. Corresponds to the
+      attribute _NtryRef_ in SPS/ISO-20022.
     example: '10001628'
     maxLength: 35
   entryReferenceInternalId:
     type: string
-    description: Additional grouping criteria for business cases ISR and QR-IBAN. Contains the BISR-ID or first 6 characters of the QR reference.
+    description: |
+      Additional grouping criteria for business cases ISR and QR-IBAN. Contains the BISR-ID or first 6 characters of the QR reference.
     example: '123456'
     maxLength: 35
   instructedAmount:
     $ref: ./AccountTransactionInstructedAmount.yaml
   reversalIndicator:
     type: boolean
-    description: Indicates if the transaction is a reversing entry. Must always be true. Corresponds to the attribute _RvslInd_ in SPS/ISO-20022.
+    description: |
+      Indicates if the transaction is a reversing entry. Must always be true. Corresponds to the attribute _RvslInd_ in SPS/ISO-20022.
     example: true
   totalChargesAmount:
     $ref: ./AccountTransactionItemCharges.yaml

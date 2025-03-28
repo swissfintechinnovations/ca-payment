@@ -4,7 +4,8 @@ headers:
   X-Correlation-ID:
     $ref: ../headers/X-Correlation-ID.yaml
 description: |
-  Forbidden - A valid OAuth Token was received, but access was denied. (Depending on the security requirements, providers can return 404 instead)
+  Forbidden - A valid OAuth Token was received, but access was denied. (Depending on the security requirements, providers can return 404
+  instead)
 
   Examples:
   - InsufficientPrivileges:
