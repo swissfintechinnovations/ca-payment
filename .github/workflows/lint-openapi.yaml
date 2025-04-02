@@ -1,7 +1,6 @@
 name: 'SFTI Lint Specifications: OpenAPI Compliance'
 
 on:
-  pull_request:
   push:
     branches:
       - main
