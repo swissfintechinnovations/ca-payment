@@ -1,31 +1,36 @@
 name: 'SFTI Lint PRs'
 
 on:
-  workflow_run:
-    workflows:
-      - 'SFTI Bundle API specification'
+  pull_request:
     types:
-      - completed
+      - opened
+      - reopened
+      - synchronize
+    paths-ignore:
+      - 'src/**'
 
 jobs:
   bundle-run-status:
+    if: ${{ always() }}
     uses: swissfintechinnovations/.github/.github/workflows/reusable-bundle-status-workflow.yaml@main
-    with:
-      bundle_status: ${{ github.event.workflow_run.conclusion }}
 
   yaml-lint-src:
+    needs: bundle-run-status
+    if: ${{ always() }}
     uses: swissfintechinnovations/.github/.github/workflows/reusable-lint-yaml-workflow.yaml@main
     with:
       filenames: 'src/**.yaml'
 
   yaml-lint:
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    needs: bundle-run-status
+    if: ${{ always() }}
     uses: swissfintechinnovations/.github/.github/workflows/reusable-lint-yaml-workflow.yaml@main
     with:
       filenames: '*.yaml'
 
   openapi-lint:
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    needs: bundle-run-status
+    if: ${{ always() }}
     uses: swissfintechinnovations/.github/.github/workflows/reusable-lint-openapi-workflow.yaml@main
     with:
       filenames: '*.yaml'
