@@ -2,13 +2,6 @@ name: 'SFTI Bundle API specification'
 # caution: do not rename filename as pr workflow depends on its name
 
 on:
-  pull_request:
-    types:
-      - opened
-      - reopened
-      - synchronize
-    paths:
-      - 'src/**'
   workflow_dispatch:
     inputs:
       filenames:
