@@ -39,7 +39,7 @@ properties:
     enum:
       - booked
       - pending
-    description: Indicates the status of an account movement. Corresponds to the attribute _Ntry ⇾ Sts ⇾ Cd_ in SPS/ISO-20022
+    description: Indicates the status of an account movement. Corresponds to the attribute _Ntry ⇾ Sts ⇾ Cd_ in SPS/ISO-20022.
     example: booked
   transactionType:
     $ref: ./AccountTransactionTransactionType.yaml
