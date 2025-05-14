@@ -21,7 +21,7 @@ tags:
   - name: payments
     description: |
       Third party payment service considering bulk payments operations (JSON). PUT operation can be used for both payment submission and
-      payment initiation (PSS/pss), depending on security implementation.
+      payment initiation (PSS/pss), depending on security implementation
   - name: single payments
     description: |
       Third party payment service considering single payments operations (JSON). PUT operation can be used for both payment submission and
