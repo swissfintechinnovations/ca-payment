@@ -6,31 +6,29 @@ on:
       - opened
       - reopened
       - synchronize
-    paths-ignore:
-      - 'src/**'
 
 jobs:
-  bundle-run-status:
-    if: ${{ always() }}
-    uses: swissfintechinnovations/.github/.github/workflows/reusable-bundle-status-workflow.yaml@main
+  bundle:
+    uses: swissfintechinnovations/.github/.github/workflows/reusable-bundle-workflow.yaml@main
+    secrets: inherit
 
   yaml-lint-src:
-    needs: bundle-run-status
-    if: ${{ always() }}
+    needs: bundle
+    if: ${{ always() && needs.bundle.result != 'failure' && github.event.pull_request.head.sha == needs.bundle.outputs.commit-sha }}
     uses: swissfintechinnovations/.github/.github/workflows/reusable-lint-yaml-workflow.yaml@main
     with:
       filenames: 'src/**.yaml'
 
   yaml-lint:
-    needs: bundle-run-status
-    if: ${{ always() }}
+    needs: bundle
+    if: ${{ always() && needs.bundle.result != 'failure' && github.event.pull_request.head.sha == needs.bundle.outputs.commit-sha }}
     uses: swissfintechinnovations/.github/.github/workflows/reusable-lint-yaml-workflow.yaml@main
     with:
       filenames: '*.yaml'
 
   openapi-lint:
-    needs: bundle-run-status
-    if: ${{ always() }}
+    needs: bundle
+    if: ${{ always() && needs.bundle.result != 'failure' && github.event.pull_request.head.sha == needs.bundle.outputs.commit-sha }}
     uses: swissfintechinnovations/.github/.github/workflows/reusable-lint-openapi-workflow.yaml@main
     with:
       filenames: '*.yaml'
