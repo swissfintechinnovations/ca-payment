@@ -724,7 +724,7 @@ components:
           enum:
             - booked
             - pending
-          description: Indicates the status of an account movement. Corresponds to the attribute _Ntry ⇾ Sts ⇾ Cd_ in SPS/ISO-20022
+          description: Indicates the status of an account movement. Corresponds to the attribute _Ntry ⇾ Sts ⇾ Cd_ in SPS/ISO-20022.
           example: booked
         transactionType:
           $ref: '#/components/schemas/AccountTransactionTransactionType'
@@ -1280,17 +1280,20 @@ components:
           $ref: '#/components/headers/X-Correlation-ID'
       description: |
         Bad Request - The format of the request was invalid.
+
         Examples:
         - InvalidPayload:
         type: /problems/INVALID_PAYLOAD
         title: Payload does not comply with API specification
         detail: Malformed JSON
         instance: path/to/corresponding/resource
+
         - InvalidParameter:
         type: /problems/INVALID_PAYLOAD
         title: Invalid parameter values have been detected
         detail: Sent data could not processed
         instance: path/to/corresponding/resource
+
         - MissingId:
         type: /problems/INVALID_PAYLOAD
         title: The payload was not valid
@@ -1320,17 +1323,20 @@ components:
       description: |
         Forbidden - A valid OAuth Token was received, but access was denied. (Depending on the security requirements, providers can return 404
         instead)
+
         Examples:
         - InsufficientPrivileges:
         type: /problems/INSUFFICIENT_PRIVILEGES
         title: No privileges for the requested operation
         detail: Insufficient privileges for the requested operation
         instance: path/to/corresponding/resource
+
         - ExpiredToken:
         type: /problems/EXPIRED_TOKEN
         title: The OAuth Token is expired
         detail: The token is no longer valid
         instance: path/to/corresponding/resource
+
         - NoFutureDateSupported:
         type: /problems/MALFORMED_PAYLOAD
         title: Invalid parameter values have been detected
@@ -1349,22 +1355,26 @@ components:
       description: |
         Not Found - Either the endpoint does not exist or a requested resource is not
         yet available (e.g., account statements)
+
         Examples:
         - InvalidAccounts:
         type: /problems/INSUFFICIENT_PRIVILEGES
         title: Insufficient privileges to access resource
         detail: The provided token does not grant access to the requested account
         instance: path/to/corresponding/resource
+
         - InvalidToken:
         type: /problems/INSUFFICIENT_PRIVILEGES
         title: Insufficient privileges to access resource
         detail: The provided token is not valid
         instance: path/to/corresponding/resource
+
         - WrongEndpointUrl:
         type: /problems/TECHNICAL_ERROR
         title: URL not found
         detail: The requested endpoint does not exist
         instance: path/to/corresponding/resource
+
         - NoIntradayDataSupported:
         type: /problems/NOT_IMPLEMENTED
         title: Feature is not implemented
@@ -1382,6 +1392,7 @@ components:
           $ref: '#/components/headers/X-Correlation-ID'
       description: |
         Method Not Allowed - The method received in the request-line is known by the origin server but not supported by the target resource.
+
         Examples:
         - NotSupportedOperation:
         type: /problems/WRONG_METHOD
@@ -1401,12 +1412,14 @@ components:
       description: |
         Internal Server Error - The server encountered an unexpected condition that
         prevented it from fulfilling the request.
+
         Examples:
         - TechnicalServerError:
         type: /problems/TECHNICAL_ERROR
         title: Technical error on server side
         detail: Processing yielded a technical error
         instance: path/to/corresponding/resource
+
         - ResourceTooLarge:
         type: /problems/RESOURCE_TOO_LARGE
         title: Generated resource was too large
@@ -1424,6 +1437,7 @@ components:
           $ref: '#/components/headers/X-Correlation-ID'
       description: |
         Not Implemented - The server does not support the functionality required to fulfill the request.
+
         Examples:
         - EndpointNotImplemented:
         type: /problems/NOT_IMPLEMENTED
