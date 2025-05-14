@@ -42,7 +42,7 @@ paths:
       tags:
         - standing orders
       summary: Get the list of all standing orders
-      description: Return the list of all standing orders for the authenticated context
+      description: Return the list of all standing orders for the authenticated context.
       parameters:
         - $ref: ./components/parameters/query/cursor.yaml
         - $ref: ./components/parameters/query/limit.yaml
