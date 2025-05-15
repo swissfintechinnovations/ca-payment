@@ -16,8 +16,8 @@
 This is the official SFTI repo for the payment API. Documentations may be found in the [Wiki](https://github.com/swissfintechinnovations/ca-payment/wiki).
 
 An easy-to-read representation of the Payment/XS2A APIs is accessible via the following links:
-- [Account API](https://editor.swagger.io/?url=https://raw.githubusercontent.com/swissfintechinnovations/ca-payment/main/accountAPI.yaml) 
-- [Payment API](https://editor.swagger.io/?url=https://raw.githubusercontent.com/swissfintechinnovations/ca-payment/main/paymentAPI.yaml)
+- [Account API](https://editor-next.swagger.io/?url=https://raw.githubusercontent.com/swissfintechinnovations/ca-payment/main/accountAPI.yaml)
+- [Payment API](https://editor-next.swagger.io/?url=https://raw.githubusercontent.com/swissfintechinnovations/ca-payment/main/paymentAPI.yaml)
 
 All forms of contribution (i.e. raising issues and preparing pull requests) to the Payment/XS2A APIs is very welcome and highly appreciated. The contribution how-to can be found in the contribution [guidelines](https://github.com/swissfintechinnovations/ca-payment/blob/main/CONTRIBUTING.md).
 
