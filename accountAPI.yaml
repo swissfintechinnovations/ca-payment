@@ -212,14 +212,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                required:
-                  - transactions
-                properties:
-                  transactions:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/AccountTransactionReport'
+                $ref: '#/components/schemas/AccountTransactionReport'
         '202':
           $ref: '#/components/responses/standard202'
         '204':
