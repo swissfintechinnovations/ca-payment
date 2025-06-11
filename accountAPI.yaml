@@ -181,12 +181,22 @@ paths:
       tags:
         - accounts
       summary: Retrieve transactions of a specific account
+      externalDocs:
+        description: Detailed factsheet for the `/transactions` endpoint
+        url: https://github.com/sfti/xs2a-api/wiki/transactions-factsheet
       description: |
         Returns the transaction list of the specified account.
         * When called without a date, it returns transactions for the current day. Both "pending" and "booked" entries may be included based
         on the entryStatus parameter.
         * When called with a date range, only "booked" transactions from completed booking days are returned. For days not yet finalized, a
         202 response code is returned.
+
+        Results are sorted by bookingDate descending, then entryId descending. If pagination is required, the server includes a base64-encoded,
+        opaque cursor in the `X-Next-Cursor` header. This cursor identifies a specific position in the sorted result set and is internally derived
+        from this key combination.
+        Clients must pass this value unchanged in the `cursor` parameter of the next request to retrieve subsequent pages.
+
+        Transaction details are optional in the schema, but all available information must be included if present for a given transaction.
       parameters:
         - $ref: '#/components/parameters/account_id'
         - $ref: '#/components/parameters/date_from'
@@ -1255,7 +1265,9 @@ components:
           $ref: '#/components/headers/Content-Language'
         X-Correlation-ID:
           $ref: '#/components/headers/X-Correlation-ID'
-      description: Accepted - Valid request, requested data not available yet. The request may be attempted at a later time.
+      description: |
+        Accepted – The request is valid, but the requested data is not yet available because the associated booking day is still
+        in progress or not finalized. The request can be repeated at a later time once the data has been finalized.
       content:
         application/json:
           schema:
@@ -1264,7 +1276,9 @@ components:
       headers:
         X-Correlation-ID:
           $ref: '#/components/headers/X-Correlation-ID'
-      description: No content - The server has successfully fulfilled the request. There is no content to return and never will be.
+      description: |
+        No Content – The request was successful, but no data is available for the requested date or parameters. No data is expected to become available
+        in the future. This may occur if the requested period is outside the retention scope or if no entries exist for the given account and criteria.
     standard400:
       headers:
         Content-Language:
