@@ -183,7 +183,7 @@ paths:
       summary: Retrieve transactions of a specific account
       externalDocs:
         description: Detailed factsheet for the `/transactions` endpoint.
-        url: https://github.com/sfti/xs2a-api/wiki/transactions-factsheet
+        url: https://github.com/swissfintechinnovations/ca-payment/wiki/Transaction-Endpoint-Factsheet
       description: |
         Returns the transaction list of the specified account.
         * When called without a date, it returns transactions for the current day. Both "pending" and "booked" entries may be included based
