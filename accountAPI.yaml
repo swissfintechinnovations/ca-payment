@@ -182,7 +182,7 @@ paths:
         - accounts
       summary: Retrieve transactions of a specific account
       externalDocs:
-        description: Detailed factsheet for the `/transactions` endpoint.
+        description: A detailed description of how this endpoint is used is available in the wiki.
         url: https://github.com/swissfintechinnovations/ca-payment/wiki/Transaction-Endpoint-Factsheet
       description: |
         Returns the transaction list of the specified account.
@@ -213,9 +213,7 @@ paths:
         - $ref: '#/components/parameters/psu_user_agent'
       responses:
         '200':
-          description: |
-            Accepted - The request is valid, but the requested data is not yet available because the associated booking day is still
-            in progress or not finalized. The request can be repeated at a later time once the data has been finalized.
+          description: Transaction data of the specified account.
           headers:
             X-Correlation-ID:
               $ref: '#/components/headers/X-Correlation-ID'
@@ -226,6 +224,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/AccountTransactionReport'
         '202':
+          description: |
+            Accepted - The request is valid, but the requested data is not yet available because the associated booking day is still
+            in progress or not finalized. The request can be repeated at a later time once the data has been finalized.
           $ref: '#/components/responses/standard202'
         '204':
           description: |
