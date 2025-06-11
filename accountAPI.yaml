@@ -228,12 +228,10 @@ paths:
         '202':
           $ref: '#/components/responses/standard202'
         '204':
-          description: >
+          description: |
             No Content - The request was successful, but no data is available for the requested date or parameters. No data is expected to become
-            available
-
-            in the future. This may occur if the requested period is outside the retention scope or if no entries exist for the given account and
-            criteria.
+            available in the future. This may occur if the requested period is outside the retention scope or if no entries exist for the given 
+            account and criteria.
           $ref: '#/components/responses/standard204'
         '400':
           $ref: '#/components/responses/standard400'
