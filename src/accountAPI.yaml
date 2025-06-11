@@ -229,8 +229,9 @@ paths:
           $ref: ./components/responses/standard202.yaml
         '204':
           description: |
-            No Content - The request was successful, but no data is available for the requested date or parameters. No data is expected to become available
-            in the future. This may occur if the requested period is outside the retention scope or if no entries exist for the given account and criteria.
+            No Content - The request was successful, but no data is available for the requested date or parameters. No data is expected to become
+            available in the future. This may occur if the requested period is outside the retention scope or if no entries exist for the given 
+            account and criteria.
           $ref: ./components/responses/standard204.yaml
         '400':
           $ref: ./components/responses/standard400.yaml
