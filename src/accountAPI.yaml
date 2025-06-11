@@ -182,7 +182,7 @@ paths:
         - accounts
       summary: Retrieve transactions of a specific account
       externalDocs:
-        description: Detailed factsheet for the `/transactions` endpoint
+        description: Detailed factsheet for the `/transactions` endpoint.
         url: https://github.com/sfti/xs2a-api/wiki/transactions-factsheet
       description: |
         Returns the transaction list of the specified account.
