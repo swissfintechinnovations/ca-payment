@@ -191,9 +191,9 @@ paths:
         * When called with a date range, only "booked" transactions from completed booking days are returned. For days not yet finalized, a
         202 response code is returned.
 
-        Results are sorted by bookingDate descending, then entryId descending. If pagination is required, the server includes a base64-encoded,
-        opaque cursor in the `X-Next-Cursor` header. This cursor identifies a specific position in the sorted result set and is internally derived
-        from this key combination.
+        Results are sorted by bookingDate in descending order. Additional sorting logic is provider-specific but all providers must ensure stable and
+        consistent pagination behavior. If pagination is required, the server includes an opaque cursor in the `X-Next-Cursor` header. This cursor
+        identifies a specific position in the sorted result set and is internally derived from the sorting criteria.
         Clients must pass this value unchanged in the `cursor` parameter of the next request to retrieve subsequent pages.
 
         Transaction details are optional in the schema, but all available information must be included if present for a given transaction.
