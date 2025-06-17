@@ -127,15 +127,12 @@ paths:
       description: |
         Returns account balance information of the specified account.
         * Returns the interim booked balance (ISO20022 Balance Type ITBD) for the current day, if called without a date. The balance is
-        calculated
-        in the course of the service provider's business day, at the time specified, and subject to further changes during the business day.
-        The
-        interim balance is calculated on the basis of booked credit and debit items during the calculation time/period specified.
+        calculated in the course of the service provider's business day, at the time specified, and subject to further changes during the
+        business day. The interim balance is calculated on the basis of booked credit and debit items during the calculation time/period
+        specified.
         * Returns the closing booked balance (ISO20022 Balance Type CLBD) for a specific day, if called for a past date. It is the sum of
-        the opening
-        booked balance at the beginning of that day and all entries booked to the account during that day. In case the specified day has not
-        yet been
-        finalized, the response code will be 202.
+        the opening booked balance at the beginning of that day and all entries booked to the account during that day. In case the specified
+        day has not yet been finalized, the response code will be 202.
       parameters:
         - $ref: ./components/parameters/path/account_id.yaml
         - $ref: ./components/parameters/query/date.yaml
@@ -186,14 +183,14 @@ paths:
         url: https://github.com/swissfintechinnovations/ca-payment/wiki/Transaction-Endpoint-Factsheet
       description: |
         Returns the transaction list of the specified account.
-        * When called without a date, it returns all transactions since the last completed booking day. Both "pending" and "booked" entries may be included based
-        on the entryStatus parameter.
+        * When called without a date, it returns all transactions since the last completed booking day. Both "pending" and "booked" entries
+        may be included based on the entryStatus parameter.
         * When called with a date range, only "booked" transactions from completed booking days are returned. For days not yet finalized, a
         202 response code is returned.
 
-        Results are sorted by bookingDate in descending order. Additional sorting logic is provider-specific but all providers must ensure stable and
-        consistent pagination behavior. If pagination is required, the server includes an opaque cursor in the `X-Next-Cursor` header. This cursor
-        identifies a specific position in the sorted result set and is internally derived from the sorting criteria.
+        Results are sorted by bookingDate in descending order. Additional sorting logic is provider-specific but all providers must ensure
+        stable and consistent pagination behavior. If pagination is required, the server includes an opaque cursor in the `X-Next-Cursor`
+        header. This cursor identifies a specific position in the sorted result set and is internally derived from the sorting criteria.
         Clients must pass this value unchanged in the `cursor` parameter of the next request to retrieve subsequent pages.
 
         Transaction details are optional in the schema, but all available information must be included if present for a given transaction.
