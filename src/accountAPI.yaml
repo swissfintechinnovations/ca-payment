@@ -186,7 +186,7 @@ paths:
         url: https://github.com/swissfintechinnovations/ca-payment/wiki/Transaction-Endpoint-Factsheet
       description: |
         Returns the transaction list of the specified account.
-        * When called without a date, it returns transactions for the current day. Both "pending" and "booked" entries may be included based
+        * When called without a date, it returns all transactions since the last completed booking day. Both "pending" and "booked" entries may be included based
         on the entryStatus parameter.
         * When called with a date range, only "booked" transactions from completed booking days are returned. For days not yet finalized, a
         202 response code is returned.
