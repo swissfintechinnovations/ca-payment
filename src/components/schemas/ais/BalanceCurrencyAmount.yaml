@@ -7,7 +7,7 @@ required:
 properties:
   amount:
     type: string
-    pattern: '-?[0-9]{1,12}([.][0-9]{1,5})?'
+    pattern: ^-?[0-9]{1,12}([.][0-9]{1,5})?$
     maxLength: 18
     description: The amount of the requested account balance.
     example: 10.25
