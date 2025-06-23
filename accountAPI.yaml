@@ -718,7 +718,21 @@ components:
           description: The booking date of the transaction set by the bank. Corresponds to the attribute _BookgDt_ in SPS/ISO-20022.
         entryId:
           type: string
-          description: Unique bank-defined ID for the transaction. Corresponds to the attribute _Ntry ⇾ AddtlInfInd ⇾ MsgId_ in SPS/ISO-20022.
+          description: >
+            Unique bank-defined ID for the transaction. Corresponds to the attribute _Ntry ⇾ AddtlInfInd ⇾ MsgId_ in SPS/ISO-20022.
+
+            With the new elements accountServicerReference (in C level) the usage recommendation of this element is as follows:
+
+            For new onboarding banks / financial institutions starting with V5.1 this element shall contain accountServicerReference
+
+            (entries, C-level) from camt.
+
+            For banks / financial institutions already using V4 the content mapping can be kept to be consistent with V4. The description
+
+            in V4 is following: Unique bank-defined ID for the transaction. Corresponds to the attribute _Ntry ⇾ AddtlInfInd ⇾ MsgId_ in
+            SPS/ISO-20022.
+
+            Important note: With V6 this element will be removed.
           example: ENTRY123456789
         entryStatus:
           type: string
@@ -819,8 +833,13 @@ components:
           type: string
           maxLength: 35
           description: |
-            The unique identifier to the listed transaction. Defined by the bank. Corresponds to the attribute _TxDtls ⇾ Refs ⇾ PmtInfId_ in
+            The unique identifier to the listed transaction. Defined by the client. Corresponds to the attribute _TxDtls ⇾ Refs ⇾ PmtInfId_ in
             SPS/ISO-20022.
+            With the new elements ServiceAccounterReference (in D level) the usage recommendation of this element is as follows:
+            For new onboarding banks / financial institutions starting with V5 this element shall contain accountServicerReference
+            (transactions, D-level) from camt.
+            For banks / financial institutions already using V4 the content mapping can be kept to be consistent with V4.
+            Importan note: With V6 in November 2026 this element will be removed.
           example: TX12345A987
         transactionType:
           $ref: '#/components/schemas/AccountTransactionTransactionType'
