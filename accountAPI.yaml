@@ -127,15 +127,12 @@ paths:
       description: |
         Returns account balance information of the specified account.
         * Returns the interim booked balance (ISO20022 Balance Type ITBD) for the current day, if called without a date. The balance is
-        calculated
-        in the course of the service provider's business day, at the time specified, and subject to further changes during the business day.
-        The
-        interim balance is calculated on the basis of booked credit and debit items during the calculation time/period specified.
+        calculated in the course of the service provider's business day, at the time specified, and subject to further changes during the
+        business day. The interim balance is calculated on the basis of booked credit and debit items during the calculation time/period
+        specified.
         * Returns the closing booked balance (ISO20022 Balance Type CLBD) for a specific day, if called for a past date. It is the sum of
-        the opening
-        booked balance at the beginning of that day and all entries booked to the account during that day. In case the specified day has not
-        yet been
-        finalized, the response code will be 202.
+        the opening booked balance at the beginning of that day and all entries booked to the account during that day. In case the specified
+        day has not yet been finalized, the response code will be 202.
       parameters:
         - $ref: '#/components/parameters/account_id'
         - $ref: '#/components/parameters/date'
@@ -181,12 +178,22 @@ paths:
       tags:
         - accounts
       summary: Retrieve transactions of a specific account
+      externalDocs:
+        description: A detailed description of how this endpoint is used is available in the wiki.
+        url: https://github.com/swissfintechinnovations/ca-payment/wiki/Transaction-Endpoint-Factsheet
       description: |
         Returns the transaction list of the specified account.
-        * When called without a date, it returns transactions for the current day. Both "pending" and "booked" entries may be included based
-        on the entryStatus parameter.
+        * When called without a date, it returns all transactions since the last completed booking day. Both "pending" and "booked" entries
+        may be included based on the entryStatus parameter.
         * When called with a date range, only "booked" transactions from completed booking days are returned. For days not yet finalized, a
         202 response code is returned.
+
+        Results are sorted by bookingDate in descending order. Additional sorting logic is provider-specific but all providers must ensure
+        stable and consistent pagination behavior. If pagination is required, the server includes an opaque cursor in the `X-Next-Cursor`
+        header. This cursor identifies a specific position in the sorted result set and is internally derived from the sorting criteria.
+        Clients must pass this value unchanged in the `cursor` parameter of the next request to retrieve subsequent pages.
+
+        Transaction details are optional in the schema, but all available information must be included if present for a given transaction.
       parameters:
         - $ref: '#/components/parameters/account_id'
         - $ref: '#/components/parameters/date_from'
@@ -203,7 +210,7 @@ paths:
         - $ref: '#/components/parameters/psu_user_agent'
       responses:
         '200':
-          description: Account details of the requested account.
+          description: Transaction data of the specified account.
           headers:
             X-Correlation-ID:
               $ref: '#/components/headers/X-Correlation-ID'
@@ -212,17 +219,17 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                required:
-                  - transactions
-                properties:
-                  transactions:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/AccountTransactionReport'
+                $ref: '#/components/schemas/AccountTransactionReport'
         '202':
+          description: |
+            Accepted - The request is valid, but the requested data is not yet available because the associated booking day is still
+            in progress or not finalized. The request can be repeated at a later time once the data has been finalized.
           $ref: '#/components/responses/standard202'
         '204':
+          description: |
+            No Content - The request was successful, but no data is available for the requested date or parameters. No data is expected to become
+            available in the future. This may occur if the requested period is outside the retention scope or if no entries exist for the given
+            account and criteria.
           $ref: '#/components/responses/standard204'
         '400':
           $ref: '#/components/responses/standard400'
