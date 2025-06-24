@@ -6,8 +6,11 @@ required:
   - currency
 properties:
   amount:
-    $ref: ../generic/Amount.yaml
+    type: string
+    pattern: ^-?[0-9]{1,12}([.][0-9]{1,5})?$
+    maxLength: 18
     description: The amount of the requested account balance.
+    example: '10.25'
   currency:
     $ref: ../generic/Currency.yaml
     description: The ISO currency three-letter code in which the balance and the account are held.
