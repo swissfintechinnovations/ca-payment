@@ -33,6 +33,7 @@ paths:
         - accounts
       summary: Retrieve list of authorized accounts
       description: Return the list of all accounts accessible for the logged in user.
+      operationId: listAccessibleAccounts
       parameters:
         - $ref: ./components/parameters/query/cursor.yaml
         - $ref: ./components/parameters/query/limit.yaml
@@ -84,6 +85,7 @@ paths:
         - accounts
       summary: Retrieve information about a single specific account
       description: Returns the accounts details of the specified account.
+      operationId: getAccountDetails
       parameters:
         - $ref: ./components/parameters/path/account_id.yaml
         - $ref: ./components/parameters/header/authorization.yaml
@@ -133,6 +135,7 @@ paths:
         * Returns the closing booked balance (ISO20022 Balance Type CLBD) for a specific day, if called for a past date. It is the sum of
         the opening booked balance at the beginning of that day and all entries booked to the account during that day. In case the specified
         day has not yet been finalized, the response code will be 202.
+      operationId: getAccountBalance
       parameters:
         - $ref: ./components/parameters/path/account_id.yaml
         - $ref: ./components/parameters/query/date.yaml
@@ -194,6 +197,7 @@ paths:
         Clients must pass this value unchanged in the `cursor` parameter of the next request to retrieve subsequent pages.
 
         Transaction details are optional in the schema, but all available information must be included if present for a given transaction.
+      operationId: listAccountTransactionEntries
       parameters:
         - $ref: ./components/parameters/path/account_id.yaml
         - $ref: ./components/parameters/query/date_from.yaml
@@ -253,6 +257,7 @@ paths:
         - accounts
       summary: Details of the specified transaction
       description: Retrieves the details of the specified transaction.
+      operationId: getAccountTransactionEntry
       parameters:
         - $ref: ./components/parameters/path/account_id.yaml
         - $ref: ./components/parameters/path/entry_id.yaml
@@ -298,6 +303,7 @@ paths:
         Get a list of resource links to available account statements (camt.053) for all accounts covered by the eBanking contract delivered.
         The returned account statements must be conform to the XML schema and implementation guidelines defined by Swiss Payment Standards.
         If the call covers a period of several days, then an account statement is returned for each day and account, if available.
+      operationId: listAccountStatements
       parameters:
         - $ref: ./components/parameters/query/date_from.yaml
         - $ref: ./components/parameters/query/date_to.yaml
@@ -351,6 +357,7 @@ paths:
         - iso20022
       summary: Retrieve the designated ISO20022 XML camt.053 document
       description: Retrieve the designated ISO20022 XML camt.053 document.
+      operationId: getAccountStatement
       parameters:
         - $ref: ./components/parameters/path/report_id.yaml
         - $ref: ./components/parameters/header/authorization.yaml
@@ -396,6 +403,7 @@ paths:
         Get a list of resource links to available account reports (camt.052) generated since the last End-of-Day (EOD) processing.
         Only intraday reports created after the most recent EOD cycle are included.
         The returned account reports must conform to the XML schema and implementation guidelines defined by Swiss Payment Standards.
+      operationId: listAccountReports
       parameters:
         - $ref: ./components/parameters/query/cursor.yaml
         - $ref: ./components/parameters/query/limit.yaml
@@ -447,6 +455,7 @@ paths:
         - iso20022
       summary: Retrieve the designated ISO20022 XML camt.052 document
       description: Retrieve the designated ISO20022 XML camt.052 document.
+      operationId: getAccountReport
       parameters:
         - $ref: ./components/parameters/path/report_id.yaml
         - $ref: ./components/parameters/header/authorization.yaml
