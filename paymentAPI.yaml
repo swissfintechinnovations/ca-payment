@@ -43,6 +43,7 @@ paths:
         - standing orders
       summary: Get the list of all standing orders
       description: Return the list of all standing orders for the authenticated context.
+      operationId: listStandingOrders
       parameters:
         - $ref: '#/components/parameters/cursor'
         - $ref: '#/components/parameters/limit'
@@ -94,6 +95,7 @@ paths:
         - standing orders
       summary: Create a new Standing Order
       description: It is used to create a permanent order for the transfer of funds.
+      operationId: createStandingOrder
       parameters:
         - $ref: '#/components/parameters/authorization'
         - $ref: '#/components/parameters/client_id'
@@ -144,6 +146,7 @@ paths:
         - standing orders
       summary: Get a specific standing order submission
       description: Retrieve a specific standing order submission.
+      operationId: getStandingOrderSubmissions
       parameters:
         - $ref: '#/components/parameters/submission_id'
         - $ref: '#/components/parameters/authorization'
@@ -185,6 +188,7 @@ paths:
         - standing orders
       summary: Delete a specific standing order submission
       description: Delete a specific standing order submission.
+      operationId: deleteStandingOrderSubmission
       parameters:
         - $ref: '#/components/parameters/submission_id'
         - $ref: '#/components/parameters/authorization'
@@ -228,6 +232,7 @@ paths:
         - standing orders
       summary: Get status information for the specific standing order submission
       description: Retrieve a specific standing order submission's status.
+      operationId: getStandingOrderSubmissionStatus
       parameters:
         - $ref: '#/components/parameters/submission_id'
         - $ref: '#/components/parameters/authorization'
@@ -270,6 +275,7 @@ paths:
         - payments
       summary: Get the list of all payments
       description: Return the list of all payments for the authenticated context.
+      operationId: listPayments
       parameters:
         - $ref: '#/components/parameters/cursor'
         - $ref: '#/components/parameters/limit'
@@ -321,6 +327,7 @@ paths:
         - payments
       summary: Initiate new payments submission
       description: Create new payments submission.
+      operationId: createPaymentsSubmission
       parameters:
         - $ref: '#/components/parameters/authorization'
         - $ref: '#/components/parameters/client_id'
@@ -371,6 +378,7 @@ paths:
         - payments
       summary: Delete a specific payment submission before executed
       description: Delete a specific payment submission before executed.
+      operationId: deletePaymentsSubmission
       parameters:
         - $ref: '#/components/parameters/submission_id'
         - $ref: '#/components/parameters/authorization'
@@ -414,6 +422,7 @@ paths:
         - payments
       summary: Get status information for the specific payment submission
       description: Retrieve a specific payment submission's status.
+      operationId: getPaymentsSubmissionStatus
       parameters:
         - $ref: '#/components/parameters/submission_id'
         - $ref: '#/components/parameters/authorization'
@@ -456,6 +465,7 @@ paths:
         - single payments
       summary: Get the list of all payments (all payment types)
       description: Return the list of all initiated payments of all types for the authenticated context.
+      operationId: listSinglePayments
       parameters:
         - $ref: '#/components/parameters/entry_reference_from'
         - $ref: '#/components/parameters/date_from'
@@ -510,6 +520,7 @@ paths:
         - single payments
       summary: Initiate new single payments submission
       description: Create new single payments submission.
+      operationId: createSinglePaymentSubmission
       parameters:
         - $ref: '#/components/parameters/authorization'
         - $ref: '#/components/parameters/client_id'
@@ -560,6 +571,7 @@ paths:
         - single payments
       summary: Get a specific payment
       description: Receive payment with corresponding submissionId.
+      operationId: getSinglePaymentSubmission
       parameters:
         - $ref: '#/components/parameters/submission_id'
         - $ref: '#/components/parameters/authorization'
@@ -644,6 +656,7 @@ paths:
         - single payments
       summary: Get status information for the specific single payment
       description: Retrieve a specific single payment submission's status.
+      operationId: getSinglePaymentSubmissionStatus
       parameters:
         - $ref: '#/components/parameters/submission_id'
         - $ref: '#/components/parameters/authorization'
@@ -686,6 +699,7 @@ paths:
         - iso20022
       summary: Submit ISO20022 XML payment instruction (pain.001)
       description: Submit an XML pain.001 payment instruction according to the ISO20022 specification.
+      operationId: createPaymentInstruction
       parameters:
         - $ref: '#/components/parameters/authorization'
         - $ref: '#/components/parameters/client_id'
@@ -736,6 +750,7 @@ paths:
         - iso20022
       summary: Submitted ISO20022 XML pain.001 message
       description: Retrieves the submitted ISO20022 XML pain.001 message.
+      operationId: getPaymentInstructionSubmission
       parameters:
         - $ref: '#/components/parameters/submission_id'
         - $ref: '#/components/parameters/authorization'
@@ -777,6 +792,7 @@ paths:
         - iso20022
       summary: Delete ISO20022 XML PAIN.001 message
       description: Deletes the submitted ISO20022 XML PAIN.001 message before execution.
+      operationId: deletePaymentInstructionSubmission
       parameters:
         - $ref: '#/components/parameters/submission_id'
         - $ref: '#/components/parameters/authorization'
@@ -820,6 +836,7 @@ paths:
         - iso20022
       summary: Get the ISO20022 XML status report (PAIN.002) for a specific payment instruction
       description: The status report for the requested XML ISO20022 payment instruction (PAIN.002).
+      operationId: getPaymentInstructionSubmissionStatus
       parameters:
         - $ref: '#/components/parameters/submission_id'
         - $ref: '#/components/parameters/authorization'
