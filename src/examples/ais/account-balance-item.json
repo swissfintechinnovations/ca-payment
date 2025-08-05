@@ -1,0 +1,10 @@
+{
+  "accountId": "ABDC1234567890",
+  "date": "2025-07-21",
+  "balanceType": "interimBooked",
+  "balanceAmount": {
+    "amount": "15000.50",
+    "currency": "CHF"
+  },
+  "creditLineIncluded": false
+}

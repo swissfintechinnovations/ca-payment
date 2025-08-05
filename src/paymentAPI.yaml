@@ -337,6 +337,11 @@ paths:
           application/json:
             schema:
               $ref: ./components/schemas/pss/PaymentSubmissionRequest.yaml
+            examples:
+              payment-submission:
+                summary: Example payment request
+                value:
+                  $ref: './examples/pss/payment-submission-request.json'
       responses:
         '201':
           description: Created.
@@ -349,6 +354,11 @@ paths:
             application/json:
               schema:
                 $ref: ./components/schemas/pss/PaymentSubmissionResponse.yaml
+              examples:
+                payment-submission:
+                  summary: Example payment response
+                  value:
+                    $ref: './examples/pss/payment-submission-response.json'
         '400':
           $ref: ./components/responses/standard400.yaml
         '401':
@@ -434,6 +444,11 @@ paths:
             application/json:
               schema:
                 $ref: ./components/schemas/pss/PaymentSubmissionStatus.yaml
+              examples:
+                payment-status:
+                  summary: payment submission status
+                  value:
+                    $ref: './examples/pss/payment-submission-status.json'
         '400':
           $ref: ./components/responses/standard400.yaml
         '401':
@@ -580,6 +595,11 @@ paths:
             application/json:
               schema:
                 $ref: ./components/schemas/pss/SinglepaymentsSubmissionRequest.yaml
+              examples:
+                payment-request:
+                  summary: single payment submission request
+                  value:
+                    $ref: './examples/pss/singlepayment-submission-request.json'
         '400':
           $ref: ./components/responses/standard400.yaml
         '401':

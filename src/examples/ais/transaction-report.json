@@ -1,0 +1,28 @@
+{
+  "accountId": "ABDC1234567890",
+  "booked": [
+    {
+      "entryId": "202507210001",
+      "bookingDate": "2025-07-21",
+      "valueDate": "2025-07-21",
+      "amount": {
+        "amount": "-129.00",
+        "currency": "CHF"
+      },
+      "creditDebitIndicator": "DBIT",
+      "transactionType": "SEPA Credit Transfer",
+      "remittanceInformationUnstructured": "Invoice 93842",
+      "counterpartyName": "Muster AG",
+      "counterpartyAccount": "CH9300762011623852957"
+    }
+  ],
+  "pending": [],
+  "_links": {
+    "self": {
+      "href": "/accounts/ABDC1234567890/transactions?cursor=abc"
+    },
+    "next": {
+      "href": "/accounts/ABDC1234567890/transactions?cursor=def"
+    }
+  }
+}

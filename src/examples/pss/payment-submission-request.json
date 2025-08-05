@@ -1,0 +1,152 @@
+{
+  "bookingInstruction": "BATCHBOOKING_SALA_CND",
+  "debtorAccount": {
+    "identification": "CH5481230000001998736",
+    "type": "IBAN"
+  },
+  "initiatingPartyId": "TPP01746",
+  "messageId": "eb6305c91f7f49deaed016487c27b42d",
+  "requestedExecutionDate": "2018-04-13",
+  "transactions": [
+    {
+      "endToEndId": "ENDTOENDID-001",
+      "instructedAmount": {
+        "amount": "10.25",
+        "currency": "CHF"
+      },
+      "instructionId": "INSTR-001",
+      "ibanDetails": {
+        "creditor": {
+          "name": "Hans Muster",
+          "postalAddress": {
+            "country": "CH",
+            "townName": "Biel",
+            "addressLine1": "Carribean At Keppel Bay",
+            "addressLine2": "05-66",
+            "buildingNumber": "24",
+            "postCode": "2501",
+            "streetName": "Rue de la gare"
+          }
+        },
+        "creditorAccount": {
+          "identification": "CH5481230000001998736",
+          "type": "IBAN"
+        },
+        "chargeBearer": "SHAR",
+        "creditorAgent": {
+          "bic": "DEUTDE5M101",
+          "clearingSystemMemberIdentification": {
+            "code": "CHBCC",
+            "memberId": "00230"
+          }
+        },
+        "remittanceInformation": "Rechnung Nr. 408",
+        "remittanceReference": {
+          "reference": "210000000003139471430009017",
+          "type": "SCOR"
+        },
+        "sepaIndicator": true
+      },
+      "isrDetails": {
+        "remittanceReference": {
+          "reference": "210000000003139471430009017",
+          "type": "ISR"
+        },
+        "creditor": {
+          "name": "Hans Muster",
+          "postalAddress": {
+            "country": "CH",
+            "townName": "Biel",
+            "addressLine1": "Carribean At Keppel Bay",
+            "addressLine2": "05-66",
+            "buildingNumber": "24",
+            "postCode": "2501",
+            "streetName": "Rue de la gare"
+          }
+        },
+        "creditorAccount": {
+          "identification": "01-39139-1",
+          "type": "OTHER"
+        }
+      },
+      "otherDetails": {
+        "creditor": {
+          "name": "Hans Muster",
+          "postalAddress": {
+            "country": "CH",
+            "townName": "Biel",
+            "addressLine1": "Carribean At Keppel Bay",
+            "addressLine2": "05-66",
+            "buildingNumber": "24",
+            "postCode": "2501",
+            "streetName": "Rue de la gare"
+          }
+        },
+        "creditorAccount": {
+          "identification": "01-39139-1",
+          "type": "OTHER"
+        },
+        "creditorAgent": {
+          "bic": "DEUTDE5M101",
+          "clearingSystemMemberIdentification": {
+            "code": "CHBCC",
+            "memberId": "00230"
+          }
+        },
+        "chargeBearer": "SHAR",
+        "remittanceReference": {
+          "reference": "210000000003139471430009017",
+          "type": "SCOR"
+        }
+      },
+      "qrDetails": {
+        "creditor": {
+          "name": "Hans Muster",
+          "postalAddress": {
+            "country": "CH",
+            "townName": "Biel",
+            "addressLine1": "Carribean At Keppel Bay",
+            "addressLine2": "05-66",
+            "buildingNumber": "24",
+            "postCode": "2501",
+            "streetName": "Rue de la gare"
+          }
+        },
+        "creditorAccount": {
+          "identification": "CH5481230000001998736",
+          "type": "IBAN"
+        },
+        "remittanceInformation": "Rechnung Nr. 408",
+        "remittanceReference": {
+          "reference": "210000000003139471430009017",
+          "type": "SCOR"
+        },
+        "ultimateCreditor": {
+          "name": "Hans Muster",
+          "postalAddress": {
+            "country": "CH",
+            "townName": "Biel",
+            "addressLine1": "Carribean At Keppel Bay",
+            "addressLine2": "05-66",
+            "buildingNumber": "24",
+            "postCode": "2501",
+            "streetName": "Rue de la gare"
+          }
+        },
+        "ultimateDebtor": {
+          "name": "Hans Muster",
+          "postalAddress": {
+            "country": "CH",
+            "townName": "Biel",
+            "addressLine1": "Carribean At Keppel Bay",
+            "addressLine2": "05-66",
+            "buildingNumber": "24",
+            "postCode": "2501",
+            "streetName": "Rue de la gare"
+          }
+        }
+      },
+      "uetr": "fdc01a3e-4567-4abc-8def-1234567890ab"
+    }
+  ]
+}

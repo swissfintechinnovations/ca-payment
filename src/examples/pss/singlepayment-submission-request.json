@@ -1,0 +1,15 @@
+{
+  "instructionId": "c8972d62-a0ea-4eb8-8af9-723813f1cb0c",
+  "endToEndId": "INV-93842",
+  "debtorAccount": {
+    "identification": "CH6381239000001111111",
+    "type": "IBAN"
+  },
+  "creditorAccount": {
+    "identification": "DE75512108001245126199",
+    "type": "IBAN"
+  },
+  "amount": "129.00",
+  "currency": "CHF",
+  "remittanceInformation": "Invoice 93842"
+}
