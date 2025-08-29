@@ -906,7 +906,7 @@ paths:
                       account: /accounts/550e8400e29b11d4a716446655440000
                       transactions: /accounts/550e8400e29b11d4a716446655440000/transactions
                 itdb:
-                  summary: return CLBD balance
+                  summary: return ITBD balance
                   value:
                     date: '2018-02-05'
                     balanceType: ITBD

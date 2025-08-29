@@ -170,7 +170,7 @@ paths:
                   summary: return CLBD balance
                   externalValue: ./examples/ais/requestAccountBalance_CLBD_response.json
                 itdb:
-                  summary: return CLBD balance
+                  summary: return ITBD balance
                   externalValue: ./examples/ais/requestAccountBalance_ITBD_response.json            
         '202':
           $ref: ./components/responses/standard202.yaml
