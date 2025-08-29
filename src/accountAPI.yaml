@@ -62,6 +62,10 @@ paths:
                     type: array
                     items:
                       $ref: ./components/schemas/ais/AccountItem.yaml
+              examples:
+                consent:
+                  summary: return all authorized accounts
+                  externalValue: ./examples/ais/requestAccounts_list_response.json
         '400':
           $ref: ./components/responses/standard400.yaml
         '401':
@@ -103,6 +107,14 @@ paths:
             application/json:
               schema:
                 $ref: ./components/schemas/ais/AccountItem.yaml
+              x-example:
+                details_req:
+                  summary: request account details
+                  externalValue: ./examples/ais/requestAccountDetails_list_request
+              examples:
+                details:
+                  summary: list account details
+                  externalValue: ./examples/ais/requestAccountDetails_list_response.json
         '400':
           $ref: ./components/responses/standard400.yaml
         '401':
@@ -153,6 +165,13 @@ paths:
             application/json:
               schema:
                 $ref: ./components/schemas/ais/AccountBalanceItem.yaml
+              examples:
+                clbd:
+                  summary: return CLBD balance
+                  externalValue: ./examples/ais/requestAccountBalance_CLBD_response.json
+                itdb:
+                  summary: return CLBD balance
+                  externalValue: ./examples/ais/requestAccountBalance_ITBD_response.json            
         '202':
           $ref: ./components/responses/standard202.yaml
         '204':
@@ -220,6 +239,13 @@ paths:
             application/json:
               schema:
                 $ref: ./components/schemas/ais/AccountTransactionReport.yaml
+              examples:
+                transactions:
+                  summary: return transactions
+                  externalValue: ./examples/ais/requestAccountTransactions_trxlist_response.json
+                qr_transactions:
+                  summary: return qr transactions
+                  externalValue: ./examples/ais/requestAccountTransactions_trxlist_qr_response.json
         '202':
           description: |
             Accepted - The request is valid, but the requested data is not yet available because the associated booking day is still

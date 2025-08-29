@@ -1,0 +1,3902 @@
+openapi: 3.0.0
+info:
+  version: 5.1.0
+  title: Common Account API
+  description: |
+    This specification defines a simple API to access information about bank accounts. The API is supposed to be used by customers who want
+    to get information about their accounts such as current balance or transactions. This specification uses schema definitions from the
+    Common Data Model v1.2.1.
+  termsOfService: tbd
+  contact:
+    email: info@common-api.ch
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+servers:
+  - url: account.common-api.ch/api/v5
+externalDocs:
+  description: Find out more about SFTI API specifications.
+  url: https://www.common-api.ch
+tags:
+  - name: accounts
+    description: Third party access to bank account service considering account information and transaction data operations (JSON).
+  - name: iso20022
+    description: Third party access to bank account service considering camt operations (XML).
+security:
+  - OAuth2:
+      - read
+      - write
+paths:
+  /accounts:
+    get:
+      tags:
+        - accounts
+      summary: Retrieve list of authorized accounts
+      description: Return the list of all accounts accessible for the logged in user.
+      parameters:
+        - in: query
+          name: cursor
+          description: Optional parameter for pagination. Use the ID of the last item from the previous response to retrieve the next set of results.
+          required: false
+          schema: &ref_30
+            type: string
+            example: cursorIDxyz
+        - in: query
+          name: limit
+          description: |
+            Optional parameter for pagination, specifying the number of items to return. The actual maximum limit can be defined by the provider.
+          required: false
+          schema: &ref_31
+            type: integer
+            format: int32
+            example: 25
+            minimum: 1
+            default: 25
+        - in: header
+          name: Authorization
+          description: Bearer followed by a base64 encoded OAuth access token.
+          required: true
+          schema: &ref_4
+            type: string
+        - in: header
+          name: X-CorAPI-Client-ID
+          description: 'ID of the client forwarded to the provider (SCOPE: FI).'
+          required: true
+          schema: &ref_5
+            type: string
+        - in: header
+          name: X-Correlation-ID
+          description: Unique ID (defined by the caller) which will be reflected back in the response.
+          required: true
+          schema: &ref_6
+            type: string
+        - in: header
+          name: User-Agent
+          description: Name and version of the of the Client software.
+          required: true
+          schema: &ref_7
+            type: string
+        - in: header
+          name: X-CorAPI-Target-ID
+          description: 'ID of the target, e.g., a financial institution (SCOPE: FI - optional).'
+          required: false
+          schema: &ref_8
+            type: string
+        - in: header
+          name: X-PSU-IP-Address
+          description: 'IP address of the user initiating the operation (SCOPE: FI - optional).'
+          required: false
+          schema: &ref_9
+            type: string
+        - in: header
+          name: X-PSU-User-Agent
+          description: 'User of the client software (SCOPE: FI - optional).'
+          required: false
+          schema: &ref_10
+            type: string
+      responses:
+        '200':
+          description: Paginated list of all accounts.
+          headers:
+            X-Correlation-ID:
+              description: Client defined ID from request to correlates HTTP requests between a client and server.
+              schema: &ref_0
+                type: string
+                example: f058ebd6-02f7-4d3f-942e-904344e8cde5
+            X-Next-Cursor:
+              description: |
+                An opaque string value used for pagination. Include this value in the cursor parameter of the subsequent request to fetch the next page of
+                results. An empty string indicates that there are no more results.
+              required: false
+              schema: &ref_32
+                type: string
+                example: nextCursorIDxyz
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - accounts
+                properties:
+                  accounts:
+                    type: array
+                    items:
+                      title: Account Information Item
+                      description: The account object.
+                      type: object
+                      required: &ref_11
+                        - account
+                        - accountOwner
+                        - accountTypeCode
+                        - currency
+                        - designation
+                        - id
+                      properties: &ref_12
+                        account:
+                          title: Payment IBAN Account
+                          description: The IBAN account object.
+                          type: object
+                          required: &ref_49
+                            - identification
+                            - type
+                          properties: &ref_50
+                            identification:
+                              description: The International Bank Account Number (IBAN), associated with the account.
+                              type: string
+                              maxLength: 34
+                              pattern: ^[A-Z]{2,2}[0-9]{2,2}[a-zA-Z0-9]{1,30}$
+                              example: CH5481230000001998736
+                            type:
+                              type: string
+                              description: |
+                                The allowed account identification type for the creditor account depends on the payment type. The debtor account must always be an
+                                IBAN.
+                              enum:
+                                - IBAN
+                              example: IBAN
+                        accountOwner:
+                          type: string
+                          maxLength: 140
+                          description: The owner of the account.
+                          example: Account Owner XYZ
+                        accountTypeCode:
+                          type: string
+                          description: |
+                            Contains the account type code according to the ISO20022 external cash account type code list. It is strongly recommended to use only
+                            the 5 codes below as follows:
+                            * LOAN: Account used for loans (loan and mortgage accounts) - DE: Darlehenskonto, Kreditkonto, Baukreditkonto, Hypothekarkonto
+                            * LLSV: Account used for savings with special interest and withdrawal terms (pension provision and vested benefits accounts) - DE:
+                            Vorsorge- und Freizügigkeitskonten
+                            * SVGS: Account used for savings (all types of saving accounts)
+                            * TRAN: Account used for transactions (all types of personal, current and payment accounts) - DE: Privat-, Kontokorent- und
+                            Zahlungsverkehrskonten
+                            * OTHR: Account not otherwise specified (gathering pool for all other accounts)
+                          example: TRAN
+                          enum:
+                            - CACC
+                            - CARD
+                            - CASH
+                            - CHAR
+                            - CISH
+                            - COMM
+                            - CPAC
+                            - LLSV
+                            - LOAN
+                            - MGLD
+                            - MOMA
+                            - NFCA
+                            - NREX
+                            - ODFT
+                            - ONDP
+                            - OTHR
+                            - SACC
+                            - SLRY
+                            - SVGS
+                            - TAXE
+                            - TRAN
+                            - TRAS
+                            - VACC
+                        currency:
+                          description: The ISO currency three-letter code denominated and set for the account at the time it is opened.
+                          type: string
+                          minLength: 3
+                          maxLength: 3
+                          example: CHF
+                        designation:
+                          description: |
+                            This element shall always be populated with the account alias, if defined, otherwise with specific bank account name (e.g. bank saving
+                            account).
+                          type: string
+                          maxLength: 140
+                          example: Firmenkonto
+                        id:
+                          description: Unique identifier (UUID) of the account for which information shall be retrieved.
+                          type: string
+                          maxLength: 256
+                          pattern: ^[A-Za-z0-9](([A-Za-z0-9._]|-){0,254}[A-Za-z0-9]){0,1}$
+                          example: abc123_abcxyz.123789.abcxyz.abcxyz_abcxyz_abcxyz_abcxyz_ccccc_123abc
+                        _links:
+                          type: object
+                          description: Contains the paths to additional resources for specific account (e.g. path to balance and transactions resource).
+                          properties:
+                            self:
+                              type: string
+                              example: /accounts/550e8400-e29b-11d4-a716-446655440000
+                            balance:
+                              type: string
+                              example: /accounts/550e8400-e29b-11d4-a716-446655440000/balance
+                            transactions:
+                              type: string
+                              example: /accounts/550e8400-e29b-11d4-a716-446655440000/transactions
+                        allowedCurrencies:
+                          type: array
+                          items:
+                            type: string
+                            example: CHF
+                          description: Permitted currencies for the account.
+              examples:
+                consent:
+                  summary: return all authorized accounts
+                  value:
+                    - id: 550e8400e29b11d4a716446655440000
+                      account:
+                        type: IBAN
+                        identification: CH9300762011623852957
+                      accountOwner: Hans Muster
+                      currency: CHF
+                      designation: Firmenkonto
+                      _links:
+                        self: /accounts/550e8400e29b11d4a716446655440000
+                        balance: /accounts/550e8400e29b11d4a716446655440000/balance
+                        transactions: /accounts/550e8400e29b11d4a716446655440000/transactions
+                    - id: 550e8400e29b11d4a716446655440001
+                      account:
+                        type: IBAN
+                        identification: CH9300862011623852339
+                      accountOwner: Hans Muster
+                      allowedCurrencies:
+                        - CHF
+                        - EUR
+                        - USD
+                      accountTypeCode: TRAN
+                      currency: CHF
+                      designation: Firmenkonto
+                      _links:
+                        self: /accounts/550e8400e29b11d4a716446655440001
+                        balance: /accounts/550e8400e29b11d4a716446655440001/balance
+                        transactions: /accounts/550e8400e29b11d4a716446655440001/transactions
+        '400':
+          headers: &ref_13
+            Content-Language:
+              description: Response language - always en.
+              schema: &ref_1
+                type: string
+            X-Correlation-ID:
+              description: Client defined ID from request to correlates HTTP requests between a client and server.
+              schema: *ref_0
+          description: |
+            Bad Request - The format of the request was invalid.
+
+            Examples:
+            - InvalidPayload:
+            type: /problems/INVALID_PAYLOAD
+            title: Payload does not comply with API specification
+            detail: Malformed JSON
+            instance: path/to/corresponding/resource
+
+            - InvalidParameter:
+            type: /problems/INVALID_PAYLOAD
+            title: Invalid parameter values have been detected
+            detail: Sent data could not processed
+            instance: path/to/corresponding/resource
+
+            - MissingId:
+            type: /problems/INVALID_PAYLOAD
+            title: The payload was not valid
+            detail: ID is missing
+            instance: path/to/corresponding/resource
+          content: &ref_14
+            application/problem+json:
+              schema:
+                title: Common Error Response
+                description: The common error response object.
+                type: object
+                required: &ref_2
+                  - detail
+                  - title
+                  - type
+                properties: &ref_3
+                  detail:
+                    type: string
+                    description: The details about the common error response.
+                    example: Detailed problem description with respect to the current request
+                  title:
+                    type: string
+                    description: The title of the common error response.
+                    example: This is the general problem description
+                  type:
+                    title: Common Error Type
+                    description: Error Types for CommonErrorResponse.
+                    type: string
+                    enum: &ref_75
+                      - /problems/INVALID_PAYLOAD
+                      - /problems/MALFORMED_PAYLOAD
+                      - /problems/INVALID_TOKEN
+                      - /problems/EXPIRED_TOKEN
+                      - /problems/INSUFFICIENT_PRIVILEGES
+                      - /problems/NO_ACCESS_TO_RESOURCE
+                      - /problems/RESOURCE_DOES_NOT_EXIST
+                      - /problems/RESOURCE_NOT_READY
+                      - /problems/RESOURCE_TOO_LARGE
+                      - /problems/WRONG_METHOD
+                      - /problems/OPERATION_NOT_ALLOWED
+                      - /problems/TECHNICAL_ERROR
+                      - /problems/NOT_IMPLEMENTED
+                      - /problems/SERVICE_UNAVAILABLE
+                    example: /problems/TECHNICAL_ERROR
+                  instance:
+                    type: string
+                    description: The path to the corresponding resource.
+                    example: path/to/corresponding/resource
+                  status:
+                    type: integer
+                    format: int32
+                    description: The HTTP status code generated by the origin server.
+                    example: 404
+        '401':
+          headers: &ref_15
+            Content-Language:
+              description: Response language - always en.
+              schema: *ref_1
+            X-Correlation-ID:
+              description: Client defined ID from request to correlates HTTP requests between a client and server.
+              schema: *ref_0
+          description: Unauthorized - The request has not been applied because it provides no valid authentication credentials for the target resource.
+          content: &ref_16
+            application/problem+json:
+              schema:
+                title: Common Error Response
+                description: The common error response object.
+                type: object
+                required: *ref_2
+                properties: *ref_3
+        '403':
+          headers: &ref_17
+            Content-Language:
+              description: Response language - always en.
+              schema: *ref_1
+            X-Correlation-ID:
+              description: Client defined ID from request to correlates HTTP requests between a client and server.
+              schema: *ref_0
+          description: |
+            Forbidden - A valid OAuth Token was received, but access was denied. (Depending on the security requirements, providers can return 404
+            instead)
+
+            Examples:
+            - InsufficientPrivileges:
+            type: /problems/INSUFFICIENT_PRIVILEGES
+            title: No privileges for the requested operation
+            detail: Insufficient privileges for the requested operation
+            instance: path/to/corresponding/resource
+
+            - ExpiredToken:
+            type: /problems/EXPIRED_TOKEN
+            title: The OAuth Token is expired
+            detail: The token is no longer valid
+            instance: path/to/corresponding/resource
+
+            - NoFutureDateSupported:
+            type: /problems/MALFORMED_PAYLOAD
+            title: Invalid parameter values have been detected
+            detail: Data for date in the future cannot be requested
+            instance: path/to/corresponding/resource
+          content: &ref_18
+            application/problem+json:
+              schema:
+                title: Common Error Response
+                description: The common error response object.
+                type: object
+                required: *ref_2
+                properties: *ref_3
+        '404':
+          headers: &ref_19
+            Content-Language:
+              description: Response language - always en.
+              schema: *ref_1
+            X-Correlation-ID:
+              description: Client defined ID from request to correlates HTTP requests between a client and server.
+              schema: *ref_0
+          description: |
+            Not Found - Either the endpoint does not exist or a requested resource is not
+            yet available (e.g., account statements)
+
+            Examples:
+            - InvalidAccounts:
+            type: /problems/INSUFFICIENT_PRIVILEGES
+            title: Insufficient privileges to access resource
+            detail: The provided token does not grant access to the requested account
+            instance: path/to/corresponding/resource
+
+            - InvalidToken:
+            type: /problems/INSUFFICIENT_PRIVILEGES
+            title: Insufficient privileges to access resource
+            detail: The provided token is not valid
+            instance: path/to/corresponding/resource
+
+            - WrongEndpointUrl:
+            type: /problems/TECHNICAL_ERROR
+            title: URL not found
+            detail: The requested endpoint does not exist
+            instance: path/to/corresponding/resource
+
+            - NoIntradayDataSupported:
+            type: /problems/NOT_IMPLEMENTED
+            title: Feature is not implemented
+            detail: This interface does not support intraday data
+            instance: path/to/corresponding/resource
+          content: &ref_20
+            application/problem+json:
+              schema:
+                title: Common Error Response
+                description: The common error response object.
+                type: object
+                required: *ref_2
+                properties: *ref_3
+        '405':
+          headers: &ref_21
+            Content-Language:
+              description: Response language - always en.
+              schema: *ref_1
+            X-Correlation-ID:
+              description: Client defined ID from request to correlates HTTP requests between a client and server.
+              schema: *ref_0
+          description: |
+            Method Not Allowed - The method received in the request-line is known by the origin server but not supported by the target resource.
+
+            Examples:
+            - NotSupportedOperation:
+            type: /problems/WRONG_METHOD
+            title: This HTTP operation is not allowed on this endpoint
+            detail: Only GET operations are allowed
+            instance: path/to/corresponding/resource
+          content: &ref_22
+            application/problem+json:
+              schema:
+                title: Common Error Response
+                description: The common error response object.
+                type: object
+                required: *ref_2
+                properties: *ref_3
+        '500':
+          headers: &ref_23
+            Content-Language:
+              description: Response language - always en.
+              schema: *ref_1
+            X-Correlation-ID:
+              description: Client defined ID from request to correlates HTTP requests between a client and server.
+              schema: *ref_0
+          description: |
+            Internal Server Error - The server encountered an unexpected condition that
+            prevented it from fulfilling the request.
+
+            Examples:
+            - TechnicalServerError:
+            type: /problems/TECHNICAL_ERROR
+            title: Technical error on server side
+            detail: Processing yielded a technical error
+            instance: path/to/corresponding/resource
+
+            - ResourceTooLarge:
+            type: /problems/RESOURCE_TOO_LARGE
+            title: Generated resource was too large
+            detail: The generated resource exceeded the size limit
+            instance: path/to/corresponding/resource
+          content: &ref_24
+            application/problem+json:
+              schema:
+                title: Common Error Response
+                description: The common error response object.
+                type: object
+                required: *ref_2
+                properties: *ref_3
+        '501':
+          headers: &ref_25
+            Content-Language:
+              description: Response language - always en.
+              schema: *ref_1
+            X-Correlation-ID:
+              description: Client defined ID from request to correlates HTTP requests between a client and server.
+              schema: *ref_0
+          description: |
+            Not Implemented - The server does not support the functionality required to fulfill the request.
+
+            Examples:
+            - EndpointNotImplemented:
+            type: /problems/NOT_IMPLEMENTED
+            title: Target endpoint is not implemented
+            detail: This endpoint is not implemented
+            instance: path/to/corresponding/resource
+          content: &ref_26
+            application/problem+json:
+              schema:
+                title: Common Error Response
+                description: The common error response object.
+                type: object
+                required: *ref_2
+                properties: *ref_3
+        '503':
+          headers: &ref_27
+            Content-Language:
+              description: Response language - always en.
+              schema: *ref_1
+            X-Correlation-ID:
+              description: Client defined ID from request to correlates HTTP requests between a client and server.
+              schema: *ref_0
+          description: Service Unavailable - The server is currently unable to handle the request due to a temporary overload or scheduled maintenance.
+          content: &ref_28
+            application/problem+json:
+              schema:
+                title: Common Error Response
+                description: The common error response object.
+                type: object
+                required: *ref_2
+                properties: *ref_3
+  /accounts/{accountId}:
+    get:
+      tags:
+        - accounts
+      summary: Retrieve information about a single specific account
+      description: Returns the accounts details of the specified account.
+      parameters:
+        - in: path
+          name: accountId
+          description: ID of the account.
+          required: true
+          schema: &ref_29
+            maxLength: 256
+            pattern: ^[A-Za-z0-9](([A-Za-z0-9._]|-){0,254}[A-Za-z0-9]){0,1}$
+            type: string
+            example: accountId
+        - in: header
+          name: Authorization
+          description: Bearer followed by a base64 encoded OAuth access token.
+          required: true
+          schema: *ref_4
+        - in: header
+          name: X-CorAPI-Client-ID
+          description: 'ID of the client forwarded to the provider (SCOPE: FI).'
+          required: true
+          schema: *ref_5
+        - in: header
+          name: X-Correlation-ID
+          description: Unique ID (defined by the caller) which will be reflected back in the response.
+          required: true
+          schema: *ref_6
+        - in: header
+          name: User-Agent
+          description: Name and version of the of the Client software.
+          required: true
+          schema: *ref_7
+        - in: header
+          name: X-CorAPI-Target-ID
+          description: 'ID of the target, e.g., a financial institution (SCOPE: FI - optional).'
+          required: false
+          schema: *ref_8
+        - in: header
+          name: X-PSU-IP-Address
+          description: 'IP address of the user initiating the operation (SCOPE: FI - optional).'
+          required: false
+          schema: *ref_9
+        - in: header
+          name: X-PSU-User-Agent
+          description: 'User of the client software (SCOPE: FI - optional).'
+          required: false
+          schema: *ref_10
+      responses:
+        '200':
+          description: Account details of the specified account.
+          headers:
+            X-Correlation-ID:
+              description: Client defined ID from request to correlates HTTP requests between a client and server.
+              schema: *ref_0
+          content:
+            application/json:
+              schema:
+                title: Account Information Item
+                description: The account object.
+                type: object
+                required: *ref_11
+                properties: *ref_12
+              x-example:
+                details_req:
+                  summary: request account details
+                  externalValue: ./examples/ais/requestAccountDetails_list_request
+              examples:
+                details:
+                  summary: list account details
+                  value:
+                    id: 550e8400e29b11d4a716446655440000
+                    account:
+                      type: IBAN
+                      identification: CH9300762011623852957
+                    accountOwner: Hans Muster
+                    allowedCurrencies:
+                      - CHF
+                      - EUR
+                      - USD
+                    accountTypeCode: TRAN
+                    currency: CHF
+                    designation: Firmenkonto
+                    _links:
+                      self: /accounts/550e8400e29b11d4a716446655440000
+                      balance: /accounts/550e8400e29b11d4a716446655440000/balance
+                      transactions: /accounts/550e8400e29b11d4a716446655440000/transactions
+        '400':
+          headers: *ref_13
+          description: |
+            Bad Request - The format of the request was invalid.
+
+            Examples:
+            - InvalidPayload:
+            type: /problems/INVALID_PAYLOAD
+            title: Payload does not comply with API specification
+            detail: Malformed JSON
+            instance: path/to/corresponding/resource
+
+            - InvalidParameter:
+            type: /problems/INVALID_PAYLOAD
+            title: Invalid parameter values have been detected
+            detail: Sent data could not processed
+            instance: path/to/corresponding/resource
+
+            - MissingId:
+            type: /problems/INVALID_PAYLOAD
+            title: The payload was not valid
+            detail: ID is missing
+            instance: path/to/corresponding/resource
+          content: *ref_14
+        '401':
+          headers: *ref_15
+          description: Unauthorized - The request has not been applied because it provides no valid authentication credentials for the target resource.
+          content: *ref_16
+        '403':
+          headers: *ref_17
+          description: |
+            Forbidden - A valid OAuth Token was received, but access was denied. (Depending on the security requirements, providers can return 404
+            instead)
+
+            Examples:
+            - InsufficientPrivileges:
+            type: /problems/INSUFFICIENT_PRIVILEGES
+            title: No privileges for the requested operation
+            detail: Insufficient privileges for the requested operation
+            instance: path/to/corresponding/resource
+
+            - ExpiredToken:
+            type: /problems/EXPIRED_TOKEN
+            title: The OAuth Token is expired
+            detail: The token is no longer valid
+            instance: path/to/corresponding/resource
+
+            - NoFutureDateSupported:
+            type: /problems/MALFORMED_PAYLOAD
+            title: Invalid parameter values have been detected
+            detail: Data for date in the future cannot be requested
+            instance: path/to/corresponding/resource
+          content: *ref_18
+        '404':
+          headers: *ref_19
+          description: |
+            Not Found - Either the endpoint does not exist or a requested resource is not
+            yet available (e.g., account statements)
+
+            Examples:
+            - InvalidAccounts:
+            type: /problems/INSUFFICIENT_PRIVILEGES
+            title: Insufficient privileges to access resource
+            detail: The provided token does not grant access to the requested account
+            instance: path/to/corresponding/resource
+
+            - InvalidToken:
+            type: /problems/INSUFFICIENT_PRIVILEGES
+            title: Insufficient privileges to access resource
+            detail: The provided token is not valid
+            instance: path/to/corresponding/resource
+
+            - WrongEndpointUrl:
+            type: /problems/TECHNICAL_ERROR
+            title: URL not found
+            detail: The requested endpoint does not exist
+            instance: path/to/corresponding/resource
+
+            - NoIntradayDataSupported:
+            type: /problems/NOT_IMPLEMENTED
+            title: Feature is not implemented
+            detail: This interface does not support intraday data
+            instance: path/to/corresponding/resource
+          content: *ref_20
+        '405':
+          headers: *ref_21
+          description: |
+            Method Not Allowed - The method received in the request-line is known by the origin server but not supported by the target resource.
+
+            Examples:
+            - NotSupportedOperation:
+            type: /problems/WRONG_METHOD
+            title: This HTTP operation is not allowed on this endpoint
+            detail: Only GET operations are allowed
+            instance: path/to/corresponding/resource
+          content: *ref_22
+        '500':
+          headers: *ref_23
+          description: |
+            Internal Server Error - The server encountered an unexpected condition that
+            prevented it from fulfilling the request.
+
+            Examples:
+            - TechnicalServerError:
+            type: /problems/TECHNICAL_ERROR
+            title: Technical error on server side
+            detail: Processing yielded a technical error
+            instance: path/to/corresponding/resource
+
+            - ResourceTooLarge:
+            type: /problems/RESOURCE_TOO_LARGE
+            title: Generated resource was too large
+            detail: The generated resource exceeded the size limit
+            instance: path/to/corresponding/resource
+          content: *ref_24
+        '501':
+          headers: *ref_25
+          description: |
+            Not Implemented - The server does not support the functionality required to fulfill the request.
+
+            Examples:
+            - EndpointNotImplemented:
+            type: /problems/NOT_IMPLEMENTED
+            title: Target endpoint is not implemented
+            detail: This endpoint is not implemented
+            instance: path/to/corresponding/resource
+          content: *ref_26
+        '503':
+          headers: *ref_27
+          description: Service Unavailable - The server is currently unable to handle the request due to a temporary overload or scheduled maintenance.
+          content: *ref_28
+  /accounts/{accountId}/balance:
+    get:
+      tags:
+        - accounts
+      summary: Retrieve account balance information
+      description: |
+        Returns account balance information of the specified account.
+        * Returns the interim booked balance (ISO20022 Balance Type ITBD) for the current day, if called without a date. The balance is
+        calculated in the course of the service provider's business day, at the time specified, and subject to further changes during the
+        business day. The interim balance is calculated on the basis of booked credit and debit items during the calculation time/period
+        specified.
+        * Returns the closing booked balance (ISO20022 Balance Type CLBD) for a specific day, if called for a past date. It is the sum of
+        the opening booked balance at the beginning of that day and all entries booked to the account during that day. In case the specified
+        day has not yet been finalized, the response code will be 202.
+      parameters:
+        - in: path
+          name: accountId
+          description: ID of the account.
+          required: true
+          schema: *ref_29
+        - in: query
+          name: date
+          description: 'The date to query, formatted as yyyy-mm-dd. Default value: current date.'
+          schema: &ref_82
+            title: Shared date
+            description: A date.
+            type: string
+            format: date
+            example: '2018-04-13'
+        - in: header
+          name: Authorization
+          description: Bearer followed by a base64 encoded OAuth access token.
+          required: true
+          schema: *ref_4
+        - in: header
+          name: X-CorAPI-Client-ID
+          description: 'ID of the client forwarded to the provider (SCOPE: FI).'
+          required: true
+          schema: *ref_5
+        - in: header
+          name: X-Correlation-ID
+          description: Unique ID (defined by the caller) which will be reflected back in the response.
+          required: true
+          schema: *ref_6
+        - in: header
+          name: User-Agent
+          description: Name and version of the of the Client software.
+          required: true
+          schema: *ref_7
+        - in: header
+          name: X-CorAPI-Target-ID
+          description: 'ID of the target, e.g., a financial institution (SCOPE: FI - optional).'
+          required: false
+          schema: *ref_8
+        - in: header
+          name: X-PSU-IP-Address
+          description: 'IP address of the user initiating the operation (SCOPE: FI - optional).'
+          required: false
+          schema: *ref_9
+        - in: header
+          name: X-PSU-User-Agent
+          description: 'User of the client software (SCOPE: FI - optional).'
+          required: false
+          schema: *ref_10
+      responses:
+        '200':
+          description: Account balance information of the specified account.
+          headers:
+            X-Correlation-ID:
+              description: Client defined ID from request to correlates HTTP requests between a client and server.
+              schema: *ref_0
+          content:
+            application/json:
+              schema:
+                title: Account Balance Item
+                description: The account balance object.
+                type: object
+                required: &ref_54
+                  - balance
+                  - balanceType
+                  - date
+                properties: &ref_55
+                  balance:
+                    title: Balance Currency-Amount
+                    description: Specifies the requested account balance. Corresponds to the attribute _Bal_ in SPS/ISO-20022.
+                    type: object
+                    required: &ref_71
+                      - amount
+                      - currency
+                    properties: &ref_72
+                      amount:
+                        type: string
+                        pattern: ^-?[0-9]{1,12}([.][0-9]{1,5})?$
+                        maxLength: 18
+                        description: The amount of the requested account balance.
+                        example: '10.25'
+                      currency:
+                        description: The ISO currency three-letter code in which the balance and the account are held.
+                        type: string
+                        minLength: 3
+                        maxLength: 3
+                        example: CHF
+                  balanceType:
+                    type: string
+                    enum:
+                      - ITBD
+                      - CLBD
+                    description: |
+                      The account balance type according to ISO20022. Either the interim booked balance (ITBD) or the closing booked balance (CLBD) type can
+                      be applied. Corresponds to the attribute _Bal ⇾ Tp_ in SPS/ISO-20022.
+                    example: CLBD
+                  date:
+                    description: The date for which the balance was retrieved.
+                    title: Shared date
+                    type: string
+                    format: date
+                    example: '2018-04-13'
+                  _links:
+                    type: object
+                    description: Contains the paths to additional resources for specific account (e.g. path to account and transactions resource).
+                    properties:
+                      self:
+                        type: string
+                        example: /accounts/550e8400-e29b-11d4-a716-446655440000/balance
+                      account:
+                        type: string
+                        example: /accounts/550e8400-e29b-11d4-a716-446655440000
+                      transactions:
+                        type: string
+                        example: /accounts/550e8400-e29b-11d4-a716-446655440000/transactions
+              examples:
+                clbd:
+                  summary: return CLBD balance
+                  value:
+                    date: '2018-02-15'
+                    balanceType: CLBD
+                    balance:
+                      currency: CHF
+                      amount: '9876.75'
+                    _links:
+                      self: /accounts/550e8400e29b11d4a716446655440000/balance
+                      account: /accounts/550e8400e29b11d4a716446655440000
+                      transactions: /accounts/550e8400e29b11d4a716446655440000/transactions
+                itdb:
+                  summary: return CLBD balance
+                  value:
+                    date: '2018-02-05'
+                    balanceType: ITBD
+                    balance:
+                      currency: CHF
+                      amount: '3948.75'
+                    _links:
+                      self: /accounts/550e8400e29b11d4a716446655440000/balance
+                      account: /accounts/550e8400e29b11d4a716446655440000
+                      transactions: /accounts/550e8400e29b11d4a716446655440000/transactions
+        '202':
+          headers: &ref_42
+            Content-Language:
+              description: Response language - always en.
+              schema: *ref_1
+            X-Correlation-ID:
+              description: Client defined ID from request to correlates HTTP requests between a client and server.
+              schema: *ref_0
+          description: Accepted - Valid request, requested data not available yet. The request may be attempted at a later time.
+          content: &ref_43
+            application/json:
+              schema:
+                type: object
+        '204':
+          headers: &ref_44
+            X-Correlation-ID:
+              description: Client defined ID from request to correlates HTTP requests between a client and server.
+              schema: *ref_0
+          description: No content - The server has successfully fulfilled the request. There is no content to return and never will be.
+        '400':
+          headers: *ref_13
+          description: |
+            Bad Request - The format of the request was invalid.
+
+            Examples:
+            - InvalidPayload:
+            type: /problems/INVALID_PAYLOAD
+            title: Payload does not comply with API specification
+            detail: Malformed JSON
+            instance: path/to/corresponding/resource
+
+            - InvalidParameter:
+            type: /problems/INVALID_PAYLOAD
+            title: Invalid parameter values have been detected
+            detail: Sent data could not processed
+            instance: path/to/corresponding/resource
+
+            - MissingId:
+            type: /problems/INVALID_PAYLOAD
+            title: The payload was not valid
+            detail: ID is missing
+            instance: path/to/corresponding/resource
+          content: *ref_14
+        '401':
+          headers: *ref_15
+          description: Unauthorized - The request has not been applied because it provides no valid authentication credentials for the target resource.
+          content: *ref_16
+        '403':
+          headers: *ref_17
+          description: |
+            Forbidden - A valid OAuth Token was received, but access was denied. (Depending on the security requirements, providers can return 404
+            instead)
+
+            Examples:
+            - InsufficientPrivileges:
+            type: /problems/INSUFFICIENT_PRIVILEGES
+            title: No privileges for the requested operation
+            detail: Insufficient privileges for the requested operation
+            instance: path/to/corresponding/resource
+
+            - ExpiredToken:
+            type: /problems/EXPIRED_TOKEN
+            title: The OAuth Token is expired
+            detail: The token is no longer valid
+            instance: path/to/corresponding/resource
+
+            - NoFutureDateSupported:
+            type: /problems/MALFORMED_PAYLOAD
+            title: Invalid parameter values have been detected
+            detail: Data for date in the future cannot be requested
+            instance: path/to/corresponding/resource
+          content: *ref_18
+        '404':
+          headers: *ref_19
+          description: |
+            Not Found - Either the endpoint does not exist or a requested resource is not
+            yet available (e.g., account statements)
+
+            Examples:
+            - InvalidAccounts:
+            type: /problems/INSUFFICIENT_PRIVILEGES
+            title: Insufficient privileges to access resource
+            detail: The provided token does not grant access to the requested account
+            instance: path/to/corresponding/resource
+
+            - InvalidToken:
+            type: /problems/INSUFFICIENT_PRIVILEGES
+            title: Insufficient privileges to access resource
+            detail: The provided token is not valid
+            instance: path/to/corresponding/resource
+
+            - WrongEndpointUrl:
+            type: /problems/TECHNICAL_ERROR
+            title: URL not found
+            detail: The requested endpoint does not exist
+            instance: path/to/corresponding/resource
+
+            - NoIntradayDataSupported:
+            type: /problems/NOT_IMPLEMENTED
+            title: Feature is not implemented
+            detail: This interface does not support intraday data
+            instance: path/to/corresponding/resource
+          content: *ref_20
+        '405':
+          headers: *ref_21
+          description: |
+            Method Not Allowed - The method received in the request-line is known by the origin server but not supported by the target resource.
+
+            Examples:
+            - NotSupportedOperation:
+            type: /problems/WRONG_METHOD
+            title: This HTTP operation is not allowed on this endpoint
+            detail: Only GET operations are allowed
+            instance: path/to/corresponding/resource
+          content: *ref_22
+        '500':
+          headers: *ref_23
+          description: |
+            Internal Server Error - The server encountered an unexpected condition that
+            prevented it from fulfilling the request.
+
+            Examples:
+            - TechnicalServerError:
+            type: /problems/TECHNICAL_ERROR
+            title: Technical error on server side
+            detail: Processing yielded a technical error
+            instance: path/to/corresponding/resource
+
+            - ResourceTooLarge:
+            type: /problems/RESOURCE_TOO_LARGE
+            title: Generated resource was too large
+            detail: The generated resource exceeded the size limit
+            instance: path/to/corresponding/resource
+          content: *ref_24
+        '501':
+          headers: *ref_25
+          description: |
+            Not Implemented - The server does not support the functionality required to fulfill the request.
+
+            Examples:
+            - EndpointNotImplemented:
+            type: /problems/NOT_IMPLEMENTED
+            title: Target endpoint is not implemented
+            detail: This endpoint is not implemented
+            instance: path/to/corresponding/resource
+          content: *ref_26
+        '503':
+          headers: *ref_27
+          description: Service Unavailable - The server is currently unable to handle the request due to a temporary overload or scheduled maintenance.
+          content: *ref_28
+  /accounts/{accountId}/transactions:
+    get:
+      tags:
+        - accounts
+      summary: Retrieve transactions of a specific account
+      externalDocs:
+        description: A detailed description of how this endpoint is used is available in the wiki.
+        url: https://github.com/swissfintechinnovations/ca-payment/wiki/Transaction-Endpoint-Factsheet
+      description: |
+        Returns the transaction list of the specified account.
+        * When called without a date, it returns all transactions since the last completed booking day. Both "pending" and "booked" entries
+        may be included based on the entryStatus parameter.
+        * When called with a date range, only "booked" transactions from completed booking days are returned. For days not yet finalized, a
+        202 response code is returned.
+
+        Results are sorted by bookingDate in descending order. Additional sorting logic is provider-specific but all providers must ensure
+        stable and consistent pagination behavior. If pagination is required, the server includes an opaque cursor in the `X-Next-Cursor`
+        header. This cursor identifies a specific position in the sorted result set and is internally derived from the sorting criteria.
+        Clients must pass this value unchanged in the `cursor` parameter of the next request to retrieve subsequent pages.
+
+        Transaction details are optional in the schema, but all available information must be included if present for a given transaction.
+      parameters:
+        - in: path
+          name: accountId
+          description: ID of the account.
+          required: true
+          schema: *ref_29
+        - in: query
+          name: date_from
+          description: The start date for the query. Must be earlier than or equal to the dateTo parameter.
+          schema: &ref_47
+            title: Shared date
+            description: A date.
+            type: string
+            format: date
+            example: '2018-04-13'
+        - in: query
+          name: date_to
+          description: The end date for the query. Must be later than or equal to the dateFrom parameter.
+          schema: &ref_48
+            title: Shared date
+            description: A date.
+            type: string
+            format: date
+            example: '2018-04-13'
+        - in: query
+          name: entry_status
+          description: |
+            Specifies the status of the entries to be queried. Intraday movements can have a status of either "pending" or "booked." For completed
+            booking days, only entries with a "booked" status will be returned.
+          required: false
+          schema: &ref_84
+            type: string
+            enum:
+              - booked
+              - pending
+              - both
+            default: booked
+        - in: query
+          name: cursor
+          description: Optional parameter for pagination. Use the ID of the last item from the previous response to retrieve the next set of results.
+          required: false
+          schema: *ref_30
+        - in: query
+          name: limit
+          description: |
+            Optional parameter for pagination, specifying the number of items to return. The actual maximum limit can be defined by the provider.
+          required: false
+          schema: *ref_31
+        - in: header
+          name: Authorization
+          description: Bearer followed by a base64 encoded OAuth access token.
+          required: true
+          schema: *ref_4
+        - in: header
+          name: X-CorAPI-Client-ID
+          description: 'ID of the client forwarded to the provider (SCOPE: FI).'
+          required: true
+          schema: *ref_5
+        - in: header
+          name: X-Correlation-ID
+          description: Unique ID (defined by the caller) which will be reflected back in the response.
+          required: true
+          schema: *ref_6
+        - in: header
+          name: User-Agent
+          description: Name and version of the of the Client software.
+          required: true
+          schema: *ref_7
+        - in: header
+          name: X-CorAPI-Target-ID
+          description: 'ID of the target, e.g., a financial institution (SCOPE: FI - optional).'
+          required: false
+          schema: *ref_8
+        - in: header
+          name: X-PSU-IP-Address
+          description: 'IP address of the user initiating the operation (SCOPE: FI - optional).'
+          required: false
+          schema: *ref_9
+        - in: header
+          name: X-PSU-User-Agent
+          description: 'User of the client software (SCOPE: FI - optional).'
+          required: false
+          schema: *ref_10
+      responses:
+        '200':
+          description: Transaction data of the specified account.
+          headers:
+            X-Correlation-ID:
+              description: Client defined ID from request to correlates HTTP requests between a client and server.
+              schema: *ref_0
+            X-Next-Cursor:
+              description: |
+                An opaque string value used for pagination. Include this value in the cursor parameter of the subsequent request to fetch the next page of
+                results. An empty string indicates that there are no more results.
+              required: false
+              schema: *ref_32
+          content:
+            application/json:
+              schema:
+                title: Account Transaction Report
+                description: The account transaction report object.
+                type: object
+                required: &ref_64
+                  - designation
+                  - entries
+                  - iban
+                properties: &ref_65
+                  designation:
+                    description: |
+                      This element shall always be populated with the account alias, if defined, otherwise with specific bank account name (e.g. bank saving
+                      account).
+                    type: string
+                    maxLength: 140
+                    example: Firmenkonto
+                  entries:
+                    type: array
+                    description: The account transaction entry object.
+                    items:
+                      title: Account Transaction Entry
+                      description: The account transaction entry object.
+                      type: object
+                      required: &ref_45
+                        - accountServicerReference
+                        - additionalEntryInformation
+                        - amount
+                        - bankTransactionCode
+                        - bookingDate
+                        - entryId
+                        - entryStatus
+                        - transactionType
+                        - valueDate
+                      properties: &ref_46
+                        accountServicerReference:
+                          type: string
+                          description: |
+                            Unique reference for the entry, assigned by the financial institution. Corresponds to the attribute _ntry ⇾ AcctSvcrRef_ in
+                            SPS/ISO-20022.
+                          example: 12345ABC6789
+                          maxLength: 35
+                        additionalEntryInformation:
+                          type: string
+                          description: Additional entry information. Corresponds to the attribute _AddtlNtryInf_ in SPS/ISO-20022.
+                          example: Online Shopping Visa Debit Card Nr. xxxx 1234
+                        amount:
+                          title: Payment Currency Amount
+                          description: Specifies the entry amount according to the account currency.
+                          type: object
+                          required: &ref_33
+                            - amount
+                            - currency
+                          properties: &ref_34
+                            amount:
+                              description: The entry amount, which will be reflected in the account balance.
+                              type: string
+                              maxLength: 18
+                              pattern: ^[0-9]{1,12}([.][0-9]{1,5})?$
+                              example: '10.25'
+                            currency:
+                              description: The ISO currency three-letter code in which the entry was posed.
+                              type: string
+                              minLength: 3
+                              maxLength: 3
+                              example: CHF
+                        bankTransactionCode:
+                          title: Account Transaction Bank Transaction Code
+                          description: |
+                            The bank transaction code (ISO20022) object of an account transaction. Specifies a set of elements to fully identify the type of
+                            underlying transaction resulting in an entry.
+                          type: object
+                          required: &ref_36
+                            - domainCode
+                            - familyCode
+                            - subFamilyCode
+                          properties: &ref_37
+                            domainCode:
+                              type: string
+                              maxLength: 4
+                              description: |
+                                The code of the business area of the underlying transaction according to the "Bank Transaction Code". Corresponds to the attribute
+                                _Domn ⇾ Cd_ in SPS/ISO-20022.
+                              example: PMNT
+                            familyCode:
+                              type: string
+                              maxLength: 4
+                              description: |
+                                The family code within a specific domain according to the "Bank Transaction Code". Corresponds to the attribute _Fmly ⇾ Cd_ in
+                                SPS/ISO-20022.
+                              example: RCDT
+                            subFamilyCode:
+                              type: string
+                              maxLength: 4
+                              description: |
+                                Specifies the sub-family code within a specific domain according to the "Bank Transaction Code". Corresponds to the attribute
+                                _SubFmlyCd_ in SPS/ISO-20022.
+                              example: DMCT
+                        bookingDate:
+                          description: The booking date of the transaction set by the bank. Corresponds to the attribute _BookgDt_ in SPS/ISO-20022.
+                          title: Shared date
+                          type: string
+                          format: date
+                          example: '2018-04-13'
+                        entryId:
+                          type: string
+                          description: |
+                            Unique bank-defined ID for the transaction. Corresponds to the attribute _Ntry ⇾ AddtlInfInd ⇾ MsgId_ in SPS/ISO-20022.
+                            With the new elements accountServicerReference (in C level) the usage recommendation of this element is as follows:
+                            For new onboarding banks / financial institutions starting with V5.1 this element shall contain accountServicerReference
+                            (entries, C-level) from camt.
+                            For banks / financial institutions already using V4 the content mapping can be kept to be consistent with V4. The description
+                            in V4 is following: Unique bank-defined ID for the transaction. Corresponds to the attribute _Ntry ⇾ AddtlInfInd ⇾ MsgId_ in
+                            SPS/ISO-20022.
+                            Important note: With V6 this element will be removed.
+                          example: ENTRY123456789
+                        entryStatus:
+                          type: string
+                          enum:
+                            - booked
+                            - pending
+                          description: Indicates the status of an account movement. Corresponds to the attribute _Ntry ⇾ Sts ⇾ Cd_ in SPS/ISO-20022.
+                          example: booked
+                        transactionType:
+                          title: Account Transaction Transaction Type
+                          description: |
+                            The transaction type of the account transaction, either credit (CRDT) or debit (DBIT). Corresponds to the attribute _CdtDbtInd_ in
+                            SPS/ISO-20022.
+                          type: string
+                          enum: &ref_35
+                            - CRDT
+                            - DBIT
+                          example: CRDT
+                        valueDate:
+                          description: The value date of the transaction set by the bank. Corresponds to the attribute _ValDt_ in SPS/ISO-20022.
+                          title: Shared date
+                          type: string
+                          format: date
+                          example: '2018-04-13'
+                        entryReference:
+                          type: string
+                          description: |
+                            Mandatory for business cases ISR and QR-IBAN. Contains the ISR participant number or QR-IBAN of the account owner. Corresponds to the
+                            attribute _NtryRef_ in SPS/ISO-20022.
+                          example: '10001628'
+                          maxLength: 35
+                        entryReferenceInternalId:
+                          type: string
+                          description: |
+                            Additional grouping criteria for business cases ISR and QR-IBAN. Contains the BISR-ID or first 6 characters of the QR reference.
+                          example: '123456'
+                          maxLength: 35
+                        instructedAmount:
+                          title: Account Transaction Instructed Amount
+                          description: Specifies the instructed amount according to the account currency.
+                          type: object
+                          required: &ref_38
+                            - amount
+                            - sourceCurrency
+                            - targetCurrency
+                          properties: &ref_39
+                            amount:
+                              description: The amount instructed by the customer to the bank to carry out transaction.
+                              type: string
+                              maxLength: 18
+                              pattern: ^[0-9]{1,12}([.][0-9]{1,5})?$
+                              example: '10.25'
+                            sourceCurrency:
+                              description: |
+                                The ISO currency three-letter code which is used to fund a currency conversion. Corresponds to the attribute _SrcCcy_ in
+                                SPS/ISO-20022.
+                              type: string
+                              minLength: 3
+                              maxLength: 3
+                              example: CHF
+                            targetCurrency:
+                              description: |
+                                The ISO currency three-letter code which the recipient will receive after the currency conversion. Corresponds to the attribute
+                                _TrgtCcy_ in SPS/ISO-20022.
+                              type: string
+                              minLength: 3
+                              maxLength: 3
+                              example: CHF
+                            exchangeIndicator:
+                              type: string
+                              maxLength: 4
+                              description: |
+                                Indicates whether the amount has to be multiplied or divided by the exchange rate (MULT, DIV). Mandatory if the exchange rate is
+                                provided.
+                              example: MULT
+                            exchangeRate:
+                              type: string
+                              pattern: ^\d{1,11}$|^(?=\d+[.]\d+$).{3,12}$
+                              maxLength: 12
+                              description: |
+                                The rate at which the source currency will be exchanged for the target currency. Corresponds to the attribute _XchgRate_ in
+                                SPS/ISO-20022.
+                              example: '0.957'
+                        reversalIndicator:
+                          type: boolean
+                          description: |
+                            Indicates if the transaction is a reversing entry. Must always be true. Corresponds to the attribute _RvslInd_ in SPS/ISO-20022.
+                          example: true
+                        totalChargesAmount:
+                          title: Account Transaction Item Charges
+                          description: Specifies the total amount of account charges.
+                          type: object
+                          required: &ref_40
+                            - amount
+                            - currency
+                          properties: &ref_41
+                            amount:
+                              description: The total amount of account charges.
+                              type: string
+                              maxLength: 18
+                              pattern: ^[0-9]{1,12}([.][0-9]{1,5})?$
+                              example: '10.25'
+                            currency:
+                              description: The ISO currency three-letter code in which the total amount of charges was posed.
+                              type: string
+                              minLength: 3
+                              maxLength: 3
+                              example: CHF
+                            chargeRecords:
+                              type: array
+                              description: Specifies the details about individual charges.
+                              items:
+                                title: Account Transaction Item Charges Record
+                                description: Specifies the details about individual charges.
+                                type: object
+                                properties: &ref_62
+                                  amount:
+                                    description: The amount of individual charges.
+                                    type: string
+                                    maxLength: 18
+                                    pattern: ^[0-9]{1,12}([.][0-9]{1,5})?$
+                                    example: '10.25'
+                                  chargesIncludedIndicator:
+                                    description: |
+                                      Indicates whether the charges are included in the entry amount or not. Corresponds to the attribute _ChrgInclInd_ in SPS/ISO-20022.
+                                    type: boolean
+                                    example: true
+                                  currency:
+                                    description: The ISO currency three-letter code in which the amount of individual charges was posed based.
+                                    type: string
+                                    minLength: 3
+                                    maxLength: 3
+                                    example: CHF
+                                  type:
+                                    type: string
+                                    maxLength: 35
+                                    description: The type of charge. Corresponds to the attribute _Chrgs ⇾ Rcrd ⇾ Tp_ in SPS/ISO-20022.
+                                    example: Some type of charge
+                        transactions:
+                          type: array
+                          description: Specifies the transaction entries.
+                          items:
+                            title: Account Transaction Item
+                            description: Specifies the transaction entry item.
+                            type: object
+                            required: &ref_60
+                              - accountServicerReference
+                              - amount
+                              - transactionId
+                              - transactionType
+                            properties: &ref_61
+                              accountServicerReference:
+                                type: string
+                                maxLength: 35
+                                description: |
+                                  Unique booking (transaction) reference assigned by the financial institution. Corresponds to the attribute _TxDtls ⇾ Refs ⇾
+                                  AcctSvcrRef_ in SPS/ISO-20022.
+                                example: 12345ABC6789
+                              amount:
+                                title: Payment Currency Amount
+                                description: Specifies the entry amount according to the account currency.
+                                type: object
+                                required: *ref_33
+                                properties: *ref_34
+                              transactionId:
+                                type: string
+                                maxLength: 35
+                                description: |
+                                  The unique identifier to the listed transaction. Defined by the client. Corresponds to the attribute _TxDtls ⇾ Refs ⇾ PmtInfId_ in
+                                  SPS/ISO-20022.
+                                  With the new elements ServiceAccounterReference (in D level) the usage recommendation of this element is as follows:
+                                  For new onboarding banks / financial institutions starting with V5 this element shall contain accountServicerReference
+                                  (transactions, D-level) from camt.
+                                  For banks / financial institutions already using V4 the content mapping can be kept to be consistent with V4.
+                                  Importan note: With V6 in November 2026 this element will be removed.
+                                example: TX12345A987
+                              transactionType:
+                                title: Account Transaction Transaction Type
+                                description: |
+                                  The transaction type of the account transaction, either credit (CRDT) or debit (DBIT). Corresponds to the attribute _CdtDbtInd_ in
+                                  SPS/ISO-20022.
+                                type: string
+                                enum: *ref_35
+                                example: CRDT
+                              additionalTransactionInformation:
+                                type: string
+                                maxLength: 140
+                                description: Any additional information to the transaction. Corresponds to the attribute _AddtlTxInf_ in SPS/ISO-20022.
+                                example: Online Shopping Visa Debit Card Nr. xxxx 1234
+                              bankTransactionCode:
+                                title: Account Transaction Bank Transaction Code
+                                description: |
+                                  The bank transaction code (ISO20022) object of an account transaction. Specifies a set of elements to fully identify the type of
+                                  underlying transaction resulting in an entry.
+                                type: object
+                                required: *ref_36
+                                properties: *ref_37
+                              counterparty:
+                                title: Account Transaction Counterparty
+                                description: Specifies the counterparty details (creditor or debtor).
+                                type: object
+                                properties: &ref_56
+                                  account:
+                                    title: Account Transaction Counterparty Account
+                                    description: Specifies the counterparty account (debtor account if transaction type = CRDT creditor account if transaction type = DBIT).
+                                    type: object
+                                    required: &ref_57
+                                      - identification
+                                      - type
+                                    properties: &ref_58
+                                      identification:
+                                        type: string
+                                        maxLength: 35
+                                        description: 'The account identification: IBAN, ISR participant number or bank account number.'
+                                        example: CH9300762011623852957
+                                      type:
+                                        type: string
+                                        enum:
+                                          - IBAN
+                                          - OTHER
+                                        description: The account idientification type of the counterparty account, either IBAN or OTHER.
+                                        example: IBAN
+                                  agent:
+                                    title: Account Transaction Counterparty Agent
+                                    description: The account transaction counterparty agent object.
+                                    type: object
+                                    properties: &ref_59
+                                      bic:
+                                        type: string
+                                        minLength: 8
+                                        maxLength: 11
+                                        description: |
+                                          The bank identifier code (BIC) of the creditor agent of a payment. Corresponds to the attribute _CdtrAgt ⇾ FinInstnId ⇾ BIC_ in
+                                          SPS/ISO-20022. The BIC is an 8 or 11-character code that breaks down as follows:
+                                          - First 4 characters - bank code (letters only)
+                                          - Next 2 characters - ISO 3166-1 alpha-2 country code (letters only)
+                                          - Next 2 characters - location code (letters and digits)
+                                          - Last 3 characters (optional) - branch code, specifying a particular branch of the bank (letters and digits)
+                                        example: DEUTDE5M101
+                                      clearingSystemMemberIdentification:
+                                        title: Common Clearing System Member Identification
+                                        description: Specifies the Information used to identify a member within a clearing system.
+                                        type: object
+                                        required: &ref_73
+                                          - code
+                                          - memberId
+                                        properties: &ref_74
+                                          code:
+                                            type: string
+                                            maxLength: 5
+                                            description: >
+                                              Identification code of a clearing system. Only "CHBCC" is permitted in Switzerland. Corresponds to the attribute _ClrSysId ⇾
+                                              Cd_ in
+
+                                              SPS/ISO-20022.
+                                            example: CHBCC
+                                          memberId:
+                                            type: string
+                                            maxLength: 35
+                                            description: |
+                                              The identification of a clearing system member. Clearing ID (Bank Code, "National Identifier") of the financial institution.
+                                              Corresponds to the attribute _ClrSysId ⇾ MmbId_ in SPS/ISO-20022.
+                                            example: '00230'
+                                  name:
+                                    type: string
+                                    maxLength: 140
+                                    description: Name of the counterparty (debtor name if transaction type = CRDT, creditor name if transaction type = DBIT).
+                                    example: Hans Muster
+                                  postalAddress:
+                                    title: Common Structured or Unstructured Address
+                                    description: Specifies the counterparty address (debtor address if transaction type = CRDT, creditor address if transaction type = DBIT).
+                                    type: object
+                                    properties: &ref_68
+                                      structured:
+                                        title: Structured Postal Address for Transactions
+                                        description: Specifies the details of the counterparty structured address.
+                                        type: object
+                                        required: &ref_66
+                                          - postCode
+                                          - streetName
+                                          - townName
+                                        properties: &ref_67
+                                          postCode:
+                                            type: string
+                                            maxLength: 16
+                                            description: The counterparty post code. Corresponds to the attribute _PstCd_ in SPS/ISO-20022.
+                                            example: '2501'
+                                          streetName:
+                                            type: string
+                                            maxLength: 70
+                                            description: The counterparty street name. Corresponds to the attribute _StrtNm_ in SPS/ISO-20022.
+                                            example: Rue de la gare
+                                          townName:
+                                            type: string
+                                            maxLength: 35
+                                            description: The counterparty town name. Corresponds to the attribute _TwnNm_ in SPS/ISO-20022.
+                                            example: Biel
+                                          buildingNumber:
+                                            type: string
+                                            maxLength: 16
+                                            description: The counterparty building number. Corresponds to the attribute _BldgNb_ in SPS/ISO-20022.
+                                            example: '24'
+                                          country:
+                                            type: string
+                                            maxLength: 2
+                                            description: The counterparty country. Corresponds to the attribute _Ctry_ in SPS/ISO-20022.
+                                            example: CH
+                                      unstructured:
+                                        title: Unstructured Address for Transactions
+                                        description: Specifies the details of the counterparty unstructured address.
+                                        type: object
+                                        required: &ref_69
+                                          - addressLines
+                                        properties: &ref_70
+                                          addressLines:
+                                            type: array
+                                            description: The counterparty address lines. Only four address lines allowed.
+                                            maxItems: 4
+                                            example:
+                                              - Robert Schneider SA
+                                              - Rue de la gare 24
+                                            items:
+                                              type: string
+                                              maxLength: 70
+                                          country:
+                                            type: string
+                                            description: The counterparty country. Corresponds to the attribute _Ctry_ in SPS/ISO-20022.
+                                            maxLength: 2
+                                            example: CH
+                              endToEndId:
+                                type: string
+                                maxLength: 35
+                                description: The unique reference of the debtor/creditor. Corresponds to the attribute _EndToEndId_ in SPS/ISO-20022.
+                                example: ENDTOENDID-01
+                              instructedAmount:
+                                title: Account Transaction Instructed Amount
+                                description: Specifies the instructed amount according to the account currency.
+                                type: object
+                                required: *ref_38
+                                properties: *ref_39
+                              instructionId:
+                                type: string
+                                maxLength: 35
+                                description: |
+                                  ID of the C-Level from the original payment instruction. Corresponds to the attribute _TxDtls ⇾ Refs ⇾ InstrId_ in SPS/ISO-20022.
+                                example: 12345ABC6789
+                              remittanceInformation:
+                                description: Either remittanceReference or remittanceInformation must be set. Corresponds to the attribute _RmtInf ⇾ Ustrd_ in SPS/ISO-20022.
+                                type: string
+                                maxLength: 140
+                                example: Rechnung Nr. 408
+                              remittanceReference:
+                                title: Account Transaction Remittance Reference
+                                description: The remittance reference of the account transaction. Specifies the structured reference.
+                                type: object
+                                properties: &ref_63
+                                  reference:
+                                    type: string
+                                    maxLength: 35
+                                    description: |
+                                      The reference number associated to the choosen remittance type. Corresponds to the attribute _RmtInf ⇾ Strd ⇾ CdtrRefInf ⇾ Ref_ in
+                                      SPS/ISO-20022.
+                                    example: '210000000003139471430009017'
+                                  type:
+                                    type: string
+                                    enum:
+                                      - SCOR
+                                      - ISR
+                                      - QRR
+                                    description: The reference type (QRR, SCOR, ISR). Corresponds to the attribute _RmtInf ⇾ Strd ⇾ CdtrRefInf ⇾ Tp_ in SPS/ISO-20022.
+                                    example: SCOR
+                              totalChargesAmount:
+                                title: Account Transaction Item Charges
+                                description: Specifies the total amount of account charges.
+                                type: object
+                                required: *ref_40
+                                properties: *ref_41
+                              uetr:
+                                type: string
+                                pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$
+                                description: |
+                                  Globally unique reference Reference assigned by the debtor (optional) or by the debtor agent. Corresponds to the attribute _TxDtls ⇾
+                                  Refs ⇾ UETR_ in SPS/ISO-20022
+                                example: fdc01a3e-4567-4abc-8def-1234567890ab
+                  iban:
+                    description: The International Bank Account Number (IBAN), associated with the account.
+                    type: string
+                    maxLength: 34
+                    pattern: ^[A-Z]{2,2}[0-9]{2,2}[a-zA-Z0-9]{1,30}$
+                    example: CH5481230000001998736
+                  _links:
+                    type: object
+                    description: Contains the paths to additional resources for specific account (e.g. path to account and balance resource).
+                    properties:
+                      self:
+                        type: string
+                        example: /accounts/550e8400e29b11d4a716446655440000/statements
+                      account:
+                        type: string
+                        example: /accounts/550e8400e29b11d4a716446655440000
+                      balance:
+                        type: string
+                        example: /accounts/550e8400e29b11d4a716446655440000/balance
+              examples:
+                transactions:
+                  summary: return transactions
+                  value:
+                    iban: CH5481230000001998736
+                    designation: Firmenkonto
+                    entries:
+                      - entryId: ENTRY123456789
+                        transactionType: CRDT
+                        bookingDate: '2018-10-29'
+                        valueDate: '2018-10-29'
+                        bankTransactionCode:
+                          domainCode: PMNT
+                          familyCode: RCDT
+                          subFamilyCode: DMCT
+                        amount:
+                          currency: CHF
+                          amount: '250'
+                        additionalEntryInformation: SAMMELGUTSCHRIFT VOM 29.10.2018
+                      - entryId: ENTRY123456789
+                        transactionType: CRDT
+                        bookingDate: '2018-10-29'
+                        valueDate: '2018-10-29'
+                        bankTransactionCode:
+                          domainCode: PMNT
+                          familyCode: RCDT
+                          subFamilyCode: DMCT
+                        amount:
+                          currency: CHF
+                          amount: '250'
+                        transactions:
+                          - transactionId: trx123456789-01
+                            transactionType: CRDT
+                            endToEndId: endToEndId-01
+                            bankTransactionCode:
+                              domainCode: PMNT
+                              familyCode: RCDT
+                              subFamilyCode: DMCT
+                            amount:
+                              currency: CHF
+                              amount: '250'
+                            counterparty:
+                              name: Barbara Muster
+                              postalAddress:
+                                structured:
+                                  streetName: Rosenauweg
+                                  buildingNumber: '4'
+                                  postCode: '8001'
+                                  townName: Zuerich
+                                  country: CH
+                              account:
+                                type: IBAN
+                                identification: CH85002582584X1234560
+                              agent:
+                                clearingSystemMemberIdentification:
+                                  code: CHBCC
+                                  memberId: '99999'
+                            remittanceInformation: RECHNUNG 67890
+                        additionalEntryInformation: SAMMELGUTSCHRIFT VOM 29.10.2018
+                      - entryId: ENTRY7777777
+                        transactionType: CRDT
+                        bookingDate: '2018-10-29'
+                        valueDate: '2018-10-29'
+                        bankTransactionCode:
+                          domainCode: PMNT
+                          familyCode: RCDT
+                          subFamilyCode: ESCT
+                        amount:
+                          currency: CHF
+                          amount: '3.47'
+                        transactions:
+                          - transactionId: trx123456789-01
+                            transactionType: CRDT
+                            endToEndId: endToEndId-02
+                            bankTransactionCode:
+                              domainCode: PMNT
+                              familyCode: RCDT
+                              subFamilyCode: ESCT
+                            amount:
+                              currency: CHF
+                              amount: '3.47'
+                            instructedAmount:
+                              amount: '3'
+                              sourceCurrency: EUR
+                              targetCurrency: CHF
+                              exchangeRate: '1.15632286'
+                              exchangeIndicator: MULT
+                            counterparty:
+                              name: Peter Haller
+                              postalAddress:
+                                structured:
+                                  streetName: Rosenauweg
+                                  buildingNumber: '4'
+                                  postCode: '80036'
+                                  townName: Muenchen
+                                  country: DE
+                              account:
+                                type: IBAN
+                                identification: DE12500105170648489890
+                            remittanceInformation: RECHNUNG 23456
+                        additionalEntryInformation: SAMMELGUTSCHRIFT VOM 29.10.2018
+                      - entryId: ENTRY66666666
+                        transactionType: CRDT
+                        entryReference: '010026540'
+                        bookingDate: '2018-10-29'
+                        valueDate: '2018-10-29'
+                        bankTransactionCode:
+                          domainCode: PMNT
+                          familyCode: RCDT
+                          subFamilyCode: VCOM
+                        amount:
+                          currency: CHF
+                          amount: '145.70'
+                        transactions:
+                          - transactionId: trx123456789-01
+                            transactionType: CRDT
+                            endToEndId: endToEndId-03
+                            bankTransactionCode:
+                              domainCode: PMNT
+                              familyCode: RCDT
+                              subFamilyCode: VCOM
+                            amount:
+                              currency: CHF
+                              amount: '100'
+                            counterparty:
+                              name: Max Muster
+                              postalAddress:
+                                unstructured:
+                                  addressLines:
+                                    - Bundesplatz 1
+                                    - 3003 Bern
+                                  country: CH
+                              account:
+                                type: IBAN
+                                identification: CH85002582584X1234560
+                            remittanceReference:
+                              type: ISR
+                              reference: '123456789012345678901234567'
+                          - transactionId: trx123456789-01
+                            transactionType: CRDT
+                            endToEndId: endToEndId-04
+                            bankTransactionCode:
+                              domainCode: PMNT
+                              familyCode: RCDT
+                              subFamilyCode: VCOM
+                            amount:
+                              currency: CHF
+                              amount: '45.70'
+                            counterparty:
+                              name: Peter Muster
+                              postalAddress:
+                                unstructured:
+                                  addressLines:
+                                    - Bundesplatz 1
+                                    - 3003 Bern
+                                  country: CH
+                              account:
+                                type: IBAN
+                                identification: CH85002582584X1234560
+                            remittanceReference:
+                              type: ISR
+                              reference: '123456789012345678901234567'
+                        additionalEntryInformation: SAMMELGUTSCHRIFT VOM 29.10.2018
+                      - entryId: ENTRY123456789
+                        transactionType: DBIT
+                        bookingDate: '2018-10-29'
+                        valueDate: '2018-10-29'
+                        bankTransactionCode:
+                          domainCode: PMNT
+                          familyCode: ICDT
+                          subFamilyCode: OTHR
+                        amount:
+                          currency: CHF
+                          amount: '9.57'
+                        transactions:
+                          - transactionId: trx123456789-01
+                            transactionType: DBIT
+                            endToEndId: endToEndId-01
+                            bankTransactionCode:
+                              domainCode: PMNT
+                              familyCode: ICDT
+                              subFamilyCode: OTHR
+                            amount:
+                              currency: CHF
+                              amount: '9.57'
+                            instructedAmount:
+                              amount: '10'
+                              sourceCurrency: USD
+                              targetCurrency: CHF
+                              exchangeRate: '0.957'
+                              exchangeIndicator: MULT
+                            counterparty:
+                              name: Jan Kowalski
+                              postalAddress:
+                                structured:
+                                  streetName: Szczytnicka 9
+                                  postCode: 50-382
+                                  townName: Wroclaw
+                                  country: PL
+                              account:
+                                type: IBAN
+                                identification: PL79105015751000002345678901
+                              agent:
+                                bic: INGBPLPW
+                            remittanceInformation: Invoice AB-123-C
+                            additionalTransactionInformation: string
+                        additionalEntryInformation: ESR VERARBEITUNG VOM 29.10.2018
+                      - entryId: ENTRY123456789
+                        transactionType: DBIT
+                        bookingDate: '2018-10-29'
+                        valueDate: '2018-10-29'
+                        bankTransactionCode:
+                          domainCode: PMNT
+                          familyCode: ICDT
+                          subFamilyCode: VCOM
+                        amount:
+                          currency: CHF
+                          amount: '120'
+                        additionalEntryInformation: ESR VERARBEITUNG VOM 29.10.2018
+                        transactions:
+                          - transactionId: trx123456789-01
+                            transactionType: DBIT
+                            endToEndId: endToEndId-01
+                            bankTransactionCode:
+                              domainCode: PMNT
+                              familyCode: ICDT
+                              subFamilyCode: VCOM
+                            amount:
+                              currency: CHF
+                              amount: '120'
+                            counterparty:
+                              name: Aero Club der Schweiz
+                              postalAddress:
+                                unstructured:
+                                  addressLines:
+                                    - Lidostrasse 5
+                                    - 6006 Luzern
+                                  country: CH
+                              account:
+                                type: OTHER
+                                identification: 01-39139-1
+                            remittanceReference:
+                              type: ISR
+                              reference: '047280000701047470007679672'
+                    _links:
+                      self: /accounts/550e8400e29b11d4a716446655440000/transactions
+                      account: /accounts/550e8400e29b11d4a716446655440000
+                      balance: /accounts/550e8400e29b11d4a716446655440000/balance
+                qr_transactions:
+                  summary: return qr transactions
+                  value:
+                    iban: CH5481230000001998736
+                    designation: Firmenkonto
+                    entries:
+                      - entryId: ENTRY123456789
+                        transactionType: CRDT
+                        bookingDate: '2018-10-29'
+                        valueDate: '2018-10-29'
+                        bankTransactionCode:
+                          domainCode: PMNT
+                          familyCode: RCDT
+                          subFamilyCode: DMCT
+                        amount:
+                          currency: CHF
+                          amount: '250'
+                        additionalEntryInformation: SAMMELGUTSCHRIFT VOM 29.10.2018
+                      - entryId: ENTRY123456789
+                        transactionType: CRDT
+                        bookingDate: '2018-10-29'
+                        valueDate: '2018-10-29'
+                        bankTransactionCode:
+                          domainCode: PMNT
+                          familyCode: RCDT
+                          subFamilyCode: DMCT
+                        amount:
+                          currency: CHF
+                          amount: '250'
+                        transactions:
+                          - transactionId: trx123456789-01
+                            transactionType: CRDT
+                            endToEndId: endToEndId-01
+                            bankTransactionCode:
+                              domainCode: PMNT
+                              familyCode: RCDT
+                              subFamilyCode: DMCT
+                            amount:
+                              currency: CHF
+                              amount: '250'
+                            counterparty:
+                              name: Barbara Muster
+                              postalAddress:
+                                structured:
+                                  streetName: Rosenauweg
+                                  buildingNumber: '4'
+                                  postCode: '8001'
+                                  townName: Zuerich
+                                  country: CH
+                              account:
+                                type: IBAN
+                                identification: CH85002582584X1234560
+                              agent:
+                                clearingSystemMemberIdentification:
+                                  code: CHBCC
+                                  memberId: '99999'
+                            remittanceInformation: RECHNUNG 67890
+                        additionalEntryInformation: SAMMELGUTSCHRIFT VOM 29.10.2018
+                      - entryId: ENTRY7777777
+                        transactionType: CRDT
+                        bookingDate: '2018-10-29'
+                        valueDate: '2018-10-29'
+                        bankTransactionCode:
+                          domainCode: PMNT
+                          familyCode: RCDT
+                          subFamilyCode: ESCT
+                        amount:
+                          currency: CHF
+                          amount: '3.47'
+                        transactions:
+                          - transactionId: trx123456789-01
+                            transactionType: CRDT
+                            endToEndId: endToEndId-02
+                            bankTransactionCode:
+                              domainCode: PMNT
+                              familyCode: RCDT
+                              subFamilyCode: ESCT
+                            amount:
+                              currency: CHF
+                              amount: '3.47'
+                            instructedAmount:
+                              amount: '3'
+                              sourceCurrency: EUR
+                              targetCurrency: CHF
+                              exchangeRate: '1.15632286'
+                              exchangeIndicator: MULT
+                            counterparty:
+                              name: Peter Haller
+                              postalAddress:
+                                structured:
+                                  streetName: Rosenauweg
+                                  buildingNumber: '4'
+                                  postCode: '80036'
+                                  townName: Muenchen
+                                  country: DE
+                              account:
+                                type: IBAN
+                                identification: DE12500105170648489890
+                            remittanceInformation: RECHNUNG 23456
+                        additionalEntryInformation: SAMMELGUTSCHRIFT VOM 29.10.2018
+                      - entryId: ENTRY66666666
+                        transactionType: CRDT
+                        entryReference: '010026540'
+                        bookingDate: '2018-10-29'
+                        valueDate: '2018-10-29'
+                        bankTransactionCode:
+                          domainCode: PMNT
+                          familyCode: RCDT
+                          subFamilyCode: VCOM
+                        amount:
+                          currency: CHF
+                          amount: '145.70'
+                        transactions:
+                          - transactionId: trx123456789-01
+                            transactionType: CRDT
+                            endToEndId: endToEndId-03
+                            bankTransactionCode:
+                              domainCode: PMNT
+                              familyCode: RCDT
+                              subFamilyCode: VCOM
+                            amount:
+                              currency: CHF
+                              amount: '100'
+                            counterparty:
+                              name: Max Muster
+                              postalAddress:
+                                unstructured:
+                                  addressLines:
+                                    - Bundesplatz 1
+                                    - 3003 Bern
+                                  country: CH
+                              account:
+                                type: IBAN
+                                identification: CH85002582584X1234560
+                            remittanceReference:
+                              type: ISR
+                              reference: '123456789012345678901234567'
+                          - transactionId: trx123456789-01
+                            transactionType: CRDT
+                            endToEndId: endToEndId-04
+                            bankTransactionCode:
+                              domainCode: PMNT
+                              familyCode: RCDT
+                              subFamilyCode: VCOM
+                            amount:
+                              currency: CHF
+                              amount: '45.70'
+                            counterparty:
+                              name: Peter Muster
+                              postalAddress:
+                                unstructured:
+                                  addressLines:
+                                    - Bundesplatz 1
+                                    - 3003 Bern
+                                  country: CH
+                              account:
+                                type: IBAN
+                                identification: CH85002582584X1234560
+                            remittanceReference:
+                              type: ISR
+                              reference: '123456789012345678901234567'
+                        additionalEntryInformation: SAMMELGUTSCHRIFT VOM 29.10.2018
+                      - entryId: ENTRY123456789
+                        transactionType: DBIT
+                        bookingDate: '2018-10-29'
+                        valueDate: '2018-10-29'
+                        bankTransactionCode:
+                          domainCode: PMNT
+                          familyCode: ICDT
+                          subFamilyCode: OTHR
+                        amount:
+                          currency: CHF
+                          amount: '9.57'
+                        transactions:
+                          - transactionId: trx123456789-01
+                            transactionType: DBIT
+                            endToEndId: endToEndId-01
+                            bankTransactionCode:
+                              domainCode: PMNT
+                              familyCode: ICDT
+                              subFamilyCode: OTHR
+                            amount:
+                              currency: CHF
+                              amount: '9.57'
+                            instructedAmount:
+                              amount: '10'
+                              sourceCurrency: USD
+                              targetCurrency: CHF
+                              exchangeRate: '0.957'
+                              exchangeIndicator: MULT
+                            counterparty:
+                              name: Jan Kowalski
+                              postalAddress:
+                                structured:
+                                  streetName: Szczytnicka 9
+                                  postCode: 50-382
+                                  townName: Wroclaw
+                                  country: PL
+                              account:
+                                type: IBAN
+                                identification: PL79105015751000002345678901
+                              agent:
+                                bic: INGBPLPW
+                            remittanceInformation: Invoice AB-123-C
+                            additionalTransactionInformation: string
+                        additionalEntryInformation: ESR VERARBEITUNG VOM 29.10.2018
+                      - entryId: ENTRY123456789
+                        transactionType: DBIT
+                        bookingDate: '2018-10-29'
+                        valueDate: '2018-10-29'
+                        bankTransactionCode:
+                          domainCode: PMNT
+                          familyCode: ICDT
+                          subFamilyCode: VCOM
+                        amount:
+                          currency: CHF
+                          amount: '120'
+                        additionalEntryInformation: ESR VERARBEITUNG VOM 29.10.2018
+                        transactions:
+                          - transactionId: trx123456789-01
+                            transactionType: DBIT
+                            endToEndId: endToEndId-01
+                            bankTransactionCode:
+                              domainCode: PMNT
+                              familyCode: ICDT
+                              subFamilyCode: VCOM
+                            amount:
+                              currency: CHF
+                              amount: '120'
+                            counterparty:
+                              name: Aero Club der Schweiz
+                              postalAddress:
+                                unstructured:
+                                  addressLines:
+                                    - Lidostrasse 5
+                                    - 6006 Luzern
+                                  country: CH
+                              account:
+                                type: OTHER
+                                identification: 01-39139-1
+                            remittanceReference:
+                              type: ISR
+                              reference: '047280000701047470007679672'
+                    _links:
+                      self: /accounts/550e8400e29b11d4a716446655440000/transactions
+                      account: /accounts/550e8400e29b11d4a716446655440000
+                      balance: /accounts/550e8400e29b11d4a716446655440000/balance
+        '202':
+          description: |
+            Accepted - The request is valid, but the requested data is not yet available because the associated booking day is still
+            in progress or not finalized. The request can be repeated at a later time once the data has been finalized.
+          headers: *ref_42
+          content: *ref_43
+        '204':
+          description: |
+            No Content - The request was successful, but no data is available for the requested date or parameters. No data is expected to become
+            available in the future. This may occur if the requested period is outside the retention scope or if no entries exist for the given
+            account and criteria.
+          headers: *ref_44
+        '400':
+          headers: *ref_13
+          description: |
+            Bad Request - The format of the request was invalid.
+
+            Examples:
+            - InvalidPayload:
+            type: /problems/INVALID_PAYLOAD
+            title: Payload does not comply with API specification
+            detail: Malformed JSON
+            instance: path/to/corresponding/resource
+
+            - InvalidParameter:
+            type: /problems/INVALID_PAYLOAD
+            title: Invalid parameter values have been detected
+            detail: Sent data could not processed
+            instance: path/to/corresponding/resource
+
+            - MissingId:
+            type: /problems/INVALID_PAYLOAD
+            title: The payload was not valid
+            detail: ID is missing
+            instance: path/to/corresponding/resource
+          content: *ref_14
+        '401':
+          headers: *ref_15
+          description: Unauthorized - The request has not been applied because it provides no valid authentication credentials for the target resource.
+          content: *ref_16
+        '403':
+          headers: *ref_17
+          description: |
+            Forbidden - A valid OAuth Token was received, but access was denied. (Depending on the security requirements, providers can return 404
+            instead)
+
+            Examples:
+            - InsufficientPrivileges:
+            type: /problems/INSUFFICIENT_PRIVILEGES
+            title: No privileges for the requested operation
+            detail: Insufficient privileges for the requested operation
+            instance: path/to/corresponding/resource
+
+            - ExpiredToken:
+            type: /problems/EXPIRED_TOKEN
+            title: The OAuth Token is expired
+            detail: The token is no longer valid
+            instance: path/to/corresponding/resource
+
+            - NoFutureDateSupported:
+            type: /problems/MALFORMED_PAYLOAD
+            title: Invalid parameter values have been detected
+            detail: Data for date in the future cannot be requested
+            instance: path/to/corresponding/resource
+          content: *ref_18
+        '404':
+          headers: *ref_19
+          description: |
+            Not Found - Either the endpoint does not exist or a requested resource is not
+            yet available (e.g., account statements)
+
+            Examples:
+            - InvalidAccounts:
+            type: /problems/INSUFFICIENT_PRIVILEGES
+            title: Insufficient privileges to access resource
+            detail: The provided token does not grant access to the requested account
+            instance: path/to/corresponding/resource
+
+            - InvalidToken:
+            type: /problems/INSUFFICIENT_PRIVILEGES
+            title: Insufficient privileges to access resource
+            detail: The provided token is not valid
+            instance: path/to/corresponding/resource
+
+            - WrongEndpointUrl:
+            type: /problems/TECHNICAL_ERROR
+            title: URL not found
+            detail: The requested endpoint does not exist
+            instance: path/to/corresponding/resource
+
+            - NoIntradayDataSupported:
+            type: /problems/NOT_IMPLEMENTED
+            title: Feature is not implemented
+            detail: This interface does not support intraday data
+            instance: path/to/corresponding/resource
+          content: *ref_20
+        '405':
+          headers: *ref_21
+          description: |
+            Method Not Allowed - The method received in the request-line is known by the origin server but not supported by the target resource.
+
+            Examples:
+            - NotSupportedOperation:
+            type: /problems/WRONG_METHOD
+            title: This HTTP operation is not allowed on this endpoint
+            detail: Only GET operations are allowed
+            instance: path/to/corresponding/resource
+          content: *ref_22
+        '500':
+          headers: *ref_23
+          description: |
+            Internal Server Error - The server encountered an unexpected condition that
+            prevented it from fulfilling the request.
+
+            Examples:
+            - TechnicalServerError:
+            type: /problems/TECHNICAL_ERROR
+            title: Technical error on server side
+            detail: Processing yielded a technical error
+            instance: path/to/corresponding/resource
+
+            - ResourceTooLarge:
+            type: /problems/RESOURCE_TOO_LARGE
+            title: Generated resource was too large
+            detail: The generated resource exceeded the size limit
+            instance: path/to/corresponding/resource
+          content: *ref_24
+        '501':
+          headers: *ref_25
+          description: |
+            Not Implemented - The server does not support the functionality required to fulfill the request.
+
+            Examples:
+            - EndpointNotImplemented:
+            type: /problems/NOT_IMPLEMENTED
+            title: Target endpoint is not implemented
+            detail: This endpoint is not implemented
+            instance: path/to/corresponding/resource
+          content: *ref_26
+        '503':
+          headers: *ref_27
+          description: Service Unavailable - The server is currently unable to handle the request due to a temporary overload or scheduled maintenance.
+          content: *ref_28
+  /accounts/{accountId}/transactions/{entryId}:
+    get:
+      tags:
+        - accounts
+      summary: Details of the specified transaction
+      description: Retrieves the details of the specified transaction.
+      parameters:
+        - in: path
+          name: accountId
+          description: ID of the account.
+          required: true
+          schema: *ref_29
+        - in: path
+          name: entryId
+          description: ID of the transaction entry.
+          required: true
+          schema: &ref_83
+            type: string
+        - in: header
+          name: Authorization
+          description: Bearer followed by a base64 encoded OAuth access token.
+          required: true
+          schema: *ref_4
+        - in: header
+          name: X-CorAPI-Client-ID
+          description: 'ID of the client forwarded to the provider (SCOPE: FI).'
+          required: true
+          schema: *ref_5
+        - in: header
+          name: X-Correlation-ID
+          description: Unique ID (defined by the caller) which will be reflected back in the response.
+          required: true
+          schema: *ref_6
+        - in: header
+          name: User-Agent
+          description: Name and version of the of the Client software.
+          required: true
+          schema: *ref_7
+        - in: header
+          name: X-CorAPI-Target-ID
+          description: 'ID of the target, e.g., a financial institution (SCOPE: FI - optional).'
+          required: false
+          schema: *ref_8
+        - in: header
+          name: X-PSU-IP-Address
+          description: 'IP address of the user initiating the operation (SCOPE: FI - optional).'
+          required: false
+          schema: *ref_9
+        - in: header
+          name: X-PSU-User-Agent
+          description: 'User of the client software (SCOPE: FI - optional).'
+          required: false
+          schema: *ref_10
+      responses:
+        '200':
+          description: Account details of the requested account.
+          headers:
+            X-Correlation-ID:
+              description: Client defined ID from request to correlates HTTP requests between a client and server.
+              schema: *ref_0
+          content:
+            application/json:
+              schema:
+                title: Account Transaction Entry
+                description: The account transaction entry object.
+                type: object
+                required: *ref_45
+                properties: *ref_46
+        '400':
+          headers: *ref_13
+          description: |
+            Bad Request - The format of the request was invalid.
+
+            Examples:
+            - InvalidPayload:
+            type: /problems/INVALID_PAYLOAD
+            title: Payload does not comply with API specification
+            detail: Malformed JSON
+            instance: path/to/corresponding/resource
+
+            - InvalidParameter:
+            type: /problems/INVALID_PAYLOAD
+            title: Invalid parameter values have been detected
+            detail: Sent data could not processed
+            instance: path/to/corresponding/resource
+
+            - MissingId:
+            type: /problems/INVALID_PAYLOAD
+            title: The payload was not valid
+            detail: ID is missing
+            instance: path/to/corresponding/resource
+          content: *ref_14
+        '401':
+          headers: *ref_15
+          description: Unauthorized - The request has not been applied because it provides no valid authentication credentials for the target resource.
+          content: *ref_16
+        '403':
+          headers: *ref_17
+          description: |
+            Forbidden - A valid OAuth Token was received, but access was denied. (Depending on the security requirements, providers can return 404
+            instead)
+
+            Examples:
+            - InsufficientPrivileges:
+            type: /problems/INSUFFICIENT_PRIVILEGES
+            title: No privileges for the requested operation
+            detail: Insufficient privileges for the requested operation
+            instance: path/to/corresponding/resource
+
+            - ExpiredToken:
+            type: /problems/EXPIRED_TOKEN
+            title: The OAuth Token is expired
+            detail: The token is no longer valid
+            instance: path/to/corresponding/resource
+
+            - NoFutureDateSupported:
+            type: /problems/MALFORMED_PAYLOAD
+            title: Invalid parameter values have been detected
+            detail: Data for date in the future cannot be requested
+            instance: path/to/corresponding/resource
+          content: *ref_18
+        '404':
+          headers: *ref_19
+          description: |
+            Not Found - Either the endpoint does not exist or a requested resource is not
+            yet available (e.g., account statements)
+
+            Examples:
+            - InvalidAccounts:
+            type: /problems/INSUFFICIENT_PRIVILEGES
+            title: Insufficient privileges to access resource
+            detail: The provided token does not grant access to the requested account
+            instance: path/to/corresponding/resource
+
+            - InvalidToken:
+            type: /problems/INSUFFICIENT_PRIVILEGES
+            title: Insufficient privileges to access resource
+            detail: The provided token is not valid
+            instance: path/to/corresponding/resource
+
+            - WrongEndpointUrl:
+            type: /problems/TECHNICAL_ERROR
+            title: URL not found
+            detail: The requested endpoint does not exist
+            instance: path/to/corresponding/resource
+
+            - NoIntradayDataSupported:
+            type: /problems/NOT_IMPLEMENTED
+            title: Feature is not implemented
+            detail: This interface does not support intraday data
+            instance: path/to/corresponding/resource
+          content: *ref_20
+        '405':
+          headers: *ref_21
+          description: |
+            Method Not Allowed - The method received in the request-line is known by the origin server but not supported by the target resource.
+
+            Examples:
+            - NotSupportedOperation:
+            type: /problems/WRONG_METHOD
+            title: This HTTP operation is not allowed on this endpoint
+            detail: Only GET operations are allowed
+            instance: path/to/corresponding/resource
+          content: *ref_22
+        '500':
+          headers: *ref_23
+          description: |
+            Internal Server Error - The server encountered an unexpected condition that
+            prevented it from fulfilling the request.
+
+            Examples:
+            - TechnicalServerError:
+            type: /problems/TECHNICAL_ERROR
+            title: Technical error on server side
+            detail: Processing yielded a technical error
+            instance: path/to/corresponding/resource
+
+            - ResourceTooLarge:
+            type: /problems/RESOURCE_TOO_LARGE
+            title: Generated resource was too large
+            detail: The generated resource exceeded the size limit
+            instance: path/to/corresponding/resource
+          content: *ref_24
+        '501':
+          headers: *ref_25
+          description: |
+            Not Implemented - The server does not support the functionality required to fulfill the request.
+
+            Examples:
+            - EndpointNotImplemented:
+            type: /problems/NOT_IMPLEMENTED
+            title: Target endpoint is not implemented
+            detail: This endpoint is not implemented
+            instance: path/to/corresponding/resource
+          content: *ref_26
+        '503':
+          headers: *ref_27
+          description: Service Unavailable - The server is currently unable to handle the request due to a temporary overload or scheduled maintenance.
+          content: *ref_28
+  /iso20022/statements:
+    get:
+      tags:
+        - iso20022
+      summary: Retrieve a list of resource links to account statements (camt.053)
+      description: |
+        Get a list of resource links to available account statements (camt.053) for all accounts covered by the eBanking contract delivered.
+        The returned account statements must be conform to the XML schema and implementation guidelines defined by Swiss Payment Standards.
+        If the call covers a period of several days, then an account statement is returned for each day and account, if available.
+      parameters:
+        - in: query
+          name: date_from
+          description: The start date for the query. Must be earlier than or equal to the dateTo parameter.
+          schema: *ref_47
+        - in: query
+          name: date_to
+          description: The end date for the query. Must be later than or equal to the dateFrom parameter.
+          schema: *ref_48
+        - in: query
+          name: cursor
+          description: Optional parameter for pagination. Use the ID of the last item from the previous response to retrieve the next set of results.
+          required: false
+          schema: *ref_30
+        - in: query
+          name: limit
+          description: |
+            Optional parameter for pagination, specifying the number of items to return. The actual maximum limit can be defined by the provider.
+          required: false
+          schema: *ref_31
+        - in: header
+          name: Authorization
+          description: Bearer followed by a base64 encoded OAuth access token.
+          required: true
+          schema: *ref_4
+        - in: header
+          name: X-CorAPI-Client-ID
+          description: 'ID of the client forwarded to the provider (SCOPE: FI).'
+          required: true
+          schema: *ref_5
+        - in: header
+          name: X-Correlation-ID
+          description: Unique ID (defined by the caller) which will be reflected back in the response.
+          required: true
+          schema: *ref_6
+        - in: header
+          name: User-Agent
+          description: Name and version of the of the Client software.
+          required: true
+          schema: *ref_7
+        - in: header
+          name: X-CorAPI-Target-ID
+          description: 'ID of the target, e.g., a financial institution (SCOPE: FI - optional).'
+          required: false
+          schema: *ref_8
+        - in: header
+          name: X-PSU-IP-Address
+          description: 'IP address of the user initiating the operation (SCOPE: FI - optional).'
+          required: false
+          schema: *ref_9
+        - in: header
+          name: X-PSU-User-Agent
+          description: 'User of the client software (SCOPE: FI - optional).'
+          required: false
+          schema: *ref_10
+      responses:
+        '200':
+          description: Returns a list of resource links to ISO20022 XML camt.053 messages.
+          headers:
+            X-Correlation-ID:
+              description: Client defined ID from request to correlates HTTP requests between a client and server.
+              schema: *ref_0
+            X-Next-Cursor:
+              description: |
+                An opaque string value used for pagination. Include this value in the cursor parameter of the subsequent request to fetch the next page of
+                results. An empty string indicates that there are no more results.
+              required: false
+              schema: *ref_32
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - statements
+                properties:
+                  statements:
+                    type: array
+                    items:
+                      title: ISO20022 Report Reference (camt.053)
+                      description: The referenced ISO20022 report (camt.053).
+                      type: object
+                      required: &ref_79
+                        - dateFrom
+                        - dateTo
+                      properties: &ref_80
+                        dateFrom:
+                          description: The start date of the transaction query period, mandatory for camt.053.
+                          title: Shared date
+                          type: string
+                          format: date
+                          example: '2018-04-13'
+                        dateTo:
+                          description: The end date of the transaction query period, mandatory for camt.053.
+                          title: Shared date
+                          type: string
+                          format: date
+                          example: '2018-04-13'
+                      allOf: &ref_81
+                        - title: ISO20022 Report Reference
+                          description: The referenced ISO20022 report (common fields for camt.052 and camt.053).
+                          type: object
+                          required: &ref_51
+                            - account
+                            - creationDateTime
+                            - id
+                            - schemaVersion
+                          properties: &ref_52
+                            account:
+                              title: Payment IBAN Account
+                              description: The IBAN account object.
+                              type: object
+                              required: *ref_49
+                              properties: *ref_50
+                            creationDateTime:
+                              description: Date and time when the message was created. Corresponds to the attribute _GrpHdr ⇾ CreDtTm_ in SPS/ISO-20022.
+                              title: Shared date-time
+                              type: string
+                              format: date-time
+                              example: '2018-04-13T11:11:11Z'
+                            id:
+                              type: string
+                              description: The unique identifier of the referenced ISO20022 report.
+                              example: '8265333'
+                            schemaVersion:
+                              type: string
+                              example: camt.053.001.01
+                              description: The delivered schema version of the referenced ISO20022 report.
+                              pattern: ^camt\.(052|053)\.[0-9]{3}\.[0-9]{2}$
+        '400':
+          headers: *ref_13
+          description: |
+            Bad Request - The format of the request was invalid.
+
+            Examples:
+            - InvalidPayload:
+            type: /problems/INVALID_PAYLOAD
+            title: Payload does not comply with API specification
+            detail: Malformed JSON
+            instance: path/to/corresponding/resource
+
+            - InvalidParameter:
+            type: /problems/INVALID_PAYLOAD
+            title: Invalid parameter values have been detected
+            detail: Sent data could not processed
+            instance: path/to/corresponding/resource
+
+            - MissingId:
+            type: /problems/INVALID_PAYLOAD
+            title: The payload was not valid
+            detail: ID is missing
+            instance: path/to/corresponding/resource
+          content: *ref_14
+        '401':
+          headers: *ref_15
+          description: Unauthorized - The request has not been applied because it provides no valid authentication credentials for the target resource.
+          content: *ref_16
+        '403':
+          headers: *ref_17
+          description: |
+            Forbidden - A valid OAuth Token was received, but access was denied. (Depending on the security requirements, providers can return 404
+            instead)
+
+            Examples:
+            - InsufficientPrivileges:
+            type: /problems/INSUFFICIENT_PRIVILEGES
+            title: No privileges for the requested operation
+            detail: Insufficient privileges for the requested operation
+            instance: path/to/corresponding/resource
+
+            - ExpiredToken:
+            type: /problems/EXPIRED_TOKEN
+            title: The OAuth Token is expired
+            detail: The token is no longer valid
+            instance: path/to/corresponding/resource
+
+            - NoFutureDateSupported:
+            type: /problems/MALFORMED_PAYLOAD
+            title: Invalid parameter values have been detected
+            detail: Data for date in the future cannot be requested
+            instance: path/to/corresponding/resource
+          content: *ref_18
+        '404':
+          headers: *ref_19
+          description: |
+            Not Found - Either the endpoint does not exist or a requested resource is not
+            yet available (e.g., account statements)
+
+            Examples:
+            - InvalidAccounts:
+            type: /problems/INSUFFICIENT_PRIVILEGES
+            title: Insufficient privileges to access resource
+            detail: The provided token does not grant access to the requested account
+            instance: path/to/corresponding/resource
+
+            - InvalidToken:
+            type: /problems/INSUFFICIENT_PRIVILEGES
+            title: Insufficient privileges to access resource
+            detail: The provided token is not valid
+            instance: path/to/corresponding/resource
+
+            - WrongEndpointUrl:
+            type: /problems/TECHNICAL_ERROR
+            title: URL not found
+            detail: The requested endpoint does not exist
+            instance: path/to/corresponding/resource
+
+            - NoIntradayDataSupported:
+            type: /problems/NOT_IMPLEMENTED
+            title: Feature is not implemented
+            detail: This interface does not support intraday data
+            instance: path/to/corresponding/resource
+          content: *ref_20
+        '405':
+          headers: *ref_21
+          description: |
+            Method Not Allowed - The method received in the request-line is known by the origin server but not supported by the target resource.
+
+            Examples:
+            - NotSupportedOperation:
+            type: /problems/WRONG_METHOD
+            title: This HTTP operation is not allowed on this endpoint
+            detail: Only GET operations are allowed
+            instance: path/to/corresponding/resource
+          content: *ref_22
+        '500':
+          headers: *ref_23
+          description: |
+            Internal Server Error - The server encountered an unexpected condition that
+            prevented it from fulfilling the request.
+
+            Examples:
+            - TechnicalServerError:
+            type: /problems/TECHNICAL_ERROR
+            title: Technical error on server side
+            detail: Processing yielded a technical error
+            instance: path/to/corresponding/resource
+
+            - ResourceTooLarge:
+            type: /problems/RESOURCE_TOO_LARGE
+            title: Generated resource was too large
+            detail: The generated resource exceeded the size limit
+            instance: path/to/corresponding/resource
+          content: *ref_24
+        '501':
+          headers: *ref_25
+          description: |
+            Not Implemented - The server does not support the functionality required to fulfill the request.
+
+            Examples:
+            - EndpointNotImplemented:
+            type: /problems/NOT_IMPLEMENTED
+            title: Target endpoint is not implemented
+            detail: This endpoint is not implemented
+            instance: path/to/corresponding/resource
+          content: *ref_26
+        '503':
+          headers: *ref_27
+          description: Service Unavailable - The server is currently unable to handle the request due to a temporary overload or scheduled maintenance.
+          content: *ref_28
+  /iso20022/statements/{reportId}:
+    get:
+      tags:
+        - iso20022
+      summary: Retrieve the designated ISO20022 XML camt.053 document
+      description: Retrieve the designated ISO20022 XML camt.053 document.
+      parameters:
+        - in: path
+          name: reportId
+          description: Unique ID of the requested ISO20022 XML camt.053 document.
+          required: true
+          schema: &ref_53
+            maxLength: 35
+            type: string
+        - in: header
+          name: Authorization
+          description: Bearer followed by a base64 encoded OAuth access token.
+          required: true
+          schema: *ref_4
+        - in: header
+          name: X-CorAPI-Client-ID
+          description: 'ID of the client forwarded to the provider (SCOPE: FI).'
+          required: true
+          schema: *ref_5
+        - in: header
+          name: X-Correlation-ID
+          description: Unique ID (defined by the caller) which will be reflected back in the response.
+          required: true
+          schema: *ref_6
+        - in: header
+          name: User-Agent
+          description: Name and version of the of the Client software.
+          required: true
+          schema: *ref_7
+        - in: header
+          name: X-CorAPI-Target-ID
+          description: 'ID of the target, e.g., a financial institution (SCOPE: FI - optional).'
+          required: false
+          schema: *ref_8
+        - in: header
+          name: X-PSU-IP-Address
+          description: 'IP address of the user initiating the operation (SCOPE: FI - optional).'
+          required: false
+          schema: *ref_9
+        - in: header
+          name: X-PSU-User-Agent
+          description: 'User of the client software (SCOPE: FI - optional).'
+          required: false
+          schema: *ref_10
+      responses:
+        '200':
+          description: Returns the requested ISO20022 XML camt.053 message.
+          headers:
+            X-Correlation-ID:
+              description: Client defined ID from request to correlates HTTP requests between a client and server.
+              schema: *ref_0
+          content:
+            application/xml:
+              schema:
+                type: string
+                format: binary
+        '400':
+          headers: *ref_13
+          description: |
+            Bad Request - The format of the request was invalid.
+
+            Examples:
+            - InvalidPayload:
+            type: /problems/INVALID_PAYLOAD
+            title: Payload does not comply with API specification
+            detail: Malformed JSON
+            instance: path/to/corresponding/resource
+
+            - InvalidParameter:
+            type: /problems/INVALID_PAYLOAD
+            title: Invalid parameter values have been detected
+            detail: Sent data could not processed
+            instance: path/to/corresponding/resource
+
+            - MissingId:
+            type: /problems/INVALID_PAYLOAD
+            title: The payload was not valid
+            detail: ID is missing
+            instance: path/to/corresponding/resource
+          content: *ref_14
+        '401':
+          headers: *ref_15
+          description: Unauthorized - The request has not been applied because it provides no valid authentication credentials for the target resource.
+          content: *ref_16
+        '403':
+          headers: *ref_17
+          description: |
+            Forbidden - A valid OAuth Token was received, but access was denied. (Depending on the security requirements, providers can return 404
+            instead)
+
+            Examples:
+            - InsufficientPrivileges:
+            type: /problems/INSUFFICIENT_PRIVILEGES
+            title: No privileges for the requested operation
+            detail: Insufficient privileges for the requested operation
+            instance: path/to/corresponding/resource
+
+            - ExpiredToken:
+            type: /problems/EXPIRED_TOKEN
+            title: The OAuth Token is expired
+            detail: The token is no longer valid
+            instance: path/to/corresponding/resource
+
+            - NoFutureDateSupported:
+            type: /problems/MALFORMED_PAYLOAD
+            title: Invalid parameter values have been detected
+            detail: Data for date in the future cannot be requested
+            instance: path/to/corresponding/resource
+          content: *ref_18
+        '404':
+          headers: *ref_19
+          description: |
+            Not Found - Either the endpoint does not exist or a requested resource is not
+            yet available (e.g., account statements)
+
+            Examples:
+            - InvalidAccounts:
+            type: /problems/INSUFFICIENT_PRIVILEGES
+            title: Insufficient privileges to access resource
+            detail: The provided token does not grant access to the requested account
+            instance: path/to/corresponding/resource
+
+            - InvalidToken:
+            type: /problems/INSUFFICIENT_PRIVILEGES
+            title: Insufficient privileges to access resource
+            detail: The provided token is not valid
+            instance: path/to/corresponding/resource
+
+            - WrongEndpointUrl:
+            type: /problems/TECHNICAL_ERROR
+            title: URL not found
+            detail: The requested endpoint does not exist
+            instance: path/to/corresponding/resource
+
+            - NoIntradayDataSupported:
+            type: /problems/NOT_IMPLEMENTED
+            title: Feature is not implemented
+            detail: This interface does not support intraday data
+            instance: path/to/corresponding/resource
+          content: *ref_20
+        '405':
+          headers: *ref_21
+          description: |
+            Method Not Allowed - The method received in the request-line is known by the origin server but not supported by the target resource.
+
+            Examples:
+            - NotSupportedOperation:
+            type: /problems/WRONG_METHOD
+            title: This HTTP operation is not allowed on this endpoint
+            detail: Only GET operations are allowed
+            instance: path/to/corresponding/resource
+          content: *ref_22
+        '500':
+          headers: *ref_23
+          description: |
+            Internal Server Error - The server encountered an unexpected condition that
+            prevented it from fulfilling the request.
+
+            Examples:
+            - TechnicalServerError:
+            type: /problems/TECHNICAL_ERROR
+            title: Technical error on server side
+            detail: Processing yielded a technical error
+            instance: path/to/corresponding/resource
+
+            - ResourceTooLarge:
+            type: /problems/RESOURCE_TOO_LARGE
+            title: Generated resource was too large
+            detail: The generated resource exceeded the size limit
+            instance: path/to/corresponding/resource
+          content: *ref_24
+        '501':
+          headers: *ref_25
+          description: |
+            Not Implemented - The server does not support the functionality required to fulfill the request.
+
+            Examples:
+            - EndpointNotImplemented:
+            type: /problems/NOT_IMPLEMENTED
+            title: Target endpoint is not implemented
+            detail: This endpoint is not implemented
+            instance: path/to/corresponding/resource
+          content: *ref_26
+        '503':
+          headers: *ref_27
+          description: Service Unavailable - The server is currently unable to handle the request due to a temporary overload or scheduled maintenance.
+          content: *ref_28
+  /iso20022/reports:
+    get:
+      tags:
+        - iso20022
+      summary: Retrieve a list of resource links to account reports (camt.052)
+      description: |
+        Get a list of resource links to available account reports (camt.052) generated since the last End-of-Day (EOD) processing.
+        Only intraday reports created after the most recent EOD cycle are included.
+        The returned account reports must conform to the XML schema and implementation guidelines defined by Swiss Payment Standards.
+      parameters:
+        - in: query
+          name: cursor
+          description: Optional parameter for pagination. Use the ID of the last item from the previous response to retrieve the next set of results.
+          required: false
+          schema: *ref_30
+        - in: query
+          name: limit
+          description: |
+            Optional parameter for pagination, specifying the number of items to return. The actual maximum limit can be defined by the provider.
+          required: false
+          schema: *ref_31
+        - in: header
+          name: Authorization
+          description: Bearer followed by a base64 encoded OAuth access token.
+          required: true
+          schema: *ref_4
+        - in: header
+          name: X-CorAPI-Client-ID
+          description: 'ID of the client forwarded to the provider (SCOPE: FI).'
+          required: true
+          schema: *ref_5
+        - in: header
+          name: X-Correlation-ID
+          description: Unique ID (defined by the caller) which will be reflected back in the response.
+          required: true
+          schema: *ref_6
+        - in: header
+          name: User-Agent
+          description: Name and version of the of the Client software.
+          required: true
+          schema: *ref_7
+        - in: header
+          name: X-CorAPI-Target-ID
+          description: 'ID of the target, e.g., a financial institution (SCOPE: FI - optional).'
+          required: false
+          schema: *ref_8
+        - in: header
+          name: X-PSU-IP-Address
+          description: 'IP address of the user initiating the operation (SCOPE: FI - optional).'
+          required: false
+          schema: *ref_9
+        - in: header
+          name: X-PSU-User-Agent
+          description: 'User of the client software (SCOPE: FI - optional).'
+          required: false
+          schema: *ref_10
+      responses:
+        '200':
+          description: Returns a list of resource links to ISO20022 XML camt.052 messages.
+          headers:
+            X-Correlation-ID:
+              description: Client defined ID from request to correlates HTTP requests between a client and server.
+              schema: *ref_0
+            X-Next-Cursor:
+              description: |
+                An opaque string value used for pagination. Include this value in the cursor parameter of the subsequent request to fetch the next page of
+                results. An empty string indicates that there are no more results.
+              required: false
+              schema: *ref_32
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - reports
+                properties:
+                  reports:
+                    type: array
+                    items:
+                      title: ISO20022 Report Reference (camt.052)
+                      description: The referenced ISO20022 report (camt.052).
+                      type: object
+                      required: &ref_76
+                        - type
+                      properties: &ref_77
+                        type:
+                          type: string
+                          enum:
+                            - incremental
+                            - full
+                          example: full
+                          description: |
+                            Indicates the type of ISO 20022 report being referenced.
+                            * incremental: Contains only the transactions that occurred since the last intraday statement (camt.052).
+                            * full: Contains all transactions since the last regular account statement (camt.053).
+                        dateFrom:
+                          description: The start date of the transaction query period, optional for camt.052.
+                          title: Shared date
+                          type: string
+                          format: date
+                          example: '2018-04-13'
+                        dateTo:
+                          description: The end date of the transaction query period, optional for camt.052.
+                          title: Shared date
+                          type: string
+                          format: date
+                          example: '2018-04-13'
+                      allOf: &ref_78
+                        - title: ISO20022 Report Reference
+                          description: The referenced ISO20022 report (common fields for camt.052 and camt.053).
+                          type: object
+                          required: *ref_51
+                          properties: *ref_52
+        '400':
+          headers: *ref_13
+          description: |
+            Bad Request - The format of the request was invalid.
+
+            Examples:
+            - InvalidPayload:
+            type: /problems/INVALID_PAYLOAD
+            title: Payload does not comply with API specification
+            detail: Malformed JSON
+            instance: path/to/corresponding/resource
+
+            - InvalidParameter:
+            type: /problems/INVALID_PAYLOAD
+            title: Invalid parameter values have been detected
+            detail: Sent data could not processed
+            instance: path/to/corresponding/resource
+
+            - MissingId:
+            type: /problems/INVALID_PAYLOAD
+            title: The payload was not valid
+            detail: ID is missing
+            instance: path/to/corresponding/resource
+          content: *ref_14
+        '401':
+          headers: *ref_15
+          description: Unauthorized - The request has not been applied because it provides no valid authentication credentials for the target resource.
+          content: *ref_16
+        '403':
+          headers: *ref_17
+          description: |
+            Forbidden - A valid OAuth Token was received, but access was denied. (Depending on the security requirements, providers can return 404
+            instead)
+
+            Examples:
+            - InsufficientPrivileges:
+            type: /problems/INSUFFICIENT_PRIVILEGES
+            title: No privileges for the requested operation
+            detail: Insufficient privileges for the requested operation
+            instance: path/to/corresponding/resource
+
+            - ExpiredToken:
+            type: /problems/EXPIRED_TOKEN
+            title: The OAuth Token is expired
+            detail: The token is no longer valid
+            instance: path/to/corresponding/resource
+
+            - NoFutureDateSupported:
+            type: /problems/MALFORMED_PAYLOAD
+            title: Invalid parameter values have been detected
+            detail: Data for date in the future cannot be requested
+            instance: path/to/corresponding/resource
+          content: *ref_18
+        '404':
+          headers: *ref_19
+          description: |
+            Not Found - Either the endpoint does not exist or a requested resource is not
+            yet available (e.g., account statements)
+
+            Examples:
+            - InvalidAccounts:
+            type: /problems/INSUFFICIENT_PRIVILEGES
+            title: Insufficient privileges to access resource
+            detail: The provided token does not grant access to the requested account
+            instance: path/to/corresponding/resource
+
+            - InvalidToken:
+            type: /problems/INSUFFICIENT_PRIVILEGES
+            title: Insufficient privileges to access resource
+            detail: The provided token is not valid
+            instance: path/to/corresponding/resource
+
+            - WrongEndpointUrl:
+            type: /problems/TECHNICAL_ERROR
+            title: URL not found
+            detail: The requested endpoint does not exist
+            instance: path/to/corresponding/resource
+
+            - NoIntradayDataSupported:
+            type: /problems/NOT_IMPLEMENTED
+            title: Feature is not implemented
+            detail: This interface does not support intraday data
+            instance: path/to/corresponding/resource
+          content: *ref_20
+        '405':
+          headers: *ref_21
+          description: |
+            Method Not Allowed - The method received in the request-line is known by the origin server but not supported by the target resource.
+
+            Examples:
+            - NotSupportedOperation:
+            type: /problems/WRONG_METHOD
+            title: This HTTP operation is not allowed on this endpoint
+            detail: Only GET operations are allowed
+            instance: path/to/corresponding/resource
+          content: *ref_22
+        '500':
+          headers: *ref_23
+          description: |
+            Internal Server Error - The server encountered an unexpected condition that
+            prevented it from fulfilling the request.
+
+            Examples:
+            - TechnicalServerError:
+            type: /problems/TECHNICAL_ERROR
+            title: Technical error on server side
+            detail: Processing yielded a technical error
+            instance: path/to/corresponding/resource
+
+            - ResourceTooLarge:
+            type: /problems/RESOURCE_TOO_LARGE
+            title: Generated resource was too large
+            detail: The generated resource exceeded the size limit
+            instance: path/to/corresponding/resource
+          content: *ref_24
+        '501':
+          headers: *ref_25
+          description: |
+            Not Implemented - The server does not support the functionality required to fulfill the request.
+
+            Examples:
+            - EndpointNotImplemented:
+            type: /problems/NOT_IMPLEMENTED
+            title: Target endpoint is not implemented
+            detail: This endpoint is not implemented
+            instance: path/to/corresponding/resource
+          content: *ref_26
+        '503':
+          headers: *ref_27
+          description: Service Unavailable - The server is currently unable to handle the request due to a temporary overload or scheduled maintenance.
+          content: *ref_28
+  /iso20022/reports/{reportId}:
+    get:
+      tags:
+        - iso20022
+      summary: Retrieve the designated ISO20022 XML camt.052 document
+      description: Retrieve the designated ISO20022 XML camt.052 document.
+      parameters:
+        - in: path
+          name: reportId
+          description: Unique ID of the requested ISO20022 XML camt.053 document.
+          required: true
+          schema: *ref_53
+        - in: header
+          name: Authorization
+          description: Bearer followed by a base64 encoded OAuth access token.
+          required: true
+          schema: *ref_4
+        - in: header
+          name: X-CorAPI-Client-ID
+          description: 'ID of the client forwarded to the provider (SCOPE: FI).'
+          required: true
+          schema: *ref_5
+        - in: header
+          name: X-Correlation-ID
+          description: Unique ID (defined by the caller) which will be reflected back in the response.
+          required: true
+          schema: *ref_6
+        - in: header
+          name: User-Agent
+          description: Name and version of the of the Client software.
+          required: true
+          schema: *ref_7
+        - in: header
+          name: X-CorAPI-Target-ID
+          description: 'ID of the target, e.g., a financial institution (SCOPE: FI - optional).'
+          required: false
+          schema: *ref_8
+        - in: header
+          name: X-PSU-IP-Address
+          description: 'IP address of the user initiating the operation (SCOPE: FI - optional).'
+          required: false
+          schema: *ref_9
+        - in: header
+          name: X-PSU-User-Agent
+          description: 'User of the client software (SCOPE: FI - optional).'
+          required: false
+          schema: *ref_10
+      responses:
+        '200':
+          description: Returns the requested ISO20022 XML camt.052 message.
+          headers:
+            X-Correlation-ID:
+              description: Client defined ID from request to correlates HTTP requests between a client and server.
+              schema: *ref_0
+          content:
+            application/xml:
+              schema:
+                type: string
+                format: binary
+        '400':
+          headers: *ref_13
+          description: |
+            Bad Request - The format of the request was invalid.
+
+            Examples:
+            - InvalidPayload:
+            type: /problems/INVALID_PAYLOAD
+            title: Payload does not comply with API specification
+            detail: Malformed JSON
+            instance: path/to/corresponding/resource
+
+            - InvalidParameter:
+            type: /problems/INVALID_PAYLOAD
+            title: Invalid parameter values have been detected
+            detail: Sent data could not processed
+            instance: path/to/corresponding/resource
+
+            - MissingId:
+            type: /problems/INVALID_PAYLOAD
+            title: The payload was not valid
+            detail: ID is missing
+            instance: path/to/corresponding/resource
+          content: *ref_14
+        '401':
+          headers: *ref_15
+          description: Unauthorized - The request has not been applied because it provides no valid authentication credentials for the target resource.
+          content: *ref_16
+        '403':
+          headers: *ref_17
+          description: |
+            Forbidden - A valid OAuth Token was received, but access was denied. (Depending on the security requirements, providers can return 404
+            instead)
+
+            Examples:
+            - InsufficientPrivileges:
+            type: /problems/INSUFFICIENT_PRIVILEGES
+            title: No privileges for the requested operation
+            detail: Insufficient privileges for the requested operation
+            instance: path/to/corresponding/resource
+
+            - ExpiredToken:
+            type: /problems/EXPIRED_TOKEN
+            title: The OAuth Token is expired
+            detail: The token is no longer valid
+            instance: path/to/corresponding/resource
+
+            - NoFutureDateSupported:
+            type: /problems/MALFORMED_PAYLOAD
+            title: Invalid parameter values have been detected
+            detail: Data for date in the future cannot be requested
+            instance: path/to/corresponding/resource
+          content: *ref_18
+        '404':
+          headers: *ref_19
+          description: |
+            Not Found - Either the endpoint does not exist or a requested resource is not
+            yet available (e.g., account statements)
+
+            Examples:
+            - InvalidAccounts:
+            type: /problems/INSUFFICIENT_PRIVILEGES
+            title: Insufficient privileges to access resource
+            detail: The provided token does not grant access to the requested account
+            instance: path/to/corresponding/resource
+
+            - InvalidToken:
+            type: /problems/INSUFFICIENT_PRIVILEGES
+            title: Insufficient privileges to access resource
+            detail: The provided token is not valid
+            instance: path/to/corresponding/resource
+
+            - WrongEndpointUrl:
+            type: /problems/TECHNICAL_ERROR
+            title: URL not found
+            detail: The requested endpoint does not exist
+            instance: path/to/corresponding/resource
+
+            - NoIntradayDataSupported:
+            type: /problems/NOT_IMPLEMENTED
+            title: Feature is not implemented
+            detail: This interface does not support intraday data
+            instance: path/to/corresponding/resource
+          content: *ref_20
+        '405':
+          headers: *ref_21
+          description: |
+            Method Not Allowed - The method received in the request-line is known by the origin server but not supported by the target resource.
+
+            Examples:
+            - NotSupportedOperation:
+            type: /problems/WRONG_METHOD
+            title: This HTTP operation is not allowed on this endpoint
+            detail: Only GET operations are allowed
+            instance: path/to/corresponding/resource
+          content: *ref_22
+        '500':
+          headers: *ref_23
+          description: |
+            Internal Server Error - The server encountered an unexpected condition that
+            prevented it from fulfilling the request.
+
+            Examples:
+            - TechnicalServerError:
+            type: /problems/TECHNICAL_ERROR
+            title: Technical error on server side
+            detail: Processing yielded a technical error
+            instance: path/to/corresponding/resource
+
+            - ResourceTooLarge:
+            type: /problems/RESOURCE_TOO_LARGE
+            title: Generated resource was too large
+            detail: The generated resource exceeded the size limit
+            instance: path/to/corresponding/resource
+          content: *ref_24
+        '501':
+          headers: *ref_25
+          description: |
+            Not Implemented - The server does not support the functionality required to fulfill the request.
+
+            Examples:
+            - EndpointNotImplemented:
+            type: /problems/NOT_IMPLEMENTED
+            title: Target endpoint is not implemented
+            detail: This endpoint is not implemented
+            instance: path/to/corresponding/resource
+          content: *ref_26
+        '503':
+          headers: *ref_27
+          description: Service Unavailable - The server is currently unable to handle the request due to a temporary overload or scheduled maintenance.
+          content: *ref_28
+components:
+  schemas:
+    AccountBalanceItem:
+      title: Account Balance Item
+      description: The account balance object.
+      type: object
+      required: *ref_54
+      properties: *ref_55
+    AccountItem:
+      title: Account Information Item
+      description: The account object.
+      type: object
+      required: *ref_11
+      properties: *ref_12
+    AccountTransactionBankTransactionCode:
+      title: Account Transaction Bank Transaction Code
+      description: |
+        The bank transaction code (ISO20022) object of an account transaction. Specifies a set of elements to fully identify the type of
+        underlying transaction resulting in an entry.
+      type: object
+      required: *ref_36
+      properties: *ref_37
+    AccountTransactionCounterparty:
+      title: Account Transaction Counterparty
+      description: Specifies the counterparty details (creditor or debtor).
+      type: object
+      properties: *ref_56
+    AccountTransactionCounterpartyAccount:
+      title: Account Transaction Counterparty Account
+      description: Specifies the counterparty account (debtor account if transaction type = CRDT creditor account if transaction type = DBIT).
+      type: object
+      required: *ref_57
+      properties: *ref_58
+    AccountTransactionCounterpartyAgent:
+      title: Account Transaction Counterparty Agent
+      description: The account transaction counterparty agent object.
+      type: object
+      properties: *ref_59
+    AccountTransactionEntry:
+      title: Account Transaction Entry
+      description: The account transaction entry object.
+      type: object
+      required: *ref_45
+      properties: *ref_46
+    AccountTransactionInstructedAmount:
+      title: Account Transaction Instructed Amount
+      description: Specifies the instructed amount according to the account currency.
+      type: object
+      required: *ref_38
+      properties: *ref_39
+    AccountTransactionItem:
+      title: Account Transaction Item
+      description: Specifies the transaction entry item.
+      type: object
+      required: *ref_60
+      properties: *ref_61
+    AccountTransactionItemCharges:
+      title: Account Transaction Item Charges
+      description: Specifies the total amount of account charges.
+      type: object
+      required: *ref_40
+      properties: *ref_41
+    AccountTransactionItemChargesRecord:
+      title: Account Transaction Item Charges Record
+      description: Specifies the details about individual charges.
+      type: object
+      properties: *ref_62
+    AccountTransactionRemittanceReference:
+      title: Account Transaction Remittance Reference
+      description: The remittance reference of the account transaction. Specifies the structured reference.
+      type: object
+      properties: *ref_63
+    AccountTransactionReport:
+      title: Account Transaction Report
+      description: The account transaction report object.
+      type: object
+      required: *ref_64
+      properties: *ref_65
+    AccountTransactionStructuredAddress:
+      title: Structured Postal Address for Transactions
+      description: Specifies the details of the counterparty structured address.
+      type: object
+      required: *ref_66
+      properties: *ref_67
+    AccountTransactionStructuredOrUnstructuredAddress:
+      title: Common Structured or Unstructured Address
+      description: Specifies the counterparty address (debtor address if transaction type = CRDT, creditor address if transaction type = DBIT).
+      type: object
+      properties: *ref_68
+    AccountTransactionTransactionType:
+      title: Account Transaction Transaction Type
+      description: |
+        The transaction type of the account transaction, either credit (CRDT) or debit (DBIT). Corresponds to the attribute _CdtDbtInd_ in
+        SPS/ISO-20022.
+      type: string
+      enum: *ref_35
+      example: CRDT
+    AccountTransactionUnstructuredAddress:
+      title: Unstructured Address for Transactions
+      description: Specifies the details of the counterparty unstructured address.
+      type: object
+      required: *ref_69
+      properties: *ref_70
+    Amount:
+      description: An amount. Corresponds to the attribute _Amt_ in SPS/ISO-20022.
+      type: string
+      maxLength: 18
+      pattern: ^[0-9]{1,12}([.][0-9]{1,5})?$
+      example: '10.25'
+    BalanceCurrencyAmount:
+      title: Balance Currency-Amount
+      description: Specifies the requested account balance. Corresponds to the attribute _Bal_ in SPS/ISO-20022.
+      type: object
+      required: *ref_71
+      properties: *ref_72
+    CommonAccountId:
+      description: Unique identifier (UUID) of the account for which information shall be retrieved.
+      type: string
+      maxLength: 256
+      pattern: ^[A-Za-z0-9](([A-Za-z0-9._]|-){0,254}[A-Za-z0-9]){0,1}$
+      example: abc123_abcxyz.123789.abcxyz.abcxyz_abcxyz_abcxyz_abcxyz_ccccc_123abc
+    CommonClearingSystemMemberIdentification:
+      title: Common Clearing System Member Identification
+      description: Specifies the Information used to identify a member within a clearing system.
+      type: object
+      required: *ref_73
+      properties: *ref_74
+    CommonErrorResponse:
+      title: Common Error Response
+      description: The common error response object.
+      type: object
+      required: *ref_2
+      properties: *ref_3
+    CommonErrorType:
+      title: Common Error Type
+      description: Error Types for CommonErrorResponse.
+      type: string
+      enum: *ref_75
+      example: /problems/TECHNICAL_ERROR
+    Currency:
+      description: The ISO currency three-letter code. Corresponds to the attribute _Ccy_ in SPS/ISO-20022.
+      type: string
+      minLength: 3
+      maxLength: 3
+      example: CHF
+    Date:
+      title: Shared date
+      description: A date.
+      type: string
+      format: date
+      example: '2018-04-13'
+    DateTime:
+      title: Shared date-time
+      description: The date and time formatted as YYYY-MM-DDTHH:mm:ssZ.
+      type: string
+      format: date-time
+      example: '2018-04-13T11:11:11Z'
+    Designation:
+      description: |
+        This element shall always be populated with the account alias, if defined, otherwise with specific bank account name (e.g. bank saving
+        account).
+      type: string
+      maxLength: 140
+      example: Firmenkonto
+    IbanIdentification:
+      description: The International Bank Account Number (IBAN), associated with the account.
+      type: string
+      maxLength: 34
+      pattern: ^[A-Z]{2,2}[0-9]{2,2}[a-zA-Z0-9]{1,30}$
+      example: CH5481230000001998736
+    Iso20022ReportReference:
+      title: ISO20022 Report Reference
+      description: The referenced ISO20022 report (common fields for camt.052 and camt.053).
+      type: object
+      required: *ref_51
+      properties: *ref_52
+    Iso20022ReportReference052:
+      title: ISO20022 Report Reference (camt.052)
+      description: The referenced ISO20022 report (camt.052).
+      type: object
+      required: *ref_76
+      properties: *ref_77
+      allOf: *ref_78
+    Iso20022ReportReference053:
+      title: ISO20022 Report Reference (camt.053)
+      description: The referenced ISO20022 report (camt.053).
+      type: object
+      required: *ref_79
+      properties: *ref_80
+      allOf: *ref_81
+    PaymentCurrencyAmount:
+      title: Payment Currency Amount
+      description: Specifies the entry amount according to the account currency.
+      type: object
+      required: *ref_33
+      properties: *ref_34
+    PaymentIbanAccount:
+      title: Payment IBAN Account
+      description: The IBAN account object.
+      type: object
+      required: *ref_49
+      properties: *ref_50
+    PaymentRemittanceInformation:
+      description: Either remittanceReference or remittanceInformation must be set. Corresponds to the attribute _RmtInf ⇾ Ustrd_ in SPS/ISO-20022.
+      type: string
+      maxLength: 140
+      example: Rechnung Nr. 408
+  responses:
+    standard202:
+      headers: *ref_42
+      description: Accepted - Valid request, requested data not available yet. The request may be attempted at a later time.
+      content: *ref_43
+    standard204:
+      headers: *ref_44
+      description: No content - The server has successfully fulfilled the request. There is no content to return and never will be.
+    standard400:
+      headers: *ref_13
+      description: |
+        Bad Request - The format of the request was invalid.
+
+        Examples:
+        - InvalidPayload:
+        type: /problems/INVALID_PAYLOAD
+        title: Payload does not comply with API specification
+        detail: Malformed JSON
+        instance: path/to/corresponding/resource
+
+        - InvalidParameter:
+        type: /problems/INVALID_PAYLOAD
+        title: Invalid parameter values have been detected
+        detail: Sent data could not processed
+        instance: path/to/corresponding/resource
+
+        - MissingId:
+        type: /problems/INVALID_PAYLOAD
+        title: The payload was not valid
+        detail: ID is missing
+        instance: path/to/corresponding/resource
+      content: *ref_14
+    standard401:
+      headers: *ref_15
+      description: Unauthorized - The request has not been applied because it provides no valid authentication credentials for the target resource.
+      content: *ref_16
+    standard403:
+      headers: *ref_17
+      description: |
+        Forbidden - A valid OAuth Token was received, but access was denied. (Depending on the security requirements, providers can return 404
+        instead)
+
+        Examples:
+        - InsufficientPrivileges:
+        type: /problems/INSUFFICIENT_PRIVILEGES
+        title: No privileges for the requested operation
+        detail: Insufficient privileges for the requested operation
+        instance: path/to/corresponding/resource
+
+        - ExpiredToken:
+        type: /problems/EXPIRED_TOKEN
+        title: The OAuth Token is expired
+        detail: The token is no longer valid
+        instance: path/to/corresponding/resource
+
+        - NoFutureDateSupported:
+        type: /problems/MALFORMED_PAYLOAD
+        title: Invalid parameter values have been detected
+        detail: Data for date in the future cannot be requested
+        instance: path/to/corresponding/resource
+      content: *ref_18
+    standard404:
+      headers: *ref_19
+      description: |
+        Not Found - Either the endpoint does not exist or a requested resource is not
+        yet available (e.g., account statements)
+
+        Examples:
+        - InvalidAccounts:
+        type: /problems/INSUFFICIENT_PRIVILEGES
+        title: Insufficient privileges to access resource
+        detail: The provided token does not grant access to the requested account
+        instance: path/to/corresponding/resource
+
+        - InvalidToken:
+        type: /problems/INSUFFICIENT_PRIVILEGES
+        title: Insufficient privileges to access resource
+        detail: The provided token is not valid
+        instance: path/to/corresponding/resource
+
+        - WrongEndpointUrl:
+        type: /problems/TECHNICAL_ERROR
+        title: URL not found
+        detail: The requested endpoint does not exist
+        instance: path/to/corresponding/resource
+
+        - NoIntradayDataSupported:
+        type: /problems/NOT_IMPLEMENTED
+        title: Feature is not implemented
+        detail: This interface does not support intraday data
+        instance: path/to/corresponding/resource
+      content: *ref_20
+    standard405:
+      headers: *ref_21
+      description: |
+        Method Not Allowed - The method received in the request-line is known by the origin server but not supported by the target resource.
+
+        Examples:
+        - NotSupportedOperation:
+        type: /problems/WRONG_METHOD
+        title: This HTTP operation is not allowed on this endpoint
+        detail: Only GET operations are allowed
+        instance: path/to/corresponding/resource
+      content: *ref_22
+    standard500:
+      headers: *ref_23
+      description: |
+        Internal Server Error - The server encountered an unexpected condition that
+        prevented it from fulfilling the request.
+
+        Examples:
+        - TechnicalServerError:
+        type: /problems/TECHNICAL_ERROR
+        title: Technical error on server side
+        detail: Processing yielded a technical error
+        instance: path/to/corresponding/resource
+
+        - ResourceTooLarge:
+        type: /problems/RESOURCE_TOO_LARGE
+        title: Generated resource was too large
+        detail: The generated resource exceeded the size limit
+        instance: path/to/corresponding/resource
+      content: *ref_24
+    standard501:
+      headers: *ref_25
+      description: |
+        Not Implemented - The server does not support the functionality required to fulfill the request.
+
+        Examples:
+        - EndpointNotImplemented:
+        type: /problems/NOT_IMPLEMENTED
+        title: Target endpoint is not implemented
+        detail: This endpoint is not implemented
+        instance: path/to/corresponding/resource
+      content: *ref_26
+    standard503:
+      headers: *ref_27
+      description: Service Unavailable - The server is currently unable to handle the request due to a temporary overload or scheduled maintenance.
+      content: *ref_28
+  parameters:
+    account_id:
+      in: path
+      name: accountId
+      description: ID of the account.
+      required: true
+      schema: *ref_29
+    agent:
+      in: header
+      name: User-Agent
+      description: Name and version of the of the Client software.
+      required: true
+      schema: *ref_7
+    authorization:
+      in: header
+      name: Authorization
+      description: Bearer followed by a base64 encoded OAuth access token.
+      required: true
+      schema: *ref_4
+    client_id:
+      in: header
+      name: X-CorAPI-Client-ID
+      description: 'ID of the client forwarded to the provider (SCOPE: FI).'
+      required: true
+      schema: *ref_5
+    correlation:
+      in: header
+      name: X-Correlation-ID
+      description: Unique ID (defined by the caller) which will be reflected back in the response.
+      required: true
+      schema: *ref_6
+    cursor:
+      in: query
+      name: cursor
+      description: Optional parameter for pagination. Use the ID of the last item from the previous response to retrieve the next set of results.
+      required: false
+      schema: *ref_30
+    date:
+      in: query
+      name: date
+      description: 'The date to query, formatted as yyyy-mm-dd. Default value: current date.'
+      schema: *ref_82
+    date_from:
+      in: query
+      name: date_from
+      description: The start date for the query. Must be earlier than or equal to the dateTo parameter.
+      schema: *ref_47
+    date_to:
+      in: query
+      name: date_to
+      description: The end date for the query. Must be later than or equal to the dateFrom parameter.
+      schema: *ref_48
+    entry_id:
+      in: path
+      name: entryId
+      description: ID of the transaction entry.
+      required: true
+      schema: *ref_83
+    entry_status:
+      in: query
+      name: entry_status
+      description: |
+        Specifies the status of the entries to be queried. Intraday movements can have a status of either "pending" or "booked." For completed
+        booking days, only entries with a "booked" status will be returned.
+      required: false
+      schema: *ref_84
+    limit:
+      in: query
+      name: limit
+      description: |
+        Optional parameter for pagination, specifying the number of items to return. The actual maximum limit can be defined by the provider.
+      required: false
+      schema: *ref_31
+    psu_ip:
+      in: header
+      name: X-PSU-IP-Address
+      description: 'IP address of the user initiating the operation (SCOPE: FI - optional).'
+      required: false
+      schema: *ref_9
+    psu_user_agent:
+      in: header
+      name: X-PSU-User-Agent
+      description: 'User of the client software (SCOPE: FI - optional).'
+      required: false
+      schema: *ref_10
+    report_id:
+      in: path
+      name: reportId
+      description: Unique ID of the requested ISO20022 XML camt.053 document.
+      required: true
+      schema: *ref_53
+    target_id:
+      in: header
+      name: X-CorAPI-Target-ID
+      description: 'ID of the target, e.g., a financial institution (SCOPE: FI - optional).'
+      required: false
+      schema: *ref_8
+  headers:
+    Content-Language:
+      description: Response language - always en.
+      schema: *ref_1
+    X-Correlation-ID:
+      description: Client defined ID from request to correlates HTTP requests between a client and server.
+      schema: *ref_0
+    X-Next-Cursor:
+      description: |
+        An opaque string value used for pagination. Include this value in the cursor parameter of the subsequent request to fetch the next page of
+        results. An empty string indicates that there are no more results.
+      required: false
+      schema: *ref_32
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://example.com/oauth/authorize
+          tokenUrl: https://example.com/oauth/token
+          scopes:
+            read: Grants read access
+            write: Grants write access

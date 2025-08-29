@@ -1,3 +1,0 @@
-redocly bundle src/paymentAPI.yaml --output payment-example.yaml --dereferenced
-node ../.github/.github/autoformat/autoformat_spec.js payment-example.yaml
-redocly lint --config=../.github/.github/redocly.yaml payment-example.yaml

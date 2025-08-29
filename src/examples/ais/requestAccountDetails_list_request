@@ -1,0 +1,6 @@
+GET /accounts/550e8400e29b11d4a716446655440000 HTTP/1.1
+Host: example-payment.common-api.ch
+User-Agent: PostmanRuntime/7.26.5
+Authorization: Basic czZCaGRSa3F0Mzo3RmpmcDBaQnIxS3REUmJuZlZkbUl3
+X-CorAPI-Client-ID: sfti-sfti-client-sfti-payment-v6-0-0
+X-Correlation-ID: 4f9c2a3e-89d7-4d52-b2a8-f34f9f07d6a2

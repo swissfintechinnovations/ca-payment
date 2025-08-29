@@ -1,0 +1,13 @@
+{
+  "date" : "2018-02-15",
+  "balanceType" : "CLBD",
+  "balance" : {
+    "currency" : "CHF",
+    "amount" : "9876.75"
+  },
+  "_links" : {
+    "self" : "/accounts/550e8400e29b11d4a716446655440000/balance",
+    "account" : "/accounts/550e8400e29b11d4a716446655440000",
+    "transactions" : "/accounts/550e8400e29b11d4a716446655440000/transactions"
+  }
+}

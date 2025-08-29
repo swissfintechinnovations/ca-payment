@@ -1,0 +1,17 @@
+{
+  "id" : "550e8400e29b11d4a716446655440000",
+  "account" : {
+    "type" : "IBAN",
+    "identification" : "CH9300762011623852957"
+  },
+  "accountOwner": "Hans Muster",
+  "allowedCurrencies": [ "CHF", "EUR", "USD" ],
+  "accountTypeCode": "TRAN",
+  "currency" : "CHF",
+  "designation" : "Firmenkonto",
+  "_links" : {
+    "self" : "/accounts/550e8400e29b11d4a716446655440000",
+    "balance" : "/accounts/550e8400e29b11d4a716446655440000/balance",
+    "transactions" : "/accounts/550e8400e29b11d4a716446655440000/transactions"
+  }
+}
