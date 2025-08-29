@@ -607,7 +607,7 @@ paths:
                 type: object
                 required: *ref_11
                 properties: *ref_12
-              x-example:
+              x-examples:
                 details_req:
                   summary: request account details
                   externalValue: ./examples/ais/requestAccountDetails_list_request

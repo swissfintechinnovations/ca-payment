@@ -107,7 +107,7 @@ paths:
             application/json:
               schema:
                 $ref: ./components/schemas/ais/AccountItem.yaml
-              x-example:
+              x-examples:
                 details_req:
                   summary: request account details
                   externalValue: ./examples/ais/requestAccountDetails_list_request
