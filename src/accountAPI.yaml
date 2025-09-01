@@ -303,7 +303,7 @@ paths:
         Get a list of resource links to available account statements (camt.053) for all accounts covered by the eBanking contract delivered.
         The returned account statements must be conform to the XML schema and implementation guidelines defined by Swiss Payment Standards.
         If the call covers a period of several days, then an account statement is returned for each day and account, if available.
-      operationId: listAccountStatements
+      operationId: retrieveIso20022AccountStatementIds
       parameters:
         - $ref: ./components/parameters/query/date_from.yaml
         - $ref: ./components/parameters/query/date_to.yaml
