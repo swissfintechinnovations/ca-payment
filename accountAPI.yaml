@@ -257,7 +257,7 @@ paths:
         - accounts
       summary: Details of the specified transaction
       description: Retrieves the details of the specified transaction.
-      operationId: getAccountTransactionEntry
+      operationId: requestAccountTransaction
       parameters:
         - $ref: '#/components/parameters/account_id'
         - $ref: '#/components/parameters/entry_id'
