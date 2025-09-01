@@ -197,7 +197,7 @@ paths:
         Clients must pass this value unchanged in the `cursor` parameter of the next request to retrieve subsequent pages.
 
         Transaction details are optional in the schema, but all available information must be included if present for a given transaction.
-      operationId: listAccountTransactionEntries
+      operationId: requestAccountTransactions
       parameters:
         - $ref: '#/components/parameters/account_id'
         - $ref: '#/components/parameters/date_from'
