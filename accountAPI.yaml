@@ -135,7 +135,7 @@ paths:
         * Returns the closing booked balance (ISO20022 Balance Type CLBD) for a specific day, if called for a past date. It is the sum of
         the opening booked balance at the beginning of that day and all entries booked to the account during that day. In case the specified
         day has not yet been finalized, the response code will be 202.
-      operationId: getAccountBalance
+      operationId: requestAccountBalance
       parameters:
         - $ref: '#/components/parameters/account_id'
         - $ref: '#/components/parameters/date'
