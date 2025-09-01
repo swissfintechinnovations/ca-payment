@@ -327,7 +327,7 @@ paths:
         - payments
       summary: Initiate new payments submission
       description: Create new payments submission.
-      operationId: createPaymentsSubmission
+      operationId: submitPaymentInstructions
       parameters:
         - $ref: ./components/parameters/header/authorization.yaml
         - $ref: ./components/parameters/header/client_id.yaml
