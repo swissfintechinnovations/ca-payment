@@ -422,7 +422,7 @@ paths:
         - payments
       summary: Get status information for the specific payment submission
       description: Retrieve a specific payment submission's status.
-      operationId: getPaymentsSubmissionStatus
+      operationId: retrievePaymentSubmissionStatus
       parameters:
         - $ref: ./components/parameters/path/submission_id.yaml
         - $ref: ./components/parameters/header/authorization.yaml
