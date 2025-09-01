@@ -699,7 +699,7 @@ paths:
         - iso20022
       summary: Submit ISO20022 XML payment instruction (pain.001)
       description: Submit an XML pain.001 payment instruction according to the ISO20022 specification.
-      operationId: createPaymentInstruction
+      operationId: submitIso20022PaymentInstruction
       parameters:
         - $ref: ./components/parameters/header/authorization.yaml
         - $ref: ./components/parameters/header/client_id.yaml
