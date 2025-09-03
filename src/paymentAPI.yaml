@@ -378,7 +378,7 @@ paths:
         - payments
       summary: Delete a specific payment submission before executed
       description: Delete a specific payment submission before executed.
-      operationId: deletePaymentsSubmission
+      operationId: deletePaymentSubmission
       parameters:
         - $ref: ./components/parameters/path/submission_id.yaml
         - $ref: ./components/parameters/header/authorization.yaml
