@@ -146,7 +146,7 @@ paths:
         - standing orders
       summary: Get a specific standing order submission
       description: Retrieve a specific standing order submission.
-      operationId: getStandingOrderSubmissions
+      operationId: getStandingOrderSubmission
       parameters:
         - $ref: '#/components/parameters/submission_id'
         - $ref: '#/components/parameters/authorization'
@@ -378,7 +378,7 @@ paths:
         - payments
       summary: Delete a specific payment submission before executed
       description: Delete a specific payment submission before executed.
-      operationId: deletePaymentsSubmission
+      operationId: deletePaymentSubmission
       parameters:
         - $ref: '#/components/parameters/submission_id'
         - $ref: '#/components/parameters/authorization'
