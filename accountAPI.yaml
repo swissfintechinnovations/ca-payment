@@ -85,7 +85,7 @@ paths:
         - accounts
       summary: Retrieve information about a single specific account
       description: Returns the accounts details of the specified account.
-      operationId: requestAccountDetails
+      operationId: requestAccount
       parameters:
         - $ref: '#/components/parameters/account_id'
         - $ref: '#/components/parameters/authorization'
