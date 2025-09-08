@@ -33,7 +33,7 @@ paths:
         - accounts
       summary: Retrieve list of authorized accounts
       description: Return the list of all accounts accessible for the logged in user.
-      operationId: requestAccounts
+      operationId: listAccounts
       parameters:
         - $ref: ./components/parameters/query/cursor.yaml
         - $ref: ./components/parameters/query/limit.yaml
