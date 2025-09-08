@@ -303,7 +303,7 @@ paths:
         Get a list of resource links to available account statements (camt.053) for all accounts covered by the eBanking contract delivered.
         The returned account statements must be conform to the XML schema and implementation guidelines defined by Swiss Payment Standards.
         If the call covers a period of several days, then an account statement is returned for each day and account, if available.
-      operationId: retrieveIso20022AccountStatementIds
+      operationId: listIso20022AccountStatementIds
       parameters:
         - $ref: '#/components/parameters/date_from'
         - $ref: '#/components/parameters/date_to'
@@ -403,7 +403,7 @@ paths:
         Get a list of resource links to available account reports (camt.052) generated since the last End-of-Day (EOD) processing.
         Only intraday reports created after the most recent EOD cycle are included.
         The returned account reports must conform to the XML schema and implementation guidelines defined by Swiss Payment Standards.
-      operationId: retrieveIso20022AccountReportIds
+      operationId: listIso20022AccountReportIds
       parameters:
         - $ref: '#/components/parameters/cursor'
         - $ref: '#/components/parameters/limit'
