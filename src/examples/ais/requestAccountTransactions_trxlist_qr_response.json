@@ -1,10 +1,12 @@
 {
-  "iban" : "CH5481230000001998736",
-  "designation" : "Firmenkonto",
-  "entries" : [
+  "iban": "CH5481230000001998736",
+  "designation": "Firmenkonto",
+  "entries": [
     {
       "entryId": "ENTRY123456789",
       "transactionType": "CRDT",
+      "entryStatus": "booked",
+      "accountServicerReference": "12345ABC6789",
       "bookingDate": "2018-10-29",
       "valueDate": "2018-10-29",
       "bankTransactionCode": {
@@ -16,322 +18,53 @@
         "currency": "CHF",
         "amount": "250"
       },
-      "additionalEntryInformation" : "SAMMELGUTSCHRIFT VOM 29.10.2018"
-    },
-    {
-      "entryId" : "ENTRY123456789",
-      "transactionType" : "CRDT",
-      "bookingDate" : "2018-10-29",
-      "valueDate" : "2018-10-29",
-      "bankTransactionCode" : {
-        "domainCode" : "PMNT",
-        "familyCode" : "RCDT",
-        "subFamilyCode" : "DMCT"
-      },
-      "amount" : {
-        "currency" : "CHF",
-        "amount" : "250"
-      },
-      "transactions" : [
+      "transactions": [
         {
-          "transactionId" : "trx123456789-01",
-          "transactionType" : "CRDT",
-          "endToEndId" : "endToEndId-01",
-          "bankTransactionCode" : {
-            "domainCode" : "PMNT",
-            "familyCode" : "RCDT",
-            "subFamilyCode" : "DMCT"
+          "transactionId": "trx123456789-01",
+          "transactionType": "CRDT",
+          "accountServicerReference": "12345ABC6789",
+          "instructionId" : "12345ABC6789",
+          "endToEndId": "endToEndId-01",
+          "uetr" : "fdc01a3e-4567-4abc-8def-1234567890ab",
+          "bankTransactionCode": {
+            "domainCode": "PMNT",
+            "familyCode": "RCDT",
+            "subFamilyCode": "DMCT"
           },
-          "amount" : {
-            "currency" : "CHF",
-            "amount" : "250"
+          "amount": {
+            "currency": "CHF",
+            "amount": "250"
           },
-          "counterparty" : {
-            "name" : "Barbara Muster",
-            "postalAddress" : {
-              "structured" : {
-                "streetName" : "Rosenauweg",
-                "buildingNumber" : "4",
-                "postCode" : "8001",
-                "townName" : "Zuerich",
-                "country" : "CH"
-              }
-            },
-            "account" : {
-              "type" : "IBAN",
-              "identification" : "CH85002582584X1234560"
-            },
-            "agent" : {
-              "clearingSystemMemberIdentification" : {
-                "code" : "CHBCC",
-                "memberId" : "99999"
-              }
-            }
-          },
-          "remittanceInformation" : "RECHNUNG 67890"
-        }
-      ],
-      "additionalEntryInformation" : "SAMMELGUTSCHRIFT VOM 29.10.2018"
-    },
-    {
-      "entryId" : "ENTRY7777777",
-      "transactionType" : "CRDT",
-      "bookingDate" : "2018-10-29",
-      "valueDate" : "2018-10-29",
-      "bankTransactionCode" : {
-        "domainCode" : "PMNT",
-        "familyCode" : "RCDT",
-        "subFamilyCode" : "ESCT"
-      },
-      "amount" : {
-        "currency" : "CHF",
-        "amount" : "3.47"
-      },
-      "transactions" : [
-        {
-          "transactionId" : "trx123456789-01",
-          "transactionType" : "CRDT",
-          "endToEndId" : "endToEndId-02",
-          "bankTransactionCode" : {
-            "domainCode" : "PMNT",
-            "familyCode" : "RCDT",
-            "subFamilyCode" : "ESCT"
-          },
-          "amount" : {
-            "currency" : "CHF",
-            "amount" : "3.47"
-          },
-          "instructedAmount" : {
-            "amount" : "3",
-            "sourceCurrency" : "EUR",
-            "targetCurrency" : "CHF",
-            "exchangeRate" : "1.15632286",
-            "exchangeIndicator" : "MULT"
-          },
-          "counterparty" : {
-            "name" : "Peter Haller",
-            "postalAddress" : {
-              "structured" : {
-                "streetName" : "Rosenauweg",
-                "buildingNumber" : "4",
-                "postCode" : "80036",
-                "townName" : "Muenchen",
-                "country" : "DE"
-              }
-            },
-            "account" : {
-              "type" : "IBAN",
-              "identification" : "DE12500105170648489890"
-            }
-          },
-          "remittanceInformation" : "RECHNUNG 23456"
-        }
-      ],
-      "additionalEntryInformation" : "SAMMELGUTSCHRIFT VOM 29.10.2018"
-    },
-    {
-      "entryId" : "ENTRY66666666",
-      "transactionType" : "CRDT",
-      "entryReference" : "010026540",
-      "bookingDate" : "2018-10-29",
-      "valueDate" : "2018-10-29",
-      "bankTransactionCode" : {
-        "domainCode" : "PMNT",
-        "familyCode" : "RCDT",
-        "subFamilyCode" : "VCOM"
-      },
-      "amount" : {
-        "currency" : "CHF",
-        "amount" : "145.70"
-      },
-      "transactions" : [
-        {
-          "transactionId" : "trx123456789-01",
-          "transactionType" : "CRDT",
-          "endToEndId" : "endToEndId-03",
-          "bankTransactionCode" : {
-            "domainCode" : "PMNT",
-            "familyCode" : "RCDT",
-            "subFamilyCode" : "VCOM"
-          },
-          "amount" : {
-            "currency" : "CHF",
-            "amount" : "100"
-          },
-          "counterparty" : {
-            "name" : "Max Muster",
+          "counterparty": {
+            "name": "Barbara Muster",
             "postalAddress": {
-              "unstructured" : {
-                "addressLines" : [
-                  "Bundesplatz 1",
-                  "3003 Bern"
-                ],
-                "country" : "CH"
+              "structured": {
+                "streetName": "Rosenauweg",
+                "buildingNumber": "4",
+                "postCode": "8001",
+                "townName": "Zuerich",
+                "country": "CH"
               }
             },
-            "account" : {
-              "type" : "IBAN",
-              "identification" : "CH85002582584X1234560"
-            }
-          },
-          "remittanceReference" : {
-            "type" : "ISR",
-            "reference" : "123456789012345678901234567"
-          }
-        },
-        {
-          "transactionId" : "trx123456789-01",
-          "transactionType" : "CRDT",
-          "endToEndId" : "endToEndId-04",
-          "bankTransactionCode" : {
-            "domainCode" : "PMNT",
-            "familyCode" : "RCDT",
-            "subFamilyCode" : "VCOM"
-          },
-          "amount" : {
-            "currency" : "CHF",
-            "amount" : "45.70"
-          },
-          "counterparty" : {
-            "name" : "Peter Muster",
-            "postalAddress": {
-              "unstructured" : {
-                "addressLines" : [
-                  "Bundesplatz 1",
-                  "3003 Bern"
-                ],
-                "country" : "CH"
-              }
+            "account": {
+              "type": "IBAN",
+              "identification": "CH85002582584X1234560"
             },
-            "account" : {
-              "type" : "IBAN",
-              "identification" : "CH85002582584X1234560"
+            "agent": {
+              "clearingSystemMemberIdentification": {
+                "code": "CHBCC",
+                "memberId": "99999"
+              }
             }
           },
+          "remittanceInformation" : "Unsere Referenz 0001",
           "remittanceReference" : {
-            "type" : "ISR",
-            "reference" : "123456789012345678901234567"
+            "type": "QRR",
+            "reference": "210000000003139471430009017"
           }
         }
       ],
       "additionalEntryInformation" : "SAMMELGUTSCHRIFT VOM 29.10.2018"
-    },
-    {
-      "entryId" : "ENTRY123456789",
-      "transactionType" : "DBIT",
-      "bookingDate" : "2018-10-29",
-      "valueDate" : "2018-10-29",
-      "bankTransactionCode" : {
-        "domainCode" : "PMNT",
-        "familyCode" : "ICDT",
-        "subFamilyCode" : "OTHR"
-      },
-      "amount" : {
-        "currency" : "CHF",
-        "amount" : "9.57"
-      },
-      "transactions" : [
-        {
-          "transactionId" : "trx123456789-01",
-          "transactionType" : "DBIT",
-          "endToEndId" : "endToEndId-01",
-          "bankTransactionCode" : {
-            "domainCode" : "PMNT",
-            "familyCode" : "ICDT",
-            "subFamilyCode" : "OTHR"
-          },
-          "amount" : {
-            "currency" : "CHF",
-            "amount" : "9.57"
-          },
-          "instructedAmount" : {
-            "amount" : "10",
-            "sourceCurrency" : "USD",
-            "targetCurrency" : "CHF",
-            "exchangeRate" : "0.957",
-            "exchangeIndicator" : "MULT"
-          },
-          "counterparty" : {
-            "name" : "Jan Kowalski",
-            "postalAddress" : {
-              "structured" : {
-                "streetName" : "Szczytnicka 9",
-                "postCode" : "50-382",
-                "townName" : "Wroclaw",
-                "country" : "PL"
-              }
-            },
-            "account" : {
-              "type" : "IBAN",
-              "identification" : "PL79105015751000002345678901"
-            },
-            "agent" : {
-              "bic" : "INGBPLPW"
-            }
-          },
-          "remittanceInformation" : "Invoice AB-123-C",
-          "additionalTransactionInformation" : "string"
-        }
-      ],
-      "additionalEntryInformation" : "ESR VERARBEITUNG VOM 29.10.2018"
-    },
-    {
-      "entryId" : "ENTRY123456789",
-      "transactionType" : "DBIT",
-      "bookingDate" : "2018-10-29",
-      "valueDate" : "2018-10-29",
-      "bankTransactionCode" : {
-        "domainCode" : "PMNT",
-        "familyCode" : "ICDT",
-        "subFamilyCode" : "VCOM"
-      },
-      "amount" : {
-        "currency" : "CHF",
-        "amount" : "120"
-      },
-      "additionalEntryInformation" : "ESR VERARBEITUNG VOM 29.10.2018",
-      "transactions" : [
-        {
-          "transactionId" : "trx123456789-01",
-          "transactionType" : "DBIT",
-          "endToEndId" : "endToEndId-01",
-          "bankTransactionCode" : {
-            "domainCode" : "PMNT",
-            "familyCode" : "ICDT",
-            "subFamilyCode" : "VCOM"
-          },
-          "amount" : {
-            "currency" : "CHF",
-            "amount" : "120"
-          },
-          "counterparty" : {
-            "name" : "Aero Club der Schweiz",
-            "postalAddress": {
-              "unstructured" : {
-                "addressLines" : [
-                  "Lidostrasse 5",
-                  "6006 Luzern"
-                ],
-                "country" : "CH"
-              }
-            },
-            "account" : {
-              "type" : "OTHER",
-              "identification" : "01-39139-1"
-            }
-          },
-          "remittanceReference" : {
-            "type" : "ISR",
-            "reference" : "047280000701047470007679672"
-          }
-        }
-      ]
     }
-  ],
-  "_links" : {
-    "self" : "/accounts/550e8400e29b11d4a716446655440000/transactions",
-    "account" : "/accounts/550e8400e29b11d4a716446655440000",
-    "balance" : "/accounts/550e8400e29b11d4a716446655440000/balance"
-  }
+  ]
 }
-

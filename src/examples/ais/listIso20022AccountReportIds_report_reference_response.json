@@ -1,0 +1,12 @@
+{
+  "dateFrom": "2025-03-01",
+  "dateTo": "2025-03-14",
+  "type": "full",
+  "account": {
+    "identification" : "CH5481230000001998736",
+    "type": "IBAN"
+  },
+  "creationDateTime": "2018-04-13T11:11:11Z",
+  "id": "8265333",
+  "schemaVersion": "camt.052.001.06"
+}

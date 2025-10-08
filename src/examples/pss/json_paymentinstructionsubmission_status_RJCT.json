@@ -1,0 +1,18 @@
+{
+  "messageId" : "eb6305c91f7f49deaed016487c27b42d",
+  "statusCode" : "RJCT",
+  "transactions" : [
+  	{
+      "instructionId" : "DNCS-20180322-IXN0-TXN0",
+      "statusCode" : "RJCT",
+      "reasonCode" : "CURR",
+      "reasonInformation" : "currency USD not allowed for payment type IBAN"
+  	},
+  	{
+      "instructionId" : "DNCS-20180322-IXN0-TXN1",
+      "statusCode" : "RJCT",
+      "reasonCode" : "AC01",
+      "reasonInformation" : "account number incorrect"
+  	}
+  ]
+}

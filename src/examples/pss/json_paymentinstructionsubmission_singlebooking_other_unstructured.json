@@ -1,0 +1,45 @@
+{
+  "messageId" : "eb6305c91f7f49deaed016487c27b42d",
+  "initiatingPartyId" : "TPP01746",
+  "requestedExecutionDate" : "2018-04-07",
+  "debtorAccount" : {
+    "type" : "IBAN",
+    "identification" : "CH9300762011623852957"
+  },
+  "bookingInstruction" : "SINGLEBOOKING_SIA",
+  "transactions" : [
+  	{
+      "instructionId" : "DNCS-20180407-IXN0-TXN0",
+      "endToEndId" : "ENDTOENDID-001",
+      "instructedAmount" : {
+        "currency": "USD",
+        "amount": "8479.25"
+      },
+      "otherDetails" : {
+        "creditorAccount" : {
+          "type" : "OTHER",
+          "identification" : "032180000118359719"
+        },
+        "creditorAgent" : {
+          "bic" : "BDEMMXMM"
+        },
+        "creditor" : {
+          "name" : "Tomas Andrés Santiago Martinez",
+          "postalAddress" : {
+            "streetName" : "Europa",
+            "buildingNumber" : "30",
+            "postCode" : "04330",
+            "townName" : "Ciudad de México",
+            "country" : "MX"
+          }
+        },
+        "chargeBearer" : "SHAR",
+        "remittanceReference" : { 
+          "type" : "SCOR",
+          "reference" : "RF712348231"
+        }
+  	  }
+  	}
+  ]
+}
+

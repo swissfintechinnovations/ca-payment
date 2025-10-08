@@ -355,6 +355,10 @@ paths:
                     type: array
                     items:
                       $ref: ./components/schemas/ais/Iso20022ReportReference053.yaml
+              examples:
+                statements:
+                  summary: camt.53 statement
+                  externalValue: ./examples/ais/listIso20022AccountStatementIds_report_reference_response.json
         '400':
           $ref: ./components/responses/standard400.yaml
         '401':
@@ -451,6 +455,10 @@ paths:
                     type: array
                     items:
                       $ref: ./components/schemas/ais/Iso20022ReportReference052.yaml
+              examples:
+                reports:
+                  summary: camt.52 statement
+                  externalValue: ./examples/ais/listIso20022AccountReportIds_report_reference_response.json
         '400':
           $ref: ./components/responses/standard400.yaml
         '401':

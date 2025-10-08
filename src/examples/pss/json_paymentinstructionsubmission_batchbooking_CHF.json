@@ -1,0 +1,101 @@
+{
+  "messageId": "eb6305c91f7f49deaed016487c27b42d",
+  "initiatingPartyId": "TPP01746",
+  "requestedExecutionDate": "2018-04-07",
+  "debtorAccount": {
+    "type": "IBAN",
+    "identification": "CH9300762011623852957"
+  },
+  "bookingInstruction": "BATCHBOOKING_CWD",
+  "transactions": [
+    {
+      "instructionId": "DNCS-20180407-IXN0-TXN0",
+      "endToEndId": "ENDTOENDID-001",
+      "instructedAmount": {
+        "currency": "CHF",
+        "amount": "8479.25"
+      },
+      "ibanDetails": {
+        "creditorAccount": {
+          "type": "IBAN",
+          "identification": "CH9300862011623852339"
+        },
+        "creditor": {
+          "name": "Peter Haller",
+          "postalAddress": {
+            "streetName" : "Hardturmstrasse",
+            "buildingNumber" : "201",
+            "postCode" : "8021",
+            "townName" : "Zuerich",
+            "country" : "CH"
+          }
+        },
+        "remittanceInformation": "Rechnung Nr. 408"
+      }
+    },
+    {
+      "instructionId": "DNCS-20180407-IXN0-TXN1",
+      "endToEndId": "ENDTOENDID-002",
+      "instructedAmount": {
+        "currency": "CHF",
+        "amount": "6400.25"
+      },
+      "ibanDetails": {
+        "sepaIndicator" : true,
+        "creditorAccount" : {
+          "type" : "IBAN",
+          "identification" : "CH9300762011623852957"
+        },
+        "creditorAgent" : {
+          "bic" : "BDEMMXMM",
+          "clearingSystemMemberIdentification" : {
+            "code" : "CHBCC",
+            "memberId" : "00230"
+          }
+        },
+        "creditor" : {
+          "name" : "Hans Muster",
+          "postalAddress" : {
+            "streetName" : "Rue de la gare",
+            "buildingNumber" : "24",
+            "postCode" : "2501",
+            "townName" : "Biel",
+            "country" : "CH"
+          }
+        }
+      }
+    },
+    {
+      "instructionId": "DNCS-20180407-IXN0-TXN2",
+      "endToEndId": "ENDTOENDID-001",
+      "instructedAmount": {
+        "currency": "CHF",
+        "amount": "10.1"
+      },
+      "ibanDetails": {
+        "creditorAccount": {
+          "type": "IBAN",
+          "identification": "CH85002582584X1234560"
+        },
+        "creditorAgent": {
+          "clearingSystemMemberIdentification": {
+            "code": "CHBCC",
+            "memberId": "00258"
+          }
+        },
+        "creditor": {
+          "name": "Max Muster",
+          "postalAddress": {
+            "streetName" : "Zentralstrasse",
+            "buildingNumber" : "55",
+            "postCode" : "5610",
+            "townName" : "Wohlen",
+            "country" : "CH"
+          }
+        },
+        "remittanceInformation": "Rechnungsnummer 18C527-005"
+      }
+    }
+  ]
+}
+

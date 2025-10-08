@@ -1,0 +1,42 @@
+{
+  "messageId" : "eb6305c91f7f49deaed016487c27b42d",
+  "initiatingPartyId" : "TPP01746",
+  "requestedExecutionDate" : "2018-04-07",
+  "debtorAccount" : {
+    "type" : "IBAN",
+    "identification" : "CH9300762011623852957"
+  },
+  "bookingInstruction" : "SINGLEBOOKING_SIA",
+  "transactions" : [
+  	{
+      "instructionId" : "DNCS-20180407-IXN0-TXN1",
+      "endToEndId" : "ENDTOENDID-001",
+      "instructedAmount" : {
+        "currency" : "EUR",
+        "amount" : "8479.25"
+      },
+      "ibanDetails" : {
+        "sepaIndicator" : "true",
+        "creditorAccount" : {
+          "type" : "IBAN",
+          "identification" : "DE62007620110623852957"
+        },
+        "creditor" : {
+          "name" : "Peter Haller",
+          "postalAddress" : {
+            "streetName" : "Rosenauweg",
+            "buildingNumber" : "4",
+            "postCode" : "80036",
+            "townName" : "Muenchen",
+            "country" : "DE"
+          }
+        },
+        "remittanceReference" : { 
+        	"type" : "SCOR",
+        	"reference" : "RF712348231"
+        }
+  	  }
+  	}
+  ]
+}
+

@@ -338,10 +338,42 @@ paths:
             schema:
               $ref: ./components/schemas/pss/PaymentSubmissionRequest.yaml
             examples:
-              payment-submission:
-                summary: Example payment request
-                value:
-                  $ref: './examples/pss/payment-submission-request.json'
+              batchbooking_CHF:
+                summary: paymentinstructionsubmission batchbooking CHF
+                externalValue: ./examples/pss/json_paymentinstructionsubmission_batchbooking_CHF.json
+              batchbooking_other:
+                summary: paymentinstructionsubmission batchbooking other
+                externalValue: ./examples/pss/json_paymentinstructionsubmission_batchbooking_other.json
+              batchbooking_SALA:
+                summary: paymentinstructionsubmission batchbooking SALA
+                externalValue: ./examples/pss/json_paymentinstructionsubmission_batchbooking_SALA.json
+              singlebooking_iban_foreign_unstructured:
+                summary: paymentinstructionsubmission singlebooking iban foreign unstructured
+                externalValue: ./examples/pss/json_paymentinstructionsubmission_singlebooking_iban_foreign_unstructured.json
+              singlebooking_other_unstructured:
+                summary: paymentinstructionsubmission singlebooking other unstructured
+                externalValue: ./examples/pss/json_paymentinstructionsubmission_singlebooking_other_unstructured.json
+              singlebooking_qr_non:
+                summary: paymentinstructionsubmission singlebooking qr non
+                externalValue: ./examples/pss/json_paymentinstructionsubmission_singlebooking_qr_non.json
+              singlebooking_qr_qrr:
+                summary: paymentinstructionsubmission singlebooking qr qrr
+                externalValue: ./examples/pss/json_paymentinstructionsubmission_singlebooking_qr_qrr.json
+              singlebooking_qr_scor:
+                summary: paymentinstructionsubmission singlebooking qr scor
+                externalValue: ./examples/pss/json_paymentinstructionsubmission_singlebooking_qr_scor.json
+              singlebooking_sepa_unstructured:
+                summary: paymentinstructionsubmission singlebooking sepa unstructured
+                externalValue: ./examples/pss/json_paymentinstructionsubmission_singlebooking_sepa_unstructured.json
+              status_ACCP:
+                summary: paymentinstructionsubmission status ACCP
+                externalValue: ./examples/pss/json_paymentinstructionsubmission_status_ACCP.json
+              status_PART:
+                summary: paymentinstructionsubmission status PART
+                externalValue: ./examples/pss/json_paymentinstructionsubmission_status_PART.json
+              status_RJCT:
+                summary: paymentinstructionsubmission status RJCT
+                externalValue: ./examples/pss/json_paymentinstructionsubmission_status_RJCT.json
       responses:
         '201':
           description: Created.
@@ -445,10 +477,15 @@ paths:
               schema:
                 $ref: ./components/schemas/pss/PaymentSubmissionStatus.yaml
               examples:
-                payment-status:
-                  summary: payment submission status
-                  value:
-                    $ref: './examples/pss/payment-submission-status.json'
+                status_ACCP:
+                  summary: Submission status ACCP
+                  externalValue: ./examples/pss/json_paymentinstructionsubmission_status_ACCP.json
+                status_PART:
+                  summary: Submission status PART
+                  externalValue: ./examples/pss/json_paymentinstructionsubmission_status_PART.json
+                status_RJCT:
+                  summary: Submission status RJCT
+                  externalValue: ./examples/pss/json_paymentinstructionsubmission_status_RJCT.json
         '400':
           $ref: ./components/responses/standard400.yaml
         '401':
@@ -722,6 +759,22 @@ paths:
           application/xml:
             schema:
               type: string
+            examples:
+              pain_001_Example_PT_C:
+                summary: pain 001 Example PT C
+                externalValue: ./examples/pss/pain_001_Example_PT_C.xml
+              pain_001_Example_PT_D_QRR_SCOR:
+                summary: pain 001 Example PT D QRR SCOR
+                externalValue: ./examples/pss/pain_001_Example_PT_D_QRR_SCOR.xml
+              pain_001_Example_PT_S:
+                summary: pain 001 Example PT S
+                externalValue: ./examples/pss/pain_001_Example_PT_S.xml
+              pain_001_Example_PT_X_V1_PT_S:
+                summary: pain 001 Example PT X V1 PT S
+                externalValue: ./examples/pss/pain_001_Example_PT_X_V1_PT_S.xml
+              pain_001_Example_PT_X_V2:
+                summary: pain 001 Example PT X V2
+                externalValue: ./examples/pss/pain_001_Example_PT_X_V2.xml
       responses:
         '201':
           description: Created.
@@ -776,6 +829,22 @@ paths:
             application/xml:
               schema:
                 type: string
+              examples:
+                pain_001_Example_PT_C:
+                  summary: Original message pain.001 Example PT C
+                  externalValue: ./examples/pss/pain_001_Example_PT_C.xml
+                pain_001_Example_PT_D_QRR_SCOR:
+                  summary: Original message pain.001 Example PT D QRR SCOR
+                  externalValue: ./examples/pss/pain_001_Example_PT_D_QRR_SCOR.xml
+                pain_001_Example_PT_S:
+                  summary: Original message pain.001 Example PT S
+                  externalValue: ./examples/pss/pain_001_Example_PT_S.xml
+                pain_001_Example_PT_X_V1_PT_S:
+                  summary: Original message pain.001 Example PT X V1 PT S
+                  externalValue: ./examples/pss/pain_001_Example_PT_X_V1_PT_S.xml
+                pain_001_Example_PT_X_V2:
+                  summary: Original message pain.001 Example PT X V2
+                  externalValue: ./examples/pss/pain_001_Example_PT_X_V2.xml
         '400':
           $ref: ./components/responses/standard400.yaml
         '401':

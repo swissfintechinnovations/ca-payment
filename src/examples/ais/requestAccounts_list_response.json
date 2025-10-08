@@ -6,6 +6,7 @@
       "identification" : "CH9300762011623852957"
     },
     "accountOwner": "Hans Muster",
+    "accountTypeCode": "NFCA",
     "currency" : "CHF",
     "designation" : "Firmenkonto",
     "_links" : {

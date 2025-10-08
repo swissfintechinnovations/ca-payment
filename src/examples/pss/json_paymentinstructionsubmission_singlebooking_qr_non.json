@@ -1,0 +1,57 @@
+﻿{
+  "messageId": "MSG-20190813-YIUHIV-00130",
+  "initiatingPartyId": "YIUHIV",
+  "requestedExecutionDate": "2019-08-13",
+  "debtorAccount": {
+    "type": "IBAN",
+    "identification": "CH1599999000000000002"
+  },
+  "bookingInstruction": "SINGLEBOOKING_NOA",
+  "transactions": [
+    {
+      "instructionId": "INST-20190813-YIUHIV-00131",
+      "endToEndId": "E2E-20190813-YIUHIV-00132",
+      "instructedAmount": {
+        "currency": "CHF",
+        "amount": "100.00"
+      },
+      "qrDetails": {
+        "creditorAccount": {
+          "type": "IBAN",
+          "identification": "CH9300762011623852957"
+        },
+        "creditor": {
+          "name": "Muster AG",
+          "postalAddress": {
+            "streetName" : "Mustergasse",
+            "buildingNumber" : "11",
+            "postCode" : "9000",
+            "townName" : "St. Gallen",
+            "country" : "CH"
+          }
+        },
+        "ultimateDebtor": {
+          "name": "Schuldner AG",
+          "postalAddress": {
+            "streetName" : "Mustergasse",
+            "buildingNumber" : "11",
+            "postCode" : "5600",
+            "townName" : "Zug",
+            "country" : "CH"
+          }
+        },
+        "ultimateCreditor": {
+          "name": "Muster Holding AG",
+          "postalAddress": {
+            "streetName" : "Mustergasse",
+            "buildingNumber" : "11",
+            "postCode" : "5600",
+            "townName" : "Zug",
+            "country" : "CH"
+          }
+        }
+      },
+      "uetr" : "fdc01a3e-4567-4abc-8def-1234567890ab"
+    }
+  ]
+}

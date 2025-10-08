@@ -1,0 +1,41 @@
+{
+  "messageId": "eb6305c91f7f49deaed016487c27b42d",
+  "initiatingPartyId": "TPP01746",
+  "requestedExecutionDate": "2018-04-07",
+  "debtorAccount": {
+    "type": "IBAN",
+    "identification": "CH9300762011623852957"
+  },
+  "bookingInstruction": "SINGLEBOOKING_SIA",
+  "transactions": [
+    {
+      "instructionId": "DNCS-20180407-IXN0-TXN1",
+      "endToEndId": "ENDTOENDID-001",
+      "instructedAmount": {
+        "currency": "USD",
+        "amount": "10"
+      },
+      "ibanDetails": {
+        "creditorAccount": {
+          "type": "IBAN",
+          "identification": "PL79105015751000002345678901"
+        },
+        "creditor": {
+          "name": "Peter Katowski",
+          "postalAddress": {
+            "streetName" : "Popowicka",
+            "buildingNumber" : "3",
+            "postCode" : "50-382",
+            "townName" : "Wroclaw",
+            "country" : "PL"
+          }
+        },
+        "creditorAgent": {
+          "bic": "INGBPLPW"
+        },
+        "remittanceInformation": "Invoice AB-123-C"
+      }
+    }
+  ]
+}
+

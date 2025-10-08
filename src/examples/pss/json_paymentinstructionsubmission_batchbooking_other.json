@@ -1,0 +1,81 @@
+{
+  "messageId" : "eb6305c91f7f49deaed016487c27b42d",
+  "initiatingPartyId" : "TPP01746",
+  "requestedExecutionDate" : "2018-04-07",
+  "debtorAccount" : {
+    "type" : "IBAN",
+    "identification" : "CH9300762011623852957"
+  },
+  "bookingInstruction" : "BATCHBOOKING_CND",
+  "transactions" : [
+    {
+      "instructionId" : "DNCS-20180307-IXN0-TXN0",
+      "endToEndId" : "ENDTOENDID-001",
+      "instructedAmount" : {
+        "currency" : "USD",
+        "amount" : "8479.25"
+      },
+      "otherDetails" : {
+        "creditorAccount" : {
+          "type" : "OTHER",
+          "identification" : "032180000118359719"
+        },
+        "creditorAgent" : {
+          "bic" : "BDEMMXMM"
+        },
+        "creditor" : {
+          "name" : "Tomas Andrés Santiago Martinez",
+          "postalAddress" : {
+            "streetName" : "Europa",
+            "buildingNumber" : "30",
+            "postCode" : "04330",
+            "townName" : "Ciudad de México",
+            "country" : "MX",
+            "addressLine1" : "Edificio Aurora",
+            "addressLine2" : "Piso 3, Depto. 7"
+          }
+        },
+        "chargeBearer" : "SHAR",
+        "remittanceReference" : {
+          "type" : "SCOR",
+          "reference" : "RF712348231"
+        }
+      }
+    },
+    {
+      "instructionId" : "DNCS-20180307-IXN0-TXN1",
+      "endToEndId" : "ENDTOENDID-002",
+      "instructedAmount" : {
+        "currency" : "USD",
+        "amount" : "7500.25"
+      },
+      "otherDetails" : {
+        "creditorAccount" : {
+          "type" : "OTHER",
+          "identification" : "016006671002"
+        },
+        "creditorAgent" : {
+          "bic" : "UBSWDEFF"
+        },
+        "creditor" : {
+          "name" : "Peter Haller",
+          "postalAddress" : {
+            "streetName" : "Rosenauweg",
+            "buildingNumber" : "4",
+            "postCode" : "80036",
+            "townName" : "Muenchen",
+            "country" : "DE",
+            "addressLine1" : "Wohnanlage Rosenaupark",
+            "addressLine2" : "Apartment 7B"
+          }
+        },
+        "chargeBearer" : "SHAR",
+        "remittanceReference" : {
+          "type" : "SCOR",
+          "reference" : "RF712348233"
+        }
+      }
+    }
+  ]
+}
+

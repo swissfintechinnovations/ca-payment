@@ -1,0 +1,18 @@
+[
+  {
+    "accountId": "13579",
+    "accountOwner": "Hans Muster",
+    "iban": "CH9300862011623852339",
+    "currency": "CHF",
+    "designation": "Kontokorrent ABC",
+    "allowedCurrencies": [ "CHF", "EUR", "USD" ]
+  },
+  {
+    "accountId": "24680",
+    "accountOwner": "Hans Muster",
+    "iban": "CH9300762011623852957",
+    "currency": "EUR",
+    "designation": "Kontokorrent DEF",
+    "allowedCurrencies": [ "EUR" ]
+  }
+]

@@ -5,6 +5,8 @@
     {
       "entryId": "ENTRY123456789",
       "transactionType": "CRDT",
+      "entryStatus": "booked",
+      "accountServicerReference": "12345ABC6789",
       "bookingDate": "2018-10-29",
       "valueDate": "2018-10-29",
       "bankTransactionCode": {
@@ -16,11 +18,13 @@
         "currency": "CHF",
         "amount": "250"
       },
-      "additionalEntryInformation" : "SAMMELGUTSCHRIFT VOM 29.10.2018"
+      "additionalEntryInformation" : "TEST1 SAMMELGUTSCHRIFT VOM 29.10.2018"
     },
     {
       "entryId" : "ENTRY123456789",
       "transactionType" : "CRDT",
+      "entryStatus": "booked",
+      "accountServicerReference": "12345ABC9876",
       "bookingDate" : "2018-10-29",
       "valueDate" : "2018-10-29",
       "bankTransactionCode" : {
@@ -36,7 +40,10 @@
         {
           "transactionId" : "trx123456789-01",
           "transactionType" : "CRDT",
+          "accountServicerReference": "12345ABC6789",
+          "instructionId" : "12345ABC6789",
           "endToEndId" : "endToEndId-01",
+          "uetr" : "fdc01a3e-4567-4abc-8def-1234567890ab",
           "bankTransactionCode" : {
             "domainCode" : "PMNT",
             "familyCode" : "RCDT",
@@ -76,6 +83,8 @@
     {
       "entryId" : "ENTRY7777777",
       "transactionType" : "CRDT",
+      "entryStatus": "booked",
+      "accountServicerReference": "45678ABC6789",
       "bookingDate" : "2018-10-29",
       "valueDate" : "2018-10-29",
       "bankTransactionCode" : {
@@ -91,6 +100,7 @@
         {
           "transactionId" : "trx123456789-01",
           "transactionType" : "CRDT",
+          "accountServicerReference": "45678ABC6789",
           "endToEndId" : "endToEndId-02",
           "bankTransactionCode" : {
             "domainCode" : "PMNT",
@@ -132,6 +142,8 @@
     {
       "entryId" : "ENTRY66666666",
       "transactionType" : "CRDT",
+      "entryStatus": "booked",
+      "accountServicerReference": "12345QWE6789",
       "entryReference" : "010026540",
       "bookingDate" : "2018-10-29",
       "valueDate" : "2018-10-29",
@@ -148,6 +160,7 @@
         {
           "transactionId" : "trx123456789-01",
           "transactionType" : "CRDT",
+          "accountServicerReference": "45678ABC6789",
           "endToEndId" : "endToEndId-03",
           "bankTransactionCode" : {
             "domainCode" : "PMNT",
@@ -182,6 +195,7 @@
         {
           "transactionId" : "trx123456789-01",
           "transactionType" : "CRDT",
+          "accountServicerReference": "45678ABC6789",
           "endToEndId" : "endToEndId-04",
           "bankTransactionCode" : {
             "domainCode" : "PMNT",
@@ -219,6 +233,8 @@
     {
       "entryId" : "ENTRY123456789",
       "transactionType" : "DBIT",
+      "entryStatus": "pending",
+      "accountServicerReference": "01010ABC6789",
       "bookingDate" : "2018-10-29",
       "valueDate" : "2018-10-29",
       "bankTransactionCode" : {
@@ -234,6 +250,7 @@
         {
           "transactionId" : "trx123456789-01",
           "transactionType" : "DBIT",
+          "accountServicerReference": "01010ABC6789",
           "endToEndId" : "endToEndId-01",
           "bankTransactionCode" : {
             "domainCode" : "PMNT",
@@ -278,6 +295,8 @@
     {
       "entryId" : "ENTRY123456789",
       "transactionType" : "DBIT",
+      "entryStatus": "pending",
+      "accountServicerReference": "12345ABC6789",
       "bookingDate" : "2018-10-29",
       "valueDate" : "2018-10-29",
       "bankTransactionCode" : {
@@ -294,6 +313,7 @@
         {
           "transactionId" : "trx123456789-01",
           "transactionType" : "DBIT",
+          "accountServicerReference": "12345ABC6789",
           "endToEndId" : "endToEndId-01",
           "bankTransactionCode" : {
             "domainCode" : "PMNT",
