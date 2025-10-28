@@ -16,18 +16,6 @@ properties:
     example: 12345ABC6789
   amount:
     $ref: ./PaymentCurrencyAmount.yaml
-  transactionId:
-    type: string
-    maxLength: 35
-    description: |
-      The unique identifier to the listed transaction. Defined by the client. Corresponds to the attribute _TxDtls ⇾ Refs ⇾ PmtInfId_ in
-      SPS/ISO-20022.
-      With the new elements ServiceAccounterReference (in D level) the usage recommendation of this element is as follows:
-      For new onboarding banks / financial institutions starting with V5 this element shall contain accountServicerReference
-      (transactions, D-level) from camt.
-      For banks / financial institutions already using V4 the content mapping can be kept to be consistent with V4.
-      Importan note: With V6 in November 2026 this element will be removed.
-    example: TX12345A987
   transactionType:
     $ref: ./AccountTransactionTransactionType.yaml
   additionalTransactionInformation:
