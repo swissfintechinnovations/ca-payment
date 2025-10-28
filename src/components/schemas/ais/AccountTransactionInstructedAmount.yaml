@@ -1,5 +1,5 @@
 title: Account Transaction Instructed Amount
-description: Specifies the instructed amount according to the account currency.
+description: Specifies the instructed amount. Corresponds to the attribute TxDtls ⇾ AmtDtls ⇾ InstdAmt in SPS/ISO-20022.
 type: object
 required:
   - amount
@@ -8,7 +8,7 @@ required:
 properties:
   amount:
     $ref: ../generic/Amount.yaml
-    description: The amount instructed by the customer to the bank to carry out transaction.
+    description: Corresponds to the attribute TxDtls ⇾ AmtDtls ⇾ InstdAmt ⇾ Amt.
   sourceCurrency:
     $ref: ../generic/Currency.yaml
     description: |
