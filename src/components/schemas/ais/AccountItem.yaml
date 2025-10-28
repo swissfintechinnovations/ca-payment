@@ -71,9 +71,3 @@ properties:
       transactions:
         type: string
         example: /accounts/550e8400-e29b-11d4-a716-446655440000/transactions
-  allowedCurrencies:
-    type: array
-    items:
-      type: string
-      example: CHF
-    description: Permitted currencies for the account.
