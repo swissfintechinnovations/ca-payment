@@ -10,7 +10,9 @@ properties:
     $ref: ./Designation.yaml
   entries:
     type: array
-    description: The account transaction entry object.
+    description: |
+      Account transaction entry object. Corresponds to attribute Ntry in SPS/ISO-20022. Optional in SPS (camt.052/053), but mandatory in the 
+      Account API, where balances and transactions are separated and entries are required for valid GET /transactions responses.
     items:
       $ref: ./AccountTransactionEntry.yaml
   iban:
