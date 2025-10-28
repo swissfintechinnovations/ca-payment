@@ -3,8 +3,8 @@ description: Specifies the instructed amount. Corresponds to the attribute TxDtl
 type: object
 required:
   - amount
+  - exchangeRate
   - sourceCurrency
-  - targetCurrency
 properties:
   amount:
     $ref: ../generic/Amount.yaml
@@ -19,13 +19,9 @@ properties:
     description: |
       The ISO currency three-letter code which the recipient will receive after the currency conversion. Corresponds to the attribute
       _TrgtCcy_ in SPS/ISO-20022.
-  exchangeIndicator:
-    type: string
-    maxLength: 4
-    description: |
-      Indicates whether the amount has to be multiplied or divided by the exchange rate (MULT, DIV). Mandatory if the exchange rate is
-      provided.
-    example: MULT
+  unitCcy:
+    $ref: ../generic/Currency.yaml
+    description: Currency in which the exchange rate is specified. Corresponds to attribute _UnitCcy_ in SPS/ISO-20022.
   exchangeRate:
     type: string
     pattern: ^\d{1,11}$|^(?=\d+[.]\d+$).{3,12}$
