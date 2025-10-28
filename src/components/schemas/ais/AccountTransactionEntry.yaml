@@ -21,8 +21,7 @@ properties:
   additionalEntryInformation:
     type: string
     description: |
-      Additional entry information. Corresponds to the attribute _AddtlNtryInf_ in SPS/ISO-20022.
-      This attribute is required in the Account API, while optional in SPS. Reason: Necessary for the multibanking use case. Ref: Issue#4.
+      Additional entry information. Corresponds to the attribute _AddtlNtryInf_ in SPS/ISO-20022. This attribute is required in the Account API, while optional in SPS. Reason: Necessary for the multibanking use case. Ref: Issue#4.
     example: Online Shopping Visa Debit Card Nr. xxxx 1234
   amount:
     $ref: ./PaymentCurrencyAmount.yaml
