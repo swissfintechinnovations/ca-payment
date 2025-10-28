@@ -28,6 +28,8 @@ properties:
       * TRAN: Account used for transactions (all types of personal, current and payment accounts) - DE: Privat-, Kontokorent- und
       Zahlungsverkehrskonten
       * OTHR: Account not otherwise specified (gathering pool for all other accounts)
+
+      Note: This attribute is required in the Account API, while optional in SPS. Reason: Necessary for the multibanking use case. Ref: Issue#97
     example: TRAN
     enum:
       - CACC
