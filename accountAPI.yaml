@@ -527,19 +527,15 @@ components:
       type: object
       required:
         - account
-        - accountOwner
+        - accountOwnerName
         - accountTypeCode
-        - currency
         - designation
         - id
       properties:
         account:
           $ref: '#/components/schemas/PaymentIbanAccount'
-        accountOwner:
-          type: string
-          maxLength: 140
-          description: The owner of the account.
-          example: Account Owner XYZ
+        accountOwnerName:
+          $ref: '#/components/schemas/AccountOwnerName'
         accountTypeCode:
           type: string
           description: |
@@ -552,6 +548,8 @@ components:
             * TRAN: Account used for transactions (all types of personal, current and payment accounts) - DE: Privat-, Kontokorent- und
             Zahlungsverkehrskonten
             * OTHR: Account not otherwise specified (gathering pool for all other accounts)
+
+            Note: This attribute is required in the Account API, while optional in SPS. Reason: Necessary for the multibanking use case. Ref: Issue#97
           example: TRAN
           enum:
             - CACC
@@ -597,12 +595,11 @@ components:
             transactions:
               type: string
               example: /accounts/550e8400-e29b-11d4-a716-446655440000/transactions
-        allowedCurrencies:
-          type: array
-          items:
-            type: string
-            example: CHF
-          description: Permitted currencies for the account.
+    AccountOwnerName:
+      type: string
+      maxLength: 140
+      description: Name of the account holder. Corresponds to the attribute _Acct ⇾ Ownr ⇾ Nm_ in SPS/ISO-20022.
+      example: Account Owner XYZ
     AccountTransactionBankTransactionCode:
       title: Account Transaction Bank Transaction Code
       description: |
@@ -680,13 +677,7 @@ components:
           type: string
           minLength: 8
           maxLength: 11
-          description: |
-            The bank identifier code (BIC) of the creditor agent of a payment. Corresponds to the attribute _CdtrAgt ⇾ FinInstnId ⇾ BIC_ in
-            SPS/ISO-20022. The BIC is an 8 or 11-character code that breaks down as follows:
-            - First 4 characters - bank code (letters only)
-            - Next 2 characters - ISO 3166-1 alpha-2 country code (letters only)
-            - Next 2 characters - location code (letters and digits)
-            - Last 3 characters (optional) - branch code, specifying a particular branch of the bank (letters and digits)
+          description: Corresponds to the attribute CdtrAgt ⇾ FinInstnId ⇾ BIC in SPS/ISO-20022.
           example: DEUTDE5M101
         clearingSystemMemberIdentification:
           $ref: '#/components/schemas/CommonClearingSystemMemberIdentification'
@@ -700,7 +691,6 @@ components:
         - amount
         - bankTransactionCode
         - bookingDate
-        - entryId
         - entryStatus
         - transactionType
         - valueDate
@@ -714,7 +704,9 @@ components:
           maxLength: 35
         additionalEntryInformation:
           type: string
-          description: Additional entry information. Corresponds to the attribute _AddtlNtryInf_ in SPS/ISO-20022.
+          description: |
+            Additional entry information. Corresponds to the attribute _AddtlNtryInf_ in SPS/ISO-20022.
+            This attribute is required in the Account API, while optional in SPS. Reason: Necessary for the multibanking use case. Ref: Issue#4.
           example: Online Shopping Visa Debit Card Nr. xxxx 1234
         amount:
           $ref: '#/components/schemas/PaymentCurrencyAmount'
@@ -723,18 +715,6 @@ components:
         bookingDate:
           $ref: '#/components/schemas/Date'
           description: The booking date of the transaction set by the bank. Corresponds to the attribute _BookgDt_ in SPS/ISO-20022.
-        entryId:
-          type: string
-          description: |
-            Unique bank-defined ID for the transaction. Corresponds to the attribute _Ntry ⇾ AddtlInfInd ⇾ MsgId_ in SPS/ISO-20022.
-            With the new elements accountServicerReference (in C level) the usage recommendation of this element is as follows:
-            For new onboarding banks / financial institutions starting with V5.1 this element shall contain accountServicerReference
-            (entries, C-level) from camt.
-            For banks / financial institutions already using V4 the content mapping can be kept to be consistent with V4. The description
-            in V4 is following: Unique bank-defined ID for the transaction. Corresponds to the attribute _Ntry ⇾ AddtlInfInd ⇾ MsgId_ in
-            SPS/ISO-20022.
-            Important note: With V6 this element will be removed.
-          example: ENTRY123456789
         entryStatus:
           type: string
           enum:
@@ -749,9 +729,7 @@ components:
           description: The value date of the transaction set by the bank. Corresponds to the attribute _ValDt_ in SPS/ISO-20022.
         entryReference:
           type: string
-          description: |
-            Mandatory for business cases ISR and QR-IBAN. Contains the ISR participant number or QR-IBAN of the account owner. Corresponds to the
-            attribute _NtryRef_ in SPS/ISO-20022.
+          description: Booking reference; format depends on booking type. Corresponds to NtryRef in SPS/ISO-20022.
           example: '10001628'
           maxLength: 35
         entryReferenceInternalId:
@@ -765,7 +743,7 @@ components:
         reversalIndicator:
           type: boolean
           description: |
-            Indicates if the transaction is a reversing entry. Must always be true. Corresponds to the attribute _RvslInd_ in SPS/ISO-20022.
+            Indicates if the transaction is a reversing entry. Corresponds to the attribute _RvslInd_ in SPS/ISO-20022.
           example: true
         totalChargesAmount:
           $ref: '#/components/schemas/AccountTransactionItemCharges'
@@ -776,16 +754,16 @@ components:
             $ref: '#/components/schemas/AccountTransactionItem'
     AccountTransactionInstructedAmount:
       title: Account Transaction Instructed Amount
-      description: Specifies the instructed amount according to the account currency.
+      description: Specifies the instructed amount. Corresponds to the attribute TxDtls ⇾ AmtDtls ⇾ InstdAmt in SPS/ISO-20022.
       type: object
       required:
         - amount
+        - exchangeRate
         - sourceCurrency
-        - targetCurrency
       properties:
         amount:
           $ref: '#/components/schemas/Amount'
-          description: The amount instructed by the customer to the bank to carry out transaction.
+          description: Corresponds to the attribute TxDtls ⇾ AmtDtls ⇾ InstdAmt ⇾ Amt.
         sourceCurrency:
           $ref: '#/components/schemas/Currency'
           description: |
@@ -796,13 +774,9 @@ components:
           description: |
             The ISO currency three-letter code which the recipient will receive after the currency conversion. Corresponds to the attribute
             _TrgtCcy_ in SPS/ISO-20022.
-        exchangeIndicator:
-          type: string
-          maxLength: 4
-          description: |
-            Indicates whether the amount has to be multiplied or divided by the exchange rate (MULT, DIV). Mandatory if the exchange rate is
-            provided.
-          example: MULT
+        unitCcy:
+          $ref: '#/components/schemas/Currency'
+          description: Currency in which the exchange rate is specified. Corresponds to attribute _UnitCcy_ in SPS/ISO-20022.
         exchangeRate:
           type: string
           pattern: ^\d{1,11}$|^(?=\d+[.]\d+$).{3,12}$
@@ -830,18 +804,6 @@ components:
           example: 12345ABC6789
         amount:
           $ref: '#/components/schemas/PaymentCurrencyAmount'
-        transactionId:
-          type: string
-          maxLength: 35
-          description: |
-            The unique identifier to the listed transaction. Defined by the client. Corresponds to the attribute _TxDtls ⇾ Refs ⇾ PmtInfId_ in
-            SPS/ISO-20022.
-            With the new elements ServiceAccounterReference (in D level) the usage recommendation of this element is as follows:
-            For new onboarding banks / financial institutions starting with V5 this element shall contain accountServicerReference
-            (transactions, D-level) from camt.
-            For banks / financial institutions already using V4 the content mapping can be kept to be consistent with V4.
-            Importan note: With V6 in November 2026 this element will be removed.
-          example: TX12345A987
         transactionType:
           $ref: '#/components/schemas/AccountTransactionTransactionType'
         additionalTransactionInformation:
@@ -902,10 +864,16 @@ components:
       title: Account Transaction Item Charges Record
       description: Specifies the details about individual charges.
       type: object
+      required:
+        - amount
+        - currency
       properties:
         amount:
           $ref: '#/components/schemas/Amount'
           description: The amount of individual charges.
+        transactionType:
+          $ref: '#/components/schemas/AccountTransactionTransactionType'
+          description: Corresponds to the attribute _Chrgs ⇾ Rcrd ⇾ CdtDbtInd_ in SPS/ISO-20022.
         chargesIncludedIndicator:
           description: |
             Indicates whether the charges are included in the entry amount or not. Corresponds to the attribute _ChrgInclInd_ in SPS/ISO-20022.
@@ -923,6 +891,9 @@ components:
       title: Account Transaction Remittance Reference
       description: The remittance reference of the account transaction. Specifies the structured reference.
       type: object
+      required:
+        - reference
+        - type
       properties:
         reference:
           type: string
@@ -952,7 +923,9 @@ components:
           $ref: '#/components/schemas/Designation'
         entries:
           type: array
-          description: The account transaction entry object.
+          description: |
+            Account transaction entry object. Corresponds to attribute Ntry in SPS/ISO-20022. Optional in SPS (camt.052/053), but mandatory in the 
+            Account API, where balances and transactions are separated and entries are required for valid GET /transactions responses.
           items:
             $ref: '#/components/schemas/AccountTransactionEntry'
         iban:
@@ -1162,7 +1135,7 @@ components:
     Designation:
       description: |
         This element shall always be populated with the account alias, if defined, otherwise with specific bank account name (e.g. bank saving
-        account).
+        account). This attribute is required in the Account API, while optional in SPS. Reason: Necessary for the multibanking use case. Ref: Issue#98.
       type: string
       maxLength: 140
       example: Firmenkonto
