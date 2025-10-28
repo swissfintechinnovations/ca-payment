@@ -3,18 +3,15 @@ description: The account object.
 type: object
 required:
   - account
-  - accountOwner
+  - accountOwnerName
   - accountTypeCode
   - designation
   - id
 properties:
   account:
     $ref: ./PaymentIbanAccount.yaml
-  accountOwner:
-    type: string
-    maxLength: 140
-    description: The owner of the account.
-    example: Account Owner XYZ
+  accountOwnerName:
+    $ref: ./AccountOwnerName.yaml
   accountTypeCode:
     type: string
     description: |
