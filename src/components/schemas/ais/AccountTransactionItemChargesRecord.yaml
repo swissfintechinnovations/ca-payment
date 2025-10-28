@@ -1,6 +1,9 @@
 title: Account Transaction Item Charges Record
 description: Specifies the details about individual charges.
 type: object
+required:
+  - amount
+  - currency
 properties:
   amount:
     $ref: ../generic/Amount.yaml
