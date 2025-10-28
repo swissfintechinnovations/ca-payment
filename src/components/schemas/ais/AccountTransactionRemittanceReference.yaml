@@ -1,6 +1,9 @@
 title: Account Transaction Remittance Reference
 description: The remittance reference of the account transaction. Specifies the structured reference.
 type: object
+required:
+  - reference
+  - type
 properties:
   reference:
     type: string
