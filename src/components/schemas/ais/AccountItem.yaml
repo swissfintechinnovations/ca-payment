@@ -11,7 +11,7 @@ properties:
   account:
     $ref: ./PaymentIbanAccount.yaml
   accountOwnerName:
-    $ref: ./AccountOwnerName.yaml
+    $ref: ../generic/AccountOwnerName.yaml
   accountTypeCode:
     type: string
     description: |
