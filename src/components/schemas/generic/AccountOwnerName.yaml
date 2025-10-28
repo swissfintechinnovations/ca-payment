@@ -1,0 +1,4 @@
+type: string
+maxLength: 140
+description: Name of the account holder. Corresponds to the attribute _Acct ⇾ Ownr ⇾ Nm_ in SPS/ISO-20022.
+example: Account Owner XYZ
