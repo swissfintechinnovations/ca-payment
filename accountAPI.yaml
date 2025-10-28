@@ -704,9 +704,9 @@ components:
           maxLength: 35
         additionalEntryInformation:
           type: string
-          description: |
-            Additional entry information. Corresponds to the attribute _AddtlNtryInf_ in SPS/ISO-20022.
-            This attribute is required in the Account API, while optional in SPS. Reason: Necessary for the multibanking use case. Ref: Issue#4.
+          description: >
+            Additional entry information. Corresponds to the attribute _AddtlNtryInf_ in SPS/ISO-20022. This attribute is required in the Account API, while optional in
+            SPS. Reason: Necessary for the multibanking use case. Ref: Issue#4.
           example: Online Shopping Visa Debit Card Nr. xxxx 1234
         amount:
           $ref: '#/components/schemas/PaymentCurrencyAmount'
