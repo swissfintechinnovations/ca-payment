@@ -58,9 +58,7 @@ properties:
     description: The value date of the transaction set by the bank. Corresponds to the attribute _ValDt_ in SPS/ISO-20022.
   entryReference:
     type: string
-    description: |
-      Mandatory for business cases ISR and QR-IBAN. Contains the ISR participant number or QR-IBAN of the account owner. Corresponds to the
-      attribute _NtryRef_ in SPS/ISO-20022.
+    description: Booking reference; format depends on booking type. Corresponds to NtryRef in SPS/ISO-20022.
     example: '10001628'
     maxLength: 35
   entryReferenceInternalId:
