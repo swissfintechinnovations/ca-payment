@@ -84,7 +84,7 @@ paths:
       tags:
         - accounts
       summary: Get an account
-      description: Get the details of a specific account
+      description: Get the details of a specific account.
       operationId: getAccount
       parameters:
         - $ref: '#/components/parameters/account_id'
@@ -256,7 +256,7 @@ paths:
       tags:
         - accounts
       summary: Get a transaction
-      description: Get the details of a specific transaction of a specific account
+      description: Get the details of a specific transaction of a specific account.
       operationId: getAccountTransaction
       parameters:
         - $ref: '#/components/parameters/account_id'
