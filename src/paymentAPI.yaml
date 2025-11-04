@@ -836,7 +836,7 @@ paths:
         - iso20022
       summary: Get the ISO20022 XML status report (PAIN.002) for a specific payment instruction
       description: The status report for the requested XML ISO20022 payment instruction (PAIN.002).
-      operationId: retrieveIso20022PaymentInstructionStatusReport
+      operationId: getIso20022PaymentInstructionStatusReport
       parameters:
         - $ref: ./components/parameters/path/submission_id.yaml
         - $ref: ./components/parameters/header/authorization.yaml
