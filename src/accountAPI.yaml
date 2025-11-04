@@ -357,7 +357,7 @@ paths:
         - iso20022
       summary: Retrieve the designated ISO20022 XML camt.053 document
       description: Retrieve the designated ISO20022 XML camt.053 document.
-      operationId: retrieveIso20022AccountStatement
+      operationId: getIso20022AccountStatement
       parameters:
         - $ref: ./components/parameters/path/report_id.yaml
         - $ref: ./components/parameters/header/authorization.yaml
