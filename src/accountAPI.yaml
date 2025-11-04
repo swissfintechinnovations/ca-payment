@@ -31,8 +31,8 @@ paths:
     get:
       tags:
         - accounts
-      summary: Retrieve list of authorized accounts
-      description: Return the list of all accounts accessible for the logged in user.
+      summary: Get a list of all accounts
+      description: Get a list of all accounts for the authenticated context.
       operationId: listAccounts
       parameters:
         - $ref: ./components/parameters/query/cursor.yaml
