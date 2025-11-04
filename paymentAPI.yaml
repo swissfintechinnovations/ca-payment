@@ -41,8 +41,8 @@ paths:
     get:
       tags:
         - standing orders
-      summary: Get the list of all standing orders
-      description: Return the list of all standing orders for the authenticated context.
+      summary: Get a list of all standing orders
+      description: Get a list of all standing orders for the authenticated context.
       operationId: listStandingOrders
       parameters:
         - $ref: '#/components/parameters/cursor'
@@ -57,7 +57,7 @@ paths:
         - $ref: '#/components/parameters/psu_accept_lang'
       responses:
         '200':
-          description: List of standing orders.
+          description: List of all standing orders.
           headers:
             X-Correlation-ID:
               $ref: '#/components/headers/X-Correlation-ID'
@@ -93,8 +93,8 @@ paths:
     post:
       tags:
         - standing orders
-      summary: Create a new Standing Order
-      description: It is used to create a permanent order for the transfer of funds.
+      summary: Create a standing order
+      description: Create a standing order.
       operationId: createStandingOrder
       parameters:
         - $ref: '#/components/parameters/authorization'
@@ -106,7 +106,7 @@ paths:
         - $ref: '#/components/parameters/psu_user_agent'
         - $ref: '#/components/parameters/psu_accept_lang'
       requestBody:
-        description: Details of standing orders submission to be added.
+        description: Details of standing order to be added.
         required: true
         content:
           application/json:
@@ -114,7 +114,7 @@ paths:
               $ref: '#/components/schemas/StandingorderSubmissionRequest'
       responses:
         '201':
-          description: Created.
+          description: Standing order created.
           headers:
             Location:
               $ref: '#/components/headers/Location'
@@ -144,9 +144,9 @@ paths:
     get:
       tags:
         - standing orders
-      summary: Get a specific standing order submission
-      description: Retrieve a specific standing order submission.
-      operationId: getStandingOrderSubmission
+      summary: Get a standing order
+      description: Get a specific standing order.
+      operationId: getStandingOrder
       parameters:
         - $ref: '#/components/parameters/submission_id'
         - $ref: '#/components/parameters/authorization'
@@ -159,7 +159,7 @@ paths:
         - $ref: '#/components/parameters/psu_accept_lang'
       responses:
         '200':
-          description: The original standing order submission.
+          description: The details of the specified standing order.
           headers:
             X-Correlation-ID:
               $ref: '#/components/headers/X-Correlation-ID'
@@ -186,9 +186,9 @@ paths:
     delete:
       tags:
         - standing orders
-      summary: Delete a specific standing order submission
-      description: Delete a specific standing order submission.
-      operationId: deleteStandingOrderSubmission
+      summary: Delete a standing order
+      description: Delete a specific standing order.
+      operationId: deleteStandingOrder
       parameters:
         - $ref: '#/components/parameters/submission_id'
         - $ref: '#/components/parameters/authorization'
@@ -230,9 +230,9 @@ paths:
     get:
       tags:
         - standing orders
-      summary: Get status information for the specific standing order submission
-      description: Retrieve a specific standing order submission's status.
-      operationId: getStandingOrderSubmissionStatus
+      summary: Get the status information of a standing order
+      description: Get the status information of a specific standing order.
+      operationId: getStandingOrderStatus
       parameters:
         - $ref: '#/components/parameters/submission_id'
         - $ref: '#/components/parameters/authorization'
@@ -245,7 +245,7 @@ paths:
         - $ref: '#/components/parameters/psu_accept_lang'
       responses:
         '200':
-          description: Status information for the specific standing order submission.
+          description: Status information of the specified standing order.
           headers:
             X-Correlation-ID:
               $ref: '#/components/headers/X-Correlation-ID'
@@ -273,9 +273,9 @@ paths:
     get:
       tags:
         - payments
-      summary: Get the list of all payments
-      description: Return the list of all payments for the authenticated context.
-      operationId: listPayments
+      summary: Get a list of all payment requests
+      description: Get a list of all payment requests for the authenticated context.
+      operationId: listPaymentRequests
       parameters:
         - $ref: '#/components/parameters/cursor'
         - $ref: '#/components/parameters/limit'
@@ -289,7 +289,7 @@ paths:
         - $ref: '#/components/parameters/psu_accept_lang'
       responses:
         '200':
-          description: List of payments.
+          description: List of all payment requests.
           headers:
             X-Correlation-ID:
               $ref: '#/components/headers/X-Correlation-ID'
@@ -325,9 +325,9 @@ paths:
     post:
       tags:
         - payments
-      summary: Initiate new payments submission
-      description: Create new payments submission.
-      operationId: submitPaymentInstruction
+      summary: Create a payment request
+      description: Create a payment request.
+      operationId: createPaymentRequest
       parameters:
         - $ref: '#/components/parameters/authorization'
         - $ref: '#/components/parameters/client_id'
@@ -338,7 +338,7 @@ paths:
         - $ref: '#/components/parameters/psu_user_agent'
         - $ref: '#/components/parameters/psu_accept_lang'
       requestBody:
-        description: Details of payments submission to be added.
+        description: Details of payment request to be added.
         required: true
         content:
           application/json:
@@ -346,7 +346,7 @@ paths:
               $ref: '#/components/schemas/PaymentSubmissionRequest'
       responses:
         '201':
-          description: Created.
+          description: Payment request created.
           headers:
             Location:
               $ref: '#/components/headers/Location'
@@ -376,9 +376,9 @@ paths:
     delete:
       tags:
         - payments
-      summary: Delete a specific payment submission before executed
-      description: Delete a specific payment submission before executed.
-      operationId: deletePaymentSubmission
+      summary: Delete a payment request
+      description: Delete a specific payment request.
+      operationId: deletePaymentRequest
       parameters:
         - $ref: '#/components/parameters/submission_id'
         - $ref: '#/components/parameters/authorization'
@@ -391,12 +391,12 @@ paths:
         - $ref: '#/components/parameters/psu_accept_lang'
       responses:
         '200':
-          description: Payment submission has been deleted.
+          description: Payment request has been deleted.
           headers:
             X-Correlation-ID:
               $ref: '#/components/headers/X-Correlation-ID'
         '201':
-          description: Payment submission is marked for deletion.
+          description: Payment request is marked for deletion.
           headers:
             X-Correlation-ID:
               $ref: '#/components/headers/X-Correlation-ID'
@@ -420,9 +420,9 @@ paths:
     get:
       tags:
         - payments
-      summary: Get status information for the specific payment submission
-      description: Retrieve a specific payment submission's status.
-      operationId: getPaymentSubmissionStatus
+      summary: Get the status information of a payment request
+      description: Get the status information of a specific payment request.
+      operationId: getPaymentRequestStatus
       parameters:
         - $ref: '#/components/parameters/submission_id'
         - $ref: '#/components/parameters/authorization'
@@ -435,7 +435,7 @@ paths:
         - $ref: '#/components/parameters/psu_accept_lang'
       responses:
         '200':
-          description: Status information for the specific payment submission.
+          description: Status information for the specified payment request.
           headers:
             X-Correlation-ID:
               $ref: '#/components/headers/X-Correlation-ID'
@@ -463,9 +463,9 @@ paths:
     get:
       tags:
         - single payments
-      summary: Get the list of all payments (all payment types)
-      description: Return the list of all initiated payments of all types for the authenticated context.
-      operationId: listSinglePayments
+      summary: Get a list of all single payment requests
+      description: Get a list of all single payment requests for the authenticated context.
+      operationId: listSinglePaymentRequests
       parameters:
         - $ref: '#/components/parameters/entry_reference_from'
         - $ref: '#/components/parameters/date_from'
@@ -482,7 +482,7 @@ paths:
         - $ref: '#/components/parameters/psu_accept_lang'
       responses:
         '200':
-          description: Paginated list of all payments.
+          description: Paginated list of all single payment requests.
           headers:
             X-Correlation-ID:
               $ref: '#/components/headers/X-Correlation-ID'
@@ -518,9 +518,9 @@ paths:
     post:
       tags:
         - single payments
-      summary: Initiate new single payments submission
-      description: Create new single payments submission.
-      operationId: submitSinglePaymentInstruction
+      summary: Create a single payment request
+      description: Create a single payment request.
+      operationId: createSinglePaymentRequest
       parameters:
         - $ref: '#/components/parameters/authorization'
         - $ref: '#/components/parameters/client_id'
@@ -531,7 +531,7 @@ paths:
         - $ref: '#/components/parameters/psu_user_agent'
         - $ref: '#/components/parameters/psu_accept_lang'
       requestBody:
-        description: Details of single payments submission to be added.
+        description: Details of single payment request to be added.
         required: true
         content:
           application/json:
@@ -539,7 +539,7 @@ paths:
               $ref: '#/components/schemas/SinglepaymentsSubmissionRequest'
       responses:
         '201':
-          description: Created.
+          description: Single payment request created.
           headers:
             Location:
               $ref: '#/components/headers/Location'
@@ -569,9 +569,9 @@ paths:
     get:
       tags:
         - single payments
-      summary: Get a specific payment
-      description: Receive payment with corresponding submissionId.
-      operationId: getSinglePaymentSubmission
+      summary: Get a single payment request
+      description: Get a specific single payment request.
+      operationId: getSinglePaymentRequest
       parameters:
         - $ref: '#/components/parameters/submission_id'
         - $ref: '#/components/parameters/authorization'
@@ -584,7 +584,7 @@ paths:
         - $ref: '#/components/parameters/psu_accept_lang'
       responses:
         '200':
-          description: Details on the chosen payment.
+          description: Details on the specified single payment request.
           headers:
             X-Correlation-ID:
               $ref: '#/components/headers/X-Correlation-ID'
@@ -611,8 +611,9 @@ paths:
     delete:
       tags:
         - single payments
-      summary: Delete a single payment
-      description: Delete single payment with corresponding submissionId.
+      summary: Delete a single payment request
+      description: Delete a specific single payment request.
+      operationId: deleteSinglePaymentRequest
       parameters:
         - $ref: '#/components/parameters/submission_id'
         - $ref: '#/components/parameters/authorization'
@@ -625,12 +626,12 @@ paths:
         - $ref: '#/components/parameters/psu_accept_lang'
       responses:
         '200':
-          description: Payment has been deleted.
+          description: Single payment request has been deleted.
           headers:
             X-Correlation-ID:
               $ref: '#/components/headers/X-Correlation-ID'
         '201':
-          description: Payment is marked for deletion.
+          description: Single payment request is marked for deletion.
           headers:
             X-Correlation-ID:
               $ref: '#/components/headers/X-Correlation-ID'
@@ -654,9 +655,9 @@ paths:
     get:
       tags:
         - single payments
-      summary: Get status information for the specific single payment
-      description: Retrieve a specific single payment submission's status.
-      operationId: getSinglePaymentSubmissionStatus
+      summary: Get the status information of a single payment request
+      description: Get the status information of a specific single payment request.
+      operationId: getSinglePaymentRequestStatus
       parameters:
         - $ref: '#/components/parameters/submission_id'
         - $ref: '#/components/parameters/authorization'
@@ -669,7 +670,7 @@ paths:
         - $ref: '#/components/parameters/psu_accept_lang'
       responses:
         '200':
-          description: Status information for the specific payment submission.
+          description: Status information for the specified single payment request.
           headers:
             X-Correlation-ID:
               $ref: '#/components/headers/X-Correlation-ID'
@@ -697,8 +698,8 @@ paths:
     post:
       tags:
         - iso20022
-      summary: Submit ISO20022 XML payment instruction (pain.001)
-      description: Submit an XML pain.001 payment instruction according to the ISO20022 specification.
+      summary: Submit a ISO20022 XML payment instruction (pain.001)
+      description: Submit a ISO20022 XML payment instruction (pain.001) according to the ISO20022 specification.
       operationId: submitIso20022PaymentInstruction
       parameters:
         - $ref: '#/components/parameters/authorization'
@@ -718,7 +719,7 @@ paths:
               type: string
       responses:
         '201':
-          description: Created.
+          description: Payment instruction created.
           headers:
             Location:
               $ref: '#/components/headers/Location'
@@ -748,9 +749,9 @@ paths:
     get:
       tags:
         - iso20022
-      summary: Submitted ISO20022 XML pain.001 message
-      description: Retrieves the submitted ISO20022 XML pain.001 message.
-      operationId: getPaymentInstructionSubmission
+      summary: Get a ISO20022 XML payment instruction (pain.001)
+      description: Get a specific ISO20022 XML payment instruction (pain.001).
+      operationId: getIso20022PaymentInstruction
       parameters:
         - $ref: '#/components/parameters/submission_id'
         - $ref: '#/components/parameters/authorization'
@@ -790,9 +791,9 @@ paths:
     delete:
       tags:
         - iso20022
-      summary: Delete ISO20022 XML PAIN.001 message
-      description: Deletes the submitted ISO20022 XML PAIN.001 message before execution.
-      operationId: deletePaymentInstructionSubmission
+      summary: Delete a ISO20022 XML payment instruction (pain.001)
+      description: Delete a specific ISO20022 XML payment instruction (pain.001).
+      operationId: deleteIso20022PaymentInstruction
       parameters:
         - $ref: '#/components/parameters/submission_id'
         - $ref: '#/components/parameters/authorization'
@@ -805,12 +806,12 @@ paths:
         - $ref: '#/components/parameters/psu_accept_lang'
       responses:
         '200':
-          description: ISO20022 XML pain.001 message submission has been deleted.
+          description: ISO20022 XML payment instruction (pain.001) has been deleted.
           headers:
             X-Correlation-ID:
               $ref: '#/components/headers/X-Correlation-ID'
         '201':
-          description: ISO20022 XML pain.001 message submission is marked for deletion.
+          description: ISO20022 XML payment instruction (pain.001) is marked for deletion.
           headers:
             X-Correlation-ID:
               $ref: '#/components/headers/X-Correlation-ID'
@@ -834,8 +835,8 @@ paths:
     get:
       tags:
         - iso20022
-      summary: Get the ISO20022 XML status report (PAIN.002) for a specific payment instruction
-      description: The status report for the requested XML ISO20022 payment instruction (PAIN.002).
+      summary: Get the ISO20022 XML status report (pain.002) for a payment instruction
+      description: Get the ISO20022 XML status report (pain.002) for a specific payment instruction.
       operationId: getIso20022PaymentInstructionStatusReport
       parameters:
         - $ref: '#/components/parameters/submission_id'
@@ -849,7 +850,7 @@ paths:
         - $ref: '#/components/parameters/psu_accept_lang'
       responses:
         '200':
-          description: Returns the requested ISO20022 XML pain.002 message.
+          description: The requested ISO20022 XML stauts report (pain.002) for the specified payment instruction.
           headers:
             X-Correlation-ID:
               $ref: '#/components/headers/X-Correlation-ID'
