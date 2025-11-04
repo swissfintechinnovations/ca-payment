@@ -422,7 +422,7 @@ paths:
         - payments
       summary: Get status information for the specific payment submission
       description: Retrieve a specific payment submission's status.
-      operationId: retrievePaymentSubmissionStatus
+      operationId: getPaymentSubmissionStatus
       parameters:
         - $ref: '#/components/parameters/submission_id'
         - $ref: '#/components/parameters/authorization'
@@ -520,7 +520,7 @@ paths:
         - single payments
       summary: Initiate new single payments submission
       description: Create new single payments submission.
-      operationId: createSinglePaymentSubmission
+      operationId: submitSinglePaymentInstruction
       parameters:
         - $ref: '#/components/parameters/authorization'
         - $ref: '#/components/parameters/client_id'
@@ -836,7 +836,7 @@ paths:
         - iso20022
       summary: Get the ISO20022 XML status report (PAIN.002) for a specific payment instruction
       description: The status report for the requested XML ISO20022 payment instruction (PAIN.002).
-      operationId: retrieveIso20022PaymentInstructionStatusReport
+      operationId: getIso20022PaymentInstructionStatusReport
       parameters:
         - $ref: '#/components/parameters/submission_id'
         - $ref: '#/components/parameters/authorization'
