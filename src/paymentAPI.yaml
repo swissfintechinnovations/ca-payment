@@ -520,7 +520,7 @@ paths:
         - single payments
       summary: Initiate new single payments submission
       description: Create new single payments submission.
-      operationId: createSinglePaymentSubmission
+      operationId: submitSinglePaymentInstruction
       parameters:
         - $ref: ./components/parameters/header/authorization.yaml
         - $ref: ./components/parameters/header/client_id.yaml
