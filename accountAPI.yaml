@@ -85,7 +85,7 @@ paths:
         - accounts
       summary: Retrieve information about a single specific account
       description: Returns the accounts details of the specified account.
-      operationId: requestAccount
+      operationId: getAccount
       parameters:
         - $ref: '#/components/parameters/account_id'
         - $ref: '#/components/parameters/authorization'
@@ -135,7 +135,7 @@ paths:
         * Returns the closing booked balance (ISO20022 Balance Type CLBD) for a specific day, if called for a past date. It is the sum of
         the opening booked balance at the beginning of that day and all entries booked to the account during that day. In case the specified
         day has not yet been finalized, the response code will be 202.
-      operationId: requestAccountBalance
+      operationId: getAccountBalance
       parameters:
         - $ref: '#/components/parameters/account_id'
         - $ref: '#/components/parameters/date'
@@ -257,7 +257,7 @@ paths:
         - accounts
       summary: Details of the specified transaction
       description: Retrieves the details of the specified transaction.
-      operationId: requestAccountTransaction
+      operationId: getAccountTransaction
       parameters:
         - $ref: '#/components/parameters/account_id'
         - $ref: '#/components/parameters/entry_id'
@@ -357,7 +357,7 @@ paths:
         - iso20022
       summary: Retrieve the designated ISO20022 XML camt.053 document
       description: Retrieve the designated ISO20022 XML camt.053 document.
-      operationId: retrieveIso20022AccountStatement
+      operationId: getIso20022AccountStatement
       parameters:
         - $ref: '#/components/parameters/report_id'
         - $ref: '#/components/parameters/authorization'
