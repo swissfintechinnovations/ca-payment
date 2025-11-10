@@ -33,7 +33,7 @@ paths:
         - accounts
       summary: Retrieve list of authorized accounts
       description: |
-        Returns a paginated list of all accounts accessible in the current authenticated and consented context. 
+        Returns a paginated list of all accounts accessible in the current authenticated and consented context.
         The response contains an `accounts` array; if no accounts are available, the array is empty (for example: `{"accounts": []}`).
 
         Pagination is controlled via the `cursor` and `limit` query parameters.
@@ -303,7 +303,7 @@ paths:
       summary: Retrieve a list of resource links to account statements (camt.053)
       description: |
         Returns a paginated list of resource links to available account statements (camt.053) for all accounts covered by the authenticated
-        eBanking contract. The referenced account statements comply with the XML schema and implementation guidelines defined by 
+        eBanking contract. The referenced account statements comply with the XML schema and implementation guidelines defined by
         Swiss Payment Standards (SPS).
 
         If the requested period covers multiple days, a separate account statement is provided for each available day and account. If no statements
