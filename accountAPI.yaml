@@ -187,7 +187,7 @@ paths:
         description: A detailed description of how this endpoint is used is available in the wiki.
         url: https://github.com/swissfintechinnovations/ca-payment/wiki/Transaction-Endpoint-Factsheet
       description: |
-        Returns the transaction list of the specified account.
+        Returns a paginated list of transactions for the specified account.
         * When called without a date, it returns all transactions since the last completed booking day. Both "pending" and "booked" entries
         may be included based on the entryStatus parameter.
         * When called with a date range, only "booked" transactions from completed booking days are returned. For days not yet finalized, a
@@ -406,9 +406,12 @@ paths:
         - iso20022
       summary: Retrieve a list of resource links to account reports (camt.052)
       description: |
-        Get a list of resource links to available account reports (camt.052) generated since the last End-of-Day (EOD) processing.
+        Returns a paginated list of resource links to available account reports (camt.052) generated since the last End-of-Day (EOD) processing.
         Only intraday reports created after the most recent EOD cycle are included.
         If no reports are available since the last EOD, return an empty list: {"reports": []}.
+
+        Pagination is supported through the `cursor` and `limit` query parameters. When additional results are available,
+        the `X-Next-Cursor` response header contains the cursor value for the next page of results.
 
         The returned account reports must conform to the XML schema and implementation guidelines defined by Swiss Payment Standards.
       parameters:
