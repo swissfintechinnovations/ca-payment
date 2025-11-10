@@ -302,11 +302,15 @@ paths:
         - iso20022
       summary: Retrieve a list of resource links to account statements (camt.053)
       description: |
-        Get a list of resource links to available account statements (camt.053) for all accounts covered by the eBanking contract delivered.
-        If the call covers a period of several days, then an account statement is returned for each day and account, if available.
-        If no statements are available for the requested period, return an empty list: {"statements": []}.
+        Returns a paginated list of resource links to available account statements (camt.053) for all accounts covered by the authenticated
+        eBanking contract. The referenced account statements comply with the XML schema and implementation guidelines defined by 
+        Swiss Payment Standards (SPS).
 
-        The returned account statements must be conform to the XML schema and implementation guidelines defined by Swiss Payment Standards.
+        If the requested period covers multiple days, a separate account statement is provided for each available day and account. If no statements
+        are available for the requested period, an empty list is returned (`{"statements": []}`).
+
+        Pagination is supported through the `cursor` and `limit` query parameters. When additional results are available,
+        the `X-Next-Cursor` response header contains the cursor value for the next page of results.
       parameters:
         - $ref: '#/components/parameters/date_from'
         - $ref: '#/components/parameters/date_to'
