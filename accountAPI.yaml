@@ -32,12 +32,12 @@ paths:
       tags:
         - accounts
       summary: Retrieve list of authorized accounts
-      description: >
-        Returns a paginated list of all accounts accessible in the current authenticated and consented context. The response contains an `accounts` array; if no accounts
-        are available, the array is empty (for example: `{"accounts": []}`).
+      description: |
+        Returns a paginated list of all accounts accessible in the current authenticated and consented context. The response contains an `accounts` array;
+        if no accounts are available, the array is empty (for example: `{"accounts": []}`).
 
-        Pagination is controlled via the `cursor` and `limit` query parameters. If more accounts are available, the `X-Next-Cursor` response header provides the cursor
-        value for the next page.
+        Pagination is controlled via the `cursor` and `limit` query parameters.
+        If more accounts are available, the `X-Next-Cursor` response header provides the cursor value for the next page.
       parameters:
         - $ref: '#/components/parameters/cursor'
         - $ref: '#/components/parameters/limit'
