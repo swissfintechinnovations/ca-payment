@@ -31,8 +31,9 @@ paths:
     get:
       tags:
         - accounts
-      summary: Retrieve list of authorized accounts
-      description: Return the list of all accounts accessible for the logged in user.
+      summary: Get a list of all accounts
+      description: Get a list of all accounts for the authenticated context.
+      operationId: listAccounts
       parameters:
         - $ref: '#/components/parameters/cursor'
         - $ref: '#/components/parameters/limit'
@@ -82,8 +83,9 @@ paths:
     get:
       tags:
         - accounts
-      summary: Retrieve information about a single specific account
-      description: Returns the accounts details of the specified account.
+      summary: Get an account
+      description: Get the details of a specific account.
+      operationId: getAccount
       parameters:
         - $ref: '#/components/parameters/account_id'
         - $ref: '#/components/parameters/authorization'
@@ -95,7 +97,7 @@ paths:
         - $ref: '#/components/parameters/psu_user_agent'
       responses:
         '200':
-          description: Account details of the specified account.
+          description: The details of the specified account.
           headers:
             X-Correlation-ID:
               $ref: '#/components/headers/X-Correlation-ID'
@@ -123,7 +125,7 @@ paths:
     get:
       tags:
         - accounts
-      summary: Retrieve account balance information
+      summary: Get the balance of an account
       description: |
         Returns account balance information of the specified account.
         * Returns the interim booked balance (ISO20022 Balance Type ITBD) for the current day, if called without a date. The balance is
@@ -133,6 +135,7 @@ paths:
         * Returns the closing booked balance (ISO20022 Balance Type CLBD) for a specific day, if called for a past date. It is the sum of
         the opening booked balance at the beginning of that day and all entries booked to the account during that day. In case the specified
         day has not yet been finalized, the response code will be 202.
+      operationId: getAccountBalance
       parameters:
         - $ref: '#/components/parameters/account_id'
         - $ref: '#/components/parameters/date'
@@ -145,7 +148,7 @@ paths:
         - $ref: '#/components/parameters/psu_user_agent'
       responses:
         '200':
-          description: Account balance information of the specified account.
+          description: The account balance of the specified account.
           headers:
             X-Correlation-ID:
               $ref: '#/components/headers/X-Correlation-ID'
@@ -177,7 +180,7 @@ paths:
     get:
       tags:
         - accounts
-      summary: Retrieve transactions of a specific account
+      summary: Get a list of all transactions of an account
       externalDocs:
         description: A detailed description of how this endpoint is used is available in the wiki.
         url: https://github.com/swissfintechinnovations/ca-payment/wiki/Transaction-Endpoint-Factsheet
@@ -194,6 +197,7 @@ paths:
         Clients must pass this value unchanged in the `cursor` parameter of the next request to retrieve subsequent pages.
 
         Transaction details are optional in the schema, but all available information must be included if present for a given transaction.
+      operationId: listAccountTransactions
       parameters:
         - $ref: '#/components/parameters/account_id'
         - $ref: '#/components/parameters/date_from'
@@ -210,7 +214,7 @@ paths:
         - $ref: '#/components/parameters/psu_user_agent'
       responses:
         '200':
-          description: Transaction data of the specified account.
+          description: List of transactions of the specified account.
           headers:
             X-Correlation-ID:
               $ref: '#/components/headers/X-Correlation-ID'
@@ -251,8 +255,9 @@ paths:
     get:
       tags:
         - accounts
-      summary: Details of the specified transaction
-      description: Retrieves the details of the specified transaction.
+      summary: Get a transaction
+      description: Get the details of a specific transaction of a specific account.
+      operationId: getAccountTransaction
       parameters:
         - $ref: '#/components/parameters/account_id'
         - $ref: '#/components/parameters/entry_id'
@@ -265,7 +270,7 @@ paths:
         - $ref: '#/components/parameters/psu_user_agent'
       responses:
         '200':
-          description: Account details of the requested account.
+          description: The details of the specified transaction.
           headers:
             X-Correlation-ID:
               $ref: '#/components/headers/X-Correlation-ID'
@@ -293,11 +298,12 @@ paths:
     get:
       tags:
         - iso20022
-      summary: Retrieve a list of resource links to account statements (camt.053)
+      summary: Get a list of resource links to account statements (camt.053)
       description: |
         Get a list of resource links to available account statements (camt.053) for all accounts covered by the eBanking contract delivered.
         The returned account statements must be conform to the XML schema and implementation guidelines defined by Swiss Payment Standards.
         If the call covers a period of several days, then an account statement is returned for each day and account, if available.
+      operationId: listIso20022AccountStatementIds
       parameters:
         - $ref: '#/components/parameters/date_from'
         - $ref: '#/components/parameters/date_to'
@@ -312,7 +318,7 @@ paths:
         - $ref: '#/components/parameters/psu_user_agent'
       responses:
         '200':
-          description: Returns a list of resource links to ISO20022 XML camt.053 messages.
+          description: List of resource links to ISO20022 XML camt.053 messages.
           headers:
             X-Correlation-ID:
               $ref: '#/components/headers/X-Correlation-ID'
@@ -349,8 +355,9 @@ paths:
     get:
       tags:
         - iso20022
-      summary: Retrieve the designated ISO20022 XML camt.053 document
-      description: Retrieve the designated ISO20022 XML camt.053 document.
+      summary: Get a ISO20022 XML camt.053 document
+      description: Get a ISO20022 XML camt.053 document.
+      operationId: getIso20022AccountStatement
       parameters:
         - $ref: '#/components/parameters/report_id'
         - $ref: '#/components/parameters/authorization'
@@ -391,11 +398,12 @@ paths:
     get:
       tags:
         - iso20022
-      summary: Retrieve a list of resource links to account reports (camt.052)
+      summary: Get a list of resource links to account reports (camt.052)
       description: |
         Get a list of resource links to available account reports (camt.052) generated since the last End-of-Day (EOD) processing.
         Only intraday reports created after the most recent EOD cycle are included.
         The returned account reports must conform to the XML schema and implementation guidelines defined by Swiss Payment Standards.
+      operationId: listIso20022AccountReportIds
       parameters:
         - $ref: '#/components/parameters/cursor'
         - $ref: '#/components/parameters/limit'
@@ -408,7 +416,7 @@ paths:
         - $ref: '#/components/parameters/psu_user_agent'
       responses:
         '200':
-          description: Returns a list of resource links to ISO20022 XML camt.052 messages.
+          description: List of resource links to ISO20022 XML camt.052 messages.
           headers:
             X-Correlation-ID:
               $ref: '#/components/headers/X-Correlation-ID'
@@ -445,8 +453,9 @@ paths:
     get:
       tags:
         - iso20022
-      summary: Retrieve the designated ISO20022 XML camt.052 document
-      description: Retrieve the designated ISO20022 XML camt.052 document.
+      summary: Get a ISO20022 XML camt.052 document
+      description: Get a ISO20022 XML camt.052 document.
+      operationId: getIso20022AccountReport
       parameters:
         - $ref: '#/components/parameters/report_id'
         - $ref: '#/components/parameters/authorization'
