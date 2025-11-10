@@ -1,10 +1,6 @@
 title: Structured Postal Address for Transactions
 description: Specifies the details of the counterparty structured address.
 type: object
-required:
-  - postCode
-  - streetName
-  - townName
 properties:
   postCode:
     type: string
