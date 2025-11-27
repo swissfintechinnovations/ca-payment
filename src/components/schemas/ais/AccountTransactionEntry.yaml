@@ -7,7 +7,6 @@ required:
   - amount
   - bankTransactionCode
   - bookingDate
-  - entryId
   - entryStatus
   - transactionType
   - valueDate
@@ -15,13 +14,13 @@ properties:
   accountServicerReference:
     type: string
     description: |
-      Unique reference for the entry, assigned by the financial institution. Corresponds to the attribute _ntry ⇾ AcctSvcrRef_ in
-      SPS/ISO-20022.
+      Unique reference for the entry, assigned by the financial institution. This value is used as `entryId` in the transactions detail endpoint `/accounts/{accountId}/transactions/{entryId}` to query the details of this entry. Corresponds to the attribute _Ntry ⇾ AcctSvcrRef_ in SPS/ISO-20022.
     example: 12345ABC6789
     maxLength: 35
   additionalEntryInformation:
     type: string
-    description: Additional entry information. Corresponds to the attribute _AddtlNtryInf_ in SPS/ISO-20022.
+    description: |
+      Additional entry information. Corresponds to the attribute _AddtlNtryInf_ in SPS/ISO-20022. This attribute is required in the Account API, while optional in SPS. Reason: Necessary for the multibanking use case. Ref: Issue#4.
     example: Online Shopping Visa Debit Card Nr. xxxx 1234
   amount:
     $ref: ./PaymentCurrencyAmount.yaml
@@ -30,18 +29,6 @@ properties:
   bookingDate:
     $ref: ../generic/Date.yaml
     description: The booking date of the transaction set by the bank. Corresponds to the attribute _BookgDt_ in SPS/ISO-20022.
-  entryId:
-    type: string
-    description: |
-      Unique bank-defined ID for the transaction. Corresponds to the attribute _Ntry ⇾ AddtlInfInd ⇾ MsgId_ in SPS/ISO-20022.
-      With the new elements accountServicerReference (in C level) the usage recommendation of this element is as follows:
-      For new onboarding banks / financial institutions starting with V5.1 this element shall contain accountServicerReference
-      (entries, C-level) from camt.
-      For banks / financial institutions already using V4 the content mapping can be kept to be consistent with V4. The description
-      in V4 is following: Unique bank-defined ID for the transaction. Corresponds to the attribute _Ntry ⇾ AddtlInfInd ⇾ MsgId_ in
-      SPS/ISO-20022.
-      Important note: With V6 this element will be removed.
-    example: ENTRY123456789
   entryStatus:
     type: string
     enum:
@@ -56,9 +43,7 @@ properties:
     description: The value date of the transaction set by the bank. Corresponds to the attribute _ValDt_ in SPS/ISO-20022.
   entryReference:
     type: string
-    description: |
-      Mandatory for business cases ISR and QR-IBAN. Contains the ISR participant number or QR-IBAN of the account owner. Corresponds to the
-      attribute _NtryRef_ in SPS/ISO-20022.
+    description: Booking reference; format depends on booking type. Corresponds to NtryRef in SPS/ISO-20022.
     example: '10001628'
     maxLength: 35
   entryReferenceInternalId:
@@ -72,7 +57,7 @@ properties:
   reversalIndicator:
     type: boolean
     description: |
-      Indicates if the transaction is a reversing entry. Must always be true. Corresponds to the attribute _RvslInd_ in SPS/ISO-20022.
+      Indicates if the transaction is a reversing entry. Corresponds to the attribute _RvslInd_ in SPS/ISO-20022.
     example: true
   totalChargesAmount:
     $ref: ./AccountTransactionItemCharges.yaml

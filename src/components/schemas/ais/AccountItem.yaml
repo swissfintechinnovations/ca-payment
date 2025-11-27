@@ -3,19 +3,15 @@ description: The account object.
 type: object
 required:
   - account
-  - accountOwner
+  - accountOwnerName
   - accountTypeCode
-  - currency
   - designation
   - id
 properties:
   account:
     $ref: ./PaymentIbanAccount.yaml
-  accountOwner:
-    type: string
-    maxLength: 140
-    description: The owner of the account.
-    example: Account Owner XYZ
+  accountOwnerName:
+    $ref: ../generic/AccountOwnerName.yaml
   accountTypeCode:
     type: string
     description: |
@@ -25,9 +21,11 @@ properties:
       * LLSV: Account used for savings with special interest and withdrawal terms (pension provision and vested benefits accounts) - DE:
       Vorsorge- und Freizügigkeitskonten
       * SVGS: Account used for savings (all types of saving accounts)
-      * TRAN: Account used for transactions (all types of personal, current and payment accounts) - DE: Privat-, Kontokorent- und
+      * TRAN: Account used for transactions (all types of personal, current and payment accounts) - DE: Privat-, Kontokorrent- und
       Zahlungsverkehrskonten
       * OTHR: Account not otherwise specified (gathering pool for all other accounts)
+
+      Note: This attribute is required in the Account API, while optional in SPS. Reason: Necessary for the multibanking use case. Ref: Issue#97
     example: TRAN
     enum:
       - CACC
@@ -73,9 +71,3 @@ properties:
       transactions:
         type: string
         example: /accounts/550e8400-e29b-11d4-a716-446655440000/transactions
-  allowedCurrencies:
-    type: array
-    items:
-      type: string
-      example: CHF
-    description: Permitted currencies for the account.
