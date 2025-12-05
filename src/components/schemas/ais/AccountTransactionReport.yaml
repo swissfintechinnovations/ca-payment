@@ -23,7 +23,7 @@ properties:
     properties:
       self:
         type: string
-        example: /accounts/550e8400e29b11d4a716446655440000/statements
+        example: /accounts/550e8400e29b11d4a716446655440000/transactions
       account:
         type: string
         example: /accounts/550e8400e29b11d4a716446655440000
