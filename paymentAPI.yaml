@@ -73,7 +73,7 @@ paths:
                   submissions:
                     type: array
                     items:
-                      $ref: '#/components/schemas/StandingorderSubmissionRequest'
+                      $ref: '#/components/schemas/StandingOrderSubmissionRequest'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -111,7 +111,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/StandingorderSubmissionRequest'
+              $ref: '#/components/schemas/StandingOrderSubmissionRequest'
       responses:
         '201':
           description: Standing order created.
@@ -123,7 +123,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/StandingorderSubmissionResponse'
+                $ref: '#/components/schemas/StandingOrderSubmissionResponse'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -166,7 +166,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/StandingorderSubmissionRequest'
+                $ref: '#/components/schemas/StandingOrderSubmissionRequest'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -252,7 +252,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/StandingorderSubmissionStatus'
+                $ref: '#/components/schemas/StandingOrderSubmissionStatus'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -850,7 +850,7 @@ paths:
         - $ref: '#/components/parameters/psu_accept_lang'
       responses:
         '200':
-          description: The requested ISO20022 XML stauts report (pain.002) for the specified payment instruction.
+          description: The requested ISO20022 XML status report (pain.002) for the specified payment instruction.
           headers:
             X-Correlation-ID:
               $ref: '#/components/headers/X-Correlation-ID'
@@ -1628,7 +1628,7 @@ components:
       properties:
         submissionId:
           $ref: '#/components/schemas/SubmissionId'
-    StandingorderSubmissionRequest:
+    StandingOrderSubmissionRequest:
       title: Standing Order Submission Request
       description: The standing order submission request object.
       type: object
@@ -1716,14 +1716,14 @@ components:
             post holiday. If no date is chosen, the receiving financial institution will execute on the next possible date. Corresponds to the
             attribute _ReqdExctnDt_ in SPS/ISO-20022.
           $ref: '#/components/schemas/Date'
-    StandingorderSubmissionResponse:
+    StandingOrderSubmissionResponse:
       title: Standing Order Submission Response
       description: The standing order submission response object.
       type: object
       properties:
         submissionId:
           $ref: '#/components/schemas/SubmissionId'
-    StandingorderSubmissionStatus:
+    StandingOrderSubmissionStatus:
       title: Standing Order Submission Status
       description: The standing order submission status object.
       type: object
@@ -2080,9 +2080,10 @@ components:
       description: |
         An opaque string value used for pagination. Include this value in the cursor parameter of the subsequent request to fetch the next page of
         results. An empty string indicates that there are no more results.
-      required: false
+      required: true
       schema:
         type: string
+        nullable: true
         example: nextCursorIDxyz
   securitySchemes:
     OAuth2:
