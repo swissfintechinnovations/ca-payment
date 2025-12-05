@@ -123,7 +123,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: ./components/schemas/pss/StandingorderSubmissionResponse.yaml
+                $ref: ./components/schemas/pss/StandingOrderSubmissionResponse.yaml
         '400':
           $ref: ./components/responses/standard400.yaml
         '401':
@@ -252,7 +252,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: ./components/schemas/pss/StandingorderSubmissionStatus.yaml
+                $ref: ./components/schemas/pss/StandingOrderSubmissionStatus.yaml
         '400':
           $ref: ./components/responses/standard400.yaml
         '401':
