@@ -413,7 +413,7 @@ paths:
     get:
       tags:
         - iso20022
-      summary: Get a list of resource references to account reports (camt.052) request
+      summary: Get a list of resource references to account reports (camt.052)
       description: |
         Returns a paginated list of resource references to available account reports (camt.052) generated since the last End-of-Day (EOD) processing.
         Only intraday reports created after the most recent EOD cycle are included.
