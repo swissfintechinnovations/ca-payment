@@ -73,7 +73,7 @@ paths:
                   submissions:
                     type: array
                     items:
-                      $ref: ./components/schemas/pss/StandingorderSubmissionRequest.yaml
+                      $ref: ./components/schemas/pss/StandingOrderSubmissionRequest.yaml
         '400':
           $ref: ./components/responses/standard400.yaml
         '401':
@@ -111,7 +111,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: ./components/schemas/pss/StandingorderSubmissionRequest.yaml
+              $ref: ./components/schemas/pss/StandingOrderSubmissionRequest.yaml
       responses:
         '201':
           description: Standing order created.
@@ -123,7 +123,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: ./components/schemas/pss/StandingorderSubmissionResponse.yaml
+                $ref: ./components/schemas/pss/StandingOrderSubmissionResponse.yaml
         '400':
           $ref: ./components/responses/standard400.yaml
         '401':
@@ -166,7 +166,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: ./components/schemas/pss/StandingorderSubmissionRequest.yaml
+                $ref: ./components/schemas/pss/StandingOrderSubmissionRequest.yaml
         '400':
           $ref: ./components/responses/standard400.yaml
         '401':
@@ -252,7 +252,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: ./components/schemas/pss/StandingorderSubmissionStatus.yaml
+                $ref: ./components/schemas/pss/StandingOrderSubmissionStatus.yaml
         '400':
           $ref: ./components/responses/standard400.yaml
         '401':
@@ -850,7 +850,7 @@ paths:
         - $ref: ./components/parameters/header/psu_accept_lang.yaml
       responses:
         '200':
-          description: The requested ISO20022 XML stauts report (pain.002) for the specified payment instruction.
+          description: The requested ISO20022 XML status report (pain.002) for the specified payment instruction.
           headers:
             X-Correlation-ID:
               $ref: ./components/headers/X-Correlation-ID.yaml
