@@ -28,7 +28,7 @@ jobs:
       - name: Check user permission
         id: param_check
         run: |
-          if [[ "${{ github.actor }}" != "svenbiellmann" && "${{ github.actor }}" != "RaulGuirao" && "${{ github.actor }}" != "dkoeni" && "${{ github.actor }}" != "juergen-petry" ]]; then
+          if [[ "${{ github.actor }}" != "simonmeyerm" && "${{ github.actor }}" != "RaulGuirao" && "${{ github.actor }}" != "dkoeni" && "${{ github.actor }}" != "svenbiellmann" ]]; then
             echo "You have no permissons to start the release action."
             exit 1
           fi
@@ -42,3 +42,4 @@ jobs:
       artifact: ${{ github.event.inputs.artifact }}
       force: ${{ fromJSON(github.event.inputs.force) }} # convert string to boolean
     secrets: inherit
+
