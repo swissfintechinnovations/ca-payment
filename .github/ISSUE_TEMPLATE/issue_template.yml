@@ -2,7 +2,7 @@ name: Issue Report
 description: Report a new issue
 labels: ["new"]
 assignees:
-  - svenbiellmann
+  - simonmeyerm
   - RaulGuirao
 body:
   - type: markdown
