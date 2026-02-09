@@ -7,6 +7,4 @@ on:
 jobs:
   bundle-api:
     uses: swissfintechinnovations/.github/.github/workflows/reusable-bundle-workflow.yaml@main
-    with:
-      filenames: ${{ github.event.inputs.filenames || 'src/*.yaml' }}
     secrets: inherit
