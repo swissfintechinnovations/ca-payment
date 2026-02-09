@@ -10,7 +10,8 @@ properties:
     type: string
     maxLength: 35
     description: |
-      Unique booking (transaction) reference assigned by the financial institution. Corresponds to the attribute _TxDtls ⇾ Refs ⇾ AcctSvcrRef_ in SPS/ISO-20022. This reference identifies the individual transaction within an entry and must not be used as `entryId` in the `/accounts/{accountId}/transactions/{entryId}` endpoint.
+      Unique booking (transaction) reference assigned by the financial institution. Corresponds to the attribute _TxDtls ⇾ Refs ⇾ AcctSvcrRef_ in SPS/ISO-20022. This
+      reference identifies the individual transaction within an entry and must not be used as `entryId` in the `/accounts/{accountId}/transactions/{entryId}` endpoint.
     example: 12345ABC6789
   amount:
     $ref: ./PaymentCurrencyAmount.yaml
