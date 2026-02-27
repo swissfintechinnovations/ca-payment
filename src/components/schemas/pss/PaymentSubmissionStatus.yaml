@@ -7,7 +7,7 @@ properties:
   statusCode:
     type: string
     description: |
-      The status of the payment. Corresponds to the attribute _GrpSts_ in SPS/ISO-20022. Possible status values are:
+      The status of the payment. Corresponds to the attribute _PmtInfSts_ in SPS/ISO-20022. Possible status values are:
       - ACCC (accepted settlement completed, credit to the creditor account)
       - ACCP (accepted)
       - ACSC (accepted, settlement completed, debit to the debtor account)
@@ -31,7 +31,7 @@ properties:
       - RJCT
     example: PART
   messageId:
-    description: The unique identifier (UUID) of the payment instruction message.
+    description: The unique identifier of the payment instruction message.
     $ref: ./MessageId.yaml
   transactions:
     type: array
