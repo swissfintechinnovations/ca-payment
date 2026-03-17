@@ -14,13 +14,16 @@ properties:
   accountServicerReference:
     type: string
     description: |
-      Unique reference for the entry, assigned by the financial institution. This value is used as `entryId` in the transactions detail endpoint `/accounts/{accountId}/transactions/{entryId}` to query the details of this entry. Corresponds to the attribute _Ntry ⇾ AcctSvcrRef_ in SPS/ISO-20022.
+      Unique reference for the entry, assigned by the financial institution. This value is used as `entryId` in the transactions detail
+      endpoint `/accounts/{accountId}/transactions/{entryId}` to query the details of this entry. Corresponds to the attribute _Ntry ⇾ AcctSvcrRef_
+      in SPS/ISO-20022.
     example: 12345ABC6789
     maxLength: 35
   additionalEntryInformation:
     type: string
     description: |
-      Additional entry information. Corresponds to the attribute _AddtlNtryInf_ in SPS/ISO-20022. This attribute is required in the Account API, while optional in SPS. Reason: Necessary for the multibanking use case. Ref: Issue#4.
+      Additional entry information. Corresponds to the attribute _AddtlNtryInf_ in SPS/ISO-20022. This attribute is required in the Account API, while optional in
+      SPS. Reason: Necessary for the multibanking use case. Ref: Issue#4.
     example: Online Shopping Visa Debit Card Nr. xxxx 1234
   amount:
     $ref: ./PaymentCurrencyAmount.yaml

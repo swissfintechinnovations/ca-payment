@@ -1,7 +1,8 @@
 in: path
 name: entryId
 description: |
-  Unique identifier of the account transaction entry. Corresponds to AccountTransactionEntry.accountServicerReference and to the attribute _Ntry ⇾ AcctSvcrRef_ in SPS/ISO-20022.
+  Unique identifier of the account transaction entry. Corresponds to AccountTransactionEntry.accountServicerReference and to the attribute _Ntry ⇾ AcctSvcrRef_ in
+  SPS/ISO-20022.
 required: true
 schema:
   type: string

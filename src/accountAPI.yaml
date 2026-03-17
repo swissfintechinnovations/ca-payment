@@ -263,7 +263,7 @@ paths:
       tags:
         - accounts
       summary: Get a transaction
-      description: >
+      description: |
         Get the details of a specific transaction (AccountTransactionItem objects) for the account transaction entry identified
         by `entryId`. The `entryId` value corresponds to AccountTransactionEntry.accountServicerReference and to the attribute
         _Ntry ⇾ AcctSvcrRef_ in SPS/ISO-20022.

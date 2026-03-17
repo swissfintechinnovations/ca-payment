@@ -1572,12 +1572,12 @@ components:
       required:
         - bookingInstruction
         - debtorAccount
-        - initiatingPartyId
-        - messageId
-        - requestedExecutionDate
         - endToEndId
+        - initiatingPartyId
         - instructedAmount
         - instructionId
+        - messageId
+        - requestedExecutionDate
       properties:
         bookingInstruction:
           description: The payment booking instruction. Corresponds to the attribute _DbtrAcct ⇾ Tp ⇾ Prtry_ in SPS/ISO-20022.
@@ -1585,9 +1585,18 @@ components:
         debtorAccount:
           description: The account of the debtor. The debtor account must always be an IBAN. Corresponds to the attribute _DbtrAcct_ in SPS/ISO-20022.
           $ref: '#/components/schemas/PaymentIbanAccount'
+        endToEndId:
+          description: The endToEndId of the single payment instruction item.
+          $ref: '#/components/schemas/EndToEndId'
         initiatingPartyId:
           description: The identifier of the third party provider (TPP) who created the payment instruction message derived from the OAuth 2.0 flow.
           $ref: '#/components/schemas/InitiatingPartyId'
+        instructedAmount:
+          description: The instructed amount of the single payment. Corresponds to the attribute _InstdAmt_ in SPS/ISO-20022.
+          $ref: '#/components/schemas/PaymentCurrencyAmount'
+        instructionId:
+          description: The unique identifier (UUID) of the single payment instruction item.
+          $ref: '#/components/schemas/InstructionId'
         messageId:
           description: The unique identifier (UUID) of the the single payment instruction message.
           $ref: '#/components/schemas/MessageId'
@@ -1597,15 +1606,6 @@ components:
             post holiday. If no date is chosen, the receiving financial institution will execute on the next possible date. Corresponds to the
             attribute _ReqdExctnDt_ in SPS/ISO-20022.
           $ref: '#/components/schemas/Date'
-        endToEndId:
-          description: The endToEndId of the single payment instruction item.
-          $ref: '#/components/schemas/EndToEndId'
-        instructedAmount:
-          description: The instructed amount of the single payment. Corresponds to the attribute _InstdAmt_ in SPS/ISO-20022.
-          $ref: '#/components/schemas/PaymentCurrencyAmount'
-        instructionId:
-          description: The unique identifier (UUID) of the single payment instruction item.
-          $ref: '#/components/schemas/InstructionId'
         ibanDetails:
           description: The IBAN details of the single payment instruction item.
           $ref: '#/components/schemas/PaymentIbanDetail'
@@ -2021,8 +2021,8 @@ components:
       schema:
         type: integer
         format: int32
-        example: 25
         minimum: 1
+        example: 25
         default: 25
     psu_accept_lang:
       in: header
@@ -2051,8 +2051,8 @@ components:
       description: ID of payment submission to be retrieved.
       required: true
       schema:
-        maxLength: 35
         type: string
+        maxLength: 35
         example: 618d4ac6e8a64e3d9f26aa3d8c4f323e
     target_id:
       in: header
@@ -2083,8 +2083,8 @@ components:
       required: true
       schema:
         type: string
-        nullable: true
         example: nextCursorIDxyz
+        nullable: true
   securitySchemes:
     OAuth2:
       type: oauth2
