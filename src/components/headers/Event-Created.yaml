@@ -1,0 +1,9 @@
+event_created_in_header:
+  name: X-CorAPI-Event-Created-At
+  in: header
+  description: The Event-Created Date
+  example: '2024-05-28T13:44:53Z'
+  required: false
+  schema:
+    type: string
+    format: date-time
