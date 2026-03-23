@@ -1,0 +1,6 @@
+type: object
+properties:
+  eventSubscriptions:
+    type: array
+    items:
+      $ref: '#/components/schemas/EventSubscription'
