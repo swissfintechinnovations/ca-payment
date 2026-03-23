@@ -573,7 +573,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/EventSubscription'
+              $ref: '#/components/schemas/EventSubscriptionAccountAPI'
       responses:
         '201':
           description: EventSubscription created
@@ -583,7 +583,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/EventSubscription'
+                $ref: '#/components/schemas/EventSubscriptionAccountAPI'
           links:
             GetSubscriptionById:
               description: >
@@ -682,7 +682,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/EventSubscription'
+                $ref: '#/components/schemas/EventSubscriptionAccountAPI'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -714,7 +714,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/EventSubscription'
+              $ref: '#/components/schemas/EventSubscriptionAccountAPI'
             example:
               eventTypes:
                 - Order:Created
