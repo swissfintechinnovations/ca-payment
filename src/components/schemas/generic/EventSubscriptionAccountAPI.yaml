@@ -1,4 +1,4 @@
-EventSubscription:
+EventSubscriptionAccountAPI:
   type: object
   required:
     - eventTypes
