@@ -10,12 +10,10 @@ EventSubscription:
       items:
         type: string
         enum:
-          - Order:Created
-          - Order:Partially_Filled
+          - accounts:listUpdated
       example:
-        - Order:Created
-        - Order:Partially_Filled
+        - accounts:listUpdated
     callbackUrl:
       type: string
-      example: https://ttp.com/API/notifications/order-placement/
+      example: https://ttp.com/API/notifications/account-information-service/
       description: Not to be used in bLink
