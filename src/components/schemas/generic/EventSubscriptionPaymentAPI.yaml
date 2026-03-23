@@ -1,0 +1,19 @@
+EventSubscriptionPaymentAPI:
+  type: object
+  required:
+    - eventTypes
+  properties:
+    eventSubscriptionId:
+      $ref: '#/components/schemas/EventSubscriptionId'
+    eventTypes:
+      type: array
+      items:
+        type: string
+        enum:
+          - consents:listUpdated
+      example:
+        - consents:listUpdated
+    callbackUrl:
+      type: string
+      example: https://ttp.com/API/notifications/payment-submission-service/
+      description: Not to be used in bLink
