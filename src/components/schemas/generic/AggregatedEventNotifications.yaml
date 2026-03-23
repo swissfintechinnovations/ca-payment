@@ -1,0 +1,7 @@
+AggregatedEventNotifications:
+  type: object
+  properties:
+    eventNotifications:
+      type: array
+      items:
+        $ref: '#/components/schemas/EventNotification'
