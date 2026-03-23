@@ -1,4 +1,4 @@
-subscriptionSearchResponse:
+SubscriptionSearchResponse:
   type: object
   properties:
     eventSubscriptionIds:
