@@ -14,5 +14,5 @@ standard409:
       example:
         type: /problems/SUBSCRIPTION_ALREADY_EXISTS
         title: resource not found
-        detail: ...
+        detail: A subscription for the requested api and version already exists and cannot be created again
         instance: path/to/corresponding/resource
