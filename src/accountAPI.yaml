@@ -630,7 +630,7 @@ paths:
         - $ref: ./components/parameters/header/psu_user_agent.yaml
         - $ref: ./components/parameters/query/cursor.yaml
         - $ref: ./components/parameters/query/limit.yaml
-        - $ref: ./components/parameters/query/fromEventDate.yaml
+        - $ref: ./components/parameters/query/from_event_date.yaml
       tags:
         - Event Subscription
       responses:
@@ -665,7 +665,7 @@ paths:
           $ref: ./components/responses/standard504.yaml
   /event-subscriptions/{eventSubscriptionId}:
     parameters:
-      - $ref: ./components/parameters/path/eventSubscription_id.yaml
+      - $ref: ./components/parameters/path/event_subscription_id.yaml
     get:
       description: Get EventSubscription
       parameters:
@@ -784,9 +784,9 @@ paths:
           $ref: ./components/responses/standard504.yaml
   /event-subscriptions/{eventSubscriptionId}/event-notifications:
     parameters:
-      - $ref: ./components/parameters/path/eventSubscription_id.yaml
+      - $ref: ./components/parameters/path/event_subscription_id.yaml
       - $ref: ./components/parameters/query/cursor.yaml
-      - $ref: ./components/parameters/query/fromEventDate.yaml
+      - $ref: ./components/parameters/query/from_event_date.yaml
       - $ref: ./components/parameters/query/limit.yaml
     get:
       description: Get aggregated event-notification list
