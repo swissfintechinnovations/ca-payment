@@ -1,8 +1,7 @@
-event_subscription_id_in_header:
-  name: X-CorApi-Event-Subscription-ID
-  in: header
-  description: The ID of the Subscription the event was created for
-  example: 7c5f40fc-1b29-4263-a2dd-e127a22a947f
-  required: false
-  schema:
-    type: string
+name: X-CorApi-Event-Subscription-ID
+in: header
+description: The ID of the Subscription the event was created for
+example: 7c5f40fc-1b29-4263-a2dd-e127a22a947f
+required: false
+schema:
+  type: string
