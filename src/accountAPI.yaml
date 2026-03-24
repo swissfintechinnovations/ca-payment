@@ -666,8 +666,6 @@ paths:
         '504':
           $ref: ./components/responses/standard504.yaml
   /event-subscriptions/{eventSubscriptionId}:
-    parameters:
-      - $ref: ./components/parameters/path/event_subscription_id.yaml
     get:
       tags:
         - event-subscription
@@ -682,6 +680,7 @@ paths:
         - $ref: ./components/parameters/header/target_id.yaml
         - $ref: ./components/parameters/header/psu_ip.yaml
         - $ref: ./components/parameters/header/psu_user_agent.yaml
+        - $ref: ./components/parameters/path/event_subscription_id.yaml
       responses:
         '200':
           description: EventSubscription.
@@ -722,11 +721,12 @@ paths:
         - $ref: ./components/parameters/header/target_id.yaml
         - $ref: ./components/parameters/header/psu_ip.yaml
         - $ref: ./components/parameters/header/psu_user_agent.yaml
+        - $ref: ./components/parameters/path/event_subscription_id.yaml
       requestBody:
         content:
           application/json:
             schema:
-              $ref: ./components/schemas/generic/EventSubscriptionPaymentAPI.yaml
+              $ref: ./components/schemas/generic/EventSubscriptionAccountAPI.yaml
             example:
               eventTypes:
                 - accounts:listUpdated
@@ -767,6 +767,7 @@ paths:
         - $ref: ./components/parameters/header/target_id.yaml
         - $ref: ./components/parameters/header/psu_ip.yaml
         - $ref: ./components/parameters/header/psu_user_agent.yaml
+        - $ref: ./components/parameters/path/event_subscription_id.yaml
       responses:
         '204':
           description: Successfully deleted.
@@ -790,11 +791,6 @@ paths:
         '504':
           $ref: ./components/responses/standard504.yaml
   /event-subscriptions/{eventSubscriptionId}/event-notifications:
-    parameters:
-      - $ref: ./components/parameters/path/event_subscription_id.yaml
-      - $ref: ./components/parameters/query/cursor.yaml
-      - $ref: ./components/parameters/query/from_event_date.yaml
-      - $ref: ./components/parameters/query/limit.yaml
     get:
       tags:
         - event-notification-aggregated-polling
@@ -809,6 +805,10 @@ paths:
         - $ref: ./components/parameters/header/target_id.yaml
         - $ref: ./components/parameters/header/psu_ip.yaml
         - $ref: ./components/parameters/header/psu_user_agent.yaml
+        - $ref: ./components/parameters/path/event_subscription_id.yaml
+        - $ref: ./components/parameters/query/cursor.yaml
+        - $ref: ./components/parameters/query/from_event_date.yaml
+        - $ref: ./components/parameters/query/limit.yaml
       responses:
         '200':
           description: aggregated event-notification list.
