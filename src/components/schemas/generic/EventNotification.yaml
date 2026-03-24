@@ -15,4 +15,4 @@ properties:
     type: string
     example: 2022-10-26T07:58:30.996+0100
   id:
-    $ref: ./components/schemas/generic/EventNotificationId.yaml
+    $ref: ./EventNotificationId.yaml
