@@ -3,4 +3,4 @@ properties:
   eventSubscriptionIds:
     type: array
     items:
-      $ref: ./components/schemas/generic/EventSubscriptionId.yaml
+      $ref: ./EventSubscriptionId.yaml
