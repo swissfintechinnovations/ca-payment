@@ -1,5 +1,5 @@
 in: path
-name: eventSubscriptionId
+name: event_subscription_id
 required: true
 schema:
   type: string
