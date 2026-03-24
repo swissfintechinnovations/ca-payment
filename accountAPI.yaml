@@ -666,8 +666,6 @@ paths:
         '504':
           $ref: '#/components/responses/standard504'
   /event-subscriptions/{eventSubscriptionId}:
-    parameters:
-      - $ref: '#/components/parameters/event_subscription_id'
     get:
       tags:
         - event-subscription
@@ -682,6 +680,7 @@ paths:
         - $ref: '#/components/parameters/target_id'
         - $ref: '#/components/parameters/psu_ip'
         - $ref: '#/components/parameters/psu_user_agent'
+        - $ref: '#/components/parameters/event_subscription_id'
       responses:
         '200':
           description: EventSubscription.
@@ -722,11 +721,12 @@ paths:
         - $ref: '#/components/parameters/target_id'
         - $ref: '#/components/parameters/psu_ip'
         - $ref: '#/components/parameters/psu_user_agent'
+        - $ref: '#/components/parameters/event_subscription_id'
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/EventSubscriptionPaymentAPI'
+              $ref: '#/components/schemas/EventSubscriptionAccountAPI'
             example:
               eventTypes:
                 - accounts:listUpdated
@@ -767,6 +767,7 @@ paths:
         - $ref: '#/components/parameters/target_id'
         - $ref: '#/components/parameters/psu_ip'
         - $ref: '#/components/parameters/psu_user_agent'
+        - $ref: '#/components/parameters/event_subscription_id'
       responses:
         '204':
           description: Successfully deleted.
@@ -790,11 +791,6 @@ paths:
         '504':
           $ref: '#/components/responses/standard504'
   /event-subscriptions/{eventSubscriptionId}/event-notifications:
-    parameters:
-      - $ref: '#/components/parameters/event_subscription_id'
-      - $ref: '#/components/parameters/cursor'
-      - $ref: '#/components/parameters/from_event_date'
-      - $ref: '#/components/parameters/limit'
     get:
       tags:
         - event-notification-aggregated-polling
@@ -809,6 +805,10 @@ paths:
         - $ref: '#/components/parameters/target_id'
         - $ref: '#/components/parameters/psu_ip'
         - $ref: '#/components/parameters/psu_user_agent'
+        - $ref: '#/components/parameters/event_subscription_id'
+        - $ref: '#/components/parameters/cursor'
+        - $ref: '#/components/parameters/from_event_date'
+        - $ref: '#/components/parameters/limit'
       responses:
         '200':
           description: aggregated event-notification list.
@@ -1532,6 +1532,25 @@ components:
     EventNotificationId:
       type: string
       example: 120066c9-58a1-432b-aa60-712fae7f143e
+    EventSubscriptionAccountAPI:
+      type: object
+      required:
+        - eventTypes
+      properties:
+        eventTypes:
+          type: array
+          items:
+            type: string
+            enum:
+              - accounts:listUpdated
+          example:
+            - accounts:listUpdated
+        callbackUrl:
+          type: string
+          example: https://ttp.com/API/notifications/account-information-service/
+          description: Not to be used in bLink
+        eventSubscriptionId:
+          $ref: '#/components/schemas/EventSubscriptionId'
     EventSubscriptionId:
       type: string
       maxLength: 36
@@ -2025,7 +2044,7 @@ components:
         default: booked
     event_subscription_id:
       in: path
-      name: event_subscription_id
+      name: eventSubscriptionId
       required: true
       schema:
         type: string

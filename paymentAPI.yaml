@@ -2451,7 +2451,7 @@ components:
         type: string
     event_subscription_id:
       in: path
-      name: event_subscription_id
+      name: eventSubscriptionId
       required: true
       schema:
         type: string
