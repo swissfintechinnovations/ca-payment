@@ -1,6 +1,6 @@
 in: header
 name: X-CorApi-API-Version
-description: The API Version
+description: The API Version.
 example: '1.0'
 required: false
 schema:
