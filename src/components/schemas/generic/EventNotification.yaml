@@ -7,7 +7,7 @@ properties:
     type: string
     example: accounts:listUpdated
   eventSubscriptionId:
-    $ref: ./components/schemas/generic/EventNotificationId.yaml
+    $ref: ./EventNotificationId.yaml
   resourceLink:
     type: string
     example: /api/bankingservices/b-link/account-information-service/v7/accounts
