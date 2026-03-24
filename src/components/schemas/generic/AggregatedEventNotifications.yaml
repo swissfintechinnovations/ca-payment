@@ -1,7 +1,6 @@
-AggregatedEventNotifications:
-  type: object
-  properties:
-    eventNotifications:
-      type: array
-      items:
-        $ref: ./components/schemas/generic/EventNotification.yaml
+type: object
+properties:
+  eventNotifications:
+    type: array
+    items:
+      $ref: ./components/schemas/generic/EventNotification.yaml
