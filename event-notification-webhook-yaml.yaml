@@ -19,13 +19,24 @@ info:
     url: https://www.apache.org/licenses/LICENSE-2.0.html
 servers:
   - url: https://webhook-notification.common-api.ch
+externalDocs:
+  description: Find out more about SFTI API specifications.
+  url: https://www.common-api.ch
 tags:
   - name: event-notification-webhook
     description: Event notification webhook operations.
+security:
+  - OAuth2:
+      - read
+      - write
 paths:
   /event-notifications:
     post:
-      description: Send notification
+      tags:
+        - event-notification-webhook
+      summary: Push notification towards service users
+      description: Push notifications for subscribed event notifications.
+      operationId: postEventNotification
       parameters:
         - $ref: '#/components/parameters/correlation'
         - $ref: '#/components/parameters/api_version'
@@ -33,8 +44,6 @@ paths:
         - $ref: '#/components/parameters/event_id'
         - $ref: '#/components/parameters/event_created'
         - $ref: '#/components/parameters/event_subscription_id'
-      tags:
-        - Notification Webhook
       requestBody:
         content:
           application/json:
@@ -42,7 +51,7 @@ paths:
               $ref: '#/components/schemas/EventNotification'
       responses:
         '202':
-          description: event-notification accepted
+          description: Notification accepted.
           headers:
             X-Correlation-ID:
               $ref: '#/components/headers/X-Correlation-ID'
