@@ -3,7 +3,15 @@ info:
   version: 6.0.0
   title: event-notification webhook
   description: |
-    This is the specification of the 'event-notification' webhook. Disclaimer: - This specification file is to be interpreted as pseudo-code - once the structure and endpoints are agreed< * all mandatory and optional headers will have to be added * all error responses will have to be specified * example requests/responses will need to be improved * missing details in descriptions will have to be added
+    This is the specification of the 'event-notification' webhook.
+
+    Disclaimer:
+    - This specification file is to be interpreted as pseudo-code.
+    - Once the structure and endpoints are agreed:
+      - all mandatory and optional headers will have to be added
+      - all error responses will have to be specified
+      - example requests and responses will need to be improved
+      - missing details in descriptions will have to be added
   contact:
     email: info@common-api.ch
   license:
