@@ -8,7 +8,7 @@ EventNotification:
       type: string
       example: accounts:listUpdated
     eventSubscriptionId:
-      $ref: '#/components/schemas/EventSubscriptionId'
+      $ref: .components/schemas/generic/EventNotificationId.yaml
     resourceLink:
       type: string
       example: /api/bankingservices/b-link/account-information-service/v7/accounts
@@ -16,4 +16,4 @@ EventNotification:
       type: string
       example: 2022-10-26T07:58:30.996+0100
     id:
-      $ref: '#/components/schemas/EventNotificationId'
+      $ref: .components/schemas/generic/EventNotificationId.yaml
