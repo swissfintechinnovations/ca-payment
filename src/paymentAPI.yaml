@@ -1086,8 +1086,8 @@ paths:
               $ref: ./components/schemas/generic/EventSubscriptionPaymentAPI.yaml
             example:
               eventTypes:
-                - accounts:listUpdated
-              callbackUrl: /suAPI/notifications/account-information-service/
+                - consents:listUpdated
+              callbackUrl: /suAPI/notifications/payment-submission-service/
       responses:
         '204':
           description: Successfully updated (empty response)
