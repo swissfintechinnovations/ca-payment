@@ -4,4 +4,4 @@ AggregatedEventNotifications:
     eventNotifications:
       type: array
       items:
-        $ref: .components/schemas/generic/EventNotification.yaml
+        $ref: ./components/schemas/generic/EventNotification.yaml
