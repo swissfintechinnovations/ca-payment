@@ -520,14 +520,15 @@ paths:
     get:
       description: Get list of EventSubscriptions
       parameters:
-        - $ref: '#/components/parameters/cursor'
-        - $ref: '#/components/parameters/limit'
-        - $ref: '#/components/parameters/authorization_in_header'
-        - $ref: '#/components/parameters/correlation_in_header'
-        - $ref: '#/components/parameters/agent_in_header'
-        - $ref: '#/components/parameters/targetid_in_header'
-        - $ref: '#/components/parameters/psu_ip_in_header'
-        - $ref: '#/components/parameters/psu_user_agent_in_header'
+        - $ref: ./components/parameters/query/cursor.yaml
+        - $ref: ./components/parameters/query/limit.yaml
+        - $ref: ./components/parameters/header/authorization.yaml
+        - $ref: ./components/parameters/header/client_id.yaml
+        - $ref: ./components/parameters/header/correlation.yaml
+        - $ref: ./components/parameters/header/agent.yaml
+        - $ref: ./components/parameters/header/target_id.yaml
+        - $ref: ./components/parameters/header/psu_ip.yaml
+        - $ref: ./components/parameters/header/psu_user_agent.yaml
       tags:
         - Event Subscription
       responses:
@@ -535,55 +536,58 @@ paths:
           description: List of EventSubscriptions
           headers:
             X-Correlation-ID:
-              $ref: '#/components/headers/X-Correlation-ID'
+              $ref: ./components/headers/X-Correlation-ID.yaml
             x-nextCursor:
-              $ref: '#/components/headers/x-nextCursor'
+              $ref: ./components/headers/X-Next-Cursor.yaml
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/EventSubscriptions'
+                $ref: ./components/schemas/generic/EventSubscriptions.yaml
         '400':
-          $ref: '#/components/responses/standard400'
+          $ref: ./components/responses/standard400.yaml
         '401':
-          $ref: '#/components/responses/standard401'
+          $ref: ./components/responses/standard401.yaml
         '403':
-          $ref: '#/components/responses/standard403'
+          $ref: ./components/responses/standard403.yaml
         '404':
-          $ref: '#/components/responses/standard404'
+          $ref: ./components/responses/standard404.yaml
+        '405':
+          $ref: ./components/responses/standard405.yaml
         '500':
-          $ref: '#/components/responses/standard500'
+          $ref: ./components/responses/standard500.yaml
         '501':
-          $ref: '#/components/responses/standard501'
+          $ref: ./components/responses/standard501.yaml
         '503':
-          $ref: '#/components/responses/standard503'
+          $ref: ./components/responses/standard503.yaml
         '504':
-          $ref: '#/components/responses/standard504'
+          $ref: ./components/responses/standard504.yaml
     post:
       description: Create EventSubscription
       parameters:
-        - $ref: '#/components/parameters/authorization_in_header'
-        - $ref: '#/components/parameters/correlation_in_header'
-        - $ref: '#/components/parameters/agent_in_header'
-        - $ref: '#/components/parameters/targetid_in_header'
-        - $ref: '#/components/parameters/psu_ip_in_header'
-        - $ref: '#/components/parameters/psu_user_agent_in_header'
+        - $ref: ./components/parameters/header/authorization.yaml
+        - $ref: ./components/parameters/header/client_id.yaml
+        - $ref: ./components/parameters/header/correlation.yaml
+        - $ref: ./components/parameters/header/agent.yaml
+        - $ref: ./components/parameters/header/target_id.yaml
+        - $ref: ./components/parameters/header/psu_ip.yaml
+        - $ref: ./components/parameters/header/psu_user_agent.yaml
       tags:
         - Event Subscription
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/EventSubscriptionAccountAPI'
+              $ref: ./components/schemas/generic/EventSubscriptionPaymentAPI
       responses:
         '201':
           description: EventSubscription created
           headers:
             X-Correlation-ID:
-              $ref: '#/components/headers/X-Correlation-ID'
+              $ref: ./components/headers/X-Correlation-ID.yaml
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/EventSubscriptionAccountAPI'
+                $ref: ./components/schemas/generic/EventSubscriptionPaymentAPI
           links:
             GetSubscriptionById:
               description: >
@@ -594,23 +598,23 @@ paths:
               parameters:
                 documentId: $response.body#/eventSubscriptionId
         '400':
-          $ref: '#/components/responses/standard400'
+          $ref: ./components/responses/standard400.yaml
         '401':
-          $ref: '#/components/responses/standard401'
+          $ref: ./components/responses/standard401.yaml
         '403':
-          $ref: '#/components/responses/standard403'
+          $ref: ./components/responses/standard403.yaml
         '404':
-          $ref: '#/components/responses/standard404'
+          $ref: ./components/responses/standard404.yaml
         '409':
-          $ref: '#/components/responses/standard409'
+          $ref: ./components/responses/standard409.yaml
         '500':
-          $ref: '#/components/responses/standard500'
+          $ref: ./components/responses/standard500.yaml
         '501':
-          $ref: '#/components/responses/standard501'
+          $ref: ./components/responses/standard501.yaml
         '503':
-          $ref: '#/components/responses/standard503'
+          $ref: ./components/responses/standard503.yaml
         '504':
-          $ref: '#/components/responses/standard504'
+          $ref: ./components/responses/standard504.yaml
   /event-subscriptions/search:
     get:
       summary: Search for EventSubscriptionIds with pending events
@@ -618,14 +622,15 @@ paths:
         Search for EventSubscriptionIds with events that are newer than the
         specified parameters
       parameters:
-        - $ref: '#/components/parameters/correlation_in_header'
-        - $ref: '#/components/parameters/agent_in_header'
-        - $ref: '#/components/parameters/targetid_in_header'
-        - $ref: '#/components/parameters/psu_ip_in_header'
-        - $ref: '#/components/parameters/psu_user_agent_in_header'
-        - $ref: '#/components/parameters/cursor'
-        - $ref: '#/components/parameters/limit'
-        - $ref: '#/components/parameters/fromEventDate'
+        - $ref: ./components/parameters/header/client_id.yaml
+        - $ref: ./components/parameters/header/correlation.yaml
+        - $ref: ./components/parameters/header/agent.yaml
+        - $ref: ./components/parameters/header/target_id.yaml
+        - $ref: ./components/parameters/header/psu_ip.yaml
+        - $ref: ./components/parameters/header/psu_user_agent.yaml
+        - $ref: ./components/parameters/query/cursor.yaml
+        - $ref: ./components/parameters/query/limit.yaml
+        - $ref: ./components/parameters/query/fromEventDate.yaml
       tags:
         - Event Subscription
       responses:
@@ -635,41 +640,42 @@ paths:
             parameters
           headers:
             X-Correlation-ID:
-              $ref: '#/components/headers/X-Correlation-ID'
+              $ref: ./components/headers/X-Correlation-ID.yaml
             x-nextCursor:
-              $ref: '#/components/headers/x-nextCursor'
+              $ref: ./components/headers/X-Next-Cursor.yaml
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/subscriptionSearchResponse'
+                $ref: ./components/schemas/generic/subscriptionSearchResponse.yaml
         '400':
-          $ref: '#/components/responses/standard400'
+          $ref: ./components/responses/standard400.yaml
         '401':
-          $ref: '#/components/responses/standard401'
+          $ref: ./components/responses/standard401.yaml
         '403':
-          $ref: '#/components/responses/standard403'
+          $ref: ./components/responses/standard403.yaml
         '404':
-          $ref: '#/components/responses/standard404'
+          $ref: ./components/responses/standard404.yaml
         '500':
-          $ref: '#/components/responses/standard500'
+          $ref: ./components/responses/standard500.yaml
         '501':
-          $ref: '#/components/responses/standard501'
+          $ref: ./components/responses/standard501.yaml
         '503':
-          $ref: '#/components/responses/standard503'
+          $ref: ./components/responses/standard503.yaml
         '504':
-          $ref: '#/components/responses/standard504'
+          $ref: ./components/responses/standard504.yaml
   /event-subscriptions/{eventSubscriptionId}:
     parameters:
-      - $ref: '#/components/parameters/eventSubscriptionId'
+      - $ref: ./components/parameters/path/eventSubscription_id.yaml
     get:
       description: Get EventSubscription
       parameters:
-        - $ref: '#/components/parameters/authorization_in_header'
-        - $ref: '#/components/parameters/correlation_in_header'
-        - $ref: '#/components/parameters/agent_in_header'
-        - $ref: '#/components/parameters/targetid_in_header'
-        - $ref: '#/components/parameters/psu_ip_in_header'
-        - $ref: '#/components/parameters/psu_user_agent_in_header'
+        - $ref: ./components/parameters/header/authorization.yaml
+        - $ref: ./components/parameters/header/client_id.yaml
+        - $ref: ./components/parameters/header/correlation.yaml
+        - $ref: ./components/parameters/header/agent.yaml
+        - $ref: ./components/parameters/header/target_id.yaml
+        - $ref: ./components/parameters/header/psu_ip.yaml
+        - $ref: ./components/parameters/header/psu_user_agent.yaml
       operationId: getEventSubscription
       tags:
         - Event Subscription
@@ -678,79 +684,80 @@ paths:
           description: EventSubscription
           headers:
             X-Correlation-ID:
-              $ref: '#/components/headers/X-Correlation-ID'
+              $ref: ./components/headers/X-Correlation-ID.yaml
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/EventSubscriptionAccountAPI'
+                $ref: ./components/schemas/generic/EventSubscriptionPaymentAPI.yaml
         '400':
-          $ref: '#/components/responses/standard400'
+          $ref: ./components/responses/standard400.yaml
         '401':
-          $ref: '#/components/responses/standard401'
+          $ref: ./components/responses/standard401.yaml
         '403':
-          $ref: '#/components/responses/standard403'
+          $ref: ./components/responses/standard403.yaml
         '404':
-          $ref: '#/components/responses/standard404'
+          $ref: ./components/responses/standard404.yaml
         '500':
-          $ref: '#/components/responses/standard500'
+          $ref: ./components/responses/standard500.yaml
         '501':
-          $ref: '#/components/responses/standard501'
+          $ref: ./components/responses/standard501.yaml
         '503':
-          $ref: '#/components/responses/standard503'
+          $ref: ./components/responses/standard503.yaml
         '504':
-          $ref: '#/components/responses/standard504'
+          $ref: ./components/responses/standard504.yaml
     put:
       description: Change EventSubscription
       parameters:
-        - $ref: '#/components/parameters/authorization_in_header'
-        - $ref: '#/components/parameters/correlation_in_header'
-        - $ref: '#/components/parameters/agent_in_header'
-        - $ref: '#/components/parameters/targetid_in_header'
-        - $ref: '#/components/parameters/psu_ip_in_header'
-        - $ref: '#/components/parameters/psu_user_agent_in_header'
+        - $ref: ./components/parameters/header/authorization.yaml
+        - $ref: ./components/parameters/header/client_id.yaml
+        - $ref: ./components/parameters/header/correlation.yaml
+        - $ref: ./components/parameters/header/agent.yaml
+        - $ref: ./components/parameters/header/target_id.yaml
+        - $ref: ./components/parameters/header/psu_ip.yaml
+        - $ref: ./components/parameters/header/psu_user_agent.yaml
       tags:
         - Event Subscription
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/EventSubscriptionAccountAPI'
+              $ref: ./components/schemas/generic/EventSubscriptionPaymentAPI.yaml
             example:
               eventTypes:
-                - Order:Created
-                - Order:Partially_Filled
-              callbackUrl: /ttpAPI/notifications/order-placement/
+                - accounts:listUpdated
+              callbackUrl: /ttpAPI/notifications/account-information-service/
       responses:
         '204':
           description: Successfully updated (empty response)
           headers:
             X-Correlation-ID:
-              $ref: '#/components/headers/X-Correlation-ID'
+              $ref: ./components/headers/X-Correlation-ID.yaml
         '400':
-          $ref: '#/components/responses/standard400'
+          $ref: ./components/responses/standard400.yaml
         '401':
-          $ref: '#/components/responses/standard401'
+          $ref: ./components/responses/standard401.yaml
         '403':
-          $ref: '#/components/responses/standard403'
+          $ref: ./components/responses/standard403.yaml
         '404':
-          $ref: '#/components/responses/standard404'
+          $ref: ./components/responses/standard404.yaml
         '500':
-          $ref: '#/components/responses/standard500'
+          $ref: ./components/responses/standard500.yaml
         '501':
-          $ref: '#/components/responses/standard501'
+          $ref: ./components/responses/standard501.yaml
         '503':
-          $ref: '#/components/responses/standard503'
+          $ref: ./components/responses/standard503.yaml
         '504':
-          $ref: '#/components/responses/standard504'
+          $ref: ./components/responses/standard504.yaml
     delete:
       description: Delete EventSubscription
       parameters:
-        - $ref: '#/components/parameters/authorization_in_header'
-        - $ref: '#/components/parameters/correlation_in_header'
-        - $ref: '#/components/parameters/agent_in_header'
-        - $ref: '#/components/parameters/targetid_in_header'
-        - $ref: '#/components/parameters/psu_ip_in_header'
-        - $ref: '#/components/parameters/psu_user_agent_in_header'
+        - $ref: ./components/parameters/header/authorization.yaml
+        - $ref: ./components/parameters/header/client_id.yaml
+        - $ref: ./components/parameters/header/correlation.yaml
+        - $ref: ./components/parameters/header/agent.yaml
+        - $ref: ./components/parameters/header/target_id.yaml
+        - $ref: ./components/parameters/header/psu_ip.yaml
+        - $ref: ./components/parameters/header/psu_user_agent.yaml
       tags:
         - Event Subscription
       responses:
@@ -758,38 +765,39 @@ paths:
           description: Successfully deleted
           headers:
             X-Correlation-ID:
-              $ref: '#/components/headers/X-Correlation-ID'
+              $ref: ./components/headers/X-Correlation-ID.yaml
         '400':
-          $ref: '#/components/responses/standard400'
+          $ref: ./components/responses/standard400.yaml
         '401':
-          $ref: '#/components/responses/standard401'
+          $ref: ./components/responses/standard401.yaml
         '403':
-          $ref: '#/components/responses/standard403'
+          $ref: ./components/responses/standard403.yaml
         '404':
-          $ref: '#/components/responses/standard404'
+          $ref: ./components/responses/standard404.yaml
         '500':
-          $ref: '#/components/responses/standard500'
+          $ref: ./components/responses/standard500.yaml
         '501':
-          $ref: '#/components/responses/standard501'
+          $ref: ./components/responses/standard501.yaml
         '503':
-          $ref: '#/components/responses/standard503'
+          $ref: ./components/responses/standard503.yaml
         '504':
-          $ref: '#/components/responses/standard504'
+          $ref: ./components/responses/standard504.yaml
   /event-subscriptions/{eventSubscriptionId}/event-notifications:
     parameters:
-      - $ref: '#/components/parameters/eventSubscriptionId'
-      - $ref: '#/components/parameters/fromEventDate'
-      - $ref: '#/components/parameters/cursor'
-      - $ref: '#/components/parameters/limit'
+      - $ref: ./components/parameters/path/eventSubscription_id.yaml
+      - $ref: ./components/parameters/query/cursor.yaml
+      - $ref: ./components/parameters/query/fromEventDate.yaml
+      - $ref: ./components/parameters/query/limit.yaml
     get:
       description: Get aggregated event-notification list
       parameters:
-        - $ref: '#/components/parameters/authorization_in_header'
-        - $ref: '#/components/parameters/correlation_in_header'
-        - $ref: '#/components/parameters/agent_in_header'
-        - $ref: '#/components/parameters/targetid_in_header'
-        - $ref: '#/components/parameters/psu_ip_in_header'
-        - $ref: '#/components/parameters/psu_user_agent_in_header'
+        - $ref: ./components/parameters/header/authorization.yaml
+        - $ref: ./components/parameters/header/client_id.yaml
+        - $ref: ./components/parameters/header/correlation.yaml
+        - $ref: ./components/parameters/header/agent.yaml
+        - $ref: ./components/parameters/header/target_id.yaml
+        - $ref: ./components/parameters/header/psu_ip.yaml
+        - $ref: ./components/parameters/header/psu_user_agent.yaml
       tags:
         - Event Notifications
       responses:
@@ -797,31 +805,31 @@ paths:
           description: aggregated event-notification list
           headers:
             X-Correlation-ID:
-              $ref: '#/components/headers/X-Correlation-ID'
+              $ref: ./components/headers/X-Correlation-ID.yaml
             x-nextCursor:
-              $ref: '#/components/headers/x-nextCursor'
+              $ref: ./components/headers/X-Next-Cursor.yaml
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AggregatedEventNotifications'
+                $ref: ./components/schemas/generic/AggregatedEventNotifications.yaml
         '400':
-          $ref: '#/components/responses/standard400'
+          $ref: ./components/responses/standard400.yaml
         '401':
-          $ref: '#/components/responses/standard401'
+          $ref: ./components/responses/standard401.yaml
         '403':
-          $ref: '#/components/responses/standard403'
+          $ref: ./components/responses/standard403.yaml
         '404':
-          $ref: '#/components/responses/standard404'
+          $ref: ./components/responses/standard404.yaml
         '429':
-          $ref: '#/components/responses/standard429'
+          $ref: ./components/responses/standard429.yaml
         '500':
-          $ref: '#/components/responses/standard500'
+          $ref: ./components/responses/standard500.yaml
         '501':
-          $ref: '#/components/responses/standard501'
+          $ref: ./components/responses/standard501.yaml
         '503':
-          $ref: '#/components/responses/standard503'
+          $ref: ./components/responses/standard503.yaml
         '504':
-          $ref: '#/components/responses/standard504'
+          $ref: ./components/responses/standard504.yaml
 components:
   securitySchemes:
     OAuth2:
