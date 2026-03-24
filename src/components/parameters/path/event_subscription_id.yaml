@@ -4,3 +4,5 @@ required: true
 schema:
   type: string
   example: 7c5f40fc-1b29-4263-a2dd-e127a22a947
+description: |
+  Unique identification as assigned by the API exposing party to uniquely identify the callback URL resource.
