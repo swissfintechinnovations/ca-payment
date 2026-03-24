@@ -26,38 +26,36 @@ paths:
     post:
       description: Send notification
       parameters:
-        - $ref: '#/components/parameters/correlation_in_header'
-        - $ref: '#/components/parameters/api_version_in_header'
-        - $ref: '#/components/parameters/event_type_in_header'
-        - $ref: '#/components/parameters/event_id_in_header'
-        - $ref: '#/components/parameters/event_created_in_header'
-        - $ref: '#/components/parameters/event_subscription_id_in_header'
+        - $ref: ./components/parameters/header/correlation.yaml
+        - $ref: ./components/parameters/header/API-Version.yaml
+        - $ref: ./components/parameters/header/event_type.yaml
+        - $ref: ./components/parameters/header/event_id.yaml
+        - $ref: ./components/parameters/header/event_created.yaml
+        - $ref: ./components/parameters/header/event_subscription_id.yaml
       tags:
         - Notification Webhook
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/EventNotification'
+              $ref: ./components/schemas/generic/EventNotification.yaml
       responses:
         '202':
           description: event-notification accepted
           headers:
             X-Correlation-ID:
-              $ref: '#/components/headers/X-Correlation-ID'
+              $ref: ./components/headers/X-Correlation-ID.yaml
         '400':
-          $ref: '#/components/responses/standard400'
+          $ref: ./components/responses/standard400.yaml
         '404':
-          $ref: '#/components/responses/standard404'
-        '405':
-          $ref: '#/components/responses/standard405'
+          $ref: ./components/responses/standard404.yaml
         '429':
-          $ref: '#/components/responses/standard429'
+          $ref: ./components/responses/standard429.yaml
         '500':
-          $ref: '#/components/responses/standard500'
+          $ref: ./components/responses/standard500.yaml
         '501':
-          $ref: '#/components/responses/standard501'
+          $ref: ./components/responses/standard501.yaml
         '503':
-          $ref: '#/components/responses/standard503'
+          $ref: ./components/responses/standard503.yaml
         '504':
-          $ref: '#/components/responses/standard504'
+          $ref: ./components/responses/standard504.yaml
