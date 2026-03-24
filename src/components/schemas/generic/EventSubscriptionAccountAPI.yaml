@@ -4,7 +4,7 @@ EventSubscriptionAccountAPI:
     - eventTypes
   properties:
     eventSubscriptionId:
-      $ref: .components/schemas/generic/EventSubscriptionId.yaml
+      $ref: ./components/schemas/generic/EventSubscriptionId.yaml
     eventTypes:
       type: array
       items:
