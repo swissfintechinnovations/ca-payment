@@ -2392,8 +2392,8 @@ components:
             $ref: '#/components/schemas/CommonErrorResponse'
           example:
             type: /problems/TECHNICAL_ERROR
-            title: server unavailable
-            detail: '...'
+            title: gateway timeout
+            detail: the request could not be completed in time
             instance: path/to/corresponding/resource
   parameters:
     agent:
