@@ -32,6 +32,10 @@ tags:
     description: |
       Third party payment service considering pain.001 and pain.002 operations (XML). PUT operation can be used for both payment submission
       and payment initiation (PSS/pss), depending on security implementation.
+  - name: event-subscription
+    description: Event subscription operations.
+  - name: event-notification-aggregated-polling
+    description: Event notification aggregated polling operations.
 security:
   - OAuth2:
       - read
@@ -874,8 +878,323 @@ paths:
           $ref: '#/components/responses/standard501'
         '503':
           $ref: '#/components/responses/standard503'
+  /event-subscriptions:
+    get:
+      description: Get list of EventSubscriptions
+      parameters:
+        - $ref: '#/components/parameters/cursor'
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/authorization'
+        - $ref: '#/components/parameters/client_id'
+        - $ref: '#/components/parameters/correlation'
+        - $ref: '#/components/parameters/agent'
+        - $ref: '#/components/parameters/target_id'
+        - $ref: '#/components/parameters/psu_ip'
+        - $ref: '#/components/parameters/psu_user_agent'
+      tags:
+        - Event Subscription
+      responses:
+        '200':
+          description: List of EventSubscriptions
+          headers:
+            X-Correlation-ID:
+              $ref: '#/components/headers/X-Correlation-ID'
+            x-nextCursor:
+              $ref: '#/components/headers/X-Next-Cursor'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EventSubscriptions'
+        '400':
+          $ref: '#/components/responses/standard400'
+        '401':
+          $ref: '#/components/responses/standard401'
+        '403':
+          $ref: '#/components/responses/standard403'
+        '404':
+          $ref: '#/components/responses/standard404'
+        '405':
+          $ref: '#/components/responses/standard405'
+        '500':
+          $ref: '#/components/responses/standard500'
+        '501':
+          $ref: '#/components/responses/standard501'
+        '503':
+          $ref: '#/components/responses/standard503'
+        '504':
+          $ref: '#/components/responses/standard504'
+    post:
+      description: Create EventSubscription
+      parameters:
+        - $ref: '#/components/parameters/authorization'
+        - $ref: '#/components/parameters/client_id'
+        - $ref: '#/components/parameters/correlation'
+        - $ref: '#/components/parameters/agent'
+        - $ref: '#/components/parameters/target_id'
+        - $ref: '#/components/parameters/psu_ip'
+        - $ref: '#/components/parameters/psu_user_agent'
+      tags:
+        - Event Subscription
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EventSubscriptionPaymentAPI'
+      responses:
+        '201':
+          description: EventSubscription created
+          headers:
+            X-Correlation-ID:
+              $ref: '#/components/headers/X-Correlation-ID'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EventSubscriptionPaymentAPI'
+          links:
+            GetSubscriptionById:
+              description: |
+                The `eventSubscriptionId` value returned in the response can be used as the `eventSubscriptionId` parameter in `GET /event-subscriptions/{eventSubscriptionId}`.
+              operationId: getEventSubscription
+              parameters:
+                documentId: $response.body#/eventSubscriptionId
+        '400':
+          $ref: '#/components/responses/standard400'
+        '401':
+          $ref: '#/components/responses/standard401'
+        '403':
+          $ref: '#/components/responses/standard403'
+        '404':
+          $ref: '#/components/responses/standard404'
+        '409':
+          $ref: '#/components/responses/standard409'
+        '500':
+          $ref: '#/components/responses/standard500'
+        '501':
+          $ref: '#/components/responses/standard501'
+        '503':
+          $ref: '#/components/responses/standard503'
+        '504':
+          $ref: '#/components/responses/standard504'
+  /event-subscriptions/search:
+    get:
+      summary: Search for EventSubscriptionIds with pending events
+      description: Search for EventSubscriptionIds with events that are newer than the specified parameters
+      parameters:
+        - $ref: '#/components/parameters/client_id'
+        - $ref: '#/components/parameters/correlation'
+        - $ref: '#/components/parameters/agent'
+        - $ref: '#/components/parameters/target_id'
+        - $ref: '#/components/parameters/psu_ip'
+        - $ref: '#/components/parameters/psu_user_agent'
+        - $ref: '#/components/parameters/cursor'
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/from_event_date'
+      tags:
+        - Event Subscription
+      responses:
+        '200':
+          description: EventSubscriptionIds with events that are newer than the specified parameters
+          headers:
+            X-Correlation-ID:
+              $ref: '#/components/headers/X-Correlation-ID'
+            x-nextCursor:
+              $ref: '#/components/headers/X-Next-Cursor'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubscriptionSearchResponse'
+        '400':
+          $ref: '#/components/responses/standard400'
+        '401':
+          $ref: '#/components/responses/standard401'
+        '403':
+          $ref: '#/components/responses/standard403'
+        '404':
+          $ref: '#/components/responses/standard404'
+        '500':
+          $ref: '#/components/responses/standard500'
+        '501':
+          $ref: '#/components/responses/standard501'
+        '503':
+          $ref: '#/components/responses/standard503'
+        '504':
+          $ref: '#/components/responses/standard504'
+  /event-subscriptions/{eventSubscriptionId}:
+    parameters:
+      - $ref: '#/components/parameters/event_subscription_id'
+    get:
+      description: Get EventSubscription
+      parameters:
+        - $ref: '#/components/parameters/authorization'
+        - $ref: '#/components/parameters/client_id'
+        - $ref: '#/components/parameters/correlation'
+        - $ref: '#/components/parameters/agent'
+        - $ref: '#/components/parameters/target_id'
+        - $ref: '#/components/parameters/psu_ip'
+        - $ref: '#/components/parameters/psu_user_agent'
+      operationId: getEventSubscription
+      tags:
+        - Event Subscription
+      responses:
+        '200':
+          description: EventSubscription
+          headers:
+            X-Correlation-ID:
+              $ref: '#/components/headers/X-Correlation-ID'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EventSubscriptionPaymentAPI'
+        '400':
+          $ref: '#/components/responses/standard400'
+        '401':
+          $ref: '#/components/responses/standard401'
+        '403':
+          $ref: '#/components/responses/standard403'
+        '404':
+          $ref: '#/components/responses/standard404'
+        '500':
+          $ref: '#/components/responses/standard500'
+        '501':
+          $ref: '#/components/responses/standard501'
+        '503':
+          $ref: '#/components/responses/standard503'
+        '504':
+          $ref: '#/components/responses/standard504'
+    put:
+      description: Change EventSubscription
+      parameters:
+        - $ref: '#/components/parameters/authorization'
+        - $ref: '#/components/parameters/client_id'
+        - $ref: '#/components/parameters/correlation'
+        - $ref: '#/components/parameters/agent'
+        - $ref: '#/components/parameters/target_id'
+        - $ref: '#/components/parameters/psu_ip'
+        - $ref: '#/components/parameters/psu_user_agent'
+      tags:
+        - Event Subscription
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EventSubscriptionPaymentAPI'
+            example:
+              eventTypes:
+                - consents:listUpdated
+              callbackUrl: /suAPI/notifications/payment-submission-service/
+      responses:
+        '204':
+          description: Successfully updated (empty response)
+          headers:
+            X-Correlation-ID:
+              $ref: '#/components/headers/X-Correlation-ID'
+        '400':
+          $ref: '#/components/responses/standard400'
+        '401':
+          $ref: '#/components/responses/standard401'
+        '403':
+          $ref: '#/components/responses/standard403'
+        '404':
+          $ref: '#/components/responses/standard404'
+        '500':
+          $ref: '#/components/responses/standard500'
+        '501':
+          $ref: '#/components/responses/standard501'
+        '503':
+          $ref: '#/components/responses/standard503'
+        '504':
+          $ref: '#/components/responses/standard504'
+    delete:
+      description: Delete EventSubscription
+      parameters:
+        - $ref: '#/components/parameters/authorization'
+        - $ref: '#/components/parameters/client_id'
+        - $ref: '#/components/parameters/correlation'
+        - $ref: '#/components/parameters/agent'
+        - $ref: '#/components/parameters/target_id'
+        - $ref: '#/components/parameters/psu_ip'
+        - $ref: '#/components/parameters/psu_user_agent'
+      tags:
+        - Event Subscription
+      responses:
+        '204':
+          description: Successfully deleted
+          headers:
+            X-Correlation-ID:
+              $ref: '#/components/headers/X-Correlation-ID'
+        '400':
+          $ref: '#/components/responses/standard400'
+        '401':
+          $ref: '#/components/responses/standard401'
+        '403':
+          $ref: '#/components/responses/standard403'
+        '404':
+          $ref: '#/components/responses/standard404'
+        '500':
+          $ref: '#/components/responses/standard500'
+        '501':
+          $ref: '#/components/responses/standard501'
+        '503':
+          $ref: '#/components/responses/standard503'
+        '504':
+          $ref: '#/components/responses/standard504'
+  /event-subscriptions/{eventSubscriptionId}/event-notifications:
+    parameters:
+      - $ref: '#/components/parameters/event_subscription_id'
+      - $ref: '#/components/parameters/cursor'
+      - $ref: '#/components/parameters/from_event_date'
+      - $ref: '#/components/parameters/limit'
+    get:
+      description: Get aggregated event-notification list
+      parameters:
+        - $ref: '#/components/parameters/authorization'
+        - $ref: '#/components/parameters/client_id'
+        - $ref: '#/components/parameters/correlation'
+        - $ref: '#/components/parameters/agent'
+        - $ref: '#/components/parameters/target_id'
+        - $ref: '#/components/parameters/psu_ip'
+        - $ref: '#/components/parameters/psu_user_agent'
+      tags:
+        - Event Notifications
+      responses:
+        '200':
+          description: aggregated event-notification list
+          headers:
+            X-Correlation-ID:
+              $ref: '#/components/headers/X-Correlation-ID'
+            x-nextCursor:
+              $ref: '#/components/headers/X-Next-Cursor'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AggregatedEventNotifications'
+        '400':
+          $ref: '#/components/responses/standard400'
+        '401':
+          $ref: '#/components/responses/standard401'
+        '403':
+          $ref: '#/components/responses/standard403'
+        '404':
+          $ref: '#/components/responses/standard404'
+        '429':
+          $ref: '#/components/responses/standard429'
+        '500':
+          $ref: '#/components/responses/standard500'
+        '501':
+          $ref: '#/components/responses/standard501'
+        '503':
+          $ref: '#/components/responses/standard503'
+        '504':
+          $ref: '#/components/responses/standard504'
 components:
   schemas:
+    AggregatedEventNotifications:
+      type: object
+      properties:
+        eventNotifications:
+          type: array
+          items:
+            $ref: '#/components/schemas/EventNotification'
     Amount:
       description: An amount. Corresponds to the attribute _Amt_ in SPS/ISO-20022.
       type: string
@@ -1015,6 +1334,63 @@ components:
       type: string
       maxLength: 35
       example: ENDTOENDID-001
+    EventNotification:
+      type: object
+      properties:
+        createdAt:
+          type: string
+          example: 2022-10-26T07:58:30.996+0100
+        eventSubscriptionId:
+          $ref: '#/components/schemas/EventNotificationId'
+        eventType:
+          type: string
+          example: accounts:listUpdated
+        id:
+          $ref: '#/components/schemas/EventNotificationId'
+        resourceLink:
+          type: string
+          example: /api/bankingservices/b-link/account-information-service/v7/accounts
+        version:
+          type: string
+          example: '1.0'
+    EventNotificationDate:
+      type: string
+      format: date-time
+      example: 2022-10-26T07:58:30.996+0100
+    EventNotificationId:
+      type: string
+      example: 120066c9-58a1-432b-aa60-712fae7f143e
+    EventSubscriptionId:
+      type: string
+      maxLength: 36
+      example: 7c5f40fc-1b29-4263-a2dd-e127a22a947f
+      readOnly: true
+    EventSubscriptionPaymentAPI:
+      type: object
+      required:
+        - eventTypes
+      properties:
+        eventTypes:
+          type: array
+          items:
+            type: string
+            enum:
+              - consents:listUpdated
+          example:
+            - consents:listUpdated
+        callbackUrl:
+          type: string
+          example: https://ttp.com/API/notifications/payment-submission-service/
+          description: Not to be used in bLink
+        eventSubscriptionId:
+          $ref: '#/components/schemas/EventSubscriptionId'
+    EventSubscriptions:
+      type: object
+      properties:
+        eventSubscriptions:
+          type: array
+          items:
+            $ref: '#/components/schemas/EventSubscriptions'
     ExecutionRule:
       title: Execution Rule
       description: |
@@ -1762,6 +2138,13 @@ components:
       type: string
       maxLength: 35
       example: 618d4ac6e8a64e3d9f26aa3d8c4f323e
+    SubscriptionSearchResponse:
+      type: object
+      properties:
+        eventSubscriptionIds:
+          type: array
+          items:
+            $ref: '#/components/schemas/EventSubscriptionId'
     Uetr:
       description: |
         Globally unique reference Reference assigned by the debtor (optional) or by the debtor agent. Corresponds to the attribute _CdtTrfTxInf ⇾
@@ -1901,6 +2284,42 @@ components:
         application/problem+json:
           schema:
             $ref: '#/components/schemas/CommonErrorResponse'
+    standard409:
+      standard409:
+        headers:
+          Content-Language:
+            $ref: ../headers/Content-Language.yaml
+          X-Correlation-ID:
+            $ref: ../headers/X-Correlation-ID.yaml
+        description: there was a conflict when creating the subscription. e.g., it already exists for the same api and version
+        content:
+          application/problem+json:
+            schema:
+              $ref: ../schemas/CommonErrorResponse.yaml
+            example:
+              type: /problems/SUBSCRIPTION_ALREADY_EXISTS
+              title: resource not found
+              detail: '...'
+              instance: path/to/corresponding/resource
+    standard429:
+      headers:
+        Content-Language:
+          $ref: '#/components/headers/Content-Language'
+        X-Correlation-ID:
+          $ref: '#/components/headers/X-Correlation-ID'
+      description: |
+        When an SU sends too many lookup or polling requests in a given amount of time the SP shall 
+        respond with HTTP 429 (Too many requests). This response may contain a Retry-After header 
+        indicating how long the SU must wait before making a new request. (see https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429).
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/CommonErrorResponse'
+          example:
+            type: /problems/TOO_MANY_REQUESTS
+            title: resource not found
+            detail: '...'
+            instance: path/to/corresponding/resource
     standard500:
       headers:
         Content-Language:
@@ -1957,6 +2376,22 @@ components:
         application/problem+json:
           schema:
             $ref: '#/components/schemas/CommonErrorResponse'
+    standard504:
+      headers:
+        Content-Language:
+          $ref: '#/components/headers/Content-Language'
+        X-Correlation-ID:
+          $ref: '#/components/headers/X-Correlation-ID'
+      description: Gateway Timeout
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/CommonErrorResponse'
+          example:
+            type: /problems/TECHNICAL_ERROR
+            title: server unavailable
+            detail: '...'
+            instance: path/to/corresponding/resource
   parameters:
     agent:
       in: header
@@ -2012,6 +2447,20 @@ components:
       description: Get all objects after the one with the given ID.
       schema:
         type: string
+    event_subscription_id:
+      in: path
+      name: event_subscription_id
+      required: true
+      schema:
+        type: string
+        example: 7c5f40fc-1b29-4263-a2dd-e127a22a947
+    from_event_date:
+      in: query
+      name: from_event_date
+      description: Select all events from this notification date-time or later.
+      schema:
+        $ref: '#/components/schemas/EventNotificationDate'
+      example: 2022-10-26T07:58:30.996+0100
     limit:
       in: query
       name: limit
