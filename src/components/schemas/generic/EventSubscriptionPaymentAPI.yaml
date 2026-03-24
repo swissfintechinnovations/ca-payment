@@ -3,7 +3,7 @@ required:
   - eventTypes
 properties:
   eventSubscriptionId:
-    $ref: ./components/schemas/generic/EventSubscriptionId.yaml
+    $ref: ./EventSubscriptionId.yaml
   eventTypes:
     type: array
     items:
