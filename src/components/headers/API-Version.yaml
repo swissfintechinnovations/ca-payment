@@ -1,7 +1,0 @@
-name: X-CorApi-API-Version
-in: header
-description: The API Version
-example: '1.0'
-required: false
-schema:
-  type: string
