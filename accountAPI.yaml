@@ -581,7 +581,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/EventSubscriptionPaymentAPI'
+              $ref: '#/components/schemas/EventSubscriptionAccountAPI'
       responses:
         '201':
           description: EventSubscription created.
@@ -591,7 +591,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/EventSubscriptionPaymentAPI'
+                $ref: '#/components/schemas/EventSubscriptionAccountAPI'
           links:
             GetSubscriptionById:
               description: |
@@ -690,7 +690,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/EventSubscriptionPaymentAPI'
+                $ref: '#/components/schemas/EventSubscriptionAccountAPI'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -1548,7 +1548,7 @@ components:
         callbackUrl:
           type: string
           example: https://ttp.com/API/notifications/account-information-service/
-          description: Not to be used in bLink
+          description: Not to be used in bLink.
         eventSubscriptionId:
           $ref: '#/components/schemas/EventSubscriptionId'
     EventSubscriptionId:
@@ -1556,25 +1556,6 @@ components:
       maxLength: 36
       example: 7c5f40fc-1b29-4263-a2dd-e127a22a947f
       readOnly: true
-    EventSubscriptionPaymentAPI:
-      type: object
-      required:
-        - eventTypes
-      properties:
-        eventTypes:
-          type: array
-          items:
-            type: string
-            enum:
-              - consents:listUpdated
-          example:
-            - consents:listUpdated
-        callbackUrl:
-          type: string
-          example: https://ttp.com/API/notifications/payment-submission-service/
-          description: Not to be used in bLink
-        eventSubscriptionId:
-          $ref: '#/components/schemas/EventSubscriptionId'
     EventSubscriptions:
       type: object
       properties:

@@ -1384,7 +1384,7 @@ components:
         callbackUrl:
           type: string
           example: https://ttp.com/API/notifications/payment-submission-service/
-          description: Not to be used in bLink
+          description: Not to be used in bLink.
         eventSubscriptionId:
           $ref: '#/components/schemas/EventSubscriptionId'
     EventSubscriptions:
