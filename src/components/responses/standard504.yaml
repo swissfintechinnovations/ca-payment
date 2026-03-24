@@ -3,7 +3,7 @@ headers:
     $ref: ../headers/Content-Language.yaml
   X-Correlation-ID:
     $ref: ../headers/X-Correlation-ID.yaml
-description: Gateway Timeout
+description: Gateway Timeout.
 content:
   application/problem+json:
     schema:
