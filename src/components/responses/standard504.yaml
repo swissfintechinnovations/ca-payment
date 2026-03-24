@@ -1,14 +1,15 @@
-standard504:
-  headers:
-    X-Correlation-ID:
-      $ref: '#/components/headers/X-Correlation-ID'
-  description: Gateway Timeout
-  content:
-    application/problem+json:
-      schema:
-        $ref: '#/components/schemas/commonErrorResponse'
-      example:
-        type: /problems/TECHNICAL_ERROR
-        title: server unavailable
-        detail: ...
-        instance: path/to/corresponding/resource
+headers:
+  Content-Language:
+    $ref: ../headers/Content-Language.yaml
+  X-Correlation-ID:
+    $ref: ../headers/X-Correlation-ID.yaml
+description: Gateway Timeout
+content:
+  application/problem+json:
+    schema:
+      $ref: ../schemas/CommonErrorResponse.yaml
+    example:
+      type: /problems/TECHNICAL_ERROR
+      title: server unavailable
+      detail: ...
+      instance: path/to/corresponding/resource
