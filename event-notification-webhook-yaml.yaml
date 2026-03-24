@@ -309,7 +309,7 @@ components:
     api_version:
       in: header
       name: X-CorApi-API-Version
-      description: The API Version
+      description: The API Version.
       required: false
       schema:
         type: string
