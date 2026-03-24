@@ -1,4 +1,3 @@
-EventNotificationDate:
-  type: string
-  format: date-time
-  example: 2022-10-26T07:58:30.996+0100
+type: string
+format: date-time
+example: 2022-10-26T07:58:30.996+0100
