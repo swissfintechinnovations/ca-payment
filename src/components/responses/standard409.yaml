@@ -1,14 +1,16 @@
 standard409:
   headers:
+    Content-Language:
+      $ref: ../headers/Content-Language.yaml
     X-Correlation-ID:
-      $ref: '#/components/headers/X-Correlation-ID'
+      $ref: ../headers/X-Correlation-ID.yaml
   description: >-
     there was a conflict when creating the subscription. e.g., it already
     exists for the same api and version
   content:
     application/problem+json:
       schema:
-        $ref: '#/components/schemas/commonErrorResponse'
+        $ref: ../schemas/CommonErrorResponse.yaml
       example:
         type: /problems/SUBSCRIPTION_ALREADY_EXISTS
         title: resource not found
