@@ -1,7 +1,6 @@
-SubscriptionSearchResponse:
-  type: object
-  properties:
-    eventSubscriptionIds:
-      type: array
-      items:
-        $ref: '#/components/schemas/EventSubscriptionId'
+type: object
+properties:
+  eventSubscriptionIds:
+    type: array
+    items:
+      $ref: ./components/schemas/generic/EventSubscriptionId.yaml
