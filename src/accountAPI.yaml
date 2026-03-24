@@ -577,7 +577,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: ./components/schemas/generic/EventSubscriptionPaymentAPI
+              $ref: ./components/schemas/generic/EventSubscriptionPaymentAPI.yaml
       responses:
         '201':
           description: EventSubscription created
@@ -587,7 +587,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: ./components/schemas/generic/EventSubscriptionPaymentAPI
+                $ref: ./components/schemas/generic/EventSubscriptionPaymentAPI.yaml
           links:
             GetSubscriptionById:
               description: >
@@ -646,7 +646,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: ./components/schemas/generic/subscriptionSearchResponse.yaml
+                $ref: ./components/schemas/generic/SubscriptionSearchResponse.yaml
         '400':
           $ref: ./components/responses/standard400.yaml
         '401':
