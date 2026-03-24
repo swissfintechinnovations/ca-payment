@@ -1837,9 +1837,9 @@ components:
         X-Correlation-ID:
           $ref: '#/components/headers/X-Correlation-ID'
       description: |
-        When an SU sends too many lookup or polling requests in a given amount of time the SP shall 
-        respond with HTTP 429 (Too many requests). This response may contain a Retry-After header 
-        indicating how long the SU must wait before making a new request. (see https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429).
+        When an SU sends too many lookup or polling requests in a given amount of time the SP shall respond with HTTP 429 (Too many requests).
+        This response may contain a Retry-After header indicating how long the SU must wait before making a new request.
+        (see https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429).
       content:
         application/problem+json:
           schema:
