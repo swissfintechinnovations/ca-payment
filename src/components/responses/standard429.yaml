@@ -13,6 +13,6 @@ content:
       $ref: ../schemas/CommonErrorResponse.yaml
     example:
       type: /problems/TOO_MANY_REQUESTS
-      title: resource not found
-      detail: ...
+      title: too many requests
+      detail: too many requests were sent in a short period of time
       instance: path/to/corresponding/resource
