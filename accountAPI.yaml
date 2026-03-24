@@ -591,7 +591,8 @@ paths:
           links:
             GetSubscriptionById:
               description: |
-                The `eventSubscriptionId` value returned in the response can be used as the `eventSubscriptionId` parameter in `GET /event-subscriptions/{eventSubscriptionId}`.
+                The `eventSubscriptionId` value returned in the response can be used as the `eventSubscriptionId` parameter in
+                `GET/event-subscriptions/{eventSubscriptionId}`.
               operationId: getEventSubscription
               parameters:
                 documentId: $response.body#/eventSubscriptionId
