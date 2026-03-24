@@ -625,7 +625,7 @@ paths:
       summary: Search for EventSubscriptionIds with pending events
       description: |
         Search for EventSubscriptionIds with events that are newer than the specified parameters.
-      operationId: getEventSubscription
+      operationId: searchEventSubscription
       parameters:
         - $ref: ./components/parameters/header/client_id.yaml
         - $ref: ./components/parameters/header/correlation.yaml
