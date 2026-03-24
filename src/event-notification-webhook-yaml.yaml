@@ -2,9 +2,9 @@ openapi: 3.0.0
 info:
   version: 6.0.0
   title: event-notification webhook
-  description: |
+  description: description: |
     This is the specification of the 'event-notification' webhook.
-  
+
     Disclaimer:
     - This specification file is to be interpreted as pseudo-code.
     - Once the structure and endpoints are agreed:
