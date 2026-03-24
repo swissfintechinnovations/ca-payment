@@ -27,7 +27,7 @@ paths:
       description: Send notification
       parameters:
         - $ref: ./components/parameters/header/correlation.yaml
-        - $ref: ./components/parameters/header/API-Version.yaml
+        - $ref: ./components/parameters/header/api_version.yaml
         - $ref: ./components/parameters/header/event_type.yaml
         - $ref: ./components/parameters/header/event_id.yaml
         - $ref: ./components/parameters/header/event_created.yaml
