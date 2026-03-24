@@ -1833,7 +1833,8 @@ components:
           $ref: '#/components/headers/Content-Language'
         X-Correlation-ID:
           $ref: '#/components/headers/X-Correlation-ID'
-      description: there was a conflict when creating the subscription. e.g., it already exists for the same api and version
+      description: |
+        there was a conflict when creating the subscription. e.g., it already exists for the same api and version.
       content:
         application/problem+json:
           schema:
