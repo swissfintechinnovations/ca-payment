@@ -13,6 +13,6 @@ on:
 
 jobs:
   yaml-lint:
-    uses: swissfintechinnovations/.github/.github/workflows/reusable-lint-yaml-workflow.yaml@main
+    uses: swissfintechinnovations/.github/.github/workflows/reusable-lint-yaml-workflow.yaml@24593077e659b279d3498bd70b68ec993fd6c0bd
     with:
       filenames: ${{ github.event.inputs.filenames || '*.yaml' }}
