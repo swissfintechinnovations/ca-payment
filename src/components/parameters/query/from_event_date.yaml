@@ -2,5 +2,5 @@ in: query
 name: from_event_date
 description: Select all events from this notification date-time or later.
 schema:
-  $ref: ./components/schemas/generic/EventNotificationDate.yaml
+  $ref: ./schemas/generic/EventNotificationDate.yaml
 example: 2022-10-26T07:58:30.996+0100
