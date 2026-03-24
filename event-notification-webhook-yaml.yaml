@@ -278,7 +278,7 @@ components:
           $ref: '#/components/headers/Content-Language'
         X-Correlation-ID:
           $ref: '#/components/headers/X-Correlation-ID'
-      description: Gateway Timeout
+      description: Gateway Timeout.
       content:
         application/problem+json:
           schema:
