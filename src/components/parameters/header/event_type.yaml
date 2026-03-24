@@ -1,0 +1,7 @@
+name: X-CorApi-Event-Type
+in: header
+description: The Event-Type
+example: accounts:listUpdated
+required: false
+schema:
+  type: string
