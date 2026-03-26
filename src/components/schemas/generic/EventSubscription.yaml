@@ -13,4 +13,4 @@ properties:
     type: array
     description: List of event types subject to subscription.
     items:
-      $ref: ./components/schemas/generic/EventType.yaml
+      $ref: ./EventType.yaml
