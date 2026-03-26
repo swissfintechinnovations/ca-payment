@@ -3,4 +3,4 @@ properties:
   eventSubscriptionIds:
     type: array
     items:
-      $ref: ./EventSubscriptionId.yaml
+      $ref: ./components/parameters/path/event_subscription_id.yaml
