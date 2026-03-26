@@ -733,7 +733,7 @@ paths:
       - $ref: ./components/parameters/header/correlation.yaml
       - $ref: ./components/parameters/header/agent.yaml
       - $ref: ./components/parameters/header/target_id.yaml
-      - $ref: ./components/parameters/header/psu_ip.yaml 
+      - $ref: ./components/parameters/header/psu_ip.yaml
       - $ref: ./components/parameters/header/psu_user_agent.yaml
     get:
       summary: Search Subscription
@@ -781,7 +781,7 @@ paths:
       - $ref: ./components/parameters/header/correlation.yaml
       - $ref: ./components/parameters/header/agent.yaml
       - $ref: ./components/parameters/header/target_id.yaml
-      - $ref: ./components/parameters/header/psu_ip.yaml 
+      - $ref: ./components/parameters/header/psu_ip.yaml
       - $ref: ./components/parameters/header/psu_user_agent.yaml
     get:
       summary: Get event notifications list
