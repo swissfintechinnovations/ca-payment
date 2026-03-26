@@ -728,13 +728,13 @@ paths:
     parameters:
       - $ref: ./components/parameters/query/cursor.yaml
       - $ref: ./components/parameters/query/limit.yaml
-      - $ref: ./components/parameters/from_event_date.yaml
-      - $ref: ./components/parameters/client_id.yaml
-      - $ref: ./components/parameters/correlation_id.yaml
-      - $ref: ./components/parameters/agent.yaml
-      - $ref: ./components/parameters/target_id.yaml
-      - $ref: ./components/parameters/psu_ip.yaml 
-      - $ref: ./components/parameters/psu_user_agent.yaml
+      - $ref: ./components/parameters/query/from_event_date.yaml
+      - $ref: ./components/parameters/header/client_id.yaml
+      - $ref: ./components/parameters/header/correlation_id.yaml
+      - $ref: ./components/parameters/header/agent.yaml
+      - $ref: ./components/parameters/header/target_id.yaml
+      - $ref: ./components/parameters/header/psu_ip.yaml 
+      - $ref: ./components/parameters/header/psu_user_agent.yaml
     get:
       summary: Search Subscription
       description: Allows service users to search for event subscriptions.
@@ -777,12 +777,12 @@ paths:
       - $ref: ./components/parameters/from_event_date.yaml
       - $ref: ./components/parameters/query/cursor.yaml
       - $ref: ./components/parameters/query/limit.yaml
-      - $ref: ./components/parameters/client_id.yaml
-      - $ref: ./components/parameters/correlation_id.yaml
-      - $ref: ./components/parameters/agent.yaml
-      - $ref: ./components/parameters/target_id.yaml
-      - $ref: ./components/parameters/psu_ip.yaml 
-      - $ref: ./components/parameters/psu_user_agent.yaml
+      - $ref: ./components/parameters/header/client_id.yaml
+      - $ref: ./components/parameters/header/correlation_id.yaml
+      - $ref: ./components/parameters/header/agent.yaml
+      - $ref: ./components/parameters/header/target_id.yaml
+      - $ref: ./components/parameters/header/psu_ip.yaml 
+      - $ref: ./components/parameters/header/psu_user_agent.yaml
     get:
       summary: Get event notifications list
       description: Get aggregated event-notification list.
