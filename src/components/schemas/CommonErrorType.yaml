@@ -16,7 +16,4 @@ enum:
   - /problems/TECHNICAL_ERROR
   - /problems/NOT_IMPLEMENTED
   - /problems/SERVICE_UNAVAILABLE
-  - /problems/SUBSCRIPTION_NOT_FOUND
-  - /problems/SUBSCRIPTION_ALREADY_EXISTS
-  - /problems/TOO_MANY_REQUESTS
 example: /problems/TECHNICAL_ERROR
