@@ -518,10 +518,8 @@ paths:
           $ref: '#/components/responses/standard503'
   /event-subscriptions:
     get:
-      tags:
-        - event-subscription
-      summary: Get a list of all EventSubscriptions
-      description: Get list of EventSubscriptions.
+      summary: Get event subscriptions
+      description: Get list of event subscriptions.
       operationId: listEventSubscriptions
       parameters:
         - $ref: '#/components/parameters/cursor'
@@ -533,9 +531,11 @@ paths:
         - $ref: '#/components/parameters/target_id'
         - $ref: '#/components/parameters/psu_ip'
         - $ref: '#/components/parameters/psu_user_agent'
+      tags:
+        - event-subscription
       responses:
         '200':
-          description: List of EventSubscriptions.
+          description: Returns a list of event subscriptions.
           headers:
             X-Correlation-ID:
               $ref: '#/components/headers/X-Correlation-ID'
@@ -544,7 +544,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/EventSubscriptions'
+                $ref: '#/components/schemas/EventSubscription'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -564,11 +564,9 @@ paths:
         '504':
           $ref: '#/components/responses/standard504'
     post:
-      tags:
-        - event-subscription
-      summary: Create an EventSubscription
-      description: Create EventSubscription.
-      operationId: CreateEventSubscription
+      summary: Create event subscription
+      description: Create an event subscription.
+      operationId: createEventSubscription
       parameters:
         - $ref: '#/components/parameters/authorization'
         - $ref: '#/components/parameters/client_id'
@@ -577,29 +575,23 @@ paths:
         - $ref: '#/components/parameters/target_id'
         - $ref: '#/components/parameters/psu_ip'
         - $ref: '#/components/parameters/psu_user_agent'
+      tags:
+        - event-subscription
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/EventSubscriptionAccountAPI'
+              $ref: '#/components/schemas/EventSubscription'
       responses:
         '201':
-          description: EventSubscription created.
+          description: Returns created event subscription.
           headers:
             X-Correlation-ID:
               $ref: '#/components/headers/X-Correlation-ID'
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/EventSubscriptionAccountAPI'
-          links:
-            GetSubscriptionById:
-              description: |
-                The `eventSubscriptionId` value returned in the response can be used as the `eventSubscriptionId` parameter in
-                `GET/event-subscriptions/{eventSubscriptionId}`.
-              operationId: getEventSubscription
-              parameters:
-                documentId: $response.body#/eventSubscriptionId
+                $ref: '#/components/schemas/EventSubscription'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -608,6 +600,8 @@ paths:
           $ref: '#/components/responses/standard403'
         '404':
           $ref: '#/components/responses/standard404'
+        '405':
+          $ref: '#/components/responses/standard405'
         '409':
           $ref: '#/components/responses/standard409'
         '500':
@@ -618,79 +612,32 @@ paths:
           $ref: '#/components/responses/standard503'
         '504':
           $ref: '#/components/responses/standard504'
-  /event-subscriptions/search:
-    get:
-      tags:
-        - event-subscription
-      summary: Search for EventSubscriptionIds with pending events
-      description: |
-        Search for EventSubscriptionIds with events that are newer than the specified parameters.
-      operationId: searchEventSubscription
-      parameters:
-        - $ref: '#/components/parameters/client_id'
-        - $ref: '#/components/parameters/correlation'
-        - $ref: '#/components/parameters/agent'
-        - $ref: '#/components/parameters/target_id'
-        - $ref: '#/components/parameters/psu_ip'
-        - $ref: '#/components/parameters/psu_user_agent'
-        - $ref: '#/components/parameters/cursor'
-        - $ref: '#/components/parameters/limit'
-        - $ref: '#/components/parameters/from_event_date'
-      responses:
-        '200':
-          description: |
-            EventSubscriptionIds with events that are newer than the specified parameters.
-          headers:
-            X-Correlation-ID:
-              $ref: '#/components/headers/X-Correlation-ID'
-            x-nextCursor:
-              $ref: '#/components/headers/X-Next-Cursor'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/SubscriptionSearchResponse'
-        '400':
-          $ref: '#/components/responses/standard400'
-        '401':
-          $ref: '#/components/responses/standard401'
-        '403':
-          $ref: '#/components/responses/standard403'
-        '404':
-          $ref: '#/components/responses/standard404'
-        '500':
-          $ref: '#/components/responses/standard500'
-        '501':
-          $ref: '#/components/responses/standard501'
-        '503':
-          $ref: '#/components/responses/standard503'
-        '504':
-          $ref: '#/components/responses/standard504'
   /event-subscriptions/{eventSubscriptionId}:
+    parameters:
+      - $ref: '#/components/parameters/event_subscription_id'
+      - $ref: '#/components/parameters/authorization'
+      - $ref: '#/components/parameters/client_id'
+      - $ref: '#/components/parameters/correlation'
+      - $ref: '#/components/parameters/agent'
+      - $ref: '#/components/parameters/target_id'
+      - $ref: '#/components/parameters/psu_ip'
+      - $ref: '#/components/parameters/psu_user_agent'
     get:
+      summary: Get event subscription
+      description: Get event subscription by id.
+      operationId: getEventSubscription
       tags:
         - event-subscription
-      summary: Search for EventSubscriptionIds with pending events
-      description: Get EventSubscription.
-      operationId: getEventSubscription
-      parameters:
-        - $ref: '#/components/parameters/authorization'
-        - $ref: '#/components/parameters/client_id'
-        - $ref: '#/components/parameters/correlation'
-        - $ref: '#/components/parameters/agent'
-        - $ref: '#/components/parameters/target_id'
-        - $ref: '#/components/parameters/psu_ip'
-        - $ref: '#/components/parameters/psu_user_agent'
-        - $ref: '#/components/parameters/event_subscription_id'
       responses:
         '200':
-          description: EventSubscription.
+          description: Returns an event subscription.
           headers:
             X-Correlation-ID:
               $ref: '#/components/headers/X-Correlation-ID'
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/EventSubscriptionAccountAPI'
+                $ref: '#/components/schemas/EventSubscription'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -699,6 +646,8 @@ paths:
           $ref: '#/components/responses/standard403'
         '404':
           $ref: '#/components/responses/standard404'
+        '405':
+          $ref: '#/components/responses/standard405'
         '500':
           $ref: '#/components/responses/standard500'
         '501':
@@ -708,29 +657,19 @@ paths:
         '504':
           $ref: '#/components/responses/standard504'
     put:
+      summary: Update event subscription
+      description: Update an event subscription.
+      operationId: updateEventSubscription
       tags:
         - event-subscription
-      summary: Change an EventSubscription
-      description: Change EventSubscription.
-      operationId: updateEventSubscription
-      parameters:
-        - $ref: '#/components/parameters/authorization'
-        - $ref: '#/components/parameters/client_id'
-        - $ref: '#/components/parameters/correlation'
-        - $ref: '#/components/parameters/agent'
-        - $ref: '#/components/parameters/target_id'
-        - $ref: '#/components/parameters/psu_ip'
-        - $ref: '#/components/parameters/psu_user_agent'
-        - $ref: '#/components/parameters/event_subscription_id'
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/EventSubscriptionAccountAPI'
+              $ref: '#/components/schemas/EventSubscription'
             example:
               eventTypes:
                 - accounts:listUpdated
-              callbackUrl: /ttpAPI/notifications/account-information-service/
       responses:
         '204':
           description: Successfully updated (empty response).
@@ -745,6 +684,8 @@ paths:
           $ref: '#/components/responses/standard403'
         '404':
           $ref: '#/components/responses/standard404'
+        '405':
+          $ref: '#/components/responses/standard405'
         '500':
           $ref: '#/components/responses/standard500'
         '501':
@@ -756,21 +697,12 @@ paths:
     delete:
       tags:
         - event-subscription
-      summary: Delete an EventSubscription
-      description: Delete EventSubscription.
+      summary: Delete event subscription
+      description: Delete event subscription by id.
       operationId: deleteEventSubscription
-      parameters:
-        - $ref: '#/components/parameters/authorization'
-        - $ref: '#/components/parameters/client_id'
-        - $ref: '#/components/parameters/correlation'
-        - $ref: '#/components/parameters/agent'
-        - $ref: '#/components/parameters/target_id'
-        - $ref: '#/components/parameters/psu_ip'
-        - $ref: '#/components/parameters/psu_user_agent'
-        - $ref: '#/components/parameters/event_subscription_id'
       responses:
         '204':
-          description: Successfully deleted.
+          description: Successfully deleted (empty response).
           headers:
             X-Correlation-ID:
               $ref: '#/components/headers/X-Correlation-ID'
@@ -782,6 +714,55 @@ paths:
           $ref: '#/components/responses/standard403'
         '404':
           $ref: '#/components/responses/standard404'
+        '405':
+          $ref: '#/components/responses/standard405'
+        '500':
+          $ref: '#/components/responses/standard500'
+        '501':
+          $ref: '#/components/responses/standard501'
+        '503':
+          $ref: '#/components/responses/standard503'
+        '504':
+          $ref: '#/components/responses/standard504'
+  /event-subscriptions/search:
+    parameters:
+      - $ref: '#/components/parameters/cursor'
+      - $ref: '#/components/parameters/limit'
+      - $ref: '#/components/parameters/from_event_date'
+      - $ref: '#/components/parameters/client_id'
+      - $ref: '#/components/parameters/correlation'
+      - $ref: '#/components/parameters/agent'
+      - $ref: '#/components/parameters/target_id'
+      - $ref: '#/components/parameters/psu_ip'
+      - $ref: '#/components/parameters/psu_user_agent'
+    get:
+      summary: Search Subscription
+      description: Allows service users to search for event subscriptions.
+      operationId: searchEventSubscriptions
+      tags:
+        - event-notification-aggregated-polling
+      responses:
+        '200':
+          description: List of event subscriptionIds found.
+          headers:
+            X-Correlation-ID:
+              $ref: '#/components/headers/X-Correlation-ID'
+            X-nextCursor:
+              $ref: '#/components/headers/X-Next-Cursor'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubscriptionSearchResponse'
+        '400':
+          $ref: '#/components/responses/standard400'
+        '401':
+          $ref: '#/components/responses/standard401'
+        '403':
+          $ref: '#/components/responses/standard403'
+        '404':
+          $ref: '#/components/responses/standard404'
+        '405':
+          $ref: '#/components/responses/standard405'
         '500':
           $ref: '#/components/responses/standard500'
         '501':
@@ -791,36 +772,37 @@ paths:
         '504':
           $ref: '#/components/responses/standard504'
   /event-subscriptions/{eventSubscriptionId}/event-notifications:
+    parameters:
+      - $ref: '#/components/parameters/event_subscription_id'
+      - $ref: '#/components/parameters/from_event_date'
+      - $ref: '#/components/parameters/cursor'
+      - $ref: '#/components/parameters/limit'
+      - $ref: '#/components/parameters/client_id'
+      - $ref: '#/components/parameters/correlation'
+      - $ref: '#/components/parameters/agent'
+      - $ref: '#/components/parameters/target_id'
+      - $ref: '#/components/parameters/psu_ip'
+      - $ref: '#/components/parameters/psu_user_agent'
     get:
+      summary: Get event notifications list
+      description: Get aggregated event-notification list.
+      operationId: getEventNotificationsByEventSubscriptionId
       tags:
         - event-notification-aggregated-polling
-      summary: Get an aggregated event-notification list
-      description: Get aggregated event-notification list.
-      operationId: getAggregatedEventNotificationList
-      parameters:
-        - $ref: '#/components/parameters/authorization'
-        - $ref: '#/components/parameters/client_id'
-        - $ref: '#/components/parameters/correlation'
-        - $ref: '#/components/parameters/agent'
-        - $ref: '#/components/parameters/target_id'
-        - $ref: '#/components/parameters/psu_ip'
-        - $ref: '#/components/parameters/psu_user_agent'
-        - $ref: '#/components/parameters/event_subscription_id'
-        - $ref: '#/components/parameters/cursor'
-        - $ref: '#/components/parameters/from_event_date'
-        - $ref: '#/components/parameters/limit'
       responses:
         '200':
           description: aggregated event-notification list.
           headers:
             X-Correlation-ID:
               $ref: '#/components/headers/X-Correlation-ID'
-            x-nextCursor:
+            X-nextCursor:
               $ref: '#/components/headers/X-Next-Cursor'
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AggregatedEventNotifications'
+                type: array
+                items:
+                  $ref: '#/components/schemas/EventNotification'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -1372,13 +1354,6 @@ components:
           description: The counterparty country. Corresponds to the attribute _Ctry_ in SPS/ISO-20022.
           maxLength: 2
           example: CH
-    AggregatedEventNotifications:
-      type: object
-      properties:
-        eventNotifications:
-          type: array
-          items:
-            $ref: '#/components/schemas/EventNotification'
     Amount:
       description: An amount. Corresponds to the attribute _Amt_ in SPS/ISO-20022.
       type: string
@@ -1477,9 +1452,6 @@ components:
         - /problems/TECHNICAL_ERROR
         - /problems/NOT_IMPLEMENTED
         - /problems/SERVICE_UNAVAILABLE
-        - /problems/SUBSCRIPTION_NOT_FOUND
-        - /problems/SUBSCRIPTION_ALREADY_EXISTS
-        - /problems/TOO_MANY_REQUESTS
       example: /problems/TECHNICAL_ERROR
     Currency:
       description: The ISO currency three-letter code. Corresponds to the attribute _Ccy_ in SPS/ISO-20022.
@@ -1507,62 +1479,65 @@ components:
       maxLength: 140
       example: Firmenkonto
     EventNotification:
+      description: Schema of an event notification entity.
       type: object
+      required:
+        - eventSubscriptionId
+        - eventType
+        - id
+        - resourceLink
       properties:
-        createdAt:
-          type: string
-          example: 2022-10-26T07:58:30.996+0100
         eventSubscriptionId:
-          $ref: '#/components/schemas/EventNotificationId'
-        eventType:
           type: string
-          example: accounts:listUpdated
+          description: Id of the subscription that caused the event to be triggered.
+          readOnly: true
+          maxLength: 36
+          example: 7c5f40fc-1b29-4263-a2dd-e127a22a947f
+        eventType:
+          $ref: '#/components/schemas/EventType'
         id:
-          $ref: '#/components/schemas/EventNotificationId'
+          type: string
+          description: Unique and unambiguous identification (i.e. UUID) of the event subscription.
+          example: 120066c9-58a1-432b-aa60-712fae7f143e
         resourceLink:
           type: string
-          example: /api/bankingservices/b-link/account-information-service/v7/accounts
+          description: |
+            The resourceLink is an absolute or relative URL reference to the specific resource or object that triggered the webhook event.
+            This link provides immediate access to the full details of the affected item in the source system.
+          example: /orders/e6751a48-0819-4482-98a4-760453ba770d
+        creationDateTime:
+          type: string
+          format: date-time
+          description: Timestamp of the creation of the event notification.
+          example: 2022-10-26T07:58:30.996+0100
         version:
           type: string
+          description: Version of the notification schema.
           example: '1.0'
-    EventNotificationDate:
-      type: string
-      format: date-time
-      example: 2022-10-26T07:58:30.996+0100
-    EventNotificationId:
-      type: string
-      example: 120066c9-58a1-432b-aa60-712fae7f143e
-    EventSubscriptionAccountAPI:
+    EventSubscription:
+      description: Schema of an event subscription entity.
       type: object
       required:
         - eventTypes
       properties:
         eventTypes:
           type: array
+          description: List of event types subject to subscription.
           items:
-            type: string
-            enum:
-              - accounts:listUpdated
-          example:
-            - accounts:listUpdated
-        callbackUrl:
+            $ref: '#/components/schemas/EventType'
+        id:
           type: string
-          example: https://ttp.com/API/notifications/account-information-service/
-          description: Not to be used in bLink.
-        eventSubscriptionId:
-          $ref: '#/components/schemas/EventSubscriptionId'
-    EventSubscriptionId:
+          description: Unique and unambiguous identification (i.e. UUID) of the event subscription.
+          readOnly: true
+          maxLength: 36
+          example: 7c5f40fc-1b29-4263-a2dd-e127a22a947f
+    EventType:
+      description: Event type the subscription should apply to AND reason why a notification is sent.
       type: string
-      maxLength: 36
-      example: 7c5f40fc-1b29-4263-a2dd-e127a22a947f
-      readOnly: true
-    EventSubscriptions:
-      type: object
-      properties:
-        eventSubscriptions:
-          type: array
-          items:
-            $ref: '#/components/schemas/EventSubscriptions'
+      enum:
+        - accounts:listUpdated
+        - consents:listUpdated
+      example: accounts:listUpdated
     IbanIdentification:
       description: The International Bank Account Number (IBAN), associated with the account.
       type: string
@@ -1678,7 +1653,16 @@ components:
         eventSubscriptionIds:
           type: array
           items:
-            $ref: '#/components/schemas/EventSubscriptionId'
+            $ref: '#/components/schemas/event_subscription_id'
+    event_subscription_id:
+      description: |
+        Unique identification as assigned by the API exposing party to uniquely identify the callback URL resource.
+      required: true
+      in: path
+      name: eventSubscriptionId
+      schema:
+        type: string
+        example: 7c5f40fc-1b29-4263-a2dd-e127a22a947
   responses:
     standard202:
       headers:
@@ -2035,11 +2019,11 @@ components:
         example: 7c5f40fc-1b29-4263-a2dd-e127a22a947
     from_event_date:
       in: query
-      name: from_event_date
-      description: Select all events from this notification date-time or later.
+      name: fromEventDateTime
       schema:
-        $ref: '#/components/schemas/EventNotificationDate'
-      example: 2022-10-26T07:58:30.996+0100
+        type: string
+        format: date-time
+      example: '2022-10-26T07:58:30.996+01:00'
     limit:
       in: query
       name: limit

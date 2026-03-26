@@ -4,14 +4,6 @@ info:
   title: event-notification webhook
   description: |
     This is the specification of the 'event-notification' webhook.
-
-    Disclaimer:
-    - This specification file is to be interpreted as pseudo-code.
-    - Once the structure and endpoints are agreed:
-    * all mandatory and optional headers will have to be added
-    * all error responses will have to be specified
-    * example requests and responses will need to be improved
-    * missing details in descriptions will have to be added
   contact:
     email: info@common-api.ch
   license:
@@ -31,19 +23,19 @@ security:
       - write
 paths:
   /event-notifications:
+    parameters:
+      - $ref: '#/components/parameters/client_id'
+      - $ref: '#/components/parameters/correlation'
+      - $ref: '#/components/parameters/agent'
+      - $ref: '#/components/parameters/target_id'
+      - $ref: '#/components/parameters/psu_ip'
+      - $ref: '#/components/parameters/psu_user_agent'
     post:
-      tags:
-        - event-notification-webhook
       summary: Push notification towards service users
       description: Push notifications for subscribed event notifications.
       operationId: postEventNotification
-      parameters:
-        - $ref: '#/components/parameters/correlation'
-        - $ref: '#/components/parameters/api_version'
-        - $ref: '#/components/parameters/event_type'
-        - $ref: '#/components/parameters/event_id'
-        - $ref: '#/components/parameters/event_created'
-        - $ref: '#/components/parameters/event_subscription_id'
+      tags:
+        - event-notification-webhook
       requestBody:
         content:
           application/json:
@@ -118,32 +110,50 @@ components:
         - /problems/TECHNICAL_ERROR
         - /problems/NOT_IMPLEMENTED
         - /problems/SERVICE_UNAVAILABLE
-        - /problems/SUBSCRIPTION_NOT_FOUND
-        - /problems/SUBSCRIPTION_ALREADY_EXISTS
-        - /problems/TOO_MANY_REQUESTS
       example: /problems/TECHNICAL_ERROR
     EventNotification:
+      description: Schema of an event notification entity.
       type: object
+      required:
+        - eventSubscriptionId
+        - eventType
+        - id
+        - resourceLink
       properties:
-        createdAt:
-          type: string
-          example: 2022-10-26T07:58:30.996+0100
         eventSubscriptionId:
-          $ref: '#/components/schemas/EventNotificationId'
-        eventType:
           type: string
-          example: accounts:listUpdated
+          description: Id of the subscription that caused the event to be triggered.
+          readOnly: true
+          maxLength: 36
+          example: 7c5f40fc-1b29-4263-a2dd-e127a22a947f
+        eventType:
+          $ref: '#/components/schemas/EventType'
         id:
-          $ref: '#/components/schemas/EventNotificationId'
+          type: string
+          description: Unique and unambiguous identification (i.e. UUID) of the event subscription.
+          example: 120066c9-58a1-432b-aa60-712fae7f143e
         resourceLink:
           type: string
-          example: /api/bankingservices/b-link/account-information-service/v7/accounts
+          description: |
+            The resourceLink is an absolute or relative URL reference to the specific resource or object that triggered the webhook event.
+            This link provides immediate access to the full details of the affected item in the source system.
+          example: /orders/e6751a48-0819-4482-98a4-760453ba770d
+        creationDateTime:
+          type: string
+          format: date-time
+          description: Timestamp of the creation of the event notification.
+          example: 2022-10-26T07:58:30.996+0100
         version:
           type: string
+          description: Version of the notification schema.
           example: '1.0'
-    EventNotificationId:
+    EventType:
+      description: Event type the subscription should apply to AND reason why a notification is sent.
       type: string
-      example: 120066c9-58a1-432b-aa60-712fae7f143e
+      enum:
+        - accounts:listUpdated
+        - consents:listUpdated
+      example: accounts:listUpdated
   responses:
     standard400:
       headers:
@@ -306,14 +316,20 @@ components:
             detail: the request could not be completed in time
             instance: path/to/corresponding/resource
   parameters:
-    api_version:
+    agent:
       in: header
-      name: X-CorApi-API-Version
-      description: The API Version.
-      required: false
+      name: User-Agent
+      description: Name and version of the of the Client software.
+      required: true
       schema:
         type: string
-      example: '1.0'
+    client_id:
+      in: header
+      name: X-CorAPI-Client-ID
+      description: 'ID of the client forwarded to the provider (SCOPE: FI).'
+      required: true
+      schema:
+        type: string
     correlation:
       in: header
       name: X-Correlation-ID
@@ -321,39 +337,27 @@ components:
       required: true
       schema:
         type: string
-    event_created:
+    psu_ip:
       in: header
-      name: X-CorAPI-Event-Created-At
-      description: The Event-Created Date
+      name: X-PSU-IP-Address
+      description: 'IP address of the user initiating the operation (SCOPE: FI - optional).'
       required: false
       schema:
         type: string
-        format: date-time
-      example: '2024-05-28T13:44:53Z'
-    event_id:
+    psu_user_agent:
       in: header
-      name: X-CorApi-Event-ID
-      description: The Event-ID
+      name: X-PSU-User-Agent
+      description: 'User of the client software (SCOPE: FI - optional).'
       required: false
       schema:
         type: string
-      example: 7c5f40fc-1b29-4263-a2dd-e127a22a947f
-    event_subscription_id:
+    target_id:
       in: header
-      name: X-CorApi-Event-Subscription-ID
-      description: The ID of the Subscription the event was created for
+      name: X-CorAPI-Target-ID
+      description: 'ID of the target, e.g., a financial institution (SCOPE: FI - optional).'
       required: false
       schema:
         type: string
-      example: 7c5f40fc-1b29-4263-a2dd-e127a22a947f
-    event_type:
-      in: header
-      name: X-CorApi-Event-Type
-      description: The Event-Type
-      required: false
-      schema:
-        type: string
-      example: accounts:listUpdated
   headers:
     Content-Language:
       description: Response language - always en.
