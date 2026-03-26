@@ -4,7 +4,7 @@ headers:
   X-Correlation-ID:
     $ref: ../headers/X-Correlation-ID.yaml
 description: |
-  there was a conflict when creating the subscription. e.g., it already exists for the same api and version.
+  Conflict - The request conflicts with the current state of the target resource.
 content:
   application/problem+json:
     schema:
