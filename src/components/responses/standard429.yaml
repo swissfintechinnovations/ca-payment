@@ -3,16 +3,8 @@ headers:
     $ref: ../headers/Content-Language.yaml
   X-Correlation-ID:
     $ref: ../headers/X-Correlation-ID.yaml
-description: |
-  When an SU sends too many lookup or polling requests in a given amount of time the SP shall respond with HTTP 429 (Too many requests).
-  This response may contain a Retry-After header indicating how long the SU must wait before making a new request.
-  (see https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429).
+description: Too many requests - The user has sent too many requests in a given amount of time.
 content:
   application/problem+json:
     schema:
       $ref: ../schemas/CommonErrorResponse.yaml
-    example:
-      type: /problems/TOO_MANY_REQUESTS
-      title: too many requests
-      detail: too many requests were sent in a short period of time
-      instance: path/to/corresponding/resource
