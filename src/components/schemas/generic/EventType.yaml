@@ -2,4 +2,5 @@ description: Event type the subscription should apply to AND reason why a notifi
 type: string
 enum:
   - accounts:listUpdated
+  - consents:listUpdated
 example: accounts:listUpdated
