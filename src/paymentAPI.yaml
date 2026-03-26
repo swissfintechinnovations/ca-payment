@@ -1114,7 +1114,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: ./components/schemas/SubscriptionSearchResponse.yaml
+                $ref: ./components/schemas/generic/SubscriptionSearchResponse.yaml
         '400':
           $ref: ./components/responses/standard400.yaml
         '401':
