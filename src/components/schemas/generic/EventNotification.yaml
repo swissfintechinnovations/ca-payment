@@ -15,7 +15,7 @@ properties:
     description: Version of the notification schema.
     example: '1.0'
   eventType:
-    $ref: '#/components/schemas/EventType'
+    $ref: ./EventType.yaml
   eventSubscriptionId:
     type: string
     description: Id of the subscription that caused the event to be triggered.
