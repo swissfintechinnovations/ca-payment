@@ -4,14 +4,6 @@ info:
   title: event-notification webhook
   description: |
     This is the specification of the 'event-notification' webhook.
-
-    Disclaimer:
-    - This specification file is to be interpreted as pseudo-code.
-    - Once the structure and endpoints are agreed:
-    * all mandatory and optional headers will have to be added
-    * all error responses will have to be specified
-    * example requests and responses will need to be improved
-    * missing details in descriptions will have to be added
   contact:
     email: info@common-api.ch
   license:
@@ -31,30 +23,31 @@ security:
       - write
 paths:
   /event-notifications:
+    parameters:
+      # bLink specific headers
+      - $ref: '#/components/parameters/correlation_in_header'
+      - $ref: '#/components/parameters/agent_in_header'
+      - $ref: '#/components/parameters/clientid_in_header' 
+      - $ref: '#/components/parameters/optional_targetid_in_header' 
+      - $ref: '#/components/parameters/optional_psu_ip_in_header' 
+      - $ref: '#/components/parameters/optional_psu_user_agent_in_header' 
     post:
-      tags:
-        - event-notification-webhook
       summary: Push notification towards service users
       description: Push notifications for subscribed event notifications.
       operationId: postEventNotification
-      parameters:
-        - $ref: ./components/parameters/header/correlation.yaml
-        - $ref: ./components/parameters/header/api_version.yaml
-        - $ref: ./components/parameters/header/event_type.yaml
-        - $ref: ./components/parameters/header/event_id.yaml
-        - $ref: ./components/parameters/header/event_created.yaml
-        - $ref: ./components/parameters/header/event_subscription_id.yaml
+      tags:
+        - event-notification-webhook
       requestBody:
         content:
           application/json:
             schema:
-              $ref: ./components/schemas/generic/EventNotification.yaml
+              $ref: '#/components/schemas/EventNotification'
       responses:
         '202':
           description: Notification accepted.
           headers:
             X-Correlation-ID:
-              $ref: ./components/headers/X-Correlation-ID.yaml
+              $ref: '#/components/headers/X-Correlation-ID'
         '400':
           $ref: ./components/responses/standard400.yaml
         '404':
