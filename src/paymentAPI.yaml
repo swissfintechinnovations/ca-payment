@@ -1090,7 +1090,7 @@ paths:
     parameters:
       - $ref: ./components/parameters/query/cursor.yaml
       - $ref: ./components/parameters/query/limit.yaml
-      - $ref: ./components/parameters/from_event_date.yaml
+      - $ref: ./components/parameters/query/from_event_date.yaml
       - $ref: ./components/parameters/client_id.yaml
       - $ref: ./components/parameters/correlation_id.yaml
       - $ref: ./components/parameters/agent.yaml
@@ -1136,7 +1136,7 @@ paths:
   /event-subscriptions/{eventSubscriptionId}/event-notifications:
     parameters:
       - $ref: ./components/parameters/path/event_subscription_id.yaml
-      - $ref: ./components/parameters/from_event_date.yaml
+      - $ref: ./components/parameters/query/from_event_date.yaml
       - $ref: ./components/parameters/query/cursor.yaml
       - $ref: ./components/parameters/query/limit.yaml
       - $ref: ./components/parameters/client_id.yaml
