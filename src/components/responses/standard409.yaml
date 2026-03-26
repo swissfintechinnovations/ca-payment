@@ -9,8 +9,3 @@ content:
   application/problem+json:
     schema:
       $ref: ../schemas/CommonErrorResponse.yaml
-    example:
-      type: /problems/SUBSCRIPTION_ALREADY_EXISTS
-      title: resource not found
-      detail: A subscription for the requested api and version already exists and cannot be created again
-      instance: path/to/corresponding/resource
