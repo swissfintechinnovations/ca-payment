@@ -730,7 +730,7 @@ paths:
       - $ref: ./components/parameters/query/limit.yaml
       - $ref: ./components/parameters/query/from_event_date.yaml
       - $ref: ./components/parameters/header/client_id.yaml
-      - $ref: ./components/parameters/header/correlation_id.yaml
+      - $ref: ./components/parameters/header/correlation.yaml
       - $ref: ./components/parameters/header/agent.yaml
       - $ref: ./components/parameters/header/target_id.yaml
       - $ref: ./components/parameters/header/psu_ip.yaml 
@@ -774,11 +774,11 @@ paths:
   /event-subscriptions/{eventSubscriptionId}/event-notifications:
     parameters:
       - $ref: ./components/parameters/path/event_subscription_id.yaml
-      - $ref: ./components/parameters/from_event_date.yaml
+      - $ref: ./components/parameters/query/from_event_date.yaml
       - $ref: ./components/parameters/query/cursor.yaml
       - $ref: ./components/parameters/query/limit.yaml
       - $ref: ./components/parameters/header/client_id.yaml
-      - $ref: ./components/parameters/header/correlation_id.yaml
+      - $ref: ./components/parameters/header/correlation.yaml
       - $ref: ./components/parameters/header/agent.yaml
       - $ref: ./components/parameters/header/target_id.yaml
       - $ref: ./components/parameters/header/psu_ip.yaml 
@@ -802,7 +802,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: ./components/schemas/EventNotification.yaml
+                  $ref: ./components/schemas/generic/EventNotification.yaml
         '400':
           $ref: ./components/responses/standard400.yaml
         '401':
