@@ -614,14 +614,14 @@ paths:
           $ref: ./components/responses/standard504.yaml
   /event-subscriptions/{eventSubscriptionId}:
     parameters:
-        - $ref: ./components/parameters/path/event_subscription_id.yaml
-        - $ref: ./components/parameters/header/authorization.yaml
-        - $ref: ./components/parameters/header/client_id.yaml
-        - $ref: ./components/parameters/header/correlation.yaml
-        - $ref: ./components/parameters/header/agent.yaml
-        - $ref: ./components/parameters/header/target_id.yaml
-        - $ref: ./components/parameters/header/psu_ip.yaml
-        - $ref: ./components/parameters/header/psu_user_agent.yaml
+      - $ref: ./components/parameters/path/event_subscription_id.yaml
+      - $ref: ./components/parameters/header/authorization.yaml
+      - $ref: ./components/parameters/header/client_id.yaml
+      - $ref: ./components/parameters/header/correlation.yaml
+      - $ref: ./components/parameters/header/agent.yaml
+      - $ref: ./components/parameters/header/target_id.yaml
+      - $ref: ./components/parameters/header/psu_ip.yaml
+      - $ref: ./components/parameters/header/psu_user_agent.yaml
     get:
       summary: Get event subscription
       description: Get event subscription by id.
