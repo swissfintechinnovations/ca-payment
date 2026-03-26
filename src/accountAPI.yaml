@@ -820,7 +820,7 @@ paths:
         '503':
           $ref: ./components/responses/standard503.yaml
         '504':
-          $ref: ./components/responses/standard504.yaml'
+          $ref: ./components/responses/standard504.yaml
 components:
   securitySchemes:
     OAuth2:
