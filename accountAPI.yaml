@@ -2006,7 +2006,7 @@ components:
         example: 7c5f40fc-1b29-4263-a2dd-e127a22a947
     from_event_date:
       in: query
-      name: fromEventDateTime
+      name: from_event_date_time
       schema:
         type: string
         format: date-time
