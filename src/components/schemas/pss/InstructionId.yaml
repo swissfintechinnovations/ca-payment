@@ -1,4 +1,4 @@
-description: ID of the C-Level from the original payment instruction. Corresponds to the attribute _InstrId_ in SPS/ISO-20022.
+description: The unique identifier of the instruction item. Corresponds to the attribute _InstrId_ in SPS/ISO-20022.
 type: string
 maxLength: 35
 example: INSTR-001
