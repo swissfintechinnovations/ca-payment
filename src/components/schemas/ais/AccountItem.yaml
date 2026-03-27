@@ -53,7 +53,9 @@ properties:
       - VACC
   currency:
     $ref: ../generic/Currency.yaml
-    description: The ISO currency three-letter code denominated and set for the account at the time it is opened.
+    description: |
+      The ISO currency three-letter code denominated and set for the account at the time it is opened.
+      The attribute currency can be omitted only for multicurrency accounts.
   designation:
     $ref: ./Designation.yaml
   id:
