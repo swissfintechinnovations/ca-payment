@@ -19,7 +19,7 @@ properties:
     description: The identifier of the third party provider (TPP) who created the payment instruction message derived from the OAuth 2.0 flow.
     $ref: ./InitiatingPartyId.yaml
   messageId:
-    description: The unique identifier (UUID) of the the payment instruction message.
+    description: The unique identifier of the the payment instruction message.
     $ref: ./MessageId.yaml
   requestedExecutionDate:
     description: |
