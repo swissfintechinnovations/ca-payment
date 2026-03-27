@@ -82,8 +82,12 @@ paths:
           $ref: ./components/responses/standard500.yaml
         '501':
           $ref: ./components/responses/standard501.yaml
+        '502':
+          $ref: ./components/responses/standard502.yaml
         '503':
           $ref: ./components/responses/standard503.yaml
+        '504':
+          $ref: ./components/responses/standard504.yaml
   /accounts/{accountId}:
     get:
       tags:
@@ -124,8 +128,12 @@ paths:
           $ref: ./components/responses/standard500.yaml
         '501':
           $ref: ./components/responses/standard501.yaml
+        '502':
+          $ref: ./components/responses/standard502.yaml
         '503':
           $ref: ./components/responses/standard503.yaml
+        '504':
+          $ref: ./components/responses/standard504.yaml
   /accounts/{accountId}/balance:
     get:
       tags:
@@ -179,8 +187,12 @@ paths:
           $ref: ./components/responses/standard500.yaml
         '501':
           $ref: ./components/responses/standard501.yaml
+        '502':
+          $ref: ./components/responses/standard502.yaml
         '503':
           $ref: ./components/responses/standard503.yaml
+        '504':
+          $ref: ./components/responses/standard504.yaml
   /accounts/{accountId}/transactions:
     get:
       tags:
@@ -256,8 +268,12 @@ paths:
           $ref: ./components/responses/standard500.yaml
         '501':
           $ref: ./components/responses/standard501.yaml
+        '502':
+          $ref: ./components/responses/standard502.yaml
         '503':
           $ref: ./components/responses/standard503.yaml
+        '504':
+          $ref: ./components/responses/standard504.yaml
   /accounts/{accountId}/transactions/{entryId}:
     get:
       tags:
@@ -302,8 +318,12 @@ paths:
           $ref: ./components/responses/standard500.yaml
         '501':
           $ref: ./components/responses/standard501.yaml
+        '502':
+          $ref: ./components/responses/standard502.yaml
         '503':
           $ref: ./components/responses/standard503.yaml
+        '504':
+          $ref: ./components/responses/standard504.yaml
   /iso20022/statements:
     get:
       tags:
@@ -364,8 +384,12 @@ paths:
           $ref: ./components/responses/standard500.yaml
         '501':
           $ref: ./components/responses/standard501.yaml
+        '502':
+          $ref: ./components/responses/standard502.yaml
         '503':
           $ref: ./components/responses/standard503.yaml
+        '504':
+          $ref: ./components/responses/standard504.yaml
   /iso20022/statements/{reportId}:
     get:
       tags:
@@ -407,8 +431,12 @@ paths:
           $ref: ./components/responses/standard500.yaml
         '501':
           $ref: ./components/responses/standard501.yaml
+        '502':
+          $ref: ./components/responses/standard502.yaml
         '503':
           $ref: ./components/responses/standard503.yaml
+        '504':
+          $ref: ./components/responses/standard504.yaml
   /iso20022/reports:
     get:
       tags:
@@ -467,8 +495,12 @@ paths:
           $ref: ./components/responses/standard500.yaml
         '501':
           $ref: ./components/responses/standard501.yaml
+        '502':
+          $ref: ./components/responses/standard502.yaml
         '503':
           $ref: ./components/responses/standard503.yaml
+        '504':
+          $ref: ./components/responses/standard504.yaml
   /iso20022/reports/{reportId}:
     get:
       tags:
@@ -510,8 +542,12 @@ paths:
           $ref: ./components/responses/standard500.yaml
         '501':
           $ref: ./components/responses/standard501.yaml
+        '502':
+          $ref: ./components/responses/standard502.yaml
         '503':
           $ref: ./components/responses/standard503.yaml
+        '504':
+          $ref: ./components/responses/standard504.yaml
 components:
   securitySchemes:
     OAuth2:
