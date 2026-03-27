@@ -1,4 +1,4 @@
-description: Client defined ID from request to correlates HTTP requests between a client and server.
+description: Service User defined ID from request to correlate HTTP requests between a Service User and a Service Provider.
 schema:
   type: string
   pattern: ^[A-Za-z0-9\-._#{}]{5,64}$
