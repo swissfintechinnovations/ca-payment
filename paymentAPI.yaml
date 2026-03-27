@@ -2445,6 +2445,8 @@ components:
     from_event_date:
       in: query
       name: from_event_date_time
+      description: |
+        Returns only events from this timestamp onwards.
       schema:
         type: string
         format: date-time
