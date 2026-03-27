@@ -4,3 +4,5 @@ description: Unique ID (defined by the caller) which will be reflected back in t
 required: true
 schema:
   type: string
+  pattern: ^[A-Za-z0-9\-._#{}]{5,64}$
+  maxLength: 64
