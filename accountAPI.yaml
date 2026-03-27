@@ -13,7 +13,7 @@ info:
     name: Apache 2.0
     url: https://www.apache.org/licenses/LICENSE-2.0.html
 servers:
-  - url: account.common-api.ch/api/v5
+  - url: account.common-api.ch/api/v6
 externalDocs:
   description: Find out more about SFTI API specifications.
   url: https://www.common-api.ch
@@ -82,8 +82,12 @@ paths:
           $ref: '#/components/responses/standard500'
         '501':
           $ref: '#/components/responses/standard501'
+        '502':
+          $ref: '#/components/responses/standard502'
         '503':
           $ref: '#/components/responses/standard503'
+        '504':
+          $ref: '#/components/responses/standard504'
   /accounts/{accountId}:
     get:
       tags:
@@ -124,8 +128,12 @@ paths:
           $ref: '#/components/responses/standard500'
         '501':
           $ref: '#/components/responses/standard501'
+        '502':
+          $ref: '#/components/responses/standard502'
         '503':
           $ref: '#/components/responses/standard503'
+        '504':
+          $ref: '#/components/responses/standard504'
   /accounts/{accountId}/balance:
     get:
       tags:
@@ -179,8 +187,12 @@ paths:
           $ref: '#/components/responses/standard500'
         '501':
           $ref: '#/components/responses/standard501'
+        '502':
+          $ref: '#/components/responses/standard502'
         '503':
           $ref: '#/components/responses/standard503'
+        '504':
+          $ref: '#/components/responses/standard504'
   /accounts/{accountId}/transactions:
     get:
       tags:
@@ -198,10 +210,10 @@ paths:
 
         If no transactions match the requested date range or intraday window, return an empty list: {"entries": []}.
 
-        Results are sorted by bookingDate in descending order. Additional sorting logic is provider-specific but all providers must ensure
-        stable and consistent pagination behavior. If pagination is required, the server includes an opaque cursor in the `X-Next-Cursor`
+        Results are sorted by bookingDate in descending order. Additional sorting logic is provider-specific but all Service Providers must ensure
+        stable and consistent pagination behavior. If pagination is required, the Service Provider includes an opaque cursor in the `X-Next-Cursor`
         header. This cursor identifies a specific position in the sorted result set and is internally derived from the sorting criteria.
-        Clients must pass this value unchanged in the `cursor` parameter of the next request to retrieve subsequent pages.
+        Service Users must pass this value unchanged in the `cursor` parameter of the next request to retrieve subsequent pages.
 
         Transaction details are optional in the schema, but all available information must be included if present for a given transaction.
       operationId: listAccountTransactions
@@ -256,8 +268,12 @@ paths:
           $ref: '#/components/responses/standard500'
         '501':
           $ref: '#/components/responses/standard501'
+        '502':
+          $ref: '#/components/responses/standard502'
         '503':
           $ref: '#/components/responses/standard503'
+        '504':
+          $ref: '#/components/responses/standard504'
   /accounts/{accountId}/transactions/{entryId}:
     get:
       tags:
@@ -302,8 +318,12 @@ paths:
           $ref: '#/components/responses/standard500'
         '501':
           $ref: '#/components/responses/standard501'
+        '502':
+          $ref: '#/components/responses/standard502'
         '503':
           $ref: '#/components/responses/standard503'
+        '504':
+          $ref: '#/components/responses/standard504'
   /iso20022/statements:
     get:
       tags:
@@ -364,8 +384,12 @@ paths:
           $ref: '#/components/responses/standard500'
         '501':
           $ref: '#/components/responses/standard501'
+        '502':
+          $ref: '#/components/responses/standard502'
         '503':
           $ref: '#/components/responses/standard503'
+        '504':
+          $ref: '#/components/responses/standard504'
   /iso20022/statements/{reportId}:
     get:
       tags:
@@ -407,8 +431,12 @@ paths:
           $ref: '#/components/responses/standard500'
         '501':
           $ref: '#/components/responses/standard501'
+        '502':
+          $ref: '#/components/responses/standard502'
         '503':
           $ref: '#/components/responses/standard503'
+        '504':
+          $ref: '#/components/responses/standard504'
   /iso20022/reports:
     get:
       tags:
@@ -467,8 +495,12 @@ paths:
           $ref: '#/components/responses/standard500'
         '501':
           $ref: '#/components/responses/standard501'
+        '502':
+          $ref: '#/components/responses/standard502'
         '503':
           $ref: '#/components/responses/standard503'
+        '504':
+          $ref: '#/components/responses/standard504'
   /iso20022/reports/{reportId}:
     get:
       tags:
@@ -510,8 +542,12 @@ paths:
           $ref: '#/components/responses/standard500'
         '501':
           $ref: '#/components/responses/standard501'
+        '502':
+          $ref: '#/components/responses/standard502'
         '503':
           $ref: '#/components/responses/standard503'
+        '504':
+          $ref: '#/components/responses/standard504'
 components:
   schemas:
     AccountBalanceItem:
@@ -623,7 +659,9 @@ components:
               example: /accounts/550e8400-e29b-11d4-a716-446655440000/transactions
         currency:
           $ref: '#/components/schemas/Currency'
-          description: The ISO currency three-letter code denominated and set for the account at the time it is opened.
+          description: |
+            The ISO currency three-letter code denominated and set for the account at the time it is opened.
+            The attribute currency can be omitted only for multicurrency accounts.
     AccountOwnerName:
       description: Name of the account holder. Corresponds to the attribute _Acct ⇾ Ownr ⇾ Nm_ in SPS/ISO-20022.
       type: string
@@ -1314,7 +1352,7 @@ components:
         - InvalidParameter:
         type: /problems/INVALID_PAYLOAD
         title: Invalid parameter values have been detected
-        detail: Sent data could not processed
+        detail: Sent data could not be processed
         instance: path/to/corresponding/resource
 
         - MissingId:
@@ -1332,7 +1370,21 @@ components:
           $ref: '#/components/headers/Content-Language'
         X-Correlation-ID:
           $ref: '#/components/headers/X-Correlation-ID'
-      description: Unauthorized - The request has not been applied because it provides no valid authentication credentials for the target resource.
+      description: |
+        Unauthorized - The request has not been applied because it provides no valid authentication credentials for the target resource.
+
+        Examples:
+        - InvalidToken:
+        type: /problems/INSUFFICIENT_PRIVILEGES
+        title: Insufficient privileges to access resource
+        detail: The provided token is not valid
+        instance: path/to/corresponding/resource
+
+        - ExpiredToken:
+        type: /problems/EXPIRED_TOKEN
+        title: The OAuth Token is expired
+        detail: The token is no longer valid
+        instance: path/to/corresponding/resource
       content:
         application/problem+json:
           schema:
@@ -1352,12 +1404,6 @@ components:
         type: /problems/INSUFFICIENT_PRIVILEGES
         title: No privileges for the requested operation
         detail: Insufficient privileges for the requested operation
-        instance: path/to/corresponding/resource
-
-        - ExpiredToken:
-        type: /problems/EXPIRED_TOKEN
-        title: The OAuth Token is expired
-        detail: The token is no longer valid
         instance: path/to/corresponding/resource
 
         - NoFutureDateSupported:
@@ -1384,12 +1430,6 @@ components:
         type: /problems/INSUFFICIENT_PRIVILEGES
         title: Insufficient privileges to access resource
         detail: The provided token does not grant access to the requested account
-        instance: path/to/corresponding/resource
-
-        - InvalidToken:
-        type: /problems/INSUFFICIENT_PRIVILEGES
-        title: Insufficient privileges to access resource
-        detail: The provided token is not valid
         instance: path/to/corresponding/resource
 
         - WrongEndpointUrl:
@@ -1471,6 +1511,17 @@ components:
         application/problem+json:
           schema:
             $ref: '#/components/schemas/CommonErrorResponse'
+    standard502:
+      headers:
+        Content-Language:
+          $ref: '#/components/headers/Content-Language'
+        X-Correlation-ID:
+          $ref: '#/components/headers/X-Correlation-ID'
+      description: Bad Gateway - The server received an invalid response from the upstream server.
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/CommonErrorResponse'
     standard503:
       headers:
         Content-Language:
@@ -1478,6 +1529,17 @@ components:
         X-Correlation-ID:
           $ref: '#/components/headers/X-Correlation-ID'
       description: Service Unavailable - The server is currently unable to handle the request due to a temporary overload or scheduled maintenance.
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/CommonErrorResponse'
+    standard504:
+      headers:
+        Content-Language:
+          $ref: '#/components/headers/Content-Language'
+        X-Correlation-ID:
+          $ref: '#/components/headers/X-Correlation-ID'
+      description: Gateway Timeout - The server did not get a response in time that it needed in order to complete the request.
       content:
         application/problem+json:
           schema:
@@ -1496,7 +1558,7 @@ components:
     agent:
       in: header
       name: User-Agent
-      description: Name and version of the of the Client software.
+      description: Name and version of the of the Service User software.
       required: true
       schema:
         type: string
@@ -1510,7 +1572,7 @@ components:
     client_id:
       in: header
       name: X-CorAPI-Client-ID
-      description: 'ID of the client forwarded to the provider (SCOPE: FI).'
+      description: ID of the Service User forwarded to the Service Provider.
       required: true
       schema:
         type: string
@@ -1521,10 +1583,14 @@ components:
       required: true
       schema:
         type: string
+        maxLength: 64
+        pattern: ^[A-Za-z0-9\-._#{}]{5,64}$
     cursor:
       in: query
       name: cursor
-      description: Optional parameter for pagination. Use the ID of the last item from the previous response to retrieve the next set of results.
+      description: |
+        An opaque string value used for pagination. Use the value returned in the X-Next-Cursor response header of the previous request to retrieve the next page of results.
+        The cursor is server-defined and must not be interpreted, modified or constructed by Service Users.
       required: false
       schema:
         type: string
@@ -1532,7 +1598,8 @@ components:
     date:
       in: query
       name: date
-      description: 'The date to query, formatted as yyyy-mm-dd. Default value: current date.'
+      description: |
+        The date to query, formatted as yyyy-mm-dd. Default value: current date.
       schema:
         $ref: '#/components/schemas/Date'
     date_from:
@@ -1586,15 +1653,15 @@ components:
     psu_ip:
       in: header
       name: X-PSU-IP-Address
-      description: 'IP address of the user initiating the operation (SCOPE: FI - optional).'
-      required: false
+      description: IP address of the user initiating the operation or AUTO for system triggered processes.
+      required: true
       schema:
         type: string
     psu_user_agent:
       in: header
       name: X-PSU-User-Agent
-      description: 'User of the client software (SCOPE: FI - optional).'
-      required: false
+      description: User agent of the user initiating the operation or AUTO for system triggered processes.
+      required: true
       schema:
         type: string
     report_id:
@@ -1608,7 +1675,7 @@ components:
     target_id:
       in: header
       name: X-CorAPI-Target-ID
-      description: 'ID of the target, e.g., a financial institution (SCOPE: FI - optional).'
+      description: ID that identifies the Service Provider.
       required: false
       schema:
         type: string
@@ -1618,9 +1685,11 @@ components:
       schema:
         type: string
     X-Correlation-ID:
-      description: Client defined ID from request to correlates HTTP requests between a client and server.
+      description: Service User defined ID from request to correlate HTTP requests between a Service User and a Service Provider.
       schema:
         type: string
+        maxLength: 64
+        pattern: ^[A-Za-z0-9\-._#{}]{5,64}$
         example: f058ebd6-02f7-4d3f-942e-904344e8cde5
     X-Next-Cursor:
       description: |
