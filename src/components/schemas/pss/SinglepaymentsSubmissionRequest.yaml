@@ -21,7 +21,7 @@ properties:
     description: The identifier of the third party provider (TPP) who created the payment instruction message derived from the OAuth 2.0 flow.
     $ref: ./InitiatingPartyId.yaml
   messageId:
-    description: The unique identifier (UUID) of the the single payment instruction message.
+    description: The unique identifier of the the single payment instruction message.
     $ref: ./MessageId.yaml
   requestedExecutionDate:
     description: |
@@ -36,7 +36,7 @@ properties:
     description: The instructed amount of the single payment. Corresponds to the attribute _InstdAmt_ in SPS/ISO-20022.
     $ref: ./PaymentCurrencyAmount.yaml
   instructionId:
-    description: The unique identifier (UUID) of the single payment instruction item.
+    description: The unique identifier of the single payment instruction item.
     $ref: ./InstructionId.yaml
   ibanDetails:
     description: The IBAN details of the single payment instruction item.
