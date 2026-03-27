@@ -947,6 +947,68 @@ paths:
           $ref: ./components/responses/standard503.yaml
         '504':
           $ref: ./components/responses/standard504.yaml
+  /consents:
+    get:
+      tags:
+        - consents
+      summary: Get a list of all accounts
+      description: |
+        Get a list of all accounts for the authenticated context. The response contains an `accounts` array;
+        if no accounts are available, the array is empty (for example: `{"accounts": []}`).
+        
+        Pagination is controlled via the `cursor` and `limit` query parameters.
+        If more accounts are available, the `X-Next-Cursor` response header provides the cursor value for the next page.
+      operationId: listAccounts
+      parameters:
+        - $ref: ./components/parameters/query/cursor.yaml
+        - $ref: ./components/parameters/query/limit.yaml
+        - $ref: ./components/parameters/header/authorization.yaml
+        - $ref: ./components/parameters/header/client_id.yaml
+        - $ref: ./components/parameters/header/correlation.yaml
+        - $ref: ./components/parameters/header/agent.yaml
+        - $ref: ./components/parameters/header/target_id.yaml
+        - $ref: ./components/parameters/header/psu_ip.yaml
+        - $ref: ./components/parameters/header/psu_user_agent.yaml
+        - $ref: ./components/parameters/header/psu_accept_lang.yaml
+      responses:
+        '200':
+          description: Paginated list of all accounts.
+          headers:
+            X-Correlation-ID:
+              $ref: ./components/headers/X-Correlation-ID.yaml
+            X-Next-Cursor:
+              $ref: ./components/headers/X-Next-Cursor.yaml
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - accounts
+                properties:
+                  accounts:
+                    type: array
+                    items:
+                      $ref: ./components/schemas/pss/ConsentAccountItem.yaml
+        '400':
+          $ref: ./components/responses/standard400.yaml
+        '401':
+          $ref: ./components/responses/standard401.yaml
+        '403':
+          $ref: ./components/responses/standard403.yaml
+        '404':
+          $ref: ./components/responses/standard404.yaml
+        '405':
+          $ref: ./components/responses/standard405.yaml
+        '500':
+          $ref: ./components/responses/standard500.yaml
+        '501':
+          $ref: ./components/responses/standard501.yaml
+        '502':
+          $ref: ./components/responses/standard502.yaml
+        '503':
+          $ref: ./components/responses/standard503.yaml
+        '504':
+          $ref: ./components/responses/standard504.yaml
 components:
   securitySchemes:
     OAuth2:
