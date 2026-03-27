@@ -6,7 +6,7 @@ required:
   - statusCode
 properties:
   instructionId:
-    description: The unique identifier (UUID) of the payment instruction item.
+    description: The unique identifier of the payment instruction item.
     $ref: ./InstructionId.yaml
   statusCode:
     type: string
