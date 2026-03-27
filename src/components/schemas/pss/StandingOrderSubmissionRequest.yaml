@@ -27,10 +27,10 @@ properties:
     description: The instructed amount of the standing order. Corresponds to the attribute _InstdAmt_ in SPS/ISO-20022.
     $ref: ./PaymentCurrencyAmount.yaml
   instructionId:
-    description: The unique identifier (UUID) of the standing order instruction item.
+    description: The unique identifier of the standing order instruction item.
     $ref: ./InstructionId.yaml
   messageId:
-    description: The unique identifier (UUID) of the the standing order instruction message.
+    description: The unique identifier of the the standing order instruction message.
     $ref: ./MessageId.yaml
   startDate:
     description: The start date of the standing order instruction item.
