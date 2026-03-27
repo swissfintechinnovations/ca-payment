@@ -32,6 +32,8 @@ tags:
     description: |
       Third party payment service considering pain.001 and pain.002 operations (XML). PUT operation can be used for both payment submission
       and payment initiation (PSS/pss), depending on security implementation.
+  - name: consents
+    description: Consent operations for a given user.
 security:
   - OAuth2:
       - read
