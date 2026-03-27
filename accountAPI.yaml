@@ -1589,8 +1589,8 @@ components:
       in: query
       name: cursor
       description: |
-        An opaque string value used for pagination. Use the value returned in the X-Next-Cursor response header of the previous request to retrieve the next page of results.
-        The cursor is server-defined and must not be interpreted, modified or constructed by Service Users.
+        An opaque string value used for pagination. Use the value returned in the X-Next-Cursor response header of the previous request to retrieve the
+        next page of results. The cursor is server-defined and must not be interpreted, modified or constructed by Service Users.
       required: false
       schema:
         type: string
