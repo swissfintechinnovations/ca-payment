@@ -1531,6 +1531,12 @@ components:
           readOnly: true
           maxLength: 36
           example: 7c5f40fc-1b29-4263-a2dd-e127a22a947f
+    EventSubscriptionId:
+      description: Unique identification as assigned by the API exposing party to uniquely identify the callback URL resource.
+      type: string
+      minLength: 1
+      maxLength: 36
+      example: 3v3n7subscr1p70n
     EventType:
       description: Event type the subscription should apply to AND reason why a notification is sent.
       type: string
@@ -1653,16 +1659,7 @@ components:
         eventSubscriptionIds:
           type: array
           items:
-            $ref: '#/components/schemas/event_subscription_id'
-    event_subscription_id:
-      description: |
-        Unique identification as assigned by the API exposing party to uniquely identify the callback URL resource.
-      required: true
-      in: path
-      name: eventSubscriptionId
-      schema:
-        type: string
-        example: 7c5f40fc-1b29-4263-a2dd-e127a22a947
+            $ref: '#/components/schemas/EventSubscriptionId'
   responses:
     standard202:
       headers:

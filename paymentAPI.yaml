@@ -1377,6 +1377,12 @@ components:
           readOnly: true
           maxLength: 36
           example: 7c5f40fc-1b29-4263-a2dd-e127a22a947f
+    EventSubscriptionId:
+      description: Unique identification as assigned by the API exposing party to uniquely identify the callback URL resource.
+      type: string
+      minLength: 1
+      maxLength: 36
+      example: 3v3n7subscr1p70n
     EventType:
       description: Event type the subscription should apply to AND reason why a notification is sent.
       type: string
@@ -2137,7 +2143,7 @@ components:
         eventSubscriptionIds:
           type: array
           items:
-            $ref: '#/components/schemas/event_subscription_id'
+            $ref: '#/components/schemas/EventSubscriptionId'
     Uetr:
       description: |
         Globally unique reference Reference assigned by the debtor (optional) or by the debtor agent. Corresponds to the attribute _CdtTrfTxInf ⇾
@@ -2145,15 +2151,6 @@ components:
       type: string
       pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$
       example: fdc01a3e-4567-4abc-8def-1234567890ab
-    event_subscription_id:
-      description: |
-        Unique identification as assigned by the API exposing party to uniquely identify the callback URL resource.
-      required: true
-      in: path
-      name: eventSubscriptionId
-      schema:
-        type: string
-        example: 7c5f40fc-1b29-4263-a2dd-e127a22a947
   responses:
     standard400:
       headers:
