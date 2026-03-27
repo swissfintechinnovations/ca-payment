@@ -17,7 +17,7 @@ properties:
       - PART
     example: PART
   messageId:
-    description: The unique identifier (UUID) of the the standing order instruction message.
+    description: The unique identifier of the the standing order instruction message.
     $ref: ./MessageId.yaml
   transactions:
     type: array
