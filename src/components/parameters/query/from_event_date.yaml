@@ -3,4 +3,6 @@ in: query
 schema:
   type: string
   format: date-time
+description: |
+    Returns only events from this timestamp onwards.
 example: '2022-10-26T07:58:30.996+01:00'
