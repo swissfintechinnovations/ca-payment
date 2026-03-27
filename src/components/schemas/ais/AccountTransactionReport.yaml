@@ -7,7 +7,7 @@ required:
   - iban
 properties:
   designation:
-    $ref: ./Designation.yaml
+    $ref: ../generic/Designation.yaml
   entries:
     type: array
     description: |
