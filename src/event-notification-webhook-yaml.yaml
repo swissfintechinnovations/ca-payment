@@ -61,3 +61,14 @@ paths:
           $ref: ./components/responses/standard503.yaml
         '504':
           $ref: ./components/responses/standard504.yaml
+components:
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://example.com/oauth/authorize
+          tokenUrl: https://example.com/oauth/token
+          scopes:
+            read: Grants read access
+            write: Grants write access
