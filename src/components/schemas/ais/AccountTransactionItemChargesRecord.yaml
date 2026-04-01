@@ -18,7 +18,7 @@ properties:
     example: true
   currency:
     $ref: ../generic/Currency.yaml
-    description: The ISO currency three-letter code in which the amount of individual charges was posed based.
+    # description: The ISO currency three-letter code in which the amount of individual charges was posed based.
   type:
     type: string
     maxLength: 35
