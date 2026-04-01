@@ -7,9 +7,9 @@ required:
 properties:
   dateFrom:
     $ref: ../generic/Date.yaml
-    description: The start date of the transaction query period, mandatory for camt.053.
+    # description: The start date of the transaction query period, mandatory for camt.053.
   dateTo:
     $ref: ../generic/Date.yaml
-    description: The end date of the transaction query period, mandatory for camt.053.
+    # description: The end date of the transaction query period, mandatory for camt.053.
 allOf:
   - $ref: ./Iso20022ReportReference.yaml
