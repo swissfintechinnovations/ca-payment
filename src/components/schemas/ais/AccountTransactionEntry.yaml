@@ -31,7 +31,7 @@ properties:
     $ref: ./AccountTransactionBankTransactionCode.yaml
   bookingDate:
     $ref: ../generic/Date.yaml
-    description: The booking date of the transaction set by the bank. Corresponds to the attribute _BookgDt_ in SPS/ISO-20022.
+    # description: The booking date of the transaction set by the bank. Corresponds to the attribute _BookgDt_ in SPS/ISO-20022.
   entryStatus:
     type: string
     enum:
