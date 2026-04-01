@@ -1334,7 +1334,6 @@ components:
           description: The name of the creditor of a payment. Restriction for payment type SEPA is 70 characters.
           example: Hans Muster
         postalAddress:
-          description: The postal address of the creditor of a payment.
           $ref: '#/components/schemas/PaymentPostalAddress'
     PaymentCreditorAgent:
       description: The creditor agent of a payment.
@@ -1353,7 +1352,6 @@ components:
             - Last 3 characters (optional) - branch code, specifying a particular branch of the bank (letters and digits)
           example: DEUTDE5M101
         clearingSystemMemberIdentification:
-          description: The clearing system member identification of the creditor agend of a payment.
           $ref: '#/components/schemas/CommonClearingSystemMemberIdentification'
     PaymentCurrencyAmount:
       title: Payment Currency-Amount
@@ -1365,10 +1363,8 @@ components:
       properties:
         amount:
           $ref: '#/components/schemas/Amount'
-          description: The entry amount, which will be reflected in the account balance.
         currency:
           $ref: '#/components/schemas/Currency'
-          description: The ISO currency three-letter code in which the entry was posed.
     PaymentDebtor:
       title: Payment Debtor
       description: The debtor of a payment.
@@ -1383,7 +1379,6 @@ components:
           description: The name of the debtor of a payment. Restriction for payment type SEPA is 70 characters.
           example: Hans Muster
         postalAddress:
-          description: The postal address of the debtor of a payment.
           $ref: '#/components/schemas/PaymentPostalAddress'
     PaymentIbanAccount:
       title: Payment IBAN Account
@@ -1395,7 +1390,6 @@ components:
       properties:
         identification:
           $ref: '#/components/schemas/IbanIdentification'
-          description: The International Bank Account Number (IBAN), associated with the debtor account.
         type:
           type: string
           description: |
