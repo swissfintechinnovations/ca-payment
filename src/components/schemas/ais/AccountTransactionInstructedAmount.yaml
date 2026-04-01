@@ -8,20 +8,18 @@ required:
 properties:
   amount:
     $ref: ../generic/Amount.yaml
-    description: Corresponds to the attribute TxDtls ⇾ AmtDtls ⇾ InstdAmt ⇾ Amt.
+    # description: Corresponds to the attribute TxDtls ⇾ AmtDtls ⇾ InstdAmt ⇾ Amt.
   sourceCurrency:
     $ref: ../generic/Currency.yaml
-    description: |
-      The ISO currency three-letter code which is used to fund a currency conversion. Corresponds to the attribute _SrcCcy_ in
-      SPS/ISO-20022.
+    # description: |
+    #   The ISO currency three-letter code which is used to fund a currency conversion. Corresponds to the attribute _SrcCcy_ in SPS/ISO-20022.
   targetCurrency:
     $ref: ../generic/Currency.yaml
-    description: |
-      The ISO currency three-letter code which the recipient will receive after the currency conversion. Corresponds to the attribute
-      _TrgtCcy_ in SPS/ISO-20022.
+    # description: |
+    #   The ISO currency three-letter code which the recipient will receive after the currency conversion. Corresponds to the attribute _TrgtCcy_ in SPS/ISO-20022.
   unitCcy:
     $ref: ../generic/Currency.yaml
-    description: Currency in which the exchange rate is specified. Corresponds to attribute _UnitCcy_ in SPS/ISO-20022.
+    # description: Currency in which the exchange rate is specified. Corresponds to attribute _UnitCcy_ in SPS/ISO-20022.
   exchangeRate:
     type: string
     pattern: ^\d{1,11}$|^(?=\d+[.]\d+$).{3,12}$
