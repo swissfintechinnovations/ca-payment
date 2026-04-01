@@ -7,7 +7,7 @@ required:
 properties:
   amount:
     $ref: ../generic/Amount.yaml
-    description: The entry amount, which will be reflected in the account balance.
+    # description: The entry amount, which will be reflected in the account balance.
   currency:
     $ref: ../generic/Currency.yaml
-    description: The ISO currency three-letter code in which the entry was posed.
+    # description: The ISO currency three-letter code in which the entry was posed.
