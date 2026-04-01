@@ -43,7 +43,7 @@ properties:
     $ref: ./AccountTransactionTransactionType.yaml
   valueDate:
     $ref: ../generic/Date.yaml
-    description: The value date of the transaction set by the bank. Corresponds to the attribute _ValDt_ in SPS/ISO-20022.
+    # description: The value date of the transaction set by the bank. Corresponds to the attribute _ValDt_ in SPS/ISO-20022.
   entryReference:
     type: string
     description: Booking reference; format depends on booking type. Corresponds to NtryRef in SPS/ISO-20022.
