@@ -1876,7 +1876,6 @@ components:
             - PART
           example: PART
         messageId:
-          description: The unique identifier of the the standing order instruction message.
           $ref: '#/components/schemas/MessageId'
         transactions:
           type: array
