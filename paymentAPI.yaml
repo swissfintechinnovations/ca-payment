@@ -1502,13 +1502,10 @@ components:
         - remittanceReference
       properties:
         remittanceReference:
-          description: The remittance reference of the ISR payment.
           $ref: '#/components/schemas/PaymentIsrRemittanceReference'
         creditor:
-          description: The creditor of the ISR payment.
           $ref: '#/components/schemas/PaymentCreditor'
         creditorAccount:
-          description: The creditor account of the ISR payment.
           $ref: '#/components/schemas/PaymentOtherAccount'
     PaymentIsrRemittanceReference:
       title: Payment Remittance Reference
