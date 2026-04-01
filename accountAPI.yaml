@@ -565,7 +565,6 @@ components:
           example: CLBD
         date:
           $ref: '#/components/schemas/Date'
-          description: The date for which the balance was retrieved.
         _links:
           type: object
           description: Contains the paths to additional resources for specific account (e.g. path to account and transactions resource).
