@@ -1797,34 +1797,24 @@ components:
         - startDate
       properties:
         debtorAccount:
-          description: The account of the debtor. The debtor account must always be an IBAN. Corresponds to the attribute _DbtrAcct_ in SPS/ISO-20022.
           $ref: '#/components/schemas/PaymentIbanAccount'
         endToEndId:
-          description: The endToEndId of the standing order instruction item.
           $ref: '#/components/schemas/EndToEndId'
         frequency:
-          description: The frequency of the standing order instruction item.
           $ref: '#/components/schemas/FrequencyCode'
         initiatingPartyId:
-          description: The identifier of the third party provider (TPP) who created the payment instruction message derived from the OAuth 2.0 flow.
           $ref: '#/components/schemas/InitiatingPartyId'
         instructedAmount:
-          description: The instructed amount of the standing order. Corresponds to the attribute _InstdAmt_ in SPS/ISO-20022.
           $ref: '#/components/schemas/PaymentCurrencyAmount'
         instructionId:
-          description: The unique identifier of the standing order instruction item.
           $ref: '#/components/schemas/InstructionId'
         messageId:
-          description: The unique identifier of the the standing order instruction message.
           $ref: '#/components/schemas/MessageId'
         startDate:
-          description: The start date of the standing order instruction item.
           $ref: '#/components/schemas/StartDate'
         dayOfExecution:
-          description: The day of execution of the standing order instruction item.
           $ref: '#/components/schemas/DayOfExecution'
         endDate:
-          description: The end date of the standing order instruction item.
           $ref: '#/components/schemas/EndDate'
         executionBreaks:
           description: List of break periods.
@@ -1834,10 +1824,8 @@ components:
             description: The break period items.
             properties:
               validFromDate:
-                description: Start date of one break period. Standing order will not be processed from this date.
                 $ref: '#/components/schemas/Date'
               validToDate:
-                description: End date of one break period. Standing order will not be processed to this date.
                 $ref: '#/components/schemas/Date'
         executionMode:
           type: string
@@ -1850,25 +1838,16 @@ components:
             - UNTIL_DATE
             - UNTIL_CANCELLATION
         executionRule:
-          description: The execution rule of the standing order instruction item.
           $ref: '#/components/schemas/ExecutionRule'
         ibanDetails:
-          description: The IBAN details of the standing order instruction item.
           $ref: '#/components/schemas/PaymentIbanDetail'
         isrDetails:
-          description: The ISR details of the standing order instruction item.
           $ref: '#/components/schemas/PaymentIsrDetail'
         otherDetails:
-          description: Other details of the standing order instruction item.
           $ref: '#/components/schemas/PaymentOtherDetail'
         qrDetails:
-          description: The QR details of the standing order instruction item.
           $ref: '#/components/schemas/PaymentQrDetail'
         requestedExecutionDate:
-          description: |
-            The requested execution date. In some cases, the financial institution can/will change this date, if the requested date is a bank /
-            post holiday. If no date is chosen, the receiving financial institution will execute on the next possible date. Corresponds to the
-            attribute _ReqdExctnDt_ in SPS/ISO-20022.
           $ref: '#/components/schemas/Date'
     StandingOrderSubmissionResponse:
       title: Standing Order Submission Response
