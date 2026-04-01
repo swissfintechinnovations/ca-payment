@@ -898,10 +898,8 @@ components:
       properties:
         amount:
           $ref: '#/components/schemas/Amount'
-          description: The total amount of account charges.
         currency:
           $ref: '#/components/schemas/Currency'
-          description: The ISO currency three-letter code in which the total amount of charges was posed.
         chargeRecords:
           type: array
           description: Specifies the details about individual charges.
