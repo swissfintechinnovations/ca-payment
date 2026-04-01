@@ -818,7 +818,6 @@ components:
       properties:
         amount:
           $ref: '#/components/schemas/Amount'
-          description: Corresponds to the attribute TxDtls ⇾ AmtDtls ⇾ InstdAmt ⇾ Amt.
         exchangeRate:
           type: string
           pattern: ^\d{1,11}$|^(?=\d+[.]\d+$).{3,12}$
@@ -829,17 +828,10 @@ components:
           example: '0.957'
         sourceCurrency:
           $ref: '#/components/schemas/Currency'
-          description: |
-            The ISO currency three-letter code which is used to fund a currency conversion. Corresponds to the attribute _SrcCcy_ in
-            SPS/ISO-20022.
         targetCurrency:
           $ref: '#/components/schemas/Currency'
-          description: |
-            The ISO currency three-letter code which the recipient will receive after the currency conversion. Corresponds to the attribute
-            _TrgtCcy_ in SPS/ISO-20022.
         unitCcy:
           $ref: '#/components/schemas/Currency'
-          description: Currency in which the exchange rate is specified. Corresponds to attribute _UnitCcy_ in SPS/ISO-20022.
     AccountTransactionItem:
       title: Account Transaction Item
       description: Specifies the transaction entry item.
