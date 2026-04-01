@@ -1640,7 +1640,7 @@ components:
       in: header
       name: X-CorAPI-Target-ID
       description: ID that identifies the Service Provider.
-      required: false
+      required: true
       schema:
         type: string
   headers:
