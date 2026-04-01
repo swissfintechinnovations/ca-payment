@@ -12,44 +12,44 @@ required:
   - instructionId
 properties:
   bookingInstruction:
-    description: The payment booking instruction. Corresponds to the attribute _DbtrAcct ⇾ Tp ⇾ Prtry_ in SPS/ISO-20022.
+    # description: The payment booking instruction. Corresponds to the attribute _DbtrAcct ⇾ Tp ⇾ Prtry_ in SPS/ISO-20022.
     $ref: ./PaymentBookingInstruction.yaml
   debtorAccount:
-    description: The account of the debtor. The debtor account must always be an IBAN. Corresponds to the attribute _DbtrAcct_ in SPS/ISO-20022.
+    # description: The account of the debtor. The debtor account must always be an IBAN. Corresponds to the attribute _DbtrAcct_ in SPS/ISO-20022.
     $ref: ./PaymentIbanAccount.yaml
   initiatingPartyId:
-    description: The identifier of the third party provider (TPP) who created the payment instruction message derived from the OAuth 2.0 flow.
+    # description: The identifier of the third party provider (TPP) who created the payment instruction message derived from the OAuth 2.0 flow.
     $ref: ./InitiatingPartyId.yaml
   messageId:
-    description: The unique identifier of the the single payment instruction message.
+    # description: The unique identifier of the the single payment instruction message.
     $ref: ./MessageId.yaml
   requestedExecutionDate:
-    description: |
-      The requested execution date. In some cases, the financial institution can/will change this date, if the requested date is a bank /
-      post holiday. If no date is chosen, the receiving financial institution will execute on the next possible date. Corresponds to the
-      attribute _ReqdExctnDt_ in SPS/ISO-20022.
+    # description: |
+    #   The requested execution date. In some cases, the financial institution can/will change this date, if the requested date is a bank /
+    #   post holiday. If no date is chosen, the receiving financial institution will execute on the next possible date. Corresponds to the
+    #   attribute _ReqdExctnDt_ in SPS/ISO-20022.
     $ref: ../generic/Date.yaml
   endToEndId:
-    description: The endToEndId of the single payment instruction item.
+    # description: The endToEndId of the single payment instruction item.
     $ref: ./EndToEndId.yaml
   instructedAmount:
-    description: The instructed amount of the single payment. Corresponds to the attribute _InstdAmt_ in SPS/ISO-20022.
+    # description: The instructed amount of the single payment. Corresponds to the attribute _InstdAmt_ in SPS/ISO-20022.
     $ref: ./PaymentCurrencyAmount.yaml
   instructionId:
-    description: The unique identifier of the single payment instruction item.
+    # description: The unique identifier of the single payment instruction item.
     $ref: ./InstructionId.yaml
   ibanDetails:
-    description: The IBAN details of the single payment instruction item.
+    # description: The IBAN details of the single payment instruction item.
     $ref: ./PaymentIbanDetail.yaml
   isrDetails:
-    description: The ISR details of the single payment instruction item.
+    # description: The ISR details of the single payment instruction item.
     $ref: ./PaymentIsrDetail.yaml
   otherDetails:
-    description: Other details of the single payment instruction item.
+    # description: Other details of the single payment instruction item.
     $ref: ./PaymentOtherDetail.yaml
   qrDetails:
-    description: The QR details of the single payment instruction item.
+    # description: The QR details of the single payment instruction item.
     $ref: ./PaymentQrDetail.yaml
   uetr:
-    description: The uetr of the payment instruction item.
+    # description: The uetr of the payment instruction item.
     $ref: ./Uetr.yaml
