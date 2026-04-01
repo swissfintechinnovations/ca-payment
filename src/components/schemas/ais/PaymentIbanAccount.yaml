@@ -7,7 +7,7 @@ required:
 properties:
   identification:
     $ref: ./IbanIdentification.yaml
-    description: The International Bank Account Number (IBAN), associated with the account.
+    # description: The International Bank Account Number (IBAN), associated with the account.
   type:
     type: string
     description: |
