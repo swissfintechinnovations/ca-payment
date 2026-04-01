@@ -915,7 +915,6 @@ components:
       properties:
         amount:
           $ref: '#/components/schemas/Amount'
-          description: The amount of individual charges.
         currency:
           $ref: '#/components/schemas/Currency'
           description: The ISO currency three-letter code in which the amount of individual charges was posed based.
@@ -926,7 +925,6 @@ components:
           example: true
         transactionType:
           $ref: '#/components/schemas/AccountTransactionTransactionType'
-          description: Corresponds to the attribute _Chrgs ⇾ Rcrd ⇾ CdtDbtInd_ in SPS/ISO-20022.
         type:
           type: string
           maxLength: 35
@@ -975,7 +973,6 @@ components:
             $ref: '#/components/schemas/AccountTransactionEntry'
         iban:
           $ref: '#/components/schemas/IbanIdentification'
-          description: The International Bank Account Number (IBAN), associated with the account.
         _links:
           type: object
           description: Contains the paths to additional resources for specific account (e.g. path to account and balance resource).
@@ -1082,7 +1079,6 @@ components:
           example: '10.25'
         currency:
           $ref: '#/components/schemas/Currency'
-          description: The ISO currency three-letter code in which the balance and the account are held.
     CommonAccountId:
       description: Unique identifier (UUID) of the account for which information shall be retrieved.
       type: string
@@ -1204,7 +1200,6 @@ components:
           $ref: '#/components/schemas/PaymentIbanAccount'
         creationDateTime:
           $ref: '#/components/schemas/DateTime'
-          description: Date and time when the message was created. Corresponds to the attribute _GrpHdr ⇾ CreDtTm_ in SPS/ISO-20022.
         id:
           type: string
           description: The unique identifier of the referenced ISO20022 report.
@@ -1233,10 +1228,8 @@ components:
             * full: Contains all transactions since the last regular account statement (camt.053).
         dateFrom:
           $ref: '#/components/schemas/Date'
-          description: The start date of the transaction query period, optional for camt.052.
         dateTo:
           $ref: '#/components/schemas/Date'
-          description: The end date of the transaction query period, optional for camt.052.
       allOf:
         - $ref: '#/components/schemas/Iso20022ReportReference'
     Iso20022ReportReference053:
@@ -1249,10 +1242,8 @@ components:
       properties:
         dateFrom:
           $ref: '#/components/schemas/Date'
-          description: The start date of the transaction query period, mandatory for camt.053.
         dateTo:
           $ref: '#/components/schemas/Date'
-          description: The end date of the transaction query period, mandatory for camt.053.
       allOf:
         - $ref: '#/components/schemas/Iso20022ReportReference'
     PaymentCurrencyAmount:
@@ -1265,10 +1256,8 @@ components:
       properties:
         amount:
           $ref: '#/components/schemas/Amount'
-          description: The entry amount, which will be reflected in the account balance.
         currency:
           $ref: '#/components/schemas/Currency'
-          description: The ISO currency three-letter code in which the entry was posed.
     PaymentIbanAccount:
       title: Payment IBAN Account
       description: The IBAN account object.
@@ -1279,7 +1268,6 @@ components:
       properties:
         identification:
           $ref: '#/components/schemas/IbanIdentification'
-          description: The International Bank Account Number (IBAN), associated with the account.
         type:
           type: string
           description: |
