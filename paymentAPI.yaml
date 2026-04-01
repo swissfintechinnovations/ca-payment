@@ -1632,22 +1632,16 @@ components:
         - creditorAccount
       properties:
         creditor:
-          description: The creditor of the QR payment.
           $ref: '#/components/schemas/PaymentCreditor'
         creditorAccount:
-          description: The creditor account of the OR payment. Corresponds to the attribute _CdtrAcct_ in SPS/ISO-20022.
           $ref: '#/components/schemas/PaymentQrIbanAccount'
         remittanceInformation:
-          description: The remittance information of the QR payment.
           $ref: '#/components/schemas/PaymentRemittanceInformation'
         remittanceReference:
-          description: The remittance reference of the QR payment.
           $ref: '#/components/schemas/PaymentIbanRemittanceReference'
         ultimateCreditor:
-          description: The ultimate creditor of the QR payment.
           $ref: '#/components/schemas/PaymentCreditor'
         ultimateDebtor:
-          description: The ultimate debtor of the QR payment.
           $ref: '#/components/schemas/PaymentDebtor'
     PaymentQrIbanAccount:
       title: Payment QR-IBAN Account
@@ -1659,7 +1653,6 @@ components:
       properties:
         identification:
           $ref: '#/components/schemas/IbanIdentification'
-          description: The International Bank Account Number (IBAN), associated with the debtor  account.
         type:
           type: string
           description: IBAN or QR-IBAN of the creditor, only IBANs with CH or LI country code permitted.
