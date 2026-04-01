@@ -1450,28 +1450,20 @@ components:
         - instructionId
       properties:
         endToEndId:
-          description: The endToEndId of the payment instruction item.
           $ref: '#/components/schemas/EndToEndId'
         instructedAmount:
-          description: The instructed amount of the payment. Corresponds to the attribute _InstdAmt_ in SPS/ISO-20022.
           $ref: '#/components/schemas/PaymentCurrencyAmount'
         instructionId:
-          description: The identifier of the payment instruction item.
           $ref: '#/components/schemas/InstructionId'
         ibanDetails:
-          description: The IBAN details of the payment instruction item.
           $ref: '#/components/schemas/PaymentIbanDetail'
         isrDetails:
-          description: The ISR details of the payment instruction item.
           $ref: '#/components/schemas/PaymentIsrDetail'
         otherDetails:
-          description: Other details of the payment instruction item.
           $ref: '#/components/schemas/PaymentOtherDetail'
         qrDetails:
-          description: The QR details of the payment instruction item.
           $ref: '#/components/schemas/PaymentQrDetail'
         uetr:
-          description: The uetr of the payment instruction item.
           $ref: '#/components/schemas/Uetr'
     PaymentInstructionItemStatus:
       title: Payment Instruction Item Status
@@ -1482,7 +1474,6 @@ components:
         - statusCode
       properties:
         instructionId:
-          description: The unique identifier of the payment instruction item.
           $ref: '#/components/schemas/InstructionId'
         statusCode:
           type: string
