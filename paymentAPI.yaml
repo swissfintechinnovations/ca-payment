@@ -1407,22 +1407,16 @@ components:
         - creditorAccount
       properties:
         creditor:
-          description: The creditor of the IBAN payment.
           $ref: '#/components/schemas/PaymentCreditor'
         creditorAccount:
-          description: The creditor account of the IBAN payment. Corresponds to the attribute _CdtrAcct_ in SPS/ISO-20022.
           $ref: '#/components/schemas/PaymentIbanAccount'
         chargeBearer:
-          description: The charge bearer of the IBAN payment.
           $ref: '#/components/schemas/PaymentChargeBearerMethod'
         creditorAgent:
-          description: The creditor agent of the IBAN payment.
           $ref: '#/components/schemas/PaymentCreditorAgent'
         remittanceInformation:
-          description: The remittance information of the IBAN payment.
           $ref: '#/components/schemas/PaymentRemittanceInformation'
         remittanceReference:
-          description: The remittance reference of the IBAN payment.
           $ref: '#/components/schemas/PaymentIbanRemittanceReference'
         sepaIndicator:
           type: boolean
