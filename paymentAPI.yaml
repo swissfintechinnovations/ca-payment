@@ -1679,22 +1679,14 @@ components:
         - transactions
       properties:
         bookingInstruction:
-          description: The payment booking instruction. Corresponds to the attribute _DbtrAcct ⇾ Tp ⇾ Prtry_ in SPS/ISO-20022.
           $ref: '#/components/schemas/PaymentBookingInstruction'
         debtorAccount:
-          description: The account of the debtor. The debtor account must always be an IBAN. Corresponds to the attribute _DbtrAcct_ in SPS/ISO-20022.
           $ref: '#/components/schemas/PaymentIbanAccount'
         initiatingPartyId:
-          description: The identifier of the third party provider (TPP) who created the payment instruction message derived from the OAuth 2.0 flow.
           $ref: '#/components/schemas/InitiatingPartyId'
         messageId:
-          description: The unique identifier of the the payment instruction message.
           $ref: '#/components/schemas/MessageId'
         requestedExecutionDate:
-          description: |
-            The requested execution date. In some cases, the financial institution can/will change this date, if the requested date is a bank /
-            post holiday. If no date is chosen, the receiving financial institution will execute on the next possible date. Corresponds to the
-            attribute _ReqdExctnDt_ in SPS/ISO-20022.
           $ref: '#/components/schemas/Date'
         transactions:
           type: array
@@ -1730,7 +1722,6 @@ components:
             - RCVD
           example: PART
         messageId:
-          description: The unique identifier of the payment instruction message.
           $ref: '#/components/schemas/MessageId'
         transactions:
           type: array
