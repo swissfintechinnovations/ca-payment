@@ -651,9 +651,6 @@ components:
               example: /accounts/550e8400-e29b-11d4-a716-446655440000/transactions
         currency:
           $ref: '#/components/schemas/Currency'
-          description: |
-            The ISO currency three-letter code denominated and set for the account at the time it is opened.
-            The attribute currency can be omitted only for multicurrency accounts.
     AccountOwnerName:
       description: Name of the account holder. Corresponds to the attribute _Acct ⇾ Ownr ⇾ Nm_ in SPS/ISO-20022.
       type: string
@@ -774,7 +771,6 @@ components:
           $ref: '#/components/schemas/AccountTransactionBankTransactionCode'
         bookingDate:
           $ref: '#/components/schemas/Date'
-          description: The booking date of the transaction set by the bank. Corresponds to the attribute _BookgDt_ in SPS/ISO-20022.
         entryStatus:
           type: string
           enum:
