@@ -1542,7 +1542,6 @@ components:
       type: string
       enum:
         - accounts:listUpdated
-        - consents:listUpdated
       example: accounts:listUpdated
     IbanIdentification:
       description: The International Bank Account Number (IBAN), associated with the account.
