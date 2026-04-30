@@ -1090,7 +1090,7 @@ paths:
     parameters:
       - $ref: '#/components/parameters/cursor'
       - $ref: '#/components/parameters/limit'
-      - $ref: '#/components/parameters/from_event_date'
+      - $ref: '#/components/parameters/from_event_date_time'
       - $ref: '#/components/parameters/client_id'
       - $ref: '#/components/parameters/correlation'
       - $ref: '#/components/parameters/agent'
@@ -1136,7 +1136,7 @@ paths:
   /event-subscriptions/{eventSubscriptionId}/event-notifications:
     parameters:
       - $ref: '#/components/parameters/event_subscription_id'
-      - $ref: '#/components/parameters/from_event_date'
+      - $ref: '#/components/parameters/from_event_date_time'
       - $ref: '#/components/parameters/cursor'
       - $ref: '#/components/parameters/limit'
       - $ref: '#/components/parameters/client_id'
@@ -2443,7 +2443,7 @@ components:
         minLength: 1
         maxLength: 36
         example: 7c5f40fc-1b29-4263-a2dd-e127a22a947
-    from_event_date:
+    from_event_date_time:
       in: query
       name: from_event_date_time
       description: |
