@@ -1,0 +1,16 @@
+type: object
+description: Schema of an event subscription entity.
+required:
+  - eventTypes
+properties:
+  id:
+    type: string
+    description: Unique and unambiguous identification (i.e. UUID) of the event subscription.
+    readOnly: true
+    maxLength: 36
+    example: 7c5f40fc-1b29-4263-a2dd-e127a22a947f
+  eventTypes:
+    type: array
+    description: List of event types subject to subscription.
+    items:
+      $ref: ./EventType.yaml
