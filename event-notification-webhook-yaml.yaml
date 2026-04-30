@@ -58,9 +58,6 @@ paths:
           $ref: '#/components/responses/standard503'
         '504':
           $ref: '#/components/responses/standard504'
-          scopes:
-            read: Grants read access
-            write: Grants write access
 components:
   schemas:
     CommonErrorResponse:
