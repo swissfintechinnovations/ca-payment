@@ -1031,7 +1031,7 @@ paths:
               $ref: '#/components/schemas/EventSubscription'
             example:
               eventTypes:
-                - accounts:listUpdated
+                - consents:listUpdated
       responses:
         '204':
           description: Successfully updated (empty response).
@@ -1387,9 +1387,8 @@ components:
       description: Event type the subscription should apply to AND reason why a notification is sent.
       type: string
       enum:
-        - accounts:listUpdated
         - consents:listUpdated
-      example: accounts:listUpdated
+      example: consents:listUpdated
     ExecutionRule:
       title: Execution Rule
       description: |
