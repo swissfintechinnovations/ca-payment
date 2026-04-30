@@ -1,6 +1,0 @@
-description: Event type the subscription should apply to AND reason why a notification is sent.
-type: string
-enum:
-  - accounts:listUpdated
-  - consents:listUpdated
-example: accounts:listUpdated
