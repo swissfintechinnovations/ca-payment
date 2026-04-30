@@ -1378,7 +1378,7 @@ components:
           maxLength: 36
           example: 7c5f40fc-1b29-4263-a2dd-e127a22a947f
     EventSubscriptionId:
-      description: Unique identification as assigned by the API exposing party to uniquely identify the callback URL resource.
+      description: Unique identification as assigned by the API exposing party to uniquely identify the subscription resource.
       type: string
       minLength: 1
       maxLength: 36
