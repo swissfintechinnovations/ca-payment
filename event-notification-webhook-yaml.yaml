@@ -17,10 +17,7 @@ externalDocs:
 tags:
   - name: event-notification-webhook
     description: Event notification webhook operations.
-security:
-  - OAuth2:
-      - read
-      - write
+security: []
 paths:
   /event-notifications:
     parameters:
@@ -61,6 +58,9 @@ paths:
           $ref: '#/components/responses/standard503'
         '504':
           $ref: '#/components/responses/standard504'
+          scopes:
+            read: Grants read access
+            write: Grants write access
 components:
   schemas:
     CommonErrorResponse:
@@ -360,13 +360,3 @@ components:
       schema:
         type: string
         example: f058ebd6-02f7-4d3f-942e-904344e8cde5
-  securitySchemes:
-    OAuth2:
-      type: oauth2
-      flows:
-        authorizationCode:
-          authorizationUrl: https://example.com/oauth/authorize
-          tokenUrl: https://example.com/oauth/token
-          scopes:
-            read: Grants read access
-            write: Grants write access
