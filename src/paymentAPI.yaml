@@ -906,7 +906,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: ./components/schemas/generic/EventSubscription.yaml
+                $ref: ./components/schemas/pss/EventSubscription.yaml
         '400':
           $ref: ./components/responses/standard400.yaml
         '401':
@@ -943,7 +943,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: ./components/schemas/generic/EventSubscription.yaml
+              $ref: ./components/schemas/pss/EventSubscription.yaml
       responses:
         '201':
           description: Returns created event subscription.
@@ -953,7 +953,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: ./components/schemas/generic/EventSubscription.yaml
+                $ref: ./components/schemas/pss/EventSubscription.yaml
         '400':
           $ref: ./components/responses/standard400.yaml
         '401':
@@ -999,7 +999,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: ./components/schemas/generic/EventSubscription.yaml
+                $ref: ./components/schemas/pss/EventSubscription.yaml
         '400':
           $ref: ./components/responses/standard400.yaml
         '401':
@@ -1028,10 +1028,10 @@ paths:
         content:
           application/json:
             schema:
-              $ref: ./components/schemas/generic/EventSubscription.yaml
+              $ref: ./components/schemas/pss/EventSubscription.yaml
             example:
               eventTypes:
-                - accounts:listUpdated
+                - consents:listUpdated
       responses:
         '204':
           description: Successfully updated (empty response).
@@ -1164,7 +1164,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: ./components/schemas/generic/EventNotification.yaml
+                  $ref: ./components/schemas/pss/EventNotification.yaml
         '400':
           $ref: ./components/responses/standard400.yaml
         '401':
