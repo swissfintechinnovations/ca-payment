@@ -1100,7 +1100,7 @@ paths:
       - $ref: '#/components/parameters/psu_user_agent'
     get:
       summary: Search Subscription
-      description: Search for event subscriptions across all consents granted to the calling service user.
+      description: Search for subscriptions with pending events across all consents granted to the calling service user.
       operationId: searchEventSubscriptions
       tags:
         - event-notification-aggregated-polling
