@@ -33,9 +33,14 @@ tags:
       Third party payment service considering pain.001 and pain.002 operations (XML). PUT operation can be used for both payment submission
       and payment initiation (PSS/pss), depending on security implementation.
   - name: event-subscription
-    description: Event subscription operations.
+    description: |
+      Event subscription operations in the context of OAuth2 consent authentication. One subscription is bound to exactly
+      one consent and supports create, retrieve, update and delete operations. Multiple event types are managed within the single
+      subscription resource.
   - name: event-notification-aggregated-polling
-    description: Event notification aggregated polling operations.
+    description: |
+      Aggregated polling operations in the context of Service User authentication, used for catch-up retrieval of event notifications.
+      Consists of an optional search step to identify subscriptions with pending events, followed by retrieval of the actual notifications.
 security:
   - OAuth2:
       - read
@@ -880,12 +885,10 @@ paths:
           $ref: ./components/responses/standard503.yaml
   /event-subscriptions:
     get:
-      summary: Get event subscriptions
-      description: Get list of event subscriptions.
-      operationId: listEventSubscriptions
+      summary: Get event subscription
+      description: Retrieve the event subscription for the current consent.
+      operationId: getEventSubscription
       parameters:
-        - $ref: ./components/parameters/query/cursor.yaml
-        - $ref: ./components/parameters/query/limit.yaml
         - $ref: ./components/parameters/header/authorization.yaml
         - $ref: ./components/parameters/header/client_id.yaml
         - $ref: ./components/parameters/header/correlation.yaml
@@ -897,12 +900,10 @@ paths:
         - event-subscription
       responses:
         '200':
-          description: Returns a list of event subscriptions.
+          description: Returns the event subscription associated with the current consent.
           headers:
             X-Correlation-ID:
               $ref: ./components/headers/X-Correlation-ID.yaml
-            x-nextCursor:
-              $ref: ./components/headers/X-Next-Cursor.yaml
           content:
             application/json:
               schema:
@@ -927,7 +928,7 @@ paths:
           $ref: ./components/responses/standard504.yaml
     post:
       summary: Create event subscription
-      description: Create an event subscription.
+      description: Create an event subscription for the current consent.
       operationId: createEventSubscription
       parameters:
         - $ref: ./components/parameters/header/authorization.yaml
@@ -986,7 +987,7 @@ paths:
       - $ref: ./components/parameters/header/psu_user_agent.yaml
     get:
       summary: Get event subscription
-      description: Get event subscription by id.
+      description: Retrieve the event subscription for the current consent.
       operationId: getEventSubscription
       tags:
         - event-subscription
@@ -1020,7 +1021,7 @@ paths:
           $ref: ./components/responses/standard504.yaml
     put:
       summary: Update event subscription
-      description: Update an event subscription.
+      description: Update the event subscription for the current consent.
       operationId: updateEventSubscription
       tags:
         - event-subscription
@@ -1034,7 +1035,7 @@ paths:
                 - consents:listUpdated
       responses:
         '204':
-          description: Successfully updated (empty response).
+          description: Subscription updated (empty response).
           headers:
             X-Correlation-ID:
               $ref: ./components/headers/X-Correlation-ID.yaml
@@ -1060,11 +1061,11 @@ paths:
       tags:
         - event-subscription
       summary: Delete event subscription
-      description: Delete event subscription by id.
+      description: Delete the event subscription for the current consent.
       operationId: deleteEventSubscription
       responses:
         '204':
-          description: Successfully deleted (empty response).
+          description: Subscription deleted (empty response).
           headers:
             X-Correlation-ID:
               $ref: ./components/headers/X-Correlation-ID.yaml
@@ -1099,7 +1100,7 @@ paths:
       - $ref: ./components/parameters/header/psu_user_agent.yaml
     get:
       summary: Search Subscription
-      description: Allows service users to search for event subscriptions.
+      description: Search for event subscriptions across all consents granted to the calling service user.
       operationId: searchEventSubscriptions
       tags:
         - event-notification-aggregated-polling
@@ -1147,13 +1148,13 @@ paths:
       - $ref: ./components/parameters/header/psu_user_agent.yaml
     get:
       summary: Get event notifications list
-      description: Get aggregated event-notification list.
+      description: Get aggregated list of event-notifications for the specified subscription.
       operationId: getEventNotificationsByEventSubscriptionId
       tags:
         - event-notification-aggregated-polling
       responses:
         '200':
-          description: aggregated event-notification list.
+          description: Returns aggregated event notifications for the specified subscription.
           headers:
             X-Correlation-ID:
               $ref: ./components/headers/X-Correlation-ID.yaml
