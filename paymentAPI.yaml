@@ -887,7 +887,7 @@ paths:
     get:
       summary: Get event subscription
       description: Retrieve the event subscription for the current consent.
-      operationId: getEventSubscription
+      operationId: listEventSubscription
       parameters:
         - $ref: '#/components/parameters/authorization'
         - $ref: '#/components/parameters/client_id'
