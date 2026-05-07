@@ -1351,7 +1351,7 @@ components:
           description: |
             The resourceLink is an absolute or relative URL reference to the specific resource or object that triggered the webhook event.
             This link provides immediate access to the full details of the affected item in the source system.
-          example: /orders/e6751a48-0819-4482-98a4-760453ba770d
+          example: /consents
         creationDateTime:
           type: string
           format: date-time
