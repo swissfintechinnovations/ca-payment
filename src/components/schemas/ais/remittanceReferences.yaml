@@ -1,0 +1,7 @@
+remittanceReferences:
+  type: array
+  description: |
+    List of structured remittance references. Corresponds to multiple
+    occurrences of _RmtInf ⇾ Strd ⇾ CdtrRefInf_ in SPS/ISO-20022.
+  items:
+    $ref: ./AccountTransactionRemittanceReference.yaml
