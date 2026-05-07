@@ -861,7 +861,7 @@ components:
         remittanceInformation:
           $ref: '#/components/schemas/PaymentRemittanceInformation'
         remittanceReference:
-          $ref: '#/components/schemas/AccountTransactionRemittanceReference'
+          $ref: '#/components/schemas/RemittanceReferences'
         totalChargesAmount:
           $ref: '#/components/schemas/AccountTransactionItemCharges'
         uetr:
@@ -1278,6 +1278,14 @@ components:
       type: string
       maxLength: 140
       example: Rechnung Nr. 408
+    RemittanceReferences:
+      title: Remittance References
+      description: |
+        List of structured remittance references. Corresponds to multiple
+        occurrences of _RmtInf ⇾ Strd ⇾ CdtrRefInf_ in SPS/ISO-20022.
+      type: array
+      items:
+        $ref: '#/components/schemas/AccountTransactionRemittanceReference'
   responses:
     standard202:
       headers:
