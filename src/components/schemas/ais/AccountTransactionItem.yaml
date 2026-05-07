@@ -43,7 +43,7 @@ properties:
   remittanceInformation:
     $ref: ./PaymentRemittanceInformation.yaml
   remittanceReference:
-    $ref: ./AccountTransactionRemittanceReference.yaml
+    $ref: ./RemittanceReferences.yaml
   totalChargesAmount:
     $ref: ./AccountTransactionItemCharges.yaml
   uetr:
