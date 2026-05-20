@@ -32,7 +32,7 @@ paths:
       description: Push notifications for subscribed event notifications.
       operationId: postEventNotification
       tags:
-        - event-notification-webhook
+        - event notification webhook
       requestBody:
         content:
           application/json:
