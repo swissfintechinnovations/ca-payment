@@ -897,7 +897,7 @@ paths:
         - $ref: ./components/parameters/header/psu_ip.yaml
         - $ref: ./components/parameters/header/psu_user_agent.yaml
       tags:
-        - event-subscription
+        - event subscription
       responses:
         '200':
           description: Returns the event subscription associated with the current consent.
@@ -939,7 +939,7 @@ paths:
         - $ref: ./components/parameters/header/psu_ip.yaml
         - $ref: ./components/parameters/header/psu_user_agent.yaml
       tags:
-        - event-subscription
+        - event subscription
       requestBody:
         content:
           application/json:
@@ -990,7 +990,7 @@ paths:
       description: Retrieve the event subscription for the current consent.
       operationId: getEventSubscription
       tags:
-        - event-subscription
+        - event subscription
       responses:
         '200':
           description: Returns an event subscription.
@@ -1024,7 +1024,7 @@ paths:
       description: Update the event subscription for the current consent.
       operationId: updateEventSubscription
       tags:
-        - event-subscription
+        - event subscription
       requestBody:
         content:
           application/json:
@@ -1059,7 +1059,7 @@ paths:
           $ref: ./components/responses/standard504.yaml
     delete:
       tags:
-        - event-subscription
+        - event subscription
       summary: Delete event subscription
       description: Delete the event subscription for the current consent.
       operationId: deleteEventSubscription
@@ -1103,7 +1103,7 @@ paths:
       description: Search for subscriptions with pending events across all consents granted to the calling service user.
       operationId: searchEventSubscriptions
       tags:
-        - event-notification-aggregated-polling
+        - event notification aggregated polling
       responses:
         '200':
           description: List of event subscriptionIds found.
@@ -1151,7 +1151,7 @@ paths:
       description: Get aggregated list of event-notifications for the specified subscription.
       operationId: getEventNotificationsByEventSubscriptionId
       tags:
-        - event-notification-aggregated-polling
+        - event notification aggregated polling
       responses:
         '200':
           description: Returns aggregated event notifications for the specified subscription.
