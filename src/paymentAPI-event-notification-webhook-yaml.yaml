@@ -15,7 +15,7 @@ externalDocs:
   description: Find out more about SFTI API specifications.
   url: https://www.common-api.ch
 tags:
-  - name: event-notification-webhook
+  - name: event notification webhook
     description: Event notification webhook operations.
 security: []
 paths:
