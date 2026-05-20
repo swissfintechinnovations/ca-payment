@@ -4,18 +4,18 @@ info:
   title: Common Payment API
   description: |
     This specification defines a payment API for the payment types used in Switzerland.
-    It is intended for software components that submit payment instructions on behalf of customers to a bank. The further processing of 
-    submitted payments, including any approval and execution steps, lies within the responsibility of the bank and is out of scope of 
+    It is intended for software components that submit payment instructions on behalf of customers to a bank. The further processing of
+    submitted payments, including any approval and execution steps, lies within the responsibility of the bank and is out of scope of
     this specification. Consents and Strong Customer Authentication (SCA) are handled in a dedicated specification file.
-    
-    Functionally, the API is aligned with the Swiss Payment Standards (SPS) and follows the "Swiss Implementation Guidelines for 
-    Customer-Bank Messages, Credit Transfer" (pain.001.001.09) for the submission and the "Swiss Implementation Guidelines for 
+
+    Functionally, the API is aligned with the Swiss Payment Standards (SPS) and follows the "Swiss Implementation Guidelines for
+    Customer-Bank Messages, Credit Transfer" (pain.001.001.09) for the submission and the "Swiss Implementation Guidelines for
     Status Report" (pain.002.001.10) for the submission status.
-    Both the JSON and the ISO 20022 XML representations align with these guidelines. The JSON representation is a defined subset of 
+    Both the JSON and the ISO 20022 XML representations align with these guidelines. The JSON representation is a defined subset of
     ISO 20022 covering the essentials for API-driven interaction.
 
-    Submission status is reported on group level for the overall submission and on instruction level for individual payments. 
-    The applicable status values, report levels and possible status sequences are defined in the SPS Implementation Guidelines for 
+    Submission status is reported on group level for the overall submission and on instruction level for individual payments.
+    The applicable status values, report levels and possible status sequences are defined in the SPS Implementation Guidelines for
     Status Report, in particular Annex B (Status sequences of pain.002).
 
     This specification uses schema definitions from the Common Data Model v1.2.1.
