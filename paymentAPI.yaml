@@ -32,12 +32,12 @@ tags:
     description: |
       Third party payment service considering pain.001 and pain.002 operations (XML). PUT operation can be used for both payment submission
       and payment initiation (PSS/pss), depending on security implementation.
-  - name: event-subscription
+  - name: event subscription
     description: |
       Event subscription operations in the context of OAuth2 consent authentication. One subscription is bound to exactly
       one consent and supports create, retrieve, update and delete operations. Multiple event types are managed within the single
       subscription resource.
-  - name: event-notification-aggregated-polling
+  - name: event notification aggregated polling
     description: |
       Aggregated polling operations in the context of Service User authentication, used for catch-up retrieval of event notifications.
       Consists of an optional search step to identify subscriptions with pending events, followed by retrieval of the actual notifications.
