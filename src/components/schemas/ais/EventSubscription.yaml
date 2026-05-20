@@ -14,3 +14,9 @@ properties:
     description: List of event types subject to subscription.
     items:
       $ref: ./EventType.yaml
+  callbackUrl:
+    type: string
+    description: |
+      Endpoint provided by the client (subscriber) where the server (publisher)
+      can send asynchronous event notifications.
+    example: https://ttp.com/API/notifications/
