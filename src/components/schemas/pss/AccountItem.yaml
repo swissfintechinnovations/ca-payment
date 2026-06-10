@@ -1,12 +1,12 @@
-title: Consent Account Item
-description: The consent account object.
+title: Account Information Item
+description: The account object.
+type: object
 required:
   - account
   - accountOwnerName
   - accountTypeCode
   - designation
   - id
-type: object
 properties:
   account:
     $ref: ./PaymentIbanAccount.yaml
