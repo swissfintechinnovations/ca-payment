@@ -990,7 +990,7 @@ paths:
                   accounts:
                     type: array
                     items:
-                      $ref: ./components/schemas/pss/ConsentAccountItem.yaml
+                      $ref: ./components/schemas/pss/AccountItem.yaml
         '400':
           $ref: ./components/responses/standard400.yaml
         '401':
