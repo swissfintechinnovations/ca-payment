@@ -1087,53 +1087,6 @@ paths:
           $ref: '#/components/responses/standard503'
         '504':
           $ref: '#/components/responses/standard504'
-  /event-subscriptions/search:
-    parameters:
-      - $ref: '#/components/parameters/cursor'
-      - $ref: '#/components/parameters/limit'
-      - $ref: '#/components/parameters/from_event_date_time'
-      - $ref: '#/components/parameters/client_id'
-      - $ref: '#/components/parameters/correlation'
-      - $ref: '#/components/parameters/agent'
-      - $ref: '#/components/parameters/target_id'
-      - $ref: '#/components/parameters/psu_ip'
-      - $ref: '#/components/parameters/psu_user_agent'
-    get:
-      summary: Search Subscription
-      description: Search for subscriptions with pending events across all consents granted to the calling service user.
-      operationId: searchEventSubscriptions
-      tags:
-        - event notification aggregated polling
-      responses:
-        '200':
-          description: List of event subscriptionIds found.
-          headers:
-            X-Correlation-ID:
-              $ref: '#/components/headers/X-Correlation-ID'
-            X-nextCursor:
-              $ref: '#/components/headers/X-Next-Cursor'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/SubscriptionSearchResponse'
-        '400':
-          $ref: '#/components/responses/standard400'
-        '401':
-          $ref: '#/components/responses/standard401'
-        '403':
-          $ref: '#/components/responses/standard403'
-        '404':
-          $ref: '#/components/responses/standard404'
-        '405':
-          $ref: '#/components/responses/standard405'
-        '500':
-          $ref: '#/components/responses/standard500'
-        '501':
-          $ref: '#/components/responses/standard501'
-        '503':
-          $ref: '#/components/responses/standard503'
-        '504':
-          $ref: '#/components/responses/standard504'
   /event-subscriptions/{eventSubscriptionId}/event-notifications:
     parameters:
       - $ref: '#/components/parameters/event_subscription_id'
@@ -1378,12 +1331,6 @@ components:
           readOnly: true
           maxLength: 36
           example: 7c5f40fc-1b29-4263-a2dd-e127a22a947f
-    EventSubscriptionId:
-      description: Unique identification as assigned by the API exposing party to uniquely identify the subscription resource.
-      type: string
-      minLength: 1
-      maxLength: 36
-      example: 3v3n7subscr1p70n
     EventType:
       description: Event type the subscription should apply to AND reason why a notification is sent.
       type: string
@@ -2137,13 +2084,6 @@ components:
       type: string
       maxLength: 35
       example: 618d4ac6e8a64e3d9f26aa3d8c4f323e
-    SubscriptionSearchResponse:
-      type: object
-      properties:
-        eventSubscriptionIds:
-          type: array
-          items:
-            $ref: '#/components/schemas/EventSubscriptionId'
     Uetr:
       description: |
         Globally unique reference Reference assigned by the debtor (optional) or by the debtor agent. Corresponds to the attribute _CdtTrfTxInf ⇾
