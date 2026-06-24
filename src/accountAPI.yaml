@@ -725,53 +725,6 @@ paths:
           $ref: ./components/responses/standard503.yaml
         '504':
           $ref: ./components/responses/standard504.yaml
-  /event-subscriptions/search:
-    parameters:
-      - $ref: ./components/parameters/query/cursor.yaml
-      - $ref: ./components/parameters/query/limit.yaml
-      - $ref: ./components/parameters/query/from_event_date_time.yaml
-      - $ref: ./components/parameters/header/client_id.yaml
-      - $ref: ./components/parameters/header/correlation.yaml
-      - $ref: ./components/parameters/header/agent.yaml
-      - $ref: ./components/parameters/header/target_id.yaml
-      - $ref: ./components/parameters/header/psu_ip.yaml
-      - $ref: ./components/parameters/header/psu_user_agent.yaml
-    get:
-      summary: Search Subscription
-      description: Search for subscriptions with pending events across all consents granted to the calling service user.
-      operationId: searchEventSubscriptions
-      tags:
-        - event notification aggregated polling
-      responses:
-        '200':
-          description: List of event subscriptionIds found.
-          headers:
-            X-Correlation-ID:
-              $ref: ./components/headers/X-Correlation-ID.yaml
-            X-nextCursor:
-              $ref: ./components/headers/X-Next-Cursor.yaml
-          content:
-            application/json:
-              schema:
-                $ref: ./components/schemas/generic/SubscriptionSearchResponse.yaml
-        '400':
-          $ref: ./components/responses/standard400.yaml
-        '401':
-          $ref: ./components/responses/standard401.yaml
-        '403':
-          $ref: ./components/responses/standard403.yaml
-        '404':
-          $ref: ./components/responses/standard404.yaml
-        '405':
-          $ref: ./components/responses/standard405.yaml
-        '500':
-          $ref: ./components/responses/standard500.yaml
-        '501':
-          $ref: ./components/responses/standard501.yaml
-        '503':
-          $ref: ./components/responses/standard503.yaml
-        '504':
-          $ref: ./components/responses/standard504.yaml
   /event-subscriptions/{eventSubscriptionId}/event-notifications:
     parameters:
       - $ref: ./components/parameters/path/event_subscription_id.yaml
