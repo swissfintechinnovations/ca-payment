@@ -1,6 +1,0 @@
-type: object
-properties:
-  eventSubscriptionIds:
-    type: array
-    items:
-      $ref: ./EventSubscriptionId.yaml
