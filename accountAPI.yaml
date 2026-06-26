@@ -523,6 +523,8 @@ paths:
           $ref: '#/components/responses/standard503'
   /event-subscriptions:
     get:
+      tags:
+        - event subscription
       summary: Get event subscription
       description: Retrieve the event subscription for the current consent.
       operationId: listEventSubscription
@@ -534,8 +536,6 @@ paths:
         - $ref: '#/components/parameters/target_id'
         - $ref: '#/components/parameters/psu_ip'
         - $ref: '#/components/parameters/psu_user_agent'
-      tags:
-        - event subscription
       responses:
         '200':
           description: Returns the event subscription associated with the current consent.
@@ -565,6 +565,8 @@ paths:
         '504':
           $ref: '#/components/responses/standard504'
     post:
+      tags:
+        - event subscription
       summary: Create event subscription
       description: Create an event subscription for the current consent.
       operationId: createEventSubscription
@@ -576,8 +578,6 @@ paths:
         - $ref: '#/components/parameters/target_id'
         - $ref: '#/components/parameters/psu_ip'
         - $ref: '#/components/parameters/psu_user_agent'
-      tags:
-        - event subscription
       requestBody:
         content:
           application/json:
@@ -614,21 +614,21 @@ paths:
         '504':
           $ref: '#/components/responses/standard504'
   /event-subscriptions/{eventSubscriptionId}:
-    parameters:
-      - $ref: '#/components/parameters/event_subscription_id'
-      - $ref: '#/components/parameters/authorization'
-      - $ref: '#/components/parameters/client_id'
-      - $ref: '#/components/parameters/correlation'
-      - $ref: '#/components/parameters/agent'
-      - $ref: '#/components/parameters/target_id'
-      - $ref: '#/components/parameters/psu_ip'
-      - $ref: '#/components/parameters/psu_user_agent'
     get:
+      tags:
+        - event subscription
       summary: Get event subscription
       description: Retrieve the event subscription for the current consent.
       operationId: getEventSubscription
-      tags:
-        - event subscription
+      parameters:
+        - $ref: '#/components/parameters/event_subscription_id'
+        - $ref: '#/components/parameters/authorization'
+        - $ref: '#/components/parameters/client_id'
+        - $ref: '#/components/parameters/correlation'
+        - $ref: '#/components/parameters/agent'
+        - $ref: '#/components/parameters/target_id'
+        - $ref: '#/components/parameters/psu_ip'
+        - $ref: '#/components/parameters/psu_user_agent'
       responses:
         '200':
           description: Returns an event subscription.
@@ -658,11 +658,20 @@ paths:
         '504':
           $ref: '#/components/responses/standard504'
     put:
+      tags:
+        - event subscription
       summary: Update event subscription
       description: Update the event subscription for the current consent.
       operationId: updateEventSubscription
-      tags:
-        - event subscription
+      parameters:
+        - $ref: '#/components/parameters/event_subscription_id'
+        - $ref: '#/components/parameters/authorization'
+        - $ref: '#/components/parameters/client_id'
+        - $ref: '#/components/parameters/correlation'
+        - $ref: '#/components/parameters/agent'
+        - $ref: '#/components/parameters/target_id'
+        - $ref: '#/components/parameters/psu_ip'
+        - $ref: '#/components/parameters/psu_user_agent'
       requestBody:
         content:
           application/json:
@@ -701,6 +710,15 @@ paths:
       summary: Delete event subscription
       description: Delete the event subscription for the current consent.
       operationId: deleteEventSubscription
+      parameters:
+        - $ref: '#/components/parameters/event_subscription_id'
+        - $ref: '#/components/parameters/authorization'
+        - $ref: '#/components/parameters/client_id'
+        - $ref: '#/components/parameters/correlation'
+        - $ref: '#/components/parameters/agent'
+        - $ref: '#/components/parameters/target_id'
+        - $ref: '#/components/parameters/psu_ip'
+        - $ref: '#/components/parameters/psu_user_agent'
       responses:
         '204':
           description: Subscription deleted (empty response).
@@ -726,23 +744,23 @@ paths:
         '504':
           $ref: '#/components/responses/standard504'
   /event-subscriptions/{eventSubscriptionId}/event-notifications:
-    parameters:
-      - $ref: '#/components/parameters/event_subscription_id'
-      - $ref: '#/components/parameters/from_event_date_time'
-      - $ref: '#/components/parameters/cursor'
-      - $ref: '#/components/parameters/limit'
-      - $ref: '#/components/parameters/client_id'
-      - $ref: '#/components/parameters/correlation'
-      - $ref: '#/components/parameters/agent'
-      - $ref: '#/components/parameters/target_id'
-      - $ref: '#/components/parameters/psu_ip'
-      - $ref: '#/components/parameters/psu_user_agent'
     get:
+      tags:
+        - event notification aggregated polling
       summary: Get event notifications list
       description: Get aggregated list of event-notifications for the specified subscription.
       operationId: getEventNotificationsByEventSubscriptionId
-      tags:
-        - event notification aggregated polling
+      parameters:
+        - $ref: '#/components/parameters/event_subscription_id'
+        - $ref: '#/components/parameters/from_event_date_time'
+        - $ref: '#/components/parameters/cursor'
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/client_id'
+        - $ref: '#/components/parameters/correlation'
+        - $ref: '#/components/parameters/agent'
+        - $ref: '#/components/parameters/target_id'
+        - $ref: '#/components/parameters/psu_ip'
+        - $ref: '#/components/parameters/psu_user_agent'
       responses:
         '200':
           description: Returns aggregated event notifications for the specified subscription.
