@@ -885,6 +885,8 @@ paths:
           $ref: ./components/responses/standard503.yaml
   /event-subscriptions:
     get:
+      tags:
+        - event subscription
       summary: Get event subscription
       description: Retrieve the event subscription for the current consent.
       operationId: listEventSubscription
@@ -896,8 +898,6 @@ paths:
         - $ref: ./components/parameters/header/target_id.yaml
         - $ref: ./components/parameters/header/psu_ip.yaml
         - $ref: ./components/parameters/header/psu_user_agent.yaml
-      tags:
-        - event subscription
       responses:
         '200':
           description: Returns the event subscription associated with the current consent.
@@ -927,6 +927,8 @@ paths:
         '504':
           $ref: ./components/responses/standard504.yaml
     post:
+      tags:
+        - event subscription
       summary: Create event subscription
       description: Create an event subscription for the current consent.
       operationId: createEventSubscription
@@ -938,8 +940,6 @@ paths:
         - $ref: ./components/parameters/header/target_id.yaml
         - $ref: ./components/parameters/header/psu_ip.yaml
         - $ref: ./components/parameters/header/psu_user_agent.yaml
-      tags:
-        - event subscription
       requestBody:
         content:
           application/json:
@@ -976,21 +976,21 @@ paths:
         '504':
           $ref: ./components/responses/standard504.yaml
   /event-subscriptions/{eventSubscriptionId}:
-    parameters:
-      - $ref: ./components/parameters/path/event_subscription_id.yaml
-      - $ref: ./components/parameters/header/authorization.yaml
-      - $ref: ./components/parameters/header/client_id.yaml
-      - $ref: ./components/parameters/header/correlation.yaml
-      - $ref: ./components/parameters/header/agent.yaml
-      - $ref: ./components/parameters/header/target_id.yaml
-      - $ref: ./components/parameters/header/psu_ip.yaml
-      - $ref: ./components/parameters/header/psu_user_agent.yaml
     get:
+      tags:
+        - event subscription
       summary: Get event subscription
       description: Retrieve the event subscription for the current consent.
       operationId: getEventSubscription
-      tags:
-        - event subscription
+      parameters:
+        - $ref: ./components/parameters/path/event_subscription_id.yaml
+        - $ref: ./components/parameters/header/authorization.yaml
+        - $ref: ./components/parameters/header/client_id.yaml
+        - $ref: ./components/parameters/header/correlation.yaml
+        - $ref: ./components/parameters/header/agent.yaml
+        - $ref: ./components/parameters/header/target_id.yaml
+        - $ref: ./components/parameters/header/psu_ip.yaml
+        - $ref: ./components/parameters/header/psu_user_agent.yaml
       responses:
         '200':
           description: Returns an event subscription.
@@ -1020,11 +1020,20 @@ paths:
         '504':
           $ref: ./components/responses/standard504.yaml
     put:
+      tags:
+        - event subscription
       summary: Update event subscription
       description: Update the event subscription for the current consent.
       operationId: updateEventSubscription
-      tags:
-        - event subscription
+      parameters:
+        - $ref: ./components/parameters/path/event_subscription_id.yaml
+        - $ref: ./components/parameters/header/authorization.yaml
+        - $ref: ./components/parameters/header/client_id.yaml
+        - $ref: ./components/parameters/header/correlation.yaml
+        - $ref: ./components/parameters/header/agent.yaml
+        - $ref: ./components/parameters/header/target_id.yaml
+        - $ref: ./components/parameters/header/psu_ip.yaml
+        - $ref: ./components/parameters/header/psu_user_agent.yaml
       requestBody:
         content:
           application/json:
@@ -1063,6 +1072,15 @@ paths:
       summary: Delete event subscription
       description: Delete the event subscription for the current consent.
       operationId: deleteEventSubscription
+      parameters:
+        - $ref: ./components/parameters/path/event_subscription_id.yaml
+        - $ref: ./components/parameters/header/authorization.yaml
+        - $ref: ./components/parameters/header/client_id.yaml
+        - $ref: ./components/parameters/header/correlation.yaml
+        - $ref: ./components/parameters/header/agent.yaml
+        - $ref: ./components/parameters/header/target_id.yaml
+        - $ref: ./components/parameters/header/psu_ip.yaml
+        - $ref: ./components/parameters/header/psu_user_agent.yaml
       responses:
         '204':
           description: Subscription deleted (empty response).
@@ -1088,23 +1106,23 @@ paths:
         '504':
           $ref: ./components/responses/standard504.yaml
   /event-subscriptions/{eventSubscriptionId}/event-notifications:
-    parameters:
-      - $ref: ./components/parameters/path/event_subscription_id.yaml
-      - $ref: ./components/parameters/query/from_event_date_time.yaml
-      - $ref: ./components/parameters/query/cursor.yaml
-      - $ref: ./components/parameters/query/limit.yaml
-      - $ref: ./components/parameters/header/client_id.yaml
-      - $ref: ./components/parameters/header/correlation.yaml
-      - $ref: ./components/parameters/header/agent.yaml
-      - $ref: ./components/parameters/header/target_id.yaml
-      - $ref: ./components/parameters/header/psu_ip.yaml
-      - $ref: ./components/parameters/header/psu_user_agent.yaml
     get:
+      tags:
+        - event notification aggregated polling
       summary: Get event notifications list
       description: Get aggregated list of event-notifications for the specified subscription.
       operationId: getEventNotificationsByEventSubscriptionId
-      tags:
-        - event notification aggregated polling
+      parameters:
+        - $ref: ./components/parameters/path/event_subscription_id.yaml
+        - $ref: ./components/parameters/query/from_event_date_time.yaml
+        - $ref: ./components/parameters/query/cursor.yaml
+        - $ref: ./components/parameters/query/limit.yaml
+        - $ref: ./components/parameters/header/client_id.yaml
+        - $ref: ./components/parameters/header/correlation.yaml
+        - $ref: ./components/parameters/header/agent.yaml
+        - $ref: ./components/parameters/header/target_id.yaml
+        - $ref: ./components/parameters/header/psu_ip.yaml
+        - $ref: ./components/parameters/header/psu_user_agent.yaml
       responses:
         '200':
           description: Returns aggregated event notifications for the specified subscription.
