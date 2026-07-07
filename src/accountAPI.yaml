@@ -555,6 +555,8 @@ paths:
           $ref: ./components/responses/standard502.yaml
         '503':
           $ref: ./components/responses/standard503.yaml
+        '504':
+          $ref: ./components/responses/standard504.yaml
   /event-subscriptions:
     get:
       tags:
@@ -594,6 +596,8 @@ paths:
           $ref: ./components/responses/standard500.yaml
         '501':
           $ref: ./components/responses/standard501.yaml
+        '502':
+          $ref: ./components/responses/standard502.yaml
         '503':
           $ref: ./components/responses/standard503.yaml
         '504':
@@ -643,6 +647,8 @@ paths:
           $ref: ./components/responses/standard500.yaml
         '501':
           $ref: ./components/responses/standard501.yaml
+        '502':
+          $ref: ./components/responses/standard502.yaml
         '503':
           $ref: ./components/responses/standard503.yaml
         '504':
@@ -687,6 +693,8 @@ paths:
           $ref: ./components/responses/standard500.yaml
         '501':
           $ref: ./components/responses/standard501.yaml
+        '502':
+          $ref: ./components/responses/standard502.yaml
         '503':
           $ref: ./components/responses/standard503.yaml
         '504':
@@ -734,6 +742,8 @@ paths:
           $ref: ./components/responses/standard500.yaml
         '501':
           $ref: ./components/responses/standard501.yaml
+        '502':
+          $ref: ./components/responses/standard502.yaml
         '503':
           $ref: ./components/responses/standard503.yaml
         '504':
@@ -773,6 +783,8 @@ paths:
           $ref: ./components/responses/standard500.yaml
         '501':
           $ref: ./components/responses/standard501.yaml
+        '502':
+          $ref: ./components/responses/standard502.yaml
         '503':
           $ref: ./components/responses/standard503.yaml
         '504':
@@ -823,6 +835,8 @@ paths:
           $ref: ./components/responses/standard500.yaml
         '501':
           $ref: ./components/responses/standard501.yaml
+        '502':
+          $ref: ./components/responses/standard502.yaml
         '503':
           $ref: ./components/responses/standard503.yaml
         '504':
