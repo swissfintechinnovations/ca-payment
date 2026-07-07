@@ -956,23 +956,6 @@ paths:
           $ref: '#/components/responses/standard502'
         '503':
           $ref: '#/components/responses/standard503'
-        '504':
-          $ref: '#/components/responses/standard504'
-  /accounts:
-    get:
-      tags:
-        - accounts
-      summary: Get a list of all accounts
-      description: |
-        Get a list of all accounts for the authenticated context. The response contains an `accounts` array;
-        if no accounts are available, the array is empty (for example: `{"accounts": []}`).
-
-        Pagination is controlled via the `cursor` and `limit` query parameters.
-        If more accounts are available, the `X-Next-Cursor` response header provides the cursor value for the next page.
-      operationId: listAccounts
-      parameters:
-        - $ref: '#/components/parameters/cursor'
-        - $ref: '#/components/parameters/limit'
   /event-subscriptions:
     get:
       tags:
@@ -1247,83 +1230,12 @@ paths:
           $ref: '#/components/responses/standard504'
 components:
   schemas:
-    AccountItem:
-      title: Account Information Item
-      description: The account object.
-      type: object
-      required:
-        - account
-        - accountOwnerName
-        - accountTypeCode
-        - designation
-        - id
-      properties:
-        account:
-          $ref: '#/components/schemas/PaymentIbanAccount'
-        accountOwnerName:
-          $ref: '#/components/schemas/AccountOwnerName'
-        accountTypeCode:
-          type: string
-          description: |
-            Contains the account type code according to the ISO20022 external cash account type code list. It is strongly recommended to use only
-            the 5 codes below as follows:
-            * LOAN: Account used for loans (loan and mortgage accounts) - DE: Darlehenskonto, Kreditkonto, Baukreditkonto, Hypothekarkonto
-            * LLSV: Account used for savings with special interest and withdrawal terms (pension provision and vested benefits accounts) - DE:
-            Vorsorge- und Freizügigkeitskonten
-            * SVGS: Account used for savings (all types of saving accounts)
-            * TRAN: Account used for transactions (all types of personal, current and payment accounts) - DE: Privat-, Kontokorrent- und
-            Zahlungsverkehrskonten
-            * OTHR: Account not otherwise specified (gathering pool for all other accounts)
-
-            Note: This attribute is required in the Account API, while optional in SPS. Reason: Necessary for the multibanking use case. Ref: Issue#97
-          example: TRAN
-          enum:
-            - CACC
-            - CARD
-            - CASH
-            - CHAR
-            - CISH
-            - COMM
-            - CPAC
-            - LLSV
-            - LOAN
-            - MGLD
-            - MOMA
-            - NFCA
-            - NREX
-            - ODFT
-            - ONDP
-            - OTHR
-            - SACC
-            - SLRY
-            - SVGS
-            - TAXE
-            - TRAN
-            - TRAS
-            - VACC
-        designation:
-          $ref: '#/components/schemas/Designation'
-        id:
-          $ref: '#/components/schemas/CommonAccountId'
-        currency:
-          $ref: '#/components/schemas/Currency'
-    AccountOwnerName:
-      description: Name of the account holder. Corresponds to the attribute _Acct ⇾ Ownr ⇾ Nm_ in SPS/ISO-20022.
-      type: string
-      maxLength: 140
-      example: Account Owner XYZ
     Amount:
       description: An amount. Corresponds to the attribute _Amt_ in SPS/ISO-20022.
       type: string
       maxLength: 18
       pattern: ^[0-9]{1,12}([.][0-9]{1,5})?$
       example: '10.25'
-    CommonAccountId:
-      description: Unique identifier (UUID) of the account for which information shall be retrieved.
-      type: string
-      maxLength: 256
-      pattern: ^[A-Za-z0-9](([A-Za-z0-9._]|-){0,254}[A-Za-z0-9]){0,1}$
-      example: abc123_abcxyz.123789.abcxyz.abcxyz_abcxyz_abcxyz_abcxyz_ccccc_123abc
     CommonClearingSystemMemberIdentification:
       title: Common Clearing System Member Identification
       description: Specifies the Information used to identify a member within a clearing system.
@@ -1446,13 +1358,6 @@ components:
         - '31'
       maxLength: 2
       example: '1'
-    Designation:
-      description: |
-        This element shall always be populated with the account alias, if defined, otherwise with specific bank account name (e.g. bank saving
-        account). This attribute is required in the Account API, while optional in SPS. Reason: Necessary for the multibanking use case. Ref: Issue#98.
-      type: string
-      maxLength: 140
-      example: Firmenkonto
     EndDate:
       title: End Date
       description: The last applicable day of execution. If not given, it is an infinite standing order.
