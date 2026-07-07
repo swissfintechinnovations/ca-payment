@@ -548,6 +548,8 @@ paths:
           $ref: '#/components/responses/standard502'
         '503':
           $ref: '#/components/responses/standard503'
+        '504':
+          $ref: '#/components/responses/standard504'
   /event-subscriptions:
     get:
       tags:
@@ -587,6 +589,8 @@ paths:
           $ref: '#/components/responses/standard500'
         '501':
           $ref: '#/components/responses/standard501'
+        '502':
+          $ref: '#/components/responses/standard502'
         '503':
           $ref: '#/components/responses/standard503'
         '504':
@@ -636,6 +640,8 @@ paths:
           $ref: '#/components/responses/standard500'
         '501':
           $ref: '#/components/responses/standard501'
+        '502':
+          $ref: '#/components/responses/standard502'
         '503':
           $ref: '#/components/responses/standard503'
         '504':
@@ -680,6 +686,8 @@ paths:
           $ref: '#/components/responses/standard500'
         '501':
           $ref: '#/components/responses/standard501'
+        '502':
+          $ref: '#/components/responses/standard502'
         '503':
           $ref: '#/components/responses/standard503'
         '504':
@@ -727,6 +735,8 @@ paths:
           $ref: '#/components/responses/standard500'
         '501':
           $ref: '#/components/responses/standard501'
+        '502':
+          $ref: '#/components/responses/standard502'
         '503':
           $ref: '#/components/responses/standard503'
         '504':
@@ -766,6 +776,8 @@ paths:
           $ref: '#/components/responses/standard500'
         '501':
           $ref: '#/components/responses/standard501'
+        '502':
+          $ref: '#/components/responses/standard502'
         '503':
           $ref: '#/components/responses/standard503'
         '504':
@@ -816,6 +828,8 @@ paths:
           $ref: '#/components/responses/standard500'
         '501':
           $ref: '#/components/responses/standard501'
+        '502':
+          $ref: '#/components/responses/standard502'
         '503':
           $ref: '#/components/responses/standard503'
         '504':
