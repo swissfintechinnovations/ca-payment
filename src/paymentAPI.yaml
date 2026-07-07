@@ -32,6 +32,15 @@ tags:
     description: |
       Third party payment service considering pain.001 and pain.002 operations (XML). PUT operation can be used for both payment submission
       and payment initiation (PSS/pss), depending on security implementation.
+  - name: event subscription
+    description: |
+      Event subscription operations in the context of OAuth2 consent authentication. One subscription is bound to exactly
+      one consent and supports create, retrieve, update and delete operations. Multiple event types are managed within the single
+      subscription resource.
+  - name: event notification aggregated polling
+    description: |
+      Aggregated polling operations in the context of Service User authentication, used for catch-up retrieval of event notifications.
+      Consists of an optional search step to identify subscriptions with pending events, followed by retrieval of the actual notifications.
 security:
   - OAuth2:
       - read
@@ -874,6 +883,278 @@ paths:
           $ref: ./components/responses/standard501.yaml
         '503':
           $ref: ./components/responses/standard503.yaml
+  /event-subscriptions:
+    get:
+      tags:
+        - event subscription
+      summary: Get event subscription
+      description: Retrieve the event subscription for the current consent.
+      operationId: listEventSubscription
+      parameters:
+        - $ref: ./components/parameters/header/authorization.yaml
+        - $ref: ./components/parameters/header/client_id.yaml
+        - $ref: ./components/parameters/header/correlation.yaml
+        - $ref: ./components/parameters/header/agent.yaml
+        - $ref: ./components/parameters/header/target_id.yaml
+        - $ref: ./components/parameters/header/psu_ip.yaml
+        - $ref: ./components/parameters/header/psu_user_agent.yaml
+      responses:
+        '200':
+          description: Returns the event subscription associated with the current consent.
+          headers:
+            X-Correlation-ID:
+              $ref: ./components/headers/X-Correlation-ID.yaml
+          content:
+            application/json:
+              schema:
+                $ref: ./components/schemas/pss/EventSubscription.yaml
+        '400':
+          $ref: ./components/responses/standard400.yaml
+        '401':
+          $ref: ./components/responses/standard401.yaml
+        '403':
+          $ref: ./components/responses/standard403.yaml
+        '404':
+          $ref: ./components/responses/standard404.yaml
+        '405':
+          $ref: ./components/responses/standard405.yaml
+        '500':
+          $ref: ./components/responses/standard500.yaml
+        '501':
+          $ref: ./components/responses/standard501.yaml
+        '503':
+          $ref: ./components/responses/standard503.yaml
+        '504':
+          $ref: ./components/responses/standard504.yaml
+    post:
+      tags:
+        - event subscription
+      summary: Create event subscription
+      description: Create an event subscription for the current consent.
+      operationId: createEventSubscription
+      parameters:
+        - $ref: ./components/parameters/header/authorization.yaml
+        - $ref: ./components/parameters/header/client_id.yaml
+        - $ref: ./components/parameters/header/correlation.yaml
+        - $ref: ./components/parameters/header/agent.yaml
+        - $ref: ./components/parameters/header/target_id.yaml
+        - $ref: ./components/parameters/header/psu_ip.yaml
+        - $ref: ./components/parameters/header/psu_user_agent.yaml
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: ./components/schemas/pss/EventSubscription.yaml
+      responses:
+        '201':
+          description: Returns created event subscription.
+          headers:
+            X-Correlation-ID:
+              $ref: ./components/headers/X-Correlation-ID.yaml
+          content:
+            application/json:
+              schema:
+                $ref: ./components/schemas/pss/EventSubscription.yaml
+        '400':
+          $ref: ./components/responses/standard400.yaml
+        '401':
+          $ref: ./components/responses/standard401.yaml
+        '403':
+          $ref: ./components/responses/standard403.yaml
+        '404':
+          $ref: ./components/responses/standard404.yaml
+        '405':
+          $ref: ./components/responses/standard405.yaml
+        '409':
+          $ref: ./components/responses/standard409.yaml
+        '500':
+          $ref: ./components/responses/standard500.yaml
+        '501':
+          $ref: ./components/responses/standard501.yaml
+        '503':
+          $ref: ./components/responses/standard503.yaml
+        '504':
+          $ref: ./components/responses/standard504.yaml
+  /event-subscriptions/{eventSubscriptionId}:
+    get:
+      tags:
+        - event subscription
+      summary: Get event subscription
+      description: Retrieve the event subscription for the current consent.
+      operationId: getEventSubscription
+      parameters:
+        - $ref: ./components/parameters/path/event_subscription_id.yaml
+        - $ref: ./components/parameters/header/authorization.yaml
+        - $ref: ./components/parameters/header/client_id.yaml
+        - $ref: ./components/parameters/header/correlation.yaml
+        - $ref: ./components/parameters/header/agent.yaml
+        - $ref: ./components/parameters/header/target_id.yaml
+        - $ref: ./components/parameters/header/psu_ip.yaml
+        - $ref: ./components/parameters/header/psu_user_agent.yaml
+      responses:
+        '200':
+          description: Returns an event subscription.
+          headers:
+            X-Correlation-ID:
+              $ref: ./components/headers/X-Correlation-ID.yaml
+          content:
+            application/json:
+              schema:
+                $ref: ./components/schemas/pss/EventSubscription.yaml
+        '400':
+          $ref: ./components/responses/standard400.yaml
+        '401':
+          $ref: ./components/responses/standard401.yaml
+        '403':
+          $ref: ./components/responses/standard403.yaml
+        '404':
+          $ref: ./components/responses/standard404.yaml
+        '405':
+          $ref: ./components/responses/standard405.yaml
+        '500':
+          $ref: ./components/responses/standard500.yaml
+        '501':
+          $ref: ./components/responses/standard501.yaml
+        '503':
+          $ref: ./components/responses/standard503.yaml
+        '504':
+          $ref: ./components/responses/standard504.yaml
+    put:
+      tags:
+        - event subscription
+      summary: Update event subscription
+      description: Update the event subscription for the current consent.
+      operationId: updateEventSubscription
+      parameters:
+        - $ref: ./components/parameters/path/event_subscription_id.yaml
+        - $ref: ./components/parameters/header/authorization.yaml
+        - $ref: ./components/parameters/header/client_id.yaml
+        - $ref: ./components/parameters/header/correlation.yaml
+        - $ref: ./components/parameters/header/agent.yaml
+        - $ref: ./components/parameters/header/target_id.yaml
+        - $ref: ./components/parameters/header/psu_ip.yaml
+        - $ref: ./components/parameters/header/psu_user_agent.yaml
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: ./components/schemas/pss/EventSubscription.yaml
+            example:
+              eventTypes:
+                - consents:listUpdated
+      responses:
+        '204':
+          description: Subscription updated (empty response).
+          headers:
+            X-Correlation-ID:
+              $ref: ./components/headers/X-Correlation-ID.yaml
+        '400':
+          $ref: ./components/responses/standard400.yaml
+        '401':
+          $ref: ./components/responses/standard401.yaml
+        '403':
+          $ref: ./components/responses/standard403.yaml
+        '404':
+          $ref: ./components/responses/standard404.yaml
+        '405':
+          $ref: ./components/responses/standard405.yaml
+        '500':
+          $ref: ./components/responses/standard500.yaml
+        '501':
+          $ref: ./components/responses/standard501.yaml
+        '503':
+          $ref: ./components/responses/standard503.yaml
+        '504':
+          $ref: ./components/responses/standard504.yaml
+    delete:
+      tags:
+        - event subscription
+      summary: Delete event subscription
+      description: Delete the event subscription for the current consent.
+      operationId: deleteEventSubscription
+      parameters:
+        - $ref: ./components/parameters/path/event_subscription_id.yaml
+        - $ref: ./components/parameters/header/authorization.yaml
+        - $ref: ./components/parameters/header/client_id.yaml
+        - $ref: ./components/parameters/header/correlation.yaml
+        - $ref: ./components/parameters/header/agent.yaml
+        - $ref: ./components/parameters/header/target_id.yaml
+        - $ref: ./components/parameters/header/psu_ip.yaml
+        - $ref: ./components/parameters/header/psu_user_agent.yaml
+      responses:
+        '204':
+          description: Subscription deleted (empty response).
+          headers:
+            X-Correlation-ID:
+              $ref: ./components/headers/X-Correlation-ID.yaml
+        '400':
+          $ref: ./components/responses/standard400.yaml
+        '401':
+          $ref: ./components/responses/standard401.yaml
+        '403':
+          $ref: ./components/responses/standard403.yaml
+        '404':
+          $ref: ./components/responses/standard404.yaml
+        '405':
+          $ref: ./components/responses/standard405.yaml
+        '500':
+          $ref: ./components/responses/standard500.yaml
+        '501':
+          $ref: ./components/responses/standard501.yaml
+        '503':
+          $ref: ./components/responses/standard503.yaml
+        '504':
+          $ref: ./components/responses/standard504.yaml
+  /event-subscriptions/{eventSubscriptionId}/event-notifications:
+    get:
+      tags:
+        - event notification aggregated polling
+      summary: Get event notifications list
+      description: Get aggregated list of event-notifications for the specified subscription.
+      operationId: getEventNotificationsByEventSubscriptionId
+      parameters:
+        - $ref: ./components/parameters/path/event_subscription_id.yaml
+        - $ref: ./components/parameters/query/from_event_date_time.yaml
+        - $ref: ./components/parameters/query/cursor.yaml
+        - $ref: ./components/parameters/query/limit.yaml
+        - $ref: ./components/parameters/header/client_id.yaml
+        - $ref: ./components/parameters/header/correlation.yaml
+        - $ref: ./components/parameters/header/agent.yaml
+        - $ref: ./components/parameters/header/target_id.yaml
+        - $ref: ./components/parameters/header/psu_ip.yaml
+        - $ref: ./components/parameters/header/psu_user_agent.yaml
+      responses:
+        '200':
+          description: Returns aggregated event notifications for the specified subscription.
+          headers:
+            X-Correlation-ID:
+              $ref: ./components/headers/X-Correlation-ID.yaml
+            X-nextCursor:
+              $ref: ./components/headers/X-Next-Cursor.yaml
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: ./components/schemas/pss/EventNotification.yaml
+        '400':
+          $ref: ./components/responses/standard400.yaml
+        '401':
+          $ref: ./components/responses/standard401.yaml
+        '403':
+          $ref: ./components/responses/standard403.yaml
+        '404':
+          $ref: ./components/responses/standard404.yaml
+        '429':
+          $ref: ./components/responses/standard429.yaml
+        '500':
+          $ref: ./components/responses/standard500.yaml
+        '501':
+          $ref: ./components/responses/standard501.yaml
+        '503':
+          $ref: ./components/responses/standard503.yaml
+        '504':
+          $ref: ./components/responses/standard504.yaml
 components:
   securitySchemes:
     OAuth2:

@@ -1,0 +1,15 @@
+headers:
+  Content-Language:
+    $ref: ../headers/Content-Language.yaml
+  X-Correlation-ID:
+    $ref: ../headers/X-Correlation-ID.yaml
+description: Gateway Timeout.
+content:
+  application/problem+json:
+    schema:
+      $ref: ../schemas/CommonErrorResponse.yaml
+    example:
+      type: /problems/TECHNICAL_ERROR
+      title: gateway timeout
+      detail: the request could not be completed in time
+      instance: path/to/corresponding/resource
