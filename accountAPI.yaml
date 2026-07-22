@@ -13,7 +13,7 @@ info:
     name: Apache 2.0
     url: https://www.apache.org/licenses/LICENSE-2.0.html
 servers:
-  - url: account.common-api.ch/api/v5
+  - url: account.common-api.ch/api/v6
 externalDocs:
   description: Find out more about SFTI API specifications.
   url: https://www.common-api.ch
@@ -91,8 +91,12 @@ paths:
           $ref: '#/components/responses/standard500'
         '501':
           $ref: '#/components/responses/standard501'
+        '502':
+          $ref: '#/components/responses/standard502'
         '503':
           $ref: '#/components/responses/standard503'
+        '504':
+          $ref: '#/components/responses/standard504'
   /accounts/{accountId}:
     get:
       tags:
@@ -133,8 +137,12 @@ paths:
           $ref: '#/components/responses/standard500'
         '501':
           $ref: '#/components/responses/standard501'
+        '502':
+          $ref: '#/components/responses/standard502'
         '503':
           $ref: '#/components/responses/standard503'
+        '504':
+          $ref: '#/components/responses/standard504'
   /accounts/{accountId}/balance:
     get:
       tags:
@@ -188,8 +196,12 @@ paths:
           $ref: '#/components/responses/standard500'
         '501':
           $ref: '#/components/responses/standard501'
+        '502':
+          $ref: '#/components/responses/standard502'
         '503':
           $ref: '#/components/responses/standard503'
+        '504':
+          $ref: '#/components/responses/standard504'
   /accounts/{accountId}/transactions:
     get:
       tags:
@@ -207,10 +219,10 @@ paths:
 
         If no transactions match the requested date range or intraday window, return an empty list: {"entries": []}.
 
-        Results are sorted by bookingDate in descending order. Additional sorting logic is provider-specific but all providers must ensure
-        stable and consistent pagination behavior. If pagination is required, the server includes an opaque cursor in the `X-Next-Cursor`
+        Results are sorted by bookingDate in descending order. Additional sorting logic is provider-specific but all Service Providers must ensure
+        stable and consistent pagination behavior. If pagination is required, the Service Provider includes an opaque cursor in the `X-Next-Cursor`
         header. This cursor identifies a specific position in the sorted result set and is internally derived from the sorting criteria.
-        Clients must pass this value unchanged in the `cursor` parameter of the next request to retrieve subsequent pages.
+        Service Users must pass this value unchanged in the `cursor` parameter of the next request to retrieve subsequent pages.
 
         Transaction details are optional in the schema, but all available information must be included if present for a given transaction.
       operationId: listAccountTransactions
@@ -241,15 +253,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/AccountTransactionReport'
         '202':
-          description: |
-            Accepted - The request is valid, but the requested data is not yet available because the associated booking day is still
-            in progress or not finalized. The request can be repeated at a later time once the data has been finalized.
           $ref: '#/components/responses/standard202'
         '204':
-          description: |
-            No Content - The request was successful, but no data is available for the requested date or parameters. No data is expected to become
-            available in the future. This may occur if the requested period is outside the retention scope or if no entries exist for the given
-            account and criteria.
           $ref: '#/components/responses/standard204'
         '400':
           $ref: '#/components/responses/standard400'
@@ -265,8 +270,12 @@ paths:
           $ref: '#/components/responses/standard500'
         '501':
           $ref: '#/components/responses/standard501'
+        '502':
+          $ref: '#/components/responses/standard502'
         '503':
           $ref: '#/components/responses/standard503'
+        '504':
+          $ref: '#/components/responses/standard504'
   /accounts/{accountId}/transactions/{entryId}:
     get:
       tags:
@@ -311,8 +320,12 @@ paths:
           $ref: '#/components/responses/standard500'
         '501':
           $ref: '#/components/responses/standard501'
+        '502':
+          $ref: '#/components/responses/standard502'
         '503':
           $ref: '#/components/responses/standard503'
+        '504':
+          $ref: '#/components/responses/standard504'
   /iso20022/statements:
     get:
       tags:
@@ -373,8 +386,12 @@ paths:
           $ref: '#/components/responses/standard500'
         '501':
           $ref: '#/components/responses/standard501'
+        '502':
+          $ref: '#/components/responses/standard502'
         '503':
           $ref: '#/components/responses/standard503'
+        '504':
+          $ref: '#/components/responses/standard504'
   /iso20022/statements/{reportId}:
     get:
       tags:
@@ -416,8 +433,12 @@ paths:
           $ref: '#/components/responses/standard500'
         '501':
           $ref: '#/components/responses/standard501'
+        '502':
+          $ref: '#/components/responses/standard502'
         '503':
           $ref: '#/components/responses/standard503'
+        '504':
+          $ref: '#/components/responses/standard504'
   /iso20022/reports:
     get:
       tags:
@@ -476,8 +497,12 @@ paths:
           $ref: '#/components/responses/standard500'
         '501':
           $ref: '#/components/responses/standard501'
+        '502':
+          $ref: '#/components/responses/standard502'
         '503':
           $ref: '#/components/responses/standard503'
+        '504':
+          $ref: '#/components/responses/standard504'
   /iso20022/reports/{reportId}:
     get:
       tags:
@@ -519,8 +544,12 @@ paths:
           $ref: '#/components/responses/standard500'
         '501':
           $ref: '#/components/responses/standard501'
+        '502':
+          $ref: '#/components/responses/standard502'
         '503':
           $ref: '#/components/responses/standard503'
+        '504':
+          $ref: '#/components/responses/standard504'
   /event-subscriptions:
     get:
       tags:
@@ -560,6 +589,8 @@ paths:
           $ref: '#/components/responses/standard500'
         '501':
           $ref: '#/components/responses/standard501'
+        '502':
+          $ref: '#/components/responses/standard502'
         '503':
           $ref: '#/components/responses/standard503'
         '504':
@@ -609,6 +640,8 @@ paths:
           $ref: '#/components/responses/standard500'
         '501':
           $ref: '#/components/responses/standard501'
+        '502':
+          $ref: '#/components/responses/standard502'
         '503':
           $ref: '#/components/responses/standard503'
         '504':
@@ -653,6 +686,8 @@ paths:
           $ref: '#/components/responses/standard500'
         '501':
           $ref: '#/components/responses/standard501'
+        '502':
+          $ref: '#/components/responses/standard502'
         '503':
           $ref: '#/components/responses/standard503'
         '504':
@@ -700,6 +735,8 @@ paths:
           $ref: '#/components/responses/standard500'
         '501':
           $ref: '#/components/responses/standard501'
+        '502':
+          $ref: '#/components/responses/standard502'
         '503':
           $ref: '#/components/responses/standard503'
         '504':
@@ -739,6 +776,8 @@ paths:
           $ref: '#/components/responses/standard500'
         '501':
           $ref: '#/components/responses/standard501'
+        '502':
+          $ref: '#/components/responses/standard502'
         '503':
           $ref: '#/components/responses/standard503'
         '504':
@@ -789,6 +828,8 @@ paths:
           $ref: '#/components/responses/standard500'
         '501':
           $ref: '#/components/responses/standard501'
+        '502':
+          $ref: '#/components/responses/standard502'
         '503':
           $ref: '#/components/responses/standard503'
         '504':
@@ -817,7 +858,6 @@ components:
           example: CLBD
         date:
           $ref: '#/components/schemas/Date'
-          description: The date for which the balance was retrieved.
         _links:
           type: object
           description: Contains the paths to additional resources for specific account (e.g. path to account and transactions resource).
@@ -904,7 +944,6 @@ components:
               example: /accounts/550e8400-e29b-11d4-a716-446655440000/transactions
         currency:
           $ref: '#/components/schemas/Currency'
-          description: The ISO currency three-letter code denominated and set for the account at the time it is opened.
     AccountOwnerName:
       description: Name of the account holder. Corresponds to the attribute _Acct ⇾ Ownr ⇾ Nm_ in SPS/ISO-20022.
       type: string
@@ -1025,7 +1064,6 @@ components:
           $ref: '#/components/schemas/AccountTransactionBankTransactionCode'
         bookingDate:
           $ref: '#/components/schemas/Date'
-          description: The booking date of the transaction set by the bank. Corresponds to the attribute _BookgDt_ in SPS/ISO-20022.
         entryStatus:
           type: string
           enum:
@@ -1037,7 +1075,6 @@ components:
           $ref: '#/components/schemas/AccountTransactionTransactionType'
         valueDate:
           $ref: '#/components/schemas/Date'
-          description: The value date of the transaction set by the bank. Corresponds to the attribute _ValDt_ in SPS/ISO-20022.
         entryReference:
           type: string
           description: Booking reference; format depends on booking type. Corresponds to NtryRef in SPS/ISO-20022.
@@ -1074,7 +1111,6 @@ components:
       properties:
         amount:
           $ref: '#/components/schemas/Amount'
-          description: Corresponds to the attribute TxDtls ⇾ AmtDtls ⇾ InstdAmt ⇾ Amt.
         exchangeRate:
           type: string
           pattern: ^\d{1,11}$|^(?=\d+[.]\d+$).{3,12}$
@@ -1085,17 +1121,10 @@ components:
           example: '0.957'
         sourceCurrency:
           $ref: '#/components/schemas/Currency'
-          description: |
-            The ISO currency three-letter code which is used to fund a currency conversion. Corresponds to the attribute _SrcCcy_ in
-            SPS/ISO-20022.
         targetCurrency:
           $ref: '#/components/schemas/Currency'
-          description: |
-            The ISO currency three-letter code which the recipient will receive after the currency conversion. Corresponds to the attribute
-            _TrgtCcy_ in SPS/ISO-20022.
         unitCcy:
           $ref: '#/components/schemas/Currency'
-          description: Currency in which the exchange rate is specified. Corresponds to attribute _UnitCcy_ in SPS/ISO-20022.
     AccountTransactionItem:
       title: Account Transaction Item
       description: Specifies the transaction entry item.
@@ -1162,10 +1191,8 @@ components:
       properties:
         amount:
           $ref: '#/components/schemas/Amount'
-          description: The total amount of account charges.
         currency:
           $ref: '#/components/schemas/Currency'
-          description: The ISO currency three-letter code in which the total amount of charges was posed.
         chargeRecords:
           type: array
           description: Specifies the details about individual charges.
@@ -1181,10 +1208,8 @@ components:
       properties:
         amount:
           $ref: '#/components/schemas/Amount'
-          description: The amount of individual charges.
         currency:
           $ref: '#/components/schemas/Currency'
-          description: The ISO currency three-letter code in which the amount of individual charges was posed based.
         chargesIncludedIndicator:
           description: |
             Indicates whether the charges are included in the entry amount or not. Corresponds to the attribute _ChrgInclInd_ in SPS/ISO-20022.
@@ -1192,7 +1217,6 @@ components:
           example: true
         transactionType:
           $ref: '#/components/schemas/AccountTransactionTransactionType'
-          description: Corresponds to the attribute _Chrgs ⇾ Rcrd ⇾ CdtDbtInd_ in SPS/ISO-20022.
         type:
           type: string
           maxLength: 35
@@ -1241,7 +1265,6 @@ components:
             $ref: '#/components/schemas/AccountTransactionEntry'
         iban:
           $ref: '#/components/schemas/IbanIdentification'
-          description: The International Bank Account Number (IBAN), associated with the account.
         _links:
           type: object
           description: Contains the paths to additional resources for specific account (e.g. path to account and balance resource).
@@ -1348,7 +1371,6 @@ components:
           example: '10.25'
         currency:
           $ref: '#/components/schemas/Currency'
-          description: The ISO currency three-letter code in which the balance and the account are held.
     CommonAccountId:
       description: Unique identifier (UUID) of the account for which information shall be retrieved.
       type: string
@@ -1535,7 +1557,6 @@ components:
           $ref: '#/components/schemas/PaymentIbanAccount'
         creationDateTime:
           $ref: '#/components/schemas/DateTime'
-          description: Date and time when the message was created. Corresponds to the attribute _GrpHdr ⇾ CreDtTm_ in SPS/ISO-20022.
         id:
           type: string
           description: The unique identifier of the referenced ISO20022 report.
@@ -1564,10 +1585,8 @@ components:
             * full: Contains all transactions since the last regular account statement (camt.053).
         dateFrom:
           $ref: '#/components/schemas/Date'
-          description: The start date of the transaction query period, optional for camt.052.
         dateTo:
           $ref: '#/components/schemas/Date'
-          description: The end date of the transaction query period, optional for camt.052.
       allOf:
         - $ref: '#/components/schemas/Iso20022ReportReference'
     Iso20022ReportReference053:
@@ -1580,10 +1599,8 @@ components:
       properties:
         dateFrom:
           $ref: '#/components/schemas/Date'
-          description: The start date of the transaction query period, mandatory for camt.053.
         dateTo:
           $ref: '#/components/schemas/Date'
-          description: The end date of the transaction query period, mandatory for camt.053.
       allOf:
         - $ref: '#/components/schemas/Iso20022ReportReference'
     PaymentCurrencyAmount:
@@ -1596,10 +1613,8 @@ components:
       properties:
         amount:
           $ref: '#/components/schemas/Amount'
-          description: The entry amount, which will be reflected in the account balance.
         currency:
           $ref: '#/components/schemas/Currency'
-          description: The ISO currency three-letter code in which the entry was posed.
     PaymentIbanAccount:
       title: Payment IBAN Account
       description: The IBAN account object.
@@ -1610,7 +1625,6 @@ components:
       properties:
         identification:
           $ref: '#/components/schemas/IbanIdentification'
-          description: The International Bank Account Number (IBAN), associated with the account.
         type:
           type: string
           description: |
@@ -1660,7 +1674,7 @@ components:
         - InvalidParameter:
         type: /problems/INVALID_PAYLOAD
         title: Invalid parameter values have been detected
-        detail: Sent data could not processed
+        detail: Sent data could not be processed
         instance: path/to/corresponding/resource
 
         - MissingId:
@@ -1678,7 +1692,21 @@ components:
           $ref: '#/components/headers/Content-Language'
         X-Correlation-ID:
           $ref: '#/components/headers/X-Correlation-ID'
-      description: Unauthorized - The request has not been applied because it provides no valid authentication credentials for the target resource.
+      description: |
+        Unauthorized - The request has not been applied because it provides no valid authentication credentials for the target resource.
+
+        Examples:
+        - InvalidToken:
+        type: /problems/INSUFFICIENT_PRIVILEGES
+        title: Insufficient privileges to access resource
+        detail: The provided token is not valid
+        instance: path/to/corresponding/resource
+
+        - ExpiredToken:
+        type: /problems/EXPIRED_TOKEN
+        title: The OAuth Token is expired
+        detail: The token is no longer valid
+        instance: path/to/corresponding/resource
       content:
         application/problem+json:
           schema:
@@ -1698,12 +1726,6 @@ components:
         type: /problems/INSUFFICIENT_PRIVILEGES
         title: No privileges for the requested operation
         detail: Insufficient privileges for the requested operation
-        instance: path/to/corresponding/resource
-
-        - ExpiredToken:
-        type: /problems/EXPIRED_TOKEN
-        title: The OAuth Token is expired
-        detail: The token is no longer valid
         instance: path/to/corresponding/resource
 
         - NoFutureDateSupported:
@@ -1730,12 +1752,6 @@ components:
         type: /problems/INSUFFICIENT_PRIVILEGES
         title: Insufficient privileges to access resource
         detail: The provided token does not grant access to the requested account
-        instance: path/to/corresponding/resource
-
-        - InvalidToken:
-        type: /problems/INSUFFICIENT_PRIVILEGES
-        title: Insufficient privileges to access resource
-        detail: The provided token is not valid
         instance: path/to/corresponding/resource
 
         - WrongEndpointUrl:
@@ -1840,6 +1856,17 @@ components:
         application/problem+json:
           schema:
             $ref: '#/components/schemas/CommonErrorResponse'
+    standard502:
+      headers:
+        Content-Language:
+          $ref: '#/components/headers/Content-Language'
+        X-Correlation-ID:
+          $ref: '#/components/headers/X-Correlation-ID'
+      description: Bad Gateway - The server received an invalid response from the upstream server.
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/CommonErrorResponse'
     standard503:
       headers:
         Content-Language:
@@ -1857,16 +1884,11 @@ components:
           $ref: '#/components/headers/Content-Language'
         X-Correlation-ID:
           $ref: '#/components/headers/X-Correlation-ID'
-      description: Gateway Timeout.
+      description: Gateway Timeout - The server did not get a response in time that it needed in order to complete the request.
       content:
         application/problem+json:
           schema:
             $ref: '#/components/schemas/CommonErrorResponse'
-          example:
-            type: /problems/TECHNICAL_ERROR
-            title: gateway timeout
-            detail: the request could not be completed in time
-            instance: path/to/corresponding/resource
   parameters:
     account_id:
       in: path
@@ -1881,7 +1903,7 @@ components:
     agent:
       in: header
       name: User-Agent
-      description: Name and version of the of the Client software.
+      description: Name and version of the of the Service User software.
       required: true
       schema:
         type: string
@@ -1895,7 +1917,7 @@ components:
     client_id:
       in: header
       name: X-CorAPI-Client-ID
-      description: 'ID of the client forwarded to the provider (SCOPE: FI).'
+      description: ID of the Service User forwarded to the Service Provider.
       required: true
       schema:
         type: string
@@ -1906,10 +1928,14 @@ components:
       required: true
       schema:
         type: string
+        maxLength: 64
+        pattern: ^[A-Za-z0-9\-._#{}]{5,64}$
     cursor:
       in: query
       name: cursor
-      description: Optional parameter for pagination. Use the ID of the last item from the previous response to retrieve the next set of results.
+      description: |
+        An opaque string value used for pagination. Use the value returned in the X-Next-Cursor response header of the previous request to retrieve the
+        next page of results. The cursor is server-defined and must not be interpreted, modified or constructed by Service Users.
       required: false
       schema:
         type: string
@@ -1917,7 +1943,8 @@ components:
     date:
       in: query
       name: date
-      description: 'The date to query, formatted as yyyy-mm-dd. Default value: current date.'
+      description: |
+        The date to query, formatted as yyyy-mm-dd. Default value: current date.
       schema:
         $ref: '#/components/schemas/Date'
     date_from:
@@ -1991,15 +2018,15 @@ components:
     psu_ip:
       in: header
       name: X-PSU-IP-Address
-      description: 'IP address of the user initiating the operation (SCOPE: FI - optional).'
-      required: false
+      description: IP address of the user initiating the operation or AUTO for system triggered processes.
+      required: true
       schema:
         type: string
     psu_user_agent:
       in: header
       name: X-PSU-User-Agent
-      description: 'User of the client software (SCOPE: FI - optional).'
-      required: false
+      description: User agent of the user initiating the operation or AUTO for system triggered processes.
+      required: true
       schema:
         type: string
     report_id:
@@ -2013,8 +2040,8 @@ components:
     target_id:
       in: header
       name: X-CorAPI-Target-ID
-      description: 'ID of the target, e.g., a financial institution (SCOPE: FI - optional).'
-      required: false
+      description: ID that identifies the Service Provider.
+      required: true
       schema:
         type: string
   headers:
@@ -2023,9 +2050,11 @@ components:
       schema:
         type: string
     X-Correlation-ID:
-      description: Client defined ID from request to correlates HTTP requests between a client and server.
+      description: Service User defined ID from request to correlate HTTP requests between a Service User and a Service Provider.
       schema:
         type: string
+        maxLength: 64
+        pattern: ^[A-Za-z0-9\-._#{}]{5,64}$
         example: f058ebd6-02f7-4d3f-942e-904344e8cde5
     X-Next-Cursor:
       description: |

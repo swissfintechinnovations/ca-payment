@@ -3,7 +3,7 @@ headers:
     $ref: ../headers/Content-Language.yaml
   X-Correlation-ID:
     $ref: ../headers/X-Correlation-ID.yaml
-description: Gateway Timeout - The server did not get a response in time that it needed in order to complete the request.
+description: Bad Gateway - The server received an invalid response from the upstream server.
 content:
   application/problem+json:
     schema:

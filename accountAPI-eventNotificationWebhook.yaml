@@ -170,7 +170,7 @@ components:
         - InvalidParameter:
         type: /problems/INVALID_PAYLOAD
         title: Invalid parameter values have been detected
-        detail: Sent data could not processed
+        detail: Sent data could not be processed
         instance: path/to/corresponding/resource
 
         - MissingId:
@@ -197,12 +197,6 @@ components:
         type: /problems/INSUFFICIENT_PRIVILEGES
         title: Insufficient privileges to access resource
         detail: The provided token does not grant access to the requested account
-        instance: path/to/corresponding/resource
-
-        - InvalidToken:
-        type: /problems/INSUFFICIENT_PRIVILEGES
-        title: Insufficient privileges to access resource
-        detail: The provided token is not valid
         instance: path/to/corresponding/resource
 
         - WrongEndpointUrl:
@@ -293,28 +287,23 @@ components:
           $ref: '#/components/headers/Content-Language'
         X-Correlation-ID:
           $ref: '#/components/headers/X-Correlation-ID'
-      description: Gateway Timeout.
+      description: Gateway Timeout - The server did not get a response in time that it needed in order to complete the request.
       content:
         application/problem+json:
           schema:
             $ref: '#/components/schemas/CommonErrorResponse'
-          example:
-            type: /problems/TECHNICAL_ERROR
-            title: gateway timeout
-            detail: the request could not be completed in time
-            instance: path/to/corresponding/resource
   parameters:
     agent:
       in: header
       name: User-Agent
-      description: Name and version of the of the Client software.
+      description: Name and version of the of the Service User software.
       required: true
       schema:
         type: string
     client_id:
       in: header
       name: X-CorAPI-Client-ID
-      description: 'ID of the client forwarded to the provider (SCOPE: FI).'
+      description: ID of the Service User forwarded to the Service Provider.
       required: true
       schema:
         type: string
@@ -325,25 +314,27 @@ components:
       required: true
       schema:
         type: string
+        maxLength: 64
+        pattern: ^[A-Za-z0-9\-._#{}]{5,64}$
     psu_ip:
       in: header
       name: X-PSU-IP-Address
-      description: 'IP address of the user initiating the operation (SCOPE: FI - optional).'
-      required: false
+      description: IP address of the user initiating the operation or AUTO for system triggered processes.
+      required: true
       schema:
         type: string
     psu_user_agent:
       in: header
       name: X-PSU-User-Agent
-      description: 'User of the client software (SCOPE: FI - optional).'
-      required: false
+      description: User agent of the user initiating the operation or AUTO for system triggered processes.
+      required: true
       schema:
         type: string
     target_id:
       in: header
       name: X-CorAPI-Target-ID
-      description: 'ID of the target, e.g., a financial institution (SCOPE: FI - optional).'
-      required: false
+      description: ID that identifies the Service Provider.
+      required: true
       schema:
         type: string
   headers:
@@ -352,7 +343,9 @@ components:
       schema:
         type: string
     X-Correlation-ID:
-      description: Client defined ID from request to correlates HTTP requests between a client and server.
+      description: Service User defined ID from request to correlate HTTP requests between a Service User and a Service Provider.
       schema:
         type: string
+        maxLength: 64
+        pattern: ^[A-Za-z0-9\-._#{}]{5,64}$
         example: f058ebd6-02f7-4d3f-942e-904344e8cde5

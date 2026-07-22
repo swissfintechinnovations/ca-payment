@@ -8,7 +8,7 @@ properties:
   identification:
     type: string
     maxLength: 34
-    description: The unique identification (UUID) of the OTHER payment account.
+    description: The unique identifier of the OTHER payment account.
     example: 01-39139-1
   type:
     type: string

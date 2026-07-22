@@ -19,7 +19,7 @@ properties:
       - RCVD
     example: PART
   messageId:
-    description: The unique identifier (UUID) of the payment instruction message.
+    # description: The unique identifier of the payment instruction message.
     $ref: ./MessageId.yaml
   transactions:
     type: array

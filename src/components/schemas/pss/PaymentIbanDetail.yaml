@@ -6,22 +6,22 @@ required:
   - creditorAccount
 properties:
   creditor:
-    description: The creditor of the IBAN payment.
+    # description: The creditor of the IBAN payment.
     $ref: ./PaymentCreditor.yaml
   creditorAccount:
-    description: The creditor account of the IBAN payment. Corresponds to the attribute _CdtrAcct_ in SPS/ISO-20022.
+    # description: The creditor account of the IBAN payment. Corresponds to the attribute _CdtrAcct_ in SPS/ISO-20022.
     $ref: ./PaymentIbanAccount.yaml
   chargeBearer:
-    description: The charge bearer of the IBAN payment.
+    # description: The charge bearer of the IBAN payment.
     $ref: ./PaymentChargeBearerMethod.yaml
   creditorAgent:
-    description: The creditor agent of the IBAN payment.
+    # description: The creditor agent of the IBAN payment.
     $ref: ./PaymentCreditorAgent.yaml
   remittanceInformation:
-    description: The remittance information of the IBAN payment.
+    # description: The remittance information of the IBAN payment.
     $ref: ./PaymentRemittanceInformation.yaml
   remittanceReference:
-    description: The remittance reference of the IBAN payment.
+    # description: The remittance reference of the IBAN payment.
     $ref: ./PaymentIbanRemittanceReference.yaml
   sepaIndicator:
     type: boolean

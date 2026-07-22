@@ -13,7 +13,7 @@ info:
     name: Apache 2.0
     url: https://www.apache.org/licenses/LICENSE-2.0.html
 servers:
-  - url: payment.common-api.ch/api/v5
+  - url: payment.common-api.ch/api/v6
 externalDocs:
   description: Find out more about SFTI API specifications.
   url: https://www.common-api.ch
@@ -32,6 +32,8 @@ tags:
     description: |
       Third party payment service considering pain.001 and pain.002 operations (XML). PUT operation can be used for both payment submission
       and payment initiation (PSS/pss), depending on security implementation.
+  - name: accounts
+    description: Third party access to bank account information.
   - name: event subscription
     description: |
       Event subscription operations in the context of OAuth2 consent authentication. One subscription is bound to exactly
@@ -97,8 +99,12 @@ paths:
           $ref: '#/components/responses/standard500'
         '501':
           $ref: '#/components/responses/standard501'
+        '502':
+          $ref: '#/components/responses/standard502'
         '503':
           $ref: '#/components/responses/standard503'
+        '504':
+          $ref: '#/components/responses/standard504'
     post:
       tags:
         - standing orders
@@ -147,8 +153,12 @@ paths:
           $ref: '#/components/responses/standard500'
         '501':
           $ref: '#/components/responses/standard501'
+        '502':
+          $ref: '#/components/responses/standard502'
         '503':
           $ref: '#/components/responses/standard503'
+        '504':
+          $ref: '#/components/responses/standard504'
   /standing-orders/{submissionId}:
     get:
       tags:
@@ -190,8 +200,12 @@ paths:
           $ref: '#/components/responses/standard500'
         '501':
           $ref: '#/components/responses/standard501'
+        '502':
+          $ref: '#/components/responses/standard502'
         '503':
           $ref: '#/components/responses/standard503'
+        '504':
+          $ref: '#/components/responses/standard504'
     delete:
       tags:
         - standing orders
@@ -233,8 +247,12 @@ paths:
           $ref: '#/components/responses/standard500'
         '501':
           $ref: '#/components/responses/standard501'
+        '502':
+          $ref: '#/components/responses/standard502'
         '503':
           $ref: '#/components/responses/standard503'
+        '504':
+          $ref: '#/components/responses/standard504'
   /standing-orders/{submissionId}/status:
     get:
       tags:
@@ -276,8 +294,12 @@ paths:
           $ref: '#/components/responses/standard500'
         '501':
           $ref: '#/components/responses/standard501'
+        '502':
+          $ref: '#/components/responses/standard502'
         '503':
           $ref: '#/components/responses/standard503'
+        '504':
+          $ref: '#/components/responses/standard504'
   /payments:
     get:
       tags:
@@ -329,8 +351,12 @@ paths:
           $ref: '#/components/responses/standard500'
         '501':
           $ref: '#/components/responses/standard501'
+        '502':
+          $ref: '#/components/responses/standard502'
         '503':
           $ref: '#/components/responses/standard503'
+        '504':
+          $ref: '#/components/responses/standard504'
     post:
       tags:
         - payments
@@ -379,8 +405,12 @@ paths:
           $ref: '#/components/responses/standard500'
         '501':
           $ref: '#/components/responses/standard501'
+        '502':
+          $ref: '#/components/responses/standard502'
         '503':
           $ref: '#/components/responses/standard503'
+        '504':
+          $ref: '#/components/responses/standard504'
   /payments/{submissionId}:
     delete:
       tags:
@@ -423,8 +453,12 @@ paths:
           $ref: '#/components/responses/standard500'
         '501':
           $ref: '#/components/responses/standard501'
+        '502':
+          $ref: '#/components/responses/standard502'
         '503':
           $ref: '#/components/responses/standard503'
+        '504':
+          $ref: '#/components/responses/standard504'
   /payments/{submissionId}/status:
     get:
       tags:
@@ -466,8 +500,12 @@ paths:
           $ref: '#/components/responses/standard500'
         '501':
           $ref: '#/components/responses/standard501'
+        '502':
+          $ref: '#/components/responses/standard502'
         '503':
           $ref: '#/components/responses/standard503'
+        '504':
+          $ref: '#/components/responses/standard504'
   /single-payments:
     get:
       tags:
@@ -522,8 +560,12 @@ paths:
           $ref: '#/components/responses/standard500'
         '501':
           $ref: '#/components/responses/standard501'
+        '502':
+          $ref: '#/components/responses/standard502'
         '503':
           $ref: '#/components/responses/standard503'
+        '504':
+          $ref: '#/components/responses/standard504'
     post:
       tags:
         - single payments
@@ -572,8 +614,12 @@ paths:
           $ref: '#/components/responses/standard500'
         '501':
           $ref: '#/components/responses/standard501'
+        '502':
+          $ref: '#/components/responses/standard502'
         '503':
           $ref: '#/components/responses/standard503'
+        '504':
+          $ref: '#/components/responses/standard504'
   /single-payments/{submissionId}:
     get:
       tags:
@@ -615,8 +661,12 @@ paths:
           $ref: '#/components/responses/standard500'
         '501':
           $ref: '#/components/responses/standard501'
+        '502':
+          $ref: '#/components/responses/standard502'
         '503':
           $ref: '#/components/responses/standard503'
+        '504':
+          $ref: '#/components/responses/standard504'
     delete:
       tags:
         - single payments
@@ -658,8 +708,12 @@ paths:
           $ref: '#/components/responses/standard500'
         '501':
           $ref: '#/components/responses/standard501'
+        '502':
+          $ref: '#/components/responses/standard502'
         '503':
           $ref: '#/components/responses/standard503'
+        '504':
+          $ref: '#/components/responses/standard504'
   /single-payments/{submissionId}/status:
     get:
       tags:
@@ -701,8 +755,12 @@ paths:
           $ref: '#/components/responses/standard500'
         '501':
           $ref: '#/components/responses/standard501'
+        '502':
+          $ref: '#/components/responses/standard502'
         '503':
           $ref: '#/components/responses/standard503'
+        '504':
+          $ref: '#/components/responses/standard504'
   /iso20022/payments:
     post:
       tags:
@@ -720,7 +778,7 @@ paths:
         - $ref: '#/components/parameters/psu_user_agent'
         - $ref: '#/components/parameters/psu_accept_lang'
       requestBody:
-        description: The XML pain.001.
+        description: Payment instruction details as defined by data model.
         required: true
         content:
           application/xml:
@@ -752,8 +810,12 @@ paths:
           $ref: '#/components/responses/standard500'
         '501':
           $ref: '#/components/responses/standard501'
+        '502':
+          $ref: '#/components/responses/standard502'
         '503':
           $ref: '#/components/responses/standard503'
+        '504':
+          $ref: '#/components/responses/standard504'
   /iso20022/payments/{submissionId}:
     get:
       tags:
@@ -795,8 +857,12 @@ paths:
           $ref: '#/components/responses/standard500'
         '501':
           $ref: '#/components/responses/standard501'
+        '502':
+          $ref: '#/components/responses/standard502'
         '503':
           $ref: '#/components/responses/standard503'
+        '504':
+          $ref: '#/components/responses/standard504'
     delete:
       tags:
         - iso20022
@@ -838,8 +904,12 @@ paths:
           $ref: '#/components/responses/standard500'
         '501':
           $ref: '#/components/responses/standard501'
+        '502':
+          $ref: '#/components/responses/standard502'
         '503':
           $ref: '#/components/responses/standard503'
+        '504':
+          $ref: '#/components/responses/standard504'
   /iso20022/payments/{submissionId}/status:
     get:
       tags:
@@ -867,6 +937,7 @@ paths:
             application/xml:
               schema:
                 type: string
+                format: binary
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -881,8 +952,74 @@ paths:
           $ref: '#/components/responses/standard500'
         '501':
           $ref: '#/components/responses/standard501'
+        '502':
+          $ref: '#/components/responses/standard502'
         '503':
           $ref: '#/components/responses/standard503'
+        '504':
+          $ref: '#/components/responses/standard504'
+  /accounts:
+    get:
+      tags:
+        - accounts
+      summary: Get a list of all accounts
+      description: |
+        Get a list of all accounts for the authenticated context. The response contains an `accounts` array;
+        if no accounts are available, the array is empty (for example: `{"accounts": []}`).
+
+        Pagination is controlled via the `cursor` and `limit` query parameters.
+        If more accounts are available, the `X-Next-Cursor` response header provides the cursor value for the next page.
+      operationId: listAccounts
+      parameters:
+        - $ref: '#/components/parameters/cursor'
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/authorization'
+        - $ref: '#/components/parameters/client_id'
+        - $ref: '#/components/parameters/correlation'
+        - $ref: '#/components/parameters/agent'
+        - $ref: '#/components/parameters/target_id'
+        - $ref: '#/components/parameters/psu_ip'
+        - $ref: '#/components/parameters/psu_user_agent'
+        - $ref: '#/components/parameters/psu_accept_lang'
+      responses:
+        '200':
+          description: Paginated list of all accounts.
+          headers:
+            X-Correlation-ID:
+              $ref: '#/components/headers/X-Correlation-ID'
+            X-Next-Cursor:
+              $ref: '#/components/headers/X-Next-Cursor'
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - accounts
+                properties:
+                  accounts:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/AccountItem'
+        '400':
+          $ref: '#/components/responses/standard400'
+        '401':
+          $ref: '#/components/responses/standard401'
+        '403':
+          $ref: '#/components/responses/standard403'
+        '404':
+          $ref: '#/components/responses/standard404'
+        '405':
+          $ref: '#/components/responses/standard405'
+        '500':
+          $ref: '#/components/responses/standard500'
+        '501':
+          $ref: '#/components/responses/standard501'
+        '502':
+          $ref: '#/components/responses/standard502'
+        '503':
+          $ref: '#/components/responses/standard503'
+        '504':
+          $ref: '#/components/responses/standard504'
   /event-subscriptions:
     get:
       tags:
@@ -971,6 +1108,8 @@ paths:
           $ref: '#/components/responses/standard500'
         '501':
           $ref: '#/components/responses/standard501'
+        '502':
+          $ref: '#/components/responses/standard502'
         '503':
           $ref: '#/components/responses/standard503'
         '504':
@@ -1015,6 +1154,8 @@ paths:
           $ref: '#/components/responses/standard500'
         '501':
           $ref: '#/components/responses/standard501'
+        '502':
+          $ref: '#/components/responses/standard502'
         '503':
           $ref: '#/components/responses/standard503'
         '504':
@@ -1041,7 +1182,7 @@ paths:
               $ref: '#/components/schemas/EventSubscription'
             example:
               eventTypes:
-                - consents:listUpdated
+                - accounts:listUpdated
       responses:
         '204':
           description: Subscription updated (empty response).
@@ -1062,6 +1203,8 @@ paths:
           $ref: '#/components/responses/standard500'
         '501':
           $ref: '#/components/responses/standard501'
+        '502':
+          $ref: '#/components/responses/standard502'
         '503':
           $ref: '#/components/responses/standard503'
         '504':
@@ -1101,6 +1244,8 @@ paths:
           $ref: '#/components/responses/standard500'
         '501':
           $ref: '#/components/responses/standard501'
+        '502':
+          $ref: '#/components/responses/standard502'
         '503':
           $ref: '#/components/responses/standard503'
         '504':
@@ -1151,18 +1296,91 @@ paths:
           $ref: '#/components/responses/standard500'
         '501':
           $ref: '#/components/responses/standard501'
+        '502':
+          $ref: '#/components/responses/standard502'
         '503':
           $ref: '#/components/responses/standard503'
         '504':
           $ref: '#/components/responses/standard504'
 components:
   schemas:
+    AccountItem:
+      title: Account Information Item
+      description: The account object.
+      type: object
+      required:
+        - account
+        - accountOwnerName
+        - accountTypeCode
+        - designation
+        - id
+      properties:
+        account:
+          $ref: '#/components/schemas/PaymentIbanAccount'
+        accountOwnerName:
+          $ref: '#/components/schemas/AccountOwnerName'
+        accountTypeCode:
+          type: string
+          description: |
+            Contains the account type code according to the ISO20022 external cash account type code list. It is strongly recommended to use only
+            the 5 codes below as follows:
+            * LOAN: Account used for loans (loan and mortgage accounts) - DE: Darlehenskonto, Kreditkonto, Baukreditkonto, Hypothekarkonto
+            * LLSV: Account used for savings with special interest and withdrawal terms (pension provision and vested benefits accounts) - DE:
+            Vorsorge- und Freizügigkeitskonten
+            * SVGS: Account used for savings (all types of saving accounts)
+            * TRAN: Account used for transactions (all types of personal, current and payment accounts) - DE: Privat-, Kontokorrent- und
+            Zahlungsverkehrskonten
+            * OTHR: Account not otherwise specified (gathering pool for all other accounts)
+
+            Note: This attribute is required in the Account API, while optional in SPS. Reason: Necessary for the multibanking use case. Ref: Issue#97
+          example: TRAN
+          enum:
+            - CACC
+            - CARD
+            - CASH
+            - CHAR
+            - CISH
+            - COMM
+            - CPAC
+            - LLSV
+            - LOAN
+            - MGLD
+            - MOMA
+            - NFCA
+            - NREX
+            - ODFT
+            - ONDP
+            - OTHR
+            - SACC
+            - SLRY
+            - SVGS
+            - TAXE
+            - TRAN
+            - TRAS
+            - VACC
+        designation:
+          $ref: '#/components/schemas/Designation'
+        id:
+          $ref: '#/components/schemas/CommonAccountId'
+        currency:
+          $ref: '#/components/schemas/Currency'
+    AccountOwnerName:
+      description: Name of the account holder. Corresponds to the attribute _Acct ⇾ Ownr ⇾ Nm_ in SPS/ISO-20022.
+      type: string
+      maxLength: 140
+      example: Account Owner XYZ
     Amount:
       description: An amount. Corresponds to the attribute _Amt_ in SPS/ISO-20022.
       type: string
       maxLength: 18
       pattern: ^[0-9]{1,12}([.][0-9]{1,5})?$
       example: '10.25'
+    CommonAccountId:
+      description: Unique identifier (UUID) of the account for which information shall be retrieved.
+      type: string
+      maxLength: 256
+      pattern: ^[A-Za-z0-9](([A-Za-z0-9._]|-){0,254}[A-Za-z0-9]){0,1}$
+      example: abc123_abcxyz.123789.abcxyz.abcxyz_abcxyz_abcxyz_abcxyz_ccccc_123abc
     CommonClearingSystemMemberIdentification:
       title: Common Clearing System Member Identification
       description: Specifies the Information used to identify a member within a clearing system.
@@ -1285,6 +1503,13 @@ components:
         - '31'
       maxLength: 2
       example: '1'
+    Designation:
+      description: |
+        This element shall always be populated with the account alias, if defined, otherwise with specific bank account name (e.g. bank saving
+        account). This attribute is required in the Account API, while optional in SPS. Reason: Necessary for the multibanking use case. Ref: Issue#98.
+      type: string
+      maxLength: 140
+      example: Firmenkonto
     EndDate:
       title: End Date
       description: The last applicable day of execution. If not given, it is an infinite standing order.
@@ -1353,8 +1578,8 @@ components:
       description: Event type the subscription should apply to AND reason why a notification is sent.
       type: string
       enum:
-        - consents:listUpdated
-      example: consents:listUpdated
+        - accounts:listUpdated
+      example: accounts:listUpdated
     ExecutionRule:
       title: Execution Rule
       description: |
@@ -1402,12 +1627,12 @@ components:
       maxLength: 32
       example: TPP01746
     InstructionId:
-      description: The unique identifier (UUID) of the instruction item. Corresponds to the attribute _InstrId_ in SPS/ISO-20022.
+      description: The unique identifier of the instruction item. Corresponds to the attribute _InstrId_ in SPS/ISO-20022.
       type: string
       maxLength: 35
       example: INSTR-001
     MessageId:
-      description: The unique identifier (UUID) of the the instruction message. Corresponds to the attribute _MsgId_ in SPS/ISO-20022.
+      description: The unique identifier of the instruction message. Corresponds to the attribute _MsgId_ in SPS/ISO-20022.
       type: string
       maxLength: 35
       example: eb6305c91f7f49deaed016487c27b42d
@@ -1456,10 +1681,9 @@ components:
         name:
           type: string
           maxLength: 140
-          description: The name of the creditor of a payment. Restriction for payment type SEis 70 characters.
+          description: The name of the creditor of a payment. Restriction for payment type SEPA is 70 characters.
           example: Hans Muster
         postalAddress:
-          description: The postal address of the creditor of a payment.
           $ref: '#/components/schemas/PaymentPostalAddress'
     PaymentCreditorAgent:
       description: The creditor agent of a payment.
@@ -1478,7 +1702,6 @@ components:
             - Last 3 characters (optional) - branch code, specifying a particular branch of the bank (letters and digits)
           example: DEUTDE5M101
         clearingSystemMemberIdentification:
-          description: The clearing system member identification of the creditor agend of a payment.
           $ref: '#/components/schemas/CommonClearingSystemMemberIdentification'
     PaymentCurrencyAmount:
       title: Payment Currency-Amount
@@ -1490,10 +1713,8 @@ components:
       properties:
         amount:
           $ref: '#/components/schemas/Amount'
-          description: The entry amount, which will be reflected in the account balance.
         currency:
           $ref: '#/components/schemas/Currency'
-          description: The ISO currency three-letter code in which the entry was posed.
     PaymentDebtor:
       title: Payment Debtor
       description: The debtor of a payment.
@@ -1508,7 +1729,6 @@ components:
           description: The name of the debtor of a payment. Restriction for payment type SEPA is 70 characters.
           example: Hans Muster
         postalAddress:
-          description: The postal address of the debtor of a payment.
           $ref: '#/components/schemas/PaymentPostalAddress'
     PaymentIbanAccount:
       title: Payment IBAN Account
@@ -1520,7 +1740,6 @@ components:
       properties:
         identification:
           $ref: '#/components/schemas/IbanIdentification'
-          description: The International Bank Account Number (IBAN), associated with the debtor account.
         type:
           type: string
           description: |
@@ -1538,22 +1757,16 @@ components:
         - creditorAccount
       properties:
         creditor:
-          description: The creditor of the IBAN payment.
           $ref: '#/components/schemas/PaymentCreditor'
         creditorAccount:
-          description: The creditor account of the IBAN payment. Corresponds to the attribute _CdtrAcct_ in SPS/ISO-20022.
           $ref: '#/components/schemas/PaymentIbanAccount'
         chargeBearer:
-          description: The charge bearer of the IBAN payment.
           $ref: '#/components/schemas/PaymentChargeBearerMethod'
         creditorAgent:
-          description: The creditor agent of the IBAN payment.
           $ref: '#/components/schemas/PaymentCreditorAgent'
         remittanceInformation:
-          description: The remittance information of the IBAN payment.
           $ref: '#/components/schemas/PaymentRemittanceInformation'
         remittanceReference:
-          description: The remittance reference of the IBAN payment.
           $ref: '#/components/schemas/PaymentIbanRemittanceReference'
         sepaIndicator:
           type: boolean
@@ -1587,28 +1800,20 @@ components:
         - instructionId
       properties:
         endToEndId:
-          description: The endToEndId of the payment instruction item.
           $ref: '#/components/schemas/EndToEndId'
         instructedAmount:
-          description: The instructed amount of the payment. Corresponds to the attribute _InstdAmt_ in SPS/ISO-20022.
           $ref: '#/components/schemas/PaymentCurrencyAmount'
         instructionId:
-          description: The identifier of the payment instruction item.
           $ref: '#/components/schemas/InstructionId'
         ibanDetails:
-          description: The IBAN details of the payment instruction item.
           $ref: '#/components/schemas/PaymentIbanDetail'
         isrDetails:
-          description: The ISR details of the payment instruction item.
           $ref: '#/components/schemas/PaymentIsrDetail'
         otherDetails:
-          description: Other details of the payment instruction item.
           $ref: '#/components/schemas/PaymentOtherDetail'
         qrDetails:
-          description: The QR details of the payment instruction item.
           $ref: '#/components/schemas/PaymentQrDetail'
         uetr:
-          description: The uetr of the payment instruction item.
           $ref: '#/components/schemas/Uetr'
     PaymentInstructionItemStatus:
       title: Payment Instruction Item Status
@@ -1619,7 +1824,6 @@ components:
         - statusCode
       properties:
         instructionId:
-          description: The unique identifier (UUID) of the payment instruction item.
           $ref: '#/components/schemas/InstructionId'
         statusCode:
           type: string
@@ -1648,13 +1852,10 @@ components:
         - remittanceReference
       properties:
         remittanceReference:
-          description: The remittance reference of the ISR payment.
           $ref: '#/components/schemas/PaymentIsrRemittanceReference'
         creditor:
-          description: The creditor of the ISR payment.
           $ref: '#/components/schemas/PaymentCreditor'
         creditorAccount:
-          description: The creditor account of the ISR payment.
           $ref: '#/components/schemas/PaymentOtherAccount'
     PaymentIsrRemittanceReference:
       title: Payment Remittance Reference
@@ -1682,7 +1883,7 @@ components:
         identification:
           type: string
           maxLength: 34
-          description: The unique identification (UUID) of the OTHER payment account.
+          description: The unique identifier of the OTHER payment account.
           example: 01-39139-1
         type:
           type: string
@@ -1700,19 +1901,14 @@ components:
         - creditorAgent
       properties:
         creditor:
-          description: The creditor of the OTHER payment.
           $ref: '#/components/schemas/PaymentCreditor'
         creditorAccount:
-          description: The creditor account of the OTHER payment. Corresponds to the attribute _CdtrAcct_ in SPS/ISO-20022.
           $ref: '#/components/schemas/PaymentOtherAccount'
         creditorAgent:
-          description: The creditor agent of the OTHER payment.
           $ref: '#/components/schemas/PaymentCreditorAgent'
         chargeBearer:
-          description: The charge bearer of the OTHER payment.
           $ref: '#/components/schemas/PaymentChargeBearerMethod'
         remittanceReference:
-          description: The remittance reference of the OTHER payment.
           $ref: '#/components/schemas/PaymentOtherRemittanceReference'
     PaymentOtherRemittanceReference:
       title: Payment Remittance Reference
@@ -1786,22 +1982,16 @@ components:
         - creditorAccount
       properties:
         creditor:
-          description: The creditor of the QR payment.
           $ref: '#/components/schemas/PaymentCreditor'
         creditorAccount:
-          description: The creditor account of the OR payment. Corresponds to the attribute _CdtrAcct_ in SPS/ISO-20022.
           $ref: '#/components/schemas/PaymentQrIbanAccount'
         remittanceInformation:
-          description: The remittance information of the QR payment.
           $ref: '#/components/schemas/PaymentRemittanceInformation'
         remittanceReference:
-          description: The remittance reference of the QR payment.
           $ref: '#/components/schemas/PaymentIbanRemittanceReference'
         ultimateCreditor:
-          description: The ultimate creditor of the QR payment.
           $ref: '#/components/schemas/PaymentCreditor'
         ultimateDebtor:
-          description: The ultimate debtor of the QR payment.
           $ref: '#/components/schemas/PaymentDebtor'
     PaymentQrIbanAccount:
       title: Payment QR-IBAN Account
@@ -1813,7 +2003,6 @@ components:
       properties:
         identification:
           $ref: '#/components/schemas/IbanIdentification'
-          description: The International Bank Account Number (IBAN), associated with the debtor  account.
         type:
           type: string
           description: IBAN or QR-IBAN of the creditor, only IBANs with CH or LI country code permitted.
@@ -1840,22 +2029,14 @@ components:
         - transactions
       properties:
         bookingInstruction:
-          description: The payment booking instruction. Corresponds to the attribute _DbtrAcct ⇾ Tp ⇾ Prtry_ in SPS/ISO-20022.
           $ref: '#/components/schemas/PaymentBookingInstruction'
         debtorAccount:
-          description: The account of the debtor. The debtor account must always be an IBAN. Corresponds to the attribute _DbtrAcct_ in SPS/ISO-20022.
           $ref: '#/components/schemas/PaymentIbanAccount'
         initiatingPartyId:
-          description: The identifier of the third party provider (TPP) who created the payment instruction message derived from the OAuth 2.0 flow.
           $ref: '#/components/schemas/InitiatingPartyId'
         messageId:
-          description: The unique identifier (UUID) of the the payment instruction message.
           $ref: '#/components/schemas/MessageId'
         requestedExecutionDate:
-          description: |
-            The requested execution date. In some cases, the financial institution can/will change this date, if the requested date is a bank /
-            post holiday. If no date is chosen, the receiving financial institution will execute on the next possible date. Corresponds to the
-            attribute _ReqdExctnDt_ in SPS/ISO-20022.
           $ref: '#/components/schemas/Date'
         transactions:
           type: array
@@ -1891,7 +2072,6 @@ components:
             - RCVD
           example: PART
         messageId:
-          description: The unique identifier (UUID) of the payment instruction message.
           $ref: '#/components/schemas/MessageId'
         transactions:
           type: array
@@ -1920,46 +2100,30 @@ components:
         - requestedExecutionDate
       properties:
         bookingInstruction:
-          description: The payment booking instruction. Corresponds to the attribute _DbtrAcct ⇾ Tp ⇾ Prtry_ in SPS/ISO-20022.
           $ref: '#/components/schemas/PaymentBookingInstruction'
         debtorAccount:
-          description: The account of the debtor. The debtor account must always be an IBAN. Corresponds to the attribute _DbtrAcct_ in SPS/ISO-20022.
           $ref: '#/components/schemas/PaymentIbanAccount'
         endToEndId:
-          description: The endToEndId of the single payment instruction item.
           $ref: '#/components/schemas/EndToEndId'
         initiatingPartyId:
-          description: The identifier of the third party provider (TPP) who created the payment instruction message derived from the OAuth 2.0 flow.
           $ref: '#/components/schemas/InitiatingPartyId'
         instructedAmount:
-          description: The instructed amount of the single payment. Corresponds to the attribute _InstdAmt_ in SPS/ISO-20022.
           $ref: '#/components/schemas/PaymentCurrencyAmount'
         instructionId:
-          description: The unique identifier (UUID) of the single payment instruction item.
           $ref: '#/components/schemas/InstructionId'
         messageId:
-          description: The unique identifier (UUID) of the the single payment instruction message.
           $ref: '#/components/schemas/MessageId'
         requestedExecutionDate:
-          description: |
-            The requested execution date. In some cases, the financial institution can/will change this date, if the requested date is a bank /
-            post holiday. If no date is chosen, the receiving financial institution will execute on the next possible date. Corresponds to the
-            attribute _ReqdExctnDt_ in SPS/ISO-20022.
           $ref: '#/components/schemas/Date'
         ibanDetails:
-          description: The IBAN details of the single payment instruction item.
           $ref: '#/components/schemas/PaymentIbanDetail'
         isrDetails:
-          description: The ISR details of the single payment instruction item.
           $ref: '#/components/schemas/PaymentIsrDetail'
         otherDetails:
-          description: Other details of the single payment instruction item.
           $ref: '#/components/schemas/PaymentOtherDetail'
         qrDetails:
-          description: The QR details of the single payment instruction item.
           $ref: '#/components/schemas/PaymentQrDetail'
         uetr:
-          description: The uetr of the payment instruction item.
           $ref: '#/components/schemas/Uetr'
     SinglepaymentsSubmissionResponse:
       title: Single Payment Submission Response
@@ -1983,34 +2147,24 @@ components:
         - startDate
       properties:
         debtorAccount:
-          description: The account of the debtor. The debtor account must always be an IBAN. Corresponds to the attribute _DbtrAcct_ in SPS/ISO-20022.
           $ref: '#/components/schemas/PaymentIbanAccount'
         endToEndId:
-          description: The endToEndId of the standing order instruction item.
           $ref: '#/components/schemas/EndToEndId'
         frequency:
-          description: The frequency of the standing order instruction item.
           $ref: '#/components/schemas/FrequencyCode'
         initiatingPartyId:
-          description: The identifier of the third party provider (TPP) who created the payment instruction message derived from the OAuth 2.0 flow.
           $ref: '#/components/schemas/InitiatingPartyId'
         instructedAmount:
-          description: The instructed amount of the standing order. Corresponds to the attribute _InstdAmt_ in SPS/ISO-20022.
           $ref: '#/components/schemas/PaymentCurrencyAmount'
         instructionId:
-          description: The unique identifier (UUID) of the standing order instruction item.
           $ref: '#/components/schemas/InstructionId'
         messageId:
-          description: The unique identifier (UUID) of the the standing order instruction message.
           $ref: '#/components/schemas/MessageId'
         startDate:
-          description: The start date of the standing order instruction item.
           $ref: '#/components/schemas/StartDate'
         dayOfExecution:
-          description: The day of execution of the standing order instruction item.
           $ref: '#/components/schemas/DayOfExecution'
         endDate:
-          description: The end date of the standing order instruction item.
           $ref: '#/components/schemas/EndDate'
         executionBreaks:
           description: List of break periods.
@@ -2020,10 +2174,8 @@ components:
             description: The break period items.
             properties:
               validFromDate:
-                description: Start date of one break period. Standing order will not be processed from this date.
                 $ref: '#/components/schemas/Date'
               validToDate:
-                description: End date of one break period. Standing order will not be processed to this date.
                 $ref: '#/components/schemas/Date'
         executionMode:
           type: string
@@ -2036,25 +2188,16 @@ components:
             - UNTIL_DATE
             - UNTIL_CANCELLATION
         executionRule:
-          description: The execution rule of the standing order instruction item.
           $ref: '#/components/schemas/ExecutionRule'
         ibanDetails:
-          description: The IBAN details of the standing order instruction item.
           $ref: '#/components/schemas/PaymentIbanDetail'
         isrDetails:
-          description: The ISR details of the standing order instruction item.
           $ref: '#/components/schemas/PaymentIsrDetail'
         otherDetails:
-          description: Other details of the standing order instruction item.
           $ref: '#/components/schemas/PaymentOtherDetail'
         qrDetails:
-          description: The QR details of the standing order instruction item.
           $ref: '#/components/schemas/PaymentQrDetail'
         requestedExecutionDate:
-          description: |
-            The requested execution date. In some cases, the financial institution can/will change this date, if the requested date is a bank /
-            post holiday. If no date is chosen, the receiving financial institution will execute on the next possible date. Corresponds to the
-            attribute _ReqdExctnDt_ in SPS/ISO-20022.
           $ref: '#/components/schemas/Date'
     StandingOrderSubmissionResponse:
       title: Standing Order Submission Response
@@ -2083,7 +2226,6 @@ components:
             - PART
           example: PART
         messageId:
-          description: The unique identifier (UUID) of the the standing order instruction message.
           $ref: '#/components/schemas/MessageId'
         transactions:
           type: array
@@ -2129,7 +2271,7 @@ components:
         - InvalidParameter:
         type: /problems/INVALID_PAYLOAD
         title: Invalid parameter values have been detected
-        detail: Sent data could not processed
+        detail: Sent data could not be processed
         instance: path/to/corresponding/resource
 
         - MissingId:
@@ -2147,7 +2289,21 @@ components:
           $ref: '#/components/headers/Content-Language'
         X-Correlation-ID:
           $ref: '#/components/headers/X-Correlation-ID'
-      description: Unauthorized - The request has not been applied because it provides no valid authentication credentials for the target resource.
+      description: |
+        Unauthorized - The request has not been applied because it provides no valid authentication credentials for the target resource.
+
+        Examples:
+        - InvalidToken:
+        type: /problems/INSUFFICIENT_PRIVILEGES
+        title: Insufficient privileges to access resource
+        detail: The provided token is not valid
+        instance: path/to/corresponding/resource
+
+        - ExpiredToken:
+        type: /problems/EXPIRED_TOKEN
+        title: The OAuth Token is expired
+        detail: The token is no longer valid
+        instance: path/to/corresponding/resource
       content:
         application/problem+json:
           schema:
@@ -2167,12 +2323,6 @@ components:
         type: /problems/INSUFFICIENT_PRIVILEGES
         title: No privileges for the requested operation
         detail: Insufficient privileges for the requested operation
-        instance: path/to/corresponding/resource
-
-        - ExpiredToken:
-        type: /problems/EXPIRED_TOKEN
-        title: The OAuth Token is expired
-        detail: The token is no longer valid
         instance: path/to/corresponding/resource
 
         - NoFutureDateSupported:
@@ -2199,12 +2349,6 @@ components:
         type: /problems/INSUFFICIENT_PRIVILEGES
         title: Insufficient privileges to access resource
         detail: The provided token does not grant access to the requested account
-        instance: path/to/corresponding/resource
-
-        - InvalidToken:
-        type: /problems/INSUFFICIENT_PRIVILEGES
-        title: Insufficient privileges to access resource
-        detail: The provided token is not valid
         instance: path/to/corresponding/resource
 
         - WrongEndpointUrl:
@@ -2309,6 +2453,17 @@ components:
         application/problem+json:
           schema:
             $ref: '#/components/schemas/CommonErrorResponse'
+    standard502:
+      headers:
+        Content-Language:
+          $ref: '#/components/headers/Content-Language'
+        X-Correlation-ID:
+          $ref: '#/components/headers/X-Correlation-ID'
+      description: Bad Gateway - The server received an invalid response from the upstream server.
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/CommonErrorResponse'
     standard503:
       headers:
         Content-Language:
@@ -2326,21 +2481,16 @@ components:
           $ref: '#/components/headers/Content-Language'
         X-Correlation-ID:
           $ref: '#/components/headers/X-Correlation-ID'
-      description: Gateway Timeout.
+      description: Gateway Timeout - The server did not get a response in time that it needed in order to complete the request.
       content:
         application/problem+json:
           schema:
             $ref: '#/components/schemas/CommonErrorResponse'
-          example:
-            type: /problems/TECHNICAL_ERROR
-            title: gateway timeout
-            detail: the request could not be completed in time
-            instance: path/to/corresponding/resource
   parameters:
     agent:
       in: header
       name: User-Agent
-      description: Name and version of the of the Client software.
+      description: Name and version of the of the Service User software.
       required: true
       schema:
         type: string
@@ -2354,7 +2504,7 @@ components:
     client_id:
       in: header
       name: X-CorAPI-Client-ID
-      description: 'ID of the client forwarded to the provider (SCOPE: FI).'
+      description: ID of the Service User forwarded to the Service Provider.
       required: true
       schema:
         type: string
@@ -2365,10 +2515,14 @@ components:
       required: true
       schema:
         type: string
+        maxLength: 64
+        pattern: ^[A-Za-z0-9\-._#{}]{5,64}$
     cursor:
       in: query
       name: cursor
-      description: Optional parameter for pagination. Use the ID of the last item from the previous response to retrieve the next set of results.
+      description: |
+        An opaque string value used for pagination. Use the value returned in the X-Next-Cursor response header of the previous request to retrieve the
+        next page of results. The cursor is server-defined and must not be interpreted, modified or constructed by Service Users.
       required: false
       schema:
         type: string
@@ -2426,22 +2580,22 @@ components:
     psu_accept_lang:
       in: header
       name: X-PSU-Accept-Lang
-      description: 'Language of client software (SCOPE: FI - optional).'
+      description: Language set by the user in the Service User application initiating the operation or AUTO for system triggered processes.
       required: false
       schema:
         type: string
     psu_ip:
       in: header
       name: X-PSU-IP-Address
-      description: 'IP address of the user initiating the operation (SCOPE: FI - optional).'
-      required: false
+      description: IP address of the user initiating the operation or AUTO for system triggered processes.
+      required: true
       schema:
         type: string
     psu_user_agent:
       in: header
       name: X-PSU-User-Agent
-      description: 'User of the client software (SCOPE: FI - optional).'
-      required: false
+      description: User agent of the user initiating the operation or AUTO for system triggered processes.
+      required: true
       schema:
         type: string
     submission_id:
@@ -2456,8 +2610,8 @@ components:
     target_id:
       in: header
       name: X-CorAPI-Target-ID
-      description: 'ID of the target, e.g., a financial institution (SCOPE: FI - optional).'
-      required: false
+      description: ID that identifies the Service Provider.
+      required: true
       schema:
         type: string
   headers:
@@ -2471,9 +2625,11 @@ components:
         type: string
         example: /single-payments/618d4ac6e8a64e3d9f26aa3d8c4f323e
     X-Correlation-ID:
-      description: Client defined ID from request to correlates HTTP requests between a client and server.
+      description: Service User defined ID from request to correlate HTTP requests between a Service User and a Service Provider.
       schema:
         type: string
+        maxLength: 64
+        pattern: ^[A-Za-z0-9\-._#{}]{5,64}$
         example: f058ebd6-02f7-4d3f-942e-904344e8cde5
     X-Next-Cursor:
       description: |

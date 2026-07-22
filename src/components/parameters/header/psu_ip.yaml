@@ -1,6 +1,6 @@
 in: header
 name: X-PSU-IP-Address
-description: 'IP address of the user initiating the operation (SCOPE: FI - optional).'
-required: false
+description: IP address of the user initiating the operation or AUTO for system triggered processes.
+required: true
 schema:
   type: string

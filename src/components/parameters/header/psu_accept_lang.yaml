@@ -1,6 +1,6 @@
 in: header
 name: X-PSU-Accept-Lang
-description: 'Language of client software (SCOPE: FI - optional).'
+description: Language set by the user in the Service User application initiating the operation or AUTO for system triggered processes.
 required: false
 schema:
   type: string

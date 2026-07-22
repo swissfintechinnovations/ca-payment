@@ -7,7 +7,7 @@ required:
   - iban
 properties:
   designation:
-    $ref: ./Designation.yaml
+    $ref: ../generic/Designation.yaml
   entries:
     type: array
     description: |
@@ -17,7 +17,7 @@ properties:
       $ref: ./AccountTransactionEntry.yaml
   iban:
     $ref: ./IbanIdentification.yaml
-    description: The International Bank Account Number (IBAN), associated with the account.
+    # description: The International Bank Account Number (IBAN), associated with the account.
   _links:
     type: object
     description: Contains the paths to additional resources for specific account (e.g. path to account and balance resource).

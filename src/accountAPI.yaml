@@ -13,7 +13,7 @@ info:
     name: Apache 2.0
     url: https://www.apache.org/licenses/LICENSE-2.0.html
 servers:
-  - url: account.common-api.ch/api/v5
+  - url: account.common-api.ch/api/v6
 externalDocs:
   description: Find out more about SFTI API specifications.
   url: https://www.common-api.ch
@@ -91,8 +91,12 @@ paths:
           $ref: ./components/responses/standard500.yaml
         '501':
           $ref: ./components/responses/standard501.yaml
+        '502':
+          $ref: ./components/responses/standard502.yaml
         '503':
           $ref: ./components/responses/standard503.yaml
+        '504':
+          $ref: ./components/responses/standard504.yaml
   /accounts/{accountId}:
     get:
       tags:
@@ -133,8 +137,12 @@ paths:
           $ref: ./components/responses/standard500.yaml
         '501':
           $ref: ./components/responses/standard501.yaml
+        '502':
+          $ref: ./components/responses/standard502.yaml
         '503':
           $ref: ./components/responses/standard503.yaml
+        '504':
+          $ref: ./components/responses/standard504.yaml
   /accounts/{accountId}/balance:
     get:
       tags:
@@ -188,8 +196,12 @@ paths:
           $ref: ./components/responses/standard500.yaml
         '501':
           $ref: ./components/responses/standard501.yaml
+        '502':
+          $ref: ./components/responses/standard502.yaml
         '503':
           $ref: ./components/responses/standard503.yaml
+        '504':
+          $ref: ./components/responses/standard504.yaml
   /accounts/{accountId}/transactions:
     get:
       tags:
@@ -207,10 +219,10 @@ paths:
 
         If no transactions match the requested date range or intraday window, return an empty list: {"entries": []}.
 
-        Results are sorted by bookingDate in descending order. Additional sorting logic is provider-specific but all providers must ensure
-        stable and consistent pagination behavior. If pagination is required, the server includes an opaque cursor in the `X-Next-Cursor`
+        Results are sorted by bookingDate in descending order. Additional sorting logic is provider-specific but all Service Providers must ensure
+        stable and consistent pagination behavior. If pagination is required, the Service Provider includes an opaque cursor in the `X-Next-Cursor`
         header. This cursor identifies a specific position in the sorted result set and is internally derived from the sorting criteria.
-        Clients must pass this value unchanged in the `cursor` parameter of the next request to retrieve subsequent pages.
+        Service Users must pass this value unchanged in the `cursor` parameter of the next request to retrieve subsequent pages.
 
         Transaction details are optional in the schema, but all available information must be included if present for a given transaction.
       operationId: listAccountTransactions
@@ -241,15 +253,15 @@ paths:
               schema:
                 $ref: ./components/schemas/ais/AccountTransactionReport.yaml
         '202':
-          description: |
-            Accepted - The request is valid, but the requested data is not yet available because the associated booking day is still
-            in progress or not finalized. The request can be repeated at a later time once the data has been finalized.
+          # description: |
+          #   Accepted - The request is valid, but the requested data is not yet available because the associated booking day is still
+          #   in progress or not finalized. The request can be repeated at a later time once the data has been finalized.
           $ref: ./components/responses/standard202.yaml
         '204':
-          description: |
-            No Content - The request was successful, but no data is available for the requested date or parameters. No data is expected to become
-            available in the future. This may occur if the requested period is outside the retention scope or if no entries exist for the given
-            account and criteria.
+          # description: |
+          #   No Content - The request was successful, but no data is available for the requested date or parameters. No data is expected to become
+          #   available in the future. This may occur if the requested period is outside the retention scope or if no entries exist for the given
+          #   account and criteria.
           $ref: ./components/responses/standard204.yaml
         '400':
           $ref: ./components/responses/standard400.yaml
@@ -265,8 +277,12 @@ paths:
           $ref: ./components/responses/standard500.yaml
         '501':
           $ref: ./components/responses/standard501.yaml
+        '502':
+          $ref: ./components/responses/standard502.yaml
         '503':
           $ref: ./components/responses/standard503.yaml
+        '504':
+          $ref: ./components/responses/standard504.yaml
   /accounts/{accountId}/transactions/{entryId}:
     get:
       tags:
@@ -311,8 +327,12 @@ paths:
           $ref: ./components/responses/standard500.yaml
         '501':
           $ref: ./components/responses/standard501.yaml
+        '502':
+          $ref: ./components/responses/standard502.yaml
         '503':
           $ref: ./components/responses/standard503.yaml
+        '504':
+          $ref: ./components/responses/standard504.yaml
   /iso20022/statements:
     get:
       tags:
@@ -373,8 +393,12 @@ paths:
           $ref: ./components/responses/standard500.yaml
         '501':
           $ref: ./components/responses/standard501.yaml
+        '502':
+          $ref: ./components/responses/standard502.yaml
         '503':
           $ref: ./components/responses/standard503.yaml
+        '504':
+          $ref: ./components/responses/standard504.yaml
   /iso20022/statements/{reportId}:
     get:
       tags:
@@ -416,8 +440,12 @@ paths:
           $ref: ./components/responses/standard500.yaml
         '501':
           $ref: ./components/responses/standard501.yaml
+        '502':
+          $ref: ./components/responses/standard502.yaml
         '503':
           $ref: ./components/responses/standard503.yaml
+        '504':
+          $ref: ./components/responses/standard504.yaml
   /iso20022/reports:
     get:
       tags:
@@ -476,8 +504,12 @@ paths:
           $ref: ./components/responses/standard500.yaml
         '501':
           $ref: ./components/responses/standard501.yaml
+        '502':
+          $ref: ./components/responses/standard502.yaml
         '503':
           $ref: ./components/responses/standard503.yaml
+        '504':
+          $ref: ./components/responses/standard504.yaml
   /iso20022/reports/{reportId}:
     get:
       tags:
@@ -519,8 +551,12 @@ paths:
           $ref: ./components/responses/standard500.yaml
         '501':
           $ref: ./components/responses/standard501.yaml
+        '502':
+          $ref: ./components/responses/standard502.yaml
         '503':
           $ref: ./components/responses/standard503.yaml
+        '504':
+          $ref: ./components/responses/standard504.yaml
   /event-subscriptions:
     get:
       tags:
@@ -560,6 +596,8 @@ paths:
           $ref: ./components/responses/standard500.yaml
         '501':
           $ref: ./components/responses/standard501.yaml
+        '502':
+          $ref: ./components/responses/standard502.yaml
         '503':
           $ref: ./components/responses/standard503.yaml
         '504':
@@ -609,6 +647,8 @@ paths:
           $ref: ./components/responses/standard500.yaml
         '501':
           $ref: ./components/responses/standard501.yaml
+        '502':
+          $ref: ./components/responses/standard502.yaml
         '503':
           $ref: ./components/responses/standard503.yaml
         '504':
@@ -653,6 +693,8 @@ paths:
           $ref: ./components/responses/standard500.yaml
         '501':
           $ref: ./components/responses/standard501.yaml
+        '502':
+          $ref: ./components/responses/standard502.yaml
         '503':
           $ref: ./components/responses/standard503.yaml
         '504':
@@ -700,6 +742,8 @@ paths:
           $ref: ./components/responses/standard500.yaml
         '501':
           $ref: ./components/responses/standard501.yaml
+        '502':
+          $ref: ./components/responses/standard502.yaml
         '503':
           $ref: ./components/responses/standard503.yaml
         '504':
@@ -739,6 +783,8 @@ paths:
           $ref: ./components/responses/standard500.yaml
         '501':
           $ref: ./components/responses/standard501.yaml
+        '502':
+          $ref: ./components/responses/standard502.yaml
         '503':
           $ref: ./components/responses/standard503.yaml
         '504':
@@ -789,6 +835,8 @@ paths:
           $ref: ./components/responses/standard500.yaml
         '501':
           $ref: ./components/responses/standard501.yaml
+        '502':
+          $ref: ./components/responses/standard502.yaml
         '503':
           $ref: ./components/responses/standard503.yaml
         '504':

@@ -3,7 +3,22 @@ headers:
     $ref: ../headers/Content-Language.yaml
   X-Correlation-ID:
     $ref: ../headers/X-Correlation-ID.yaml
-description: Unauthorized - The request has not been applied because it provides no valid authentication credentials for the target resource.
+description: |
+  Unauthorized - The request has not been applied because it provides no valid authentication credentials for the target resource.
+
+  Examples:
+  - InvalidToken:
+  type: /problems/INSUFFICIENT_PRIVILEGES
+  title: Insufficient privileges to access resource
+  detail: The provided token is not valid
+  instance: path/to/corresponding/resource
+
+  - ExpiredToken:
+  type: /problems/EXPIRED_TOKEN
+  title: The OAuth Token is expired
+  detail: The token is no longer valid
+  instance: path/to/corresponding/resource
+
 content:
   application/problem+json:
     schema:

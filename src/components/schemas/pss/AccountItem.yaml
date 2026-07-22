@@ -53,23 +53,9 @@ properties:
       - VACC
   currency:
     $ref: ../generic/Currency.yaml
-    # description: |
-    #   The ISO currency three-letter code denominated and set for the account at the time it is opened.
-    #   The attribute currency can be omitted only for multicurrency accounts.
+    #description: The ISO currency three-letter code denominated and set for the account at the time it is opened.
+    #The attribute currency can be omitted only for multicurrency accounts.
   designation:
     $ref: ../generic/Designation.yaml
   id:
     $ref: ../generic/CommonAccountId.yaml
-  _links:
-    type: object
-    description: Contains the paths to additional resources for specific account (e.g. path to balance and transactions resource).
-    properties:
-      self:
-        type: string
-        example: /accounts/550e8400-e29b-11d4-a716-446655440000
-      balance:
-        type: string
-        example: /accounts/550e8400-e29b-11d4-a716-446655440000/balance
-      transactions:
-        type: string
-        example: /accounts/550e8400-e29b-11d4-a716-446655440000/transactions

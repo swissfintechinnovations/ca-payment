@@ -13,7 +13,7 @@ info:
     name: Apache 2.0
     url: https://www.apache.org/licenses/LICENSE-2.0.html
 servers:
-  - url: payment.common-api.ch/api/v5
+  - url: payment.common-api.ch/api/v6
 externalDocs:
   description: Find out more about SFTI API specifications.
   url: https://www.common-api.ch
@@ -32,6 +32,8 @@ tags:
     description: |
       Third party payment service considering pain.001 and pain.002 operations (XML). PUT operation can be used for both payment submission
       and payment initiation (PSS/pss), depending on security implementation.
+  - name: accounts
+    description: Third party access to bank account information.
   - name: event subscription
     description: |
       Event subscription operations in the context of OAuth2 consent authentication. One subscription is bound to exactly
@@ -97,8 +99,12 @@ paths:
           $ref: ./components/responses/standard500.yaml
         '501':
           $ref: ./components/responses/standard501.yaml
+        '502':
+          $ref: ./components/responses/standard502.yaml
         '503':
           $ref: ./components/responses/standard503.yaml
+        '504':
+          $ref: ./components/responses/standard504.yaml
     post:
       tags:
         - standing orders
@@ -147,8 +153,12 @@ paths:
           $ref: ./components/responses/standard500.yaml
         '501':
           $ref: ./components/responses/standard501.yaml
+        '502':
+          $ref: ./components/responses/standard502.yaml
         '503':
           $ref: ./components/responses/standard503.yaml
+        '504':
+          $ref: ./components/responses/standard504.yaml
   /standing-orders/{submissionId}:
     get:
       tags:
@@ -190,8 +200,12 @@ paths:
           $ref: ./components/responses/standard500.yaml
         '501':
           $ref: ./components/responses/standard501.yaml
+        '502':
+          $ref: ./components/responses/standard502.yaml
         '503':
           $ref: ./components/responses/standard503.yaml
+        '504':
+          $ref: ./components/responses/standard504.yaml
     delete:
       tags:
         - standing orders
@@ -233,8 +247,12 @@ paths:
           $ref: ./components/responses/standard500.yaml
         '501':
           $ref: ./components/responses/standard501.yaml
+        '502':
+          $ref: ./components/responses/standard502.yaml
         '503':
           $ref: ./components/responses/standard503.yaml
+        '504':
+          $ref: ./components/responses/standard504.yaml
   /standing-orders/{submissionId}/status:
     get:
       tags:
@@ -276,8 +294,12 @@ paths:
           $ref: ./components/responses/standard500.yaml
         '501':
           $ref: ./components/responses/standard501.yaml
+        '502':
+          $ref: ./components/responses/standard502.yaml
         '503':
           $ref: ./components/responses/standard503.yaml
+        '504':
+          $ref: ./components/responses/standard504.yaml
   /payments:
     get:
       tags:
@@ -329,8 +351,12 @@ paths:
           $ref: ./components/responses/standard500.yaml
         '501':
           $ref: ./components/responses/standard501.yaml
+        '502':
+          $ref: ./components/responses/standard502.yaml
         '503':
           $ref: ./components/responses/standard503.yaml
+        '504':
+          $ref: ./components/responses/standard504.yaml
     post:
       tags:
         - payments
@@ -379,8 +405,12 @@ paths:
           $ref: ./components/responses/standard500.yaml
         '501':
           $ref: ./components/responses/standard501.yaml
+        '502':
+          $ref: ./components/responses/standard502.yaml
         '503':
           $ref: ./components/responses/standard503.yaml
+        '504':
+          $ref: ./components/responses/standard504.yaml
   /payments/{submissionId}:
     delete:
       tags:
@@ -423,8 +453,12 @@ paths:
           $ref: ./components/responses/standard500.yaml
         '501':
           $ref: ./components/responses/standard501.yaml
+        '502':
+          $ref: ./components/responses/standard502.yaml
         '503':
           $ref: ./components/responses/standard503.yaml
+        '504':
+          $ref: ./components/responses/standard504.yaml
   /payments/{submissionId}/status:
     get:
       tags:
@@ -466,8 +500,12 @@ paths:
           $ref: ./components/responses/standard500.yaml
         '501':
           $ref: ./components/responses/standard501.yaml
+        '502':
+          $ref: ./components/responses/standard502.yaml
         '503':
           $ref: ./components/responses/standard503.yaml
+        '504':
+          $ref: ./components/responses/standard504.yaml
   /single-payments:
     get:
       tags:
@@ -522,8 +560,12 @@ paths:
           $ref: ./components/responses/standard500.yaml
         '501':
           $ref: ./components/responses/standard501.yaml
+        '502':
+          $ref: ./components/responses/standard502.yaml
         '503':
           $ref: ./components/responses/standard503.yaml
+        '504':
+          $ref: ./components/responses/standard504.yaml
     post:
       tags:
         - single payments
@@ -572,8 +614,12 @@ paths:
           $ref: ./components/responses/standard500.yaml
         '501':
           $ref: ./components/responses/standard501.yaml
+        '502':
+          $ref: ./components/responses/standard502.yaml
         '503':
           $ref: ./components/responses/standard503.yaml
+        '504':
+          $ref: ./components/responses/standard504.yaml
   /single-payments/{submissionId}:
     get:
       tags:
@@ -615,8 +661,12 @@ paths:
           $ref: ./components/responses/standard500.yaml
         '501':
           $ref: ./components/responses/standard501.yaml
+        '502':
+          $ref: ./components/responses/standard502.yaml
         '503':
           $ref: ./components/responses/standard503.yaml
+        '504':
+          $ref: ./components/responses/standard504.yaml
     delete:
       tags:
         - single payments
@@ -658,8 +708,12 @@ paths:
           $ref: ./components/responses/standard500.yaml
         '501':
           $ref: ./components/responses/standard501.yaml
+        '502':
+          $ref: ./components/responses/standard502.yaml
         '503':
           $ref: ./components/responses/standard503.yaml
+        '504':
+          $ref: ./components/responses/standard504.yaml
   /single-payments/{submissionId}/status:
     get:
       tags:
@@ -701,8 +755,12 @@ paths:
           $ref: ./components/responses/standard500.yaml
         '501':
           $ref: ./components/responses/standard501.yaml
+        '502':
+          $ref: ./components/responses/standard502.yaml
         '503':
           $ref: ./components/responses/standard503.yaml
+        '504':
+          $ref: ./components/responses/standard504.yaml
   /iso20022/payments:
     post:
       tags:
@@ -720,7 +778,7 @@ paths:
         - $ref: ./components/parameters/header/psu_user_agent.yaml
         - $ref: ./components/parameters/header/psu_accept_lang.yaml
       requestBody:
-        description: The XML pain.001.
+        description: Payment instruction details as defined by data model.
         required: true
         content:
           application/xml:
@@ -752,8 +810,12 @@ paths:
           $ref: ./components/responses/standard500.yaml
         '501':
           $ref: ./components/responses/standard501.yaml
+        '502':
+          $ref: ./components/responses/standard502.yaml
         '503':
           $ref: ./components/responses/standard503.yaml
+        '504':
+          $ref: ./components/responses/standard504.yaml
   /iso20022/payments/{submissionId}:
     get:
       tags:
@@ -795,8 +857,12 @@ paths:
           $ref: ./components/responses/standard500.yaml
         '501':
           $ref: ./components/responses/standard501.yaml
+        '502':
+          $ref: ./components/responses/standard502.yaml
         '503':
           $ref: ./components/responses/standard503.yaml
+        '504':
+          $ref: ./components/responses/standard504.yaml
     delete:
       tags:
         - iso20022
@@ -838,8 +904,12 @@ paths:
           $ref: ./components/responses/standard500.yaml
         '501':
           $ref: ./components/responses/standard501.yaml
+        '502':
+          $ref: ./components/responses/standard502.yaml
         '503':
           $ref: ./components/responses/standard503.yaml
+        '504':
+          $ref: ./components/responses/standard504.yaml
   /iso20022/payments/{submissionId}/status:
     get:
       tags:
@@ -867,6 +937,7 @@ paths:
             application/xml:
               schema:
                 type: string
+                format: binary
         '400':
           $ref: ./components/responses/standard400.yaml
         '401':
@@ -881,8 +952,74 @@ paths:
           $ref: ./components/responses/standard500.yaml
         '501':
           $ref: ./components/responses/standard501.yaml
+        '502':
+          $ref: ./components/responses/standard502.yaml
         '503':
           $ref: ./components/responses/standard503.yaml
+        '504':
+          $ref: ./components/responses/standard504.yaml
+  /accounts:
+    get:
+      tags:
+        - accounts
+      summary: Get a list of all accounts
+      description: |
+        Get a list of all accounts for the authenticated context. The response contains an `accounts` array;
+        if no accounts are available, the array is empty (for example: `{"accounts": []}`).
+
+        Pagination is controlled via the `cursor` and `limit` query parameters.
+        If more accounts are available, the `X-Next-Cursor` response header provides the cursor value for the next page.
+      operationId: listAccounts
+      parameters:
+        - $ref: ./components/parameters/query/cursor.yaml
+        - $ref: ./components/parameters/query/limit.yaml
+        - $ref: ./components/parameters/header/authorization.yaml
+        - $ref: ./components/parameters/header/client_id.yaml
+        - $ref: ./components/parameters/header/correlation.yaml
+        - $ref: ./components/parameters/header/agent.yaml
+        - $ref: ./components/parameters/header/target_id.yaml
+        - $ref: ./components/parameters/header/psu_ip.yaml
+        - $ref: ./components/parameters/header/psu_user_agent.yaml
+        - $ref: ./components/parameters/header/psu_accept_lang.yaml
+      responses:
+        '200':
+          description: Paginated list of all accounts.
+          headers:
+            X-Correlation-ID:
+              $ref: ./components/headers/X-Correlation-ID.yaml
+            X-Next-Cursor:
+              $ref: ./components/headers/X-Next-Cursor.yaml
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - accounts
+                properties:
+                  accounts:
+                    type: array
+                    items:
+                      $ref: ./components/schemas/pss/AccountItem.yaml
+        '400':
+          $ref: ./components/responses/standard400.yaml
+        '401':
+          $ref: ./components/responses/standard401.yaml
+        '403':
+          $ref: ./components/responses/standard403.yaml
+        '404':
+          $ref: ./components/responses/standard404.yaml
+        '405':
+          $ref: ./components/responses/standard405.yaml
+        '500':
+          $ref: ./components/responses/standard500.yaml
+        '501':
+          $ref: ./components/responses/standard501.yaml
+        '502':
+          $ref: ./components/responses/standard502.yaml
+        '503':
+          $ref: ./components/responses/standard503.yaml
+        '504':
+          $ref: ./components/responses/standard504.yaml
   /event-subscriptions:
     get:
       tags:
@@ -971,6 +1108,8 @@ paths:
           $ref: ./components/responses/standard500.yaml
         '501':
           $ref: ./components/responses/standard501.yaml
+        '502':
+          $ref: ./components/responses/standard502.yaml
         '503':
           $ref: ./components/responses/standard503.yaml
         '504':
@@ -1015,6 +1154,8 @@ paths:
           $ref: ./components/responses/standard500.yaml
         '501':
           $ref: ./components/responses/standard501.yaml
+        '502':
+          $ref: ./components/responses/standard502.yaml
         '503':
           $ref: ./components/responses/standard503.yaml
         '504':
@@ -1041,7 +1182,7 @@ paths:
               $ref: ./components/schemas/pss/EventSubscription.yaml
             example:
               eventTypes:
-                - consents:listUpdated
+                - accounts:listUpdated
       responses:
         '204':
           description: Subscription updated (empty response).
@@ -1062,6 +1203,8 @@ paths:
           $ref: ./components/responses/standard500.yaml
         '501':
           $ref: ./components/responses/standard501.yaml
+        '502':
+          $ref: ./components/responses/standard502.yaml
         '503':
           $ref: ./components/responses/standard503.yaml
         '504':
@@ -1101,6 +1244,8 @@ paths:
           $ref: ./components/responses/standard500.yaml
         '501':
           $ref: ./components/responses/standard501.yaml
+        '502':
+          $ref: ./components/responses/standard502.yaml
         '503':
           $ref: ./components/responses/standard503.yaml
         '504':
@@ -1151,6 +1296,8 @@ paths:
           $ref: ./components/responses/standard500.yaml
         '501':
           $ref: ./components/responses/standard501.yaml
+        '502':
+          $ref: ./components/responses/standard502.yaml
         '503':
           $ref: ./components/responses/standard503.yaml
         '504':

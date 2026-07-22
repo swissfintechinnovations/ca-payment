@@ -16,7 +16,7 @@ description: |
   - InvalidParameter:
   type: /problems/INVALID_PAYLOAD
   title: Invalid parameter values have been detected
-  detail: Sent data could not processed
+  detail: Sent data could not be processed
   instance: path/to/corresponding/resource
 
   - MissingId:
