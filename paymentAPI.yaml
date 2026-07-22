@@ -3,9 +3,22 @@ info:
   version: 6.0.0
   title: Common Payment API
   description: |
-    This specification defines a simple payment API for payment types used in Switzerland. The API is supposed to be used by customers who
-    want to initiate a payment at their bank. Note that, consents and SCA will be handled in a dedicated specification file. This
-    specification uses schema definitions from the Common Data Model v1.2.1.
+    This specification defines a payment API for the payment types used in Switzerland.
+    It is intended for software components that submit payment instructions on behalf of customers to a bank. The further processing of
+    submitted payments, including any approval and execution steps, lies within the responsibility of the bank and is out of scope of
+    this specification. Consents and Strong Customer Authentication (SCA) are handled in a dedicated specification file.
+
+    Functionally, the API is aligned with the Swiss Payment Standards (SPS) and follows the "Swiss Implementation Guidelines for
+    Customer-Bank Messages, Credit Transfer" (pain.001.001.09) for the submission and the "Swiss Implementation Guidelines for
+    Status Report" (pain.002.001.10) for the submission status.
+    Both the JSON and the ISO 20022 XML representations align with these guidelines. The JSON representation is a defined subset of
+    ISO 20022 covering the essentials for API-driven interaction.
+
+    Submission status is reported on group level for the overall submission and on instruction level for individual payments.
+    The applicable status values, report levels and possible status sequences are defined in the SPS Implementation Guidelines for
+    Status Report, in particular Annex B (Status sequences of pain.002).
+
+    This specification uses schema definitions from the Common Data Model v1.2.1.
   termsOfService: Tbd
   contact:
     email: info@common-api.ch
@@ -1279,16 +1292,22 @@ components:
         - statusCode
       properties:
         instructionId:
-          description: The unique identifier (UUID) of the payment instruction item.
+          description: The unique identifier of the payment instruction item.
           $ref: '#/components/schemas/InstructionId'
         statusCode:
           type: string
           description: |
             The status of the payment. Corresponds to the attribute _TxSts_ in SPS/ISO-20022. Possible status values are:
+            - ACCC (accepted settlement completed, credit to the creditor account)
             - ACCP (accepted)
+            - ACSC (accepted settlement completed, debit to the debtor account)
+            - ACWC (accepted with change)
             - RJCT (rejected)
           enum:
+            - ACCC
             - ACCP
+            - ACSC
+            - ACWC
             - RJCT
           example: RJCT
         reasonCode:
@@ -1539,19 +1558,31 @@ components:
         statusCode:
           type: string
           description: |
-            The status of the payment. Corresponds to the attribute _TxSts_ in SPS/ISO-20022. Possible status values are:
+            The status of the payment. Corresponds to the attribute _PmtInfSts_ in SPS/ISO-20022. Possible status values are:
+            - ACCC (accepted settlement completed, credit to the creditor account)
             - ACCP (accepted)
-            - RJCT (rejected)
+            - ACSC (accepted, settlement completed, debit to the debtor account)
+            - ACSP (accepted, settlement in process)
+            - ACTC (accepted technical validation)
+            - ACWC (accepted with change)
             - PART (partially accepted)
+            - PNDG (pending)
             - RCVD (received)
+            - RJCT (rejected)
           enum:
+            - ACCC
             - ACCP
-            - RJCT
+            - ACSC
+            - ACSP
+            - ACTC
+            - ACWC
             - PART
+            - PNDG
             - RCVD
+            - RJCT
           example: PART
         messageId:
-          description: The unique identifier (UUID) of the payment instruction message.
+          description: The unique identifier of the payment instruction message.
           $ref: '#/components/schemas/MessageId'
         transactions:
           type: array
@@ -1572,12 +1603,12 @@ components:
       required:
         - bookingInstruction
         - debtorAccount
-        - initiatingPartyId
-        - messageId
-        - requestedExecutionDate
         - endToEndId
+        - initiatingPartyId
         - instructedAmount
         - instructionId
+        - messageId
+        - requestedExecutionDate
       properties:
         bookingInstruction:
           description: The payment booking instruction. Corresponds to the attribute _DbtrAcct ⇾ Tp ⇾ Prtry_ in SPS/ISO-20022.
@@ -1585,9 +1616,18 @@ components:
         debtorAccount:
           description: The account of the debtor. The debtor account must always be an IBAN. Corresponds to the attribute _DbtrAcct_ in SPS/ISO-20022.
           $ref: '#/components/schemas/PaymentIbanAccount'
+        endToEndId:
+          description: The endToEndId of the single payment instruction item.
+          $ref: '#/components/schemas/EndToEndId'
         initiatingPartyId:
           description: The identifier of the third party provider (TPP) who created the payment instruction message derived from the OAuth 2.0 flow.
           $ref: '#/components/schemas/InitiatingPartyId'
+        instructedAmount:
+          description: The instructed amount of the single payment. Corresponds to the attribute _InstdAmt_ in SPS/ISO-20022.
+          $ref: '#/components/schemas/PaymentCurrencyAmount'
+        instructionId:
+          description: The unique identifier (UUID) of the single payment instruction item.
+          $ref: '#/components/schemas/InstructionId'
         messageId:
           description: The unique identifier (UUID) of the the single payment instruction message.
           $ref: '#/components/schemas/MessageId'
@@ -1597,15 +1637,6 @@ components:
             post holiday. If no date is chosen, the receiving financial institution will execute on the next possible date. Corresponds to the
             attribute _ReqdExctnDt_ in SPS/ISO-20022.
           $ref: '#/components/schemas/Date'
-        endToEndId:
-          description: The endToEndId of the single payment instruction item.
-          $ref: '#/components/schemas/EndToEndId'
-        instructedAmount:
-          description: The instructed amount of the single payment. Corresponds to the attribute _InstdAmt_ in SPS/ISO-20022.
-          $ref: '#/components/schemas/PaymentCurrencyAmount'
-        instructionId:
-          description: The unique identifier (UUID) of the single payment instruction item.
-          $ref: '#/components/schemas/InstructionId'
         ibanDetails:
           description: The IBAN details of the single payment instruction item.
           $ref: '#/components/schemas/PaymentIbanDetail'
@@ -2021,8 +2052,8 @@ components:
       schema:
         type: integer
         format: int32
-        example: 25
         minimum: 1
+        example: 25
         default: 25
     psu_accept_lang:
       in: header
@@ -2051,8 +2082,8 @@ components:
       description: ID of payment submission to be retrieved.
       required: true
       schema:
-        maxLength: 35
         type: string
+        maxLength: 35
         example: 618d4ac6e8a64e3d9f26aa3d8c4f323e
     target_id:
       in: header
@@ -2083,8 +2114,8 @@ components:
       required: true
       schema:
         type: string
-        nullable: true
         example: nextCursorIDxyz
+        nullable: true
   securitySchemes:
     OAuth2:
       type: oauth2

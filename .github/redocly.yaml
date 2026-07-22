@@ -1,0 +1,8 @@
+apis:
+  payment:
+    root: ../src/paymentAPI.yaml
+    output: ../paymentAPI.yaml
+  account:
+    root: ../src/accountAPI.yaml
+    output: ../accountAPI.yaml
+    

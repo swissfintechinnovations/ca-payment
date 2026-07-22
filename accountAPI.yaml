@@ -263,9 +263,10 @@ paths:
       tags:
         - accounts
       summary: Get a transaction
-      description: >
-        Get the details of a specific transaction (AccountTransactionItem objects) for the account transaction entry identified by `entryId`. The `entryId` value
-        corresponds to AccountTransactionEntry.accountServicerReference and to the attribute _Ntry ⇾ AcctSvcrRef_ in SPS/ISO-20022.
+      description: |
+        Get the details of a specific transaction (AccountTransactionItem objects) for the account transaction entry identified
+        by `entryId`. The `entryId` value corresponds to AccountTransactionEntry.accountServicerReference and to the attribute
+        _Ntry ⇾ AcctSvcrRef_ in SPS/ISO-20022.
       operationId: getAccountTransaction
       parameters:
         - $ref: '#/components/parameters/account_id'
@@ -603,9 +604,6 @@ components:
             - TRAN
             - TRAS
             - VACC
-        currency:
-          $ref: '#/components/schemas/Currency'
-          description: The ISO currency three-letter code denominated and set for the account at the time it is opened.
         designation:
           $ref: '#/components/schemas/Designation'
         id:
@@ -623,10 +621,13 @@ components:
             transactions:
               type: string
               example: /accounts/550e8400-e29b-11d4-a716-446655440000/transactions
+        currency:
+          $ref: '#/components/schemas/Currency'
+          description: The ISO currency three-letter code denominated and set for the account at the time it is opened.
     AccountOwnerName:
+      description: Name of the account holder. Corresponds to the attribute _Acct ⇾ Ownr ⇾ Nm_ in SPS/ISO-20022.
       type: string
       maxLength: 140
-      description: Name of the account holder. Corresponds to the attribute _Acct ⇾ Ownr ⇾ Nm_ in SPS/ISO-20022.
       example: Account Owner XYZ
     AccountTransactionBankTransactionCode:
       title: Account Transaction Bank Transaction Code
@@ -725,14 +726,15 @@ components:
       properties:
         accountServicerReference:
           type: string
-          description: >
-            Unique reference for the entry, assigned by the financial institution. This value is used as `entryId` in the transactions detail endpoint
-            `/accounts/{accountId}/transactions/{entryId}` to query the details of this entry. Corresponds to the attribute _Ntry ⇾ AcctSvcrRef_ in SPS/ISO-20022.
+          description: |
+            Unique reference for the entry, assigned by the financial institution. This value is used as `entryId` in the transactions detail
+            endpoint `/accounts/{accountId}/transactions/{entryId}` to query the details of this entry. Corresponds to the attribute _Ntry ⇾ AcctSvcrRef_
+            in SPS/ISO-20022.
           example: 12345ABC6789
           maxLength: 35
         additionalEntryInformation:
           type: string
-          description: >
+          description: |
             Additional entry information. Corresponds to the attribute _AddtlNtryInf_ in SPS/ISO-20022. This attribute is required in the Account API, while optional in
             SPS. Reason: Necessary for the multibanking use case. Ref: Issue#4.
           example: Online Shopping Visa Debit Card Nr. xxxx 1234
@@ -792,6 +794,14 @@ components:
         amount:
           $ref: '#/components/schemas/Amount'
           description: Corresponds to the attribute TxDtls ⇾ AmtDtls ⇾ InstdAmt ⇾ Amt.
+        exchangeRate:
+          type: string
+          pattern: ^\d{1,11}$|^(?=\d+[.]\d+$).{3,12}$
+          maxLength: 12
+          description: |
+            The rate at which the source currency will be exchanged for the target currency. Corresponds to the attribute _XchgRate_ in
+            SPS/ISO-20022.
+          example: '0.957'
         sourceCurrency:
           $ref: '#/components/schemas/Currency'
           description: |
@@ -805,14 +815,6 @@ components:
         unitCcy:
           $ref: '#/components/schemas/Currency'
           description: Currency in which the exchange rate is specified. Corresponds to attribute _UnitCcy_ in SPS/ISO-20022.
-        exchangeRate:
-          type: string
-          pattern: ^\d{1,11}$|^(?=\d+[.]\d+$).{3,12}$
-          maxLength: 12
-          description: |
-            The rate at which the source currency will be exchanged for the target currency. Corresponds to the attribute _XchgRate_ in
-            SPS/ISO-20022.
-          example: '0.957'
     AccountTransactionItem:
       title: Account Transaction Item
       description: Specifies the transaction entry item.
@@ -825,10 +827,10 @@ components:
         accountServicerReference:
           type: string
           maxLength: 35
-          description: >
+          description: |
             Unique booking (transaction) reference assigned by the financial institution. Corresponds to the attribute _TxDtls ⇾ Refs ⇾ AcctSvcrRef_ in SPS/ISO-20022.
-            This reference identifies the individual transaction within an entry and must not be used as `entryId` in the `/accounts/{accountId}/transactions/{entryId}`
-            endpoint.
+            This       reference identifies the individual transaction within an entry and must not be used as `entryId` in the
+            `/accounts/{accountId}/transactions/{entryId}` endpoint.
           example: 12345ABC6789
         amount:
           $ref: '#/components/schemas/PaymentCurrencyAmount'
@@ -899,17 +901,17 @@ components:
         amount:
           $ref: '#/components/schemas/Amount'
           description: The amount of individual charges.
-        transactionType:
-          $ref: '#/components/schemas/AccountTransactionTransactionType'
-          description: Corresponds to the attribute _Chrgs ⇾ Rcrd ⇾ CdtDbtInd_ in SPS/ISO-20022.
+        currency:
+          $ref: '#/components/schemas/Currency'
+          description: The ISO currency three-letter code in which the amount of individual charges was posed based.
         chargesIncludedIndicator:
           description: |
             Indicates whether the charges are included in the entry amount or not. Corresponds to the attribute _ChrgInclInd_ in SPS/ISO-20022.
           type: boolean
           example: true
-        currency:
-          $ref: '#/components/schemas/Currency'
-          description: The ISO currency three-letter code in which the amount of individual charges was posed based.
+        transactionType:
+          $ref: '#/components/schemas/AccountTransactionTransactionType'
+          description: Corresponds to the attribute _Chrgs ⇾ Rcrd ⇾ CdtDbtInd_ in SPS/ISO-20022.
         type:
           type: string
           maxLength: 35
@@ -951,7 +953,7 @@ components:
           $ref: '#/components/schemas/Designation'
         entries:
           type: array
-          description: >
+          description: |
             Account transaction entry object. Corresponds to attribute Ntry in SPS/ISO-20022. Optional in SPS (camt.052/053), but mandatory in the Account API, where
             balances and transactions are separated and entries are required for valid GET /transactions responses.
           items:
@@ -977,6 +979,16 @@ components:
       description: Specifies the details of the counterparty structured address.
       type: object
       properties:
+        buildingNumber:
+          type: string
+          maxLength: 16
+          description: The counterparty building number. Corresponds to the attribute _BldgNb_ in SPS/ISO-20022.
+          example: '24'
+        country:
+          type: string
+          maxLength: 2
+          description: The counterparty country. Corresponds to the attribute _Ctry_ in SPS/ISO-20022.
+          example: CH
         postCode:
           type: string
           maxLength: 16
@@ -992,16 +1004,6 @@ components:
           maxLength: 35
           description: The counterparty town name. Corresponds to the attribute _TwnNm_ in SPS/ISO-20022.
           example: Biel
-        buildingNumber:
-          type: string
-          maxLength: 16
-          description: The counterparty building number. Corresponds to the attribute _BldgNb_ in SPS/ISO-20022.
-          example: '24'
-        country:
-          type: string
-          maxLength: 2
-          description: The counterparty country. Corresponds to the attribute _Ctry_ in SPS/ISO-20022.
-          example: CH
     AccountTransactionStructuredOrUnstructuredAddress:
       title: Common Structured or Unstructured Address
       description: Specifies the counterparty address (debtor address if transaction type = CRDT, creditor address if transaction type = DBIT).
@@ -1487,9 +1489,9 @@ components:
       description: ID of the account.
       required: true
       schema:
+        type: string
         maxLength: 256
         pattern: ^[A-Za-z0-9](([A-Za-z0-9._]|-){0,254}[A-Za-z0-9]){0,1}$
-        type: string
         example: accountId
     agent:
       in: header
@@ -1548,7 +1550,7 @@ components:
     entry_id:
       in: path
       name: entryId
-      description: >
+      description: |
         Unique identifier of the account transaction entry. Corresponds to AccountTransactionEntry.accountServicerReference and to the attribute _Ntry ⇾ AcctSvcrRef_ in
         SPS/ISO-20022.
       required: true
@@ -1578,8 +1580,8 @@ components:
       schema:
         type: integer
         format: int32
-        example: 25
         minimum: 1
+        example: 25
         default: 25
     psu_ip:
       in: header
@@ -1601,8 +1603,8 @@ components:
       description: Unique ID of the requested ISO20022 XML camt.053 document.
       required: true
       schema:
-        maxLength: 35
         type: string
+        maxLength: 35
     target_id:
       in: header
       name: X-CorAPI-Target-ID
@@ -1627,8 +1629,8 @@ components:
       required: true
       schema:
         type: string
-        nullable: true
         example: nextCursorIDxyz
+        nullable: true
   securitySchemes:
     OAuth2:
       type: oauth2
