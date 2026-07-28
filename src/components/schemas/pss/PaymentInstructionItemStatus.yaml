@@ -6,16 +6,22 @@ required:
   - statusCode
 properties:
   instructionId:
-    # description: The unique identifier of the payment instruction item.
+    description: The unique identifier of the payment instruction item.
     $ref: ./InstructionId.yaml
   statusCode:
     type: string
     description: |
       The status of the payment. Corresponds to the attribute _TxSts_ in SPS/ISO-20022. Possible status values are:
+      - ACCC (accepted settlement completed, credit to the creditor account)
       - ACCP (accepted)
+      - ACSC (accepted settlement completed, debit to the debtor account)
+      - ACWC (accepted with change)
       - RJCT (rejected)
     enum:
+      - ACCC
       - ACCP
+      - ACSC
+      - ACWC
       - RJCT
     example: RJCT
   reasonCode:
