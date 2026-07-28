@@ -944,7 +944,6 @@ components:
               example: /accounts/550e8400-e29b-11d4-a716-446655440000/transactions
         currency:
           $ref: '#/components/schemas/Currency'
-          description: The ISO currency three-letter code denominated and set for the account at the time it is opened.
     AccountOwnerName:
       description: Name of the account holder. Corresponds to the attribute _Acct ⇾ Ownr ⇾ Nm_ in SPS/ISO-20022.
       type: string
@@ -1112,7 +1111,6 @@ components:
       properties:
         amount:
           $ref: '#/components/schemas/Amount'
-          description: Corresponds to the attribute TxDtls ⇾ AmtDtls ⇾ InstdAmt ⇾ Amt.
         exchangeRate:
           type: string
           pattern: ^\d{1,11}$|^(?=\d+[.]\d+$).{3,12}$
@@ -1123,17 +1121,10 @@ components:
           example: '0.957'
         sourceCurrency:
           $ref: '#/components/schemas/Currency'
-          description: |
-            The ISO currency three-letter code which is used to fund a currency conversion. Corresponds to the attribute _SrcCcy_ in
-            SPS/ISO-20022.
         targetCurrency:
           $ref: '#/components/schemas/Currency'
-          description: |
-            The ISO currency three-letter code which the recipient will receive after the currency conversion. Corresponds to the attribute
-            _TrgtCcy_ in SPS/ISO-20022.
         unitCcy:
           $ref: '#/components/schemas/Currency'
-          description: Currency in which the exchange rate is specified. Corresponds to attribute _UnitCcy_ in SPS/ISO-20022.
     AccountTransactionItem:
       title: Account Transaction Item
       description: Specifies the transaction entry item.
@@ -1217,10 +1208,8 @@ components:
       properties:
         amount:
           $ref: '#/components/schemas/Amount'
-          description: The amount of individual charges.
         currency:
           $ref: '#/components/schemas/Currency'
-          description: The ISO currency three-letter code in which the amount of individual charges was posed based.
         chargesIncludedIndicator:
           description: |
             Indicates whether the charges are included in the entry amount or not. Corresponds to the attribute _ChrgInclInd_ in SPS/ISO-20022.
@@ -1228,7 +1217,6 @@ components:
           example: true
         transactionType:
           $ref: '#/components/schemas/AccountTransactionTransactionType'
-          description: Corresponds to the attribute _Chrgs ⇾ Rcrd ⇾ CdtDbtInd_ in SPS/ISO-20022.
         type:
           type: string
           maxLength: 35
