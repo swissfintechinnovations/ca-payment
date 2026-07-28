@@ -11,7 +11,7 @@ properties:
     $ref: ./PaymentIbanAccount.yaml
   creationDateTime:
     $ref: ../generic/DateTime.yaml
-    description: Date and time when the message was created. Corresponds to the attribute _GrpHdr ⇾ CreDtTm_ in SPS/ISO-20022.
+    # description: Date and time when the message was created. Corresponds to the attribute _GrpHdr ⇾ CreDtTm_ in SPS/ISO-20022.
   id:
     type: string
     description: The unique identifier of the referenced ISO20022 report.

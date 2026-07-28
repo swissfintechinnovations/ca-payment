@@ -1,6 +1,6 @@
 in: header
 name: User-Agent
-description: Name and version of the of the Client software.
+description: Name and version of the of the Service User software.
 required: true
 schema:
   type: string

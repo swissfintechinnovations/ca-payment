@@ -1,0 +1,10 @@
+headers:
+  Content-Language:
+    $ref: ../headers/Content-Language.yaml
+  X-Correlation-ID:
+    $ref: ../headers/X-Correlation-ID.yaml
+description: Bad Gateway - The server received an invalid response from the upstream server.
+content:
+  application/problem+json:
+    schema:
+      $ref: ../schemas/CommonErrorResponse.yaml

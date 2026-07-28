@@ -1,6 +1,6 @@
 in: header
 name: X-PSU-User-Agent
-description: 'User of the client software (SCOPE: FI - optional).'
-required: false
+description: User agent of the user initiating the operation or AUTO for system triggered processes.
+required: true
 schema:
   type: string

@@ -1,0 +1,10 @@
+headers:
+  Content-Language:
+    $ref: ../headers/Content-Language.yaml
+  X-Correlation-ID:
+    $ref: ../headers/X-Correlation-ID.yaml
+description: Gateway Timeout - The server did not get a response in time that it needed in order to complete the request.
+content:
+  application/problem+json:
+    schema:
+      $ref: ../schemas/CommonErrorResponse.yaml

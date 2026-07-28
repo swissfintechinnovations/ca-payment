@@ -13,7 +13,7 @@ info:
     name: Apache 2.0
     url: https://www.apache.org/licenses/LICENSE-2.0.html
 servers:
-  - url: account.common-api.ch/api/v5
+  - url: account.common-api.ch/api/v6
 externalDocs:
   description: Find out more about SFTI API specifications.
   url: https://www.common-api.ch
@@ -22,6 +22,15 @@ tags:
     description: Third party access to bank account service considering account information and transaction data operations (JSON).
   - name: iso20022
     description: Third party access to bank account service considering camt operations (XML).
+  - name: event subscription
+    description: |
+      Event subscription operations in the context of OAuth2 consent authentication. One subscription is bound to exactly
+      one consent and supports create, retrieve, update and delete operations. Multiple event types are managed within the single
+      subscription resource.
+  - name: event notification aggregated polling
+    description: |
+      Aggregated polling operations in the context of Service User authentication, used for catch-up retrieval of event notifications.
+      Consists of an optional search step to identify subscriptions with pending events, followed by retrieval of the actual notifications.
 security:
   - OAuth2:
       - read
@@ -82,8 +91,12 @@ paths:
           $ref: '#/components/responses/standard500'
         '501':
           $ref: '#/components/responses/standard501'
+        '502':
+          $ref: '#/components/responses/standard502'
         '503':
           $ref: '#/components/responses/standard503'
+        '504':
+          $ref: '#/components/responses/standard504'
   /accounts/{accountId}:
     get:
       tags:
@@ -124,8 +137,12 @@ paths:
           $ref: '#/components/responses/standard500'
         '501':
           $ref: '#/components/responses/standard501'
+        '502':
+          $ref: '#/components/responses/standard502'
         '503':
           $ref: '#/components/responses/standard503'
+        '504':
+          $ref: '#/components/responses/standard504'
   /accounts/{accountId}/balance:
     get:
       tags:
@@ -179,8 +196,12 @@ paths:
           $ref: '#/components/responses/standard500'
         '501':
           $ref: '#/components/responses/standard501'
+        '502':
+          $ref: '#/components/responses/standard502'
         '503':
           $ref: '#/components/responses/standard503'
+        '504':
+          $ref: '#/components/responses/standard504'
   /accounts/{accountId}/transactions:
     get:
       tags:
@@ -198,10 +219,10 @@ paths:
 
         If no transactions match the requested date range or intraday window, return an empty list: {"entries": []}.
 
-        Results are sorted by bookingDate in descending order. Additional sorting logic is provider-specific but all providers must ensure
-        stable and consistent pagination behavior. If pagination is required, the server includes an opaque cursor in the `X-Next-Cursor`
+        Results are sorted by bookingDate in descending order. Additional sorting logic is provider-specific but all Service Providers must ensure
+        stable and consistent pagination behavior. If pagination is required, the Service Provider includes an opaque cursor in the `X-Next-Cursor`
         header. This cursor identifies a specific position in the sorted result set and is internally derived from the sorting criteria.
-        Clients must pass this value unchanged in the `cursor` parameter of the next request to retrieve subsequent pages.
+        Service Users must pass this value unchanged in the `cursor` parameter of the next request to retrieve subsequent pages.
 
         Transaction details are optional in the schema, but all available information must be included if present for a given transaction.
       operationId: listAccountTransactions
@@ -232,15 +253,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/AccountTransactionReport'
         '202':
-          description: |
-            Accepted - The request is valid, but the requested data is not yet available because the associated booking day is still
-            in progress or not finalized. The request can be repeated at a later time once the data has been finalized.
           $ref: '#/components/responses/standard202'
         '204':
-          description: |
-            No Content - The request was successful, but no data is available for the requested date or parameters. No data is expected to become
-            available in the future. This may occur if the requested period is outside the retention scope or if no entries exist for the given
-            account and criteria.
           $ref: '#/components/responses/standard204'
         '400':
           $ref: '#/components/responses/standard400'
@@ -256,8 +270,12 @@ paths:
           $ref: '#/components/responses/standard500'
         '501':
           $ref: '#/components/responses/standard501'
+        '502':
+          $ref: '#/components/responses/standard502'
         '503':
           $ref: '#/components/responses/standard503'
+        '504':
+          $ref: '#/components/responses/standard504'
   /accounts/{accountId}/transactions/{entryId}:
     get:
       tags:
@@ -302,8 +320,12 @@ paths:
           $ref: '#/components/responses/standard500'
         '501':
           $ref: '#/components/responses/standard501'
+        '502':
+          $ref: '#/components/responses/standard502'
         '503':
           $ref: '#/components/responses/standard503'
+        '504':
+          $ref: '#/components/responses/standard504'
   /iso20022/statements:
     get:
       tags:
@@ -364,8 +386,12 @@ paths:
           $ref: '#/components/responses/standard500'
         '501':
           $ref: '#/components/responses/standard501'
+        '502':
+          $ref: '#/components/responses/standard502'
         '503':
           $ref: '#/components/responses/standard503'
+        '504':
+          $ref: '#/components/responses/standard504'
   /iso20022/statements/{reportId}:
     get:
       tags:
@@ -407,8 +433,12 @@ paths:
           $ref: '#/components/responses/standard500'
         '501':
           $ref: '#/components/responses/standard501'
+        '502':
+          $ref: '#/components/responses/standard502'
         '503':
           $ref: '#/components/responses/standard503'
+        '504':
+          $ref: '#/components/responses/standard504'
   /iso20022/reports:
     get:
       tags:
@@ -467,8 +497,12 @@ paths:
           $ref: '#/components/responses/standard500'
         '501':
           $ref: '#/components/responses/standard501'
+        '502':
+          $ref: '#/components/responses/standard502'
         '503':
           $ref: '#/components/responses/standard503'
+        '504':
+          $ref: '#/components/responses/standard504'
   /iso20022/reports/{reportId}:
     get:
       tags:
@@ -510,8 +544,296 @@ paths:
           $ref: '#/components/responses/standard500'
         '501':
           $ref: '#/components/responses/standard501'
+        '502':
+          $ref: '#/components/responses/standard502'
         '503':
           $ref: '#/components/responses/standard503'
+        '504':
+          $ref: '#/components/responses/standard504'
+  /event-subscriptions:
+    get:
+      tags:
+        - event subscription
+      summary: Get event subscription
+      description: Retrieve the event subscription for the current consent.
+      operationId: listEventSubscription
+      parameters:
+        - $ref: '#/components/parameters/authorization'
+        - $ref: '#/components/parameters/client_id'
+        - $ref: '#/components/parameters/correlation'
+        - $ref: '#/components/parameters/agent'
+        - $ref: '#/components/parameters/target_id'
+        - $ref: '#/components/parameters/psu_ip'
+        - $ref: '#/components/parameters/psu_user_agent'
+      responses:
+        '200':
+          description: Returns the event subscription associated with the current consent.
+          headers:
+            X-Correlation-ID:
+              $ref: '#/components/headers/X-Correlation-ID'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EventSubscription'
+        '400':
+          $ref: '#/components/responses/standard400'
+        '401':
+          $ref: '#/components/responses/standard401'
+        '403':
+          $ref: '#/components/responses/standard403'
+        '404':
+          $ref: '#/components/responses/standard404'
+        '405':
+          $ref: '#/components/responses/standard405'
+        '500':
+          $ref: '#/components/responses/standard500'
+        '501':
+          $ref: '#/components/responses/standard501'
+        '502':
+          $ref: '#/components/responses/standard502'
+        '503':
+          $ref: '#/components/responses/standard503'
+        '504':
+          $ref: '#/components/responses/standard504'
+    post:
+      tags:
+        - event subscription
+      summary: Create event subscription
+      description: Create an event subscription for the current consent.
+      operationId: createEventSubscription
+      parameters:
+        - $ref: '#/components/parameters/authorization'
+        - $ref: '#/components/parameters/client_id'
+        - $ref: '#/components/parameters/correlation'
+        - $ref: '#/components/parameters/agent'
+        - $ref: '#/components/parameters/target_id'
+        - $ref: '#/components/parameters/psu_ip'
+        - $ref: '#/components/parameters/psu_user_agent'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EventSubscription'
+      responses:
+        '201':
+          description: Returns created event subscription.
+          headers:
+            X-Correlation-ID:
+              $ref: '#/components/headers/X-Correlation-ID'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EventSubscription'
+        '400':
+          $ref: '#/components/responses/standard400'
+        '401':
+          $ref: '#/components/responses/standard401'
+        '403':
+          $ref: '#/components/responses/standard403'
+        '404':
+          $ref: '#/components/responses/standard404'
+        '405':
+          $ref: '#/components/responses/standard405'
+        '409':
+          $ref: '#/components/responses/standard409'
+        '500':
+          $ref: '#/components/responses/standard500'
+        '501':
+          $ref: '#/components/responses/standard501'
+        '502':
+          $ref: '#/components/responses/standard502'
+        '503':
+          $ref: '#/components/responses/standard503'
+        '504':
+          $ref: '#/components/responses/standard504'
+  /event-subscriptions/{eventSubscriptionId}:
+    get:
+      tags:
+        - event subscription
+      summary: Get event subscription
+      description: Retrieve the event subscription for the current consent.
+      operationId: getEventSubscription
+      parameters:
+        - $ref: '#/components/parameters/event_subscription_id'
+        - $ref: '#/components/parameters/authorization'
+        - $ref: '#/components/parameters/client_id'
+        - $ref: '#/components/parameters/correlation'
+        - $ref: '#/components/parameters/agent'
+        - $ref: '#/components/parameters/target_id'
+        - $ref: '#/components/parameters/psu_ip'
+        - $ref: '#/components/parameters/psu_user_agent'
+      responses:
+        '200':
+          description: Returns an event subscription.
+          headers:
+            X-Correlation-ID:
+              $ref: '#/components/headers/X-Correlation-ID'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EventSubscription'
+        '400':
+          $ref: '#/components/responses/standard400'
+        '401':
+          $ref: '#/components/responses/standard401'
+        '403':
+          $ref: '#/components/responses/standard403'
+        '404':
+          $ref: '#/components/responses/standard404'
+        '405':
+          $ref: '#/components/responses/standard405'
+        '500':
+          $ref: '#/components/responses/standard500'
+        '501':
+          $ref: '#/components/responses/standard501'
+        '502':
+          $ref: '#/components/responses/standard502'
+        '503':
+          $ref: '#/components/responses/standard503'
+        '504':
+          $ref: '#/components/responses/standard504'
+    put:
+      tags:
+        - event subscription
+      summary: Update event subscription
+      description: Update the event subscription for the current consent.
+      operationId: updateEventSubscription
+      parameters:
+        - $ref: '#/components/parameters/event_subscription_id'
+        - $ref: '#/components/parameters/authorization'
+        - $ref: '#/components/parameters/client_id'
+        - $ref: '#/components/parameters/correlation'
+        - $ref: '#/components/parameters/agent'
+        - $ref: '#/components/parameters/target_id'
+        - $ref: '#/components/parameters/psu_ip'
+        - $ref: '#/components/parameters/psu_user_agent'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EventSubscription'
+            example:
+              eventTypes:
+                - accounts:listUpdated
+      responses:
+        '204':
+          description: Subscription updated (empty response).
+          headers:
+            X-Correlation-ID:
+              $ref: '#/components/headers/X-Correlation-ID'
+        '400':
+          $ref: '#/components/responses/standard400'
+        '401':
+          $ref: '#/components/responses/standard401'
+        '403':
+          $ref: '#/components/responses/standard403'
+        '404':
+          $ref: '#/components/responses/standard404'
+        '405':
+          $ref: '#/components/responses/standard405'
+        '500':
+          $ref: '#/components/responses/standard500'
+        '501':
+          $ref: '#/components/responses/standard501'
+        '502':
+          $ref: '#/components/responses/standard502'
+        '503':
+          $ref: '#/components/responses/standard503'
+        '504':
+          $ref: '#/components/responses/standard504'
+    delete:
+      tags:
+        - event subscription
+      summary: Delete event subscription
+      description: Delete the event subscription for the current consent.
+      operationId: deleteEventSubscription
+      parameters:
+        - $ref: '#/components/parameters/event_subscription_id'
+        - $ref: '#/components/parameters/authorization'
+        - $ref: '#/components/parameters/client_id'
+        - $ref: '#/components/parameters/correlation'
+        - $ref: '#/components/parameters/agent'
+        - $ref: '#/components/parameters/target_id'
+        - $ref: '#/components/parameters/psu_ip'
+        - $ref: '#/components/parameters/psu_user_agent'
+      responses:
+        '204':
+          description: Subscription deleted (empty response).
+          headers:
+            X-Correlation-ID:
+              $ref: '#/components/headers/X-Correlation-ID'
+        '400':
+          $ref: '#/components/responses/standard400'
+        '401':
+          $ref: '#/components/responses/standard401'
+        '403':
+          $ref: '#/components/responses/standard403'
+        '404':
+          $ref: '#/components/responses/standard404'
+        '405':
+          $ref: '#/components/responses/standard405'
+        '500':
+          $ref: '#/components/responses/standard500'
+        '501':
+          $ref: '#/components/responses/standard501'
+        '502':
+          $ref: '#/components/responses/standard502'
+        '503':
+          $ref: '#/components/responses/standard503'
+        '504':
+          $ref: '#/components/responses/standard504'
+  /event-subscriptions/{eventSubscriptionId}/event-notifications:
+    get:
+      tags:
+        - event notification aggregated polling
+      summary: Get event notifications list
+      description: Get aggregated list of event-notifications for the specified subscription.
+      operationId: getEventNotificationsByEventSubscriptionId
+      parameters:
+        - $ref: '#/components/parameters/event_subscription_id'
+        - $ref: '#/components/parameters/from_event_date_time'
+        - $ref: '#/components/parameters/cursor'
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/client_id'
+        - $ref: '#/components/parameters/correlation'
+        - $ref: '#/components/parameters/agent'
+        - $ref: '#/components/parameters/target_id'
+        - $ref: '#/components/parameters/psu_ip'
+        - $ref: '#/components/parameters/psu_user_agent'
+      responses:
+        '200':
+          description: Returns aggregated event notifications for the specified subscription.
+          headers:
+            X-Correlation-ID:
+              $ref: '#/components/headers/X-Correlation-ID'
+            X-nextCursor:
+              $ref: '#/components/headers/X-Next-Cursor'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EventNotification'
+        '400':
+          $ref: '#/components/responses/standard400'
+        '401':
+          $ref: '#/components/responses/standard401'
+        '403':
+          $ref: '#/components/responses/standard403'
+        '404':
+          $ref: '#/components/responses/standard404'
+        '429':
+          $ref: '#/components/responses/standard429'
+        '500':
+          $ref: '#/components/responses/standard500'
+        '501':
+          $ref: '#/components/responses/standard501'
+        '502':
+          $ref: '#/components/responses/standard502'
+        '503':
+          $ref: '#/components/responses/standard503'
+        '504':
+          $ref: '#/components/responses/standard504'
 components:
   schemas:
     AccountBalanceItem:
@@ -536,7 +858,6 @@ components:
           example: CLBD
         date:
           $ref: '#/components/schemas/Date'
-          description: The date for which the balance was retrieved.
         _links:
           type: object
           description: Contains the paths to additional resources for specific account (e.g. path to account and transactions resource).
@@ -744,7 +1065,6 @@ components:
           $ref: '#/components/schemas/AccountTransactionBankTransactionCode'
         bookingDate:
           $ref: '#/components/schemas/Date'
-          description: The booking date of the transaction set by the bank. Corresponds to the attribute _BookgDt_ in SPS/ISO-20022.
         entryStatus:
           type: string
           enum:
@@ -756,7 +1076,6 @@ components:
           $ref: '#/components/schemas/AccountTransactionTransactionType'
         valueDate:
           $ref: '#/components/schemas/Date'
-          description: The value date of the transaction set by the bank. Corresponds to the attribute _ValDt_ in SPS/ISO-20022.
         entryReference:
           type: string
           description: Booking reference; format depends on booking type. Corresponds to NtryRef in SPS/ISO-20022.
@@ -881,10 +1200,8 @@ components:
       properties:
         amount:
           $ref: '#/components/schemas/Amount'
-          description: The total amount of account charges.
         currency:
           $ref: '#/components/schemas/Currency'
-          description: The ISO currency three-letter code in which the total amount of charges was posed.
         chargeRecords:
           type: array
           description: Specifies the details about individual charges.
@@ -960,7 +1277,6 @@ components:
             $ref: '#/components/schemas/AccountTransactionEntry'
         iban:
           $ref: '#/components/schemas/IbanIdentification'
-          description: The International Bank Account Number (IBAN), associated with the account.
         _links:
           type: object
           description: Contains the paths to additional resources for specific account (e.g. path to account and balance resource).
@@ -1067,7 +1383,6 @@ components:
           example: '10.25'
         currency:
           $ref: '#/components/schemas/Currency'
-          description: The ISO currency three-letter code in which the balance and the account are held.
     CommonAccountId:
       description: Unique identifier (UUID) of the account for which information shall be retrieved.
       type: string
@@ -1169,6 +1484,71 @@ components:
       type: string
       maxLength: 140
       example: Firmenkonto
+    EventNotification:
+      description: Schema of an event notification entity.
+      type: object
+      required:
+        - eventSubscriptionId
+        - eventType
+        - id
+        - resourceLink
+      properties:
+        eventSubscriptionId:
+          type: string
+          description: Id of the subscription that caused the event to be triggered.
+          readOnly: true
+          maxLength: 36
+          example: 7c5f40fc-1b29-4263-a2dd-e127a22a947f
+        eventType:
+          $ref: '#/components/schemas/EventType'
+        id:
+          type: string
+          description: Unique and unambiguous identification (i.e. UUID) of the event subscription.
+          example: 120066c9-58a1-432b-aa60-712fae7f143e
+        resourceLink:
+          type: string
+          description: |
+            The resourceLink is an absolute or relative URL reference to the specific resource or object that triggered the webhook event.
+            This link provides immediate access to the full details of the affected item in the source system.
+          example: /accounts/e6751a48-0819-4482-98a4-760453ba770d
+        creationDateTime:
+          type: string
+          format: date-time
+          description: Timestamp of the creation of the event notification.
+          example: 2022-10-26T07:58:30.996+0100
+        version:
+          type: string
+          description: Version of the notification schema.
+          example: '1.0'
+    EventSubscription:
+      description: Schema of an event subscription entity.
+      type: object
+      required:
+        - eventTypes
+      properties:
+        eventTypes:
+          type: array
+          description: List of event types subject to subscription.
+          items:
+            $ref: '#/components/schemas/EventType'
+        callbackUrl:
+          type: string
+          description: |
+            Endpoint provided by the client (subscriber) where the server (publisher)
+            can send asynchronous event notifications.
+          example: https://ttp.com/API/notifications/
+        id:
+          type: string
+          description: Unique and unambiguous identification (i.e. UUID) of the event subscription.
+          readOnly: true
+          maxLength: 36
+          example: 7c5f40fc-1b29-4263-a2dd-e127a22a947f
+    EventType:
+      description: Event type the subscription should apply to AND reason why a notification is sent.
+      type: string
+      enum:
+        - accounts:listUpdated
+      example: accounts:listUpdated
     IbanIdentification:
       description: The International Bank Account Number (IBAN), associated with the account.
       type: string
@@ -1189,7 +1569,6 @@ components:
           $ref: '#/components/schemas/PaymentIbanAccount'
         creationDateTime:
           $ref: '#/components/schemas/DateTime'
-          description: Date and time when the message was created. Corresponds to the attribute _GrpHdr ⇾ CreDtTm_ in SPS/ISO-20022.
         id:
           type: string
           description: The unique identifier of the referenced ISO20022 report.
@@ -1218,10 +1597,8 @@ components:
             * full: Contains all transactions since the last regular account statement (camt.053).
         dateFrom:
           $ref: '#/components/schemas/Date'
-          description: The start date of the transaction query period, optional for camt.052.
         dateTo:
           $ref: '#/components/schemas/Date'
-          description: The end date of the transaction query period, optional for camt.052.
       allOf:
         - $ref: '#/components/schemas/Iso20022ReportReference'
     Iso20022ReportReference053:
@@ -1234,10 +1611,8 @@ components:
       properties:
         dateFrom:
           $ref: '#/components/schemas/Date'
-          description: The start date of the transaction query period, mandatory for camt.053.
         dateTo:
           $ref: '#/components/schemas/Date'
-          description: The end date of the transaction query period, mandatory for camt.053.
       allOf:
         - $ref: '#/components/schemas/Iso20022ReportReference'
     PaymentCurrencyAmount:
@@ -1250,10 +1625,8 @@ components:
       properties:
         amount:
           $ref: '#/components/schemas/Amount'
-          description: The entry amount, which will be reflected in the account balance.
         currency:
           $ref: '#/components/schemas/Currency'
-          description: The ISO currency three-letter code in which the entry was posed.
     PaymentIbanAccount:
       title: Payment IBAN Account
       description: The IBAN account object.
@@ -1264,7 +1637,6 @@ components:
       properties:
         identification:
           $ref: '#/components/schemas/IbanIdentification'
-          description: The International Bank Account Number (IBAN), associated with the account.
         type:
           type: string
           description: |
@@ -1314,7 +1686,7 @@ components:
         - InvalidParameter:
         type: /problems/INVALID_PAYLOAD
         title: Invalid parameter values have been detected
-        detail: Sent data could not processed
+        detail: Sent data could not be processed
         instance: path/to/corresponding/resource
 
         - MissingId:
@@ -1332,7 +1704,21 @@ components:
           $ref: '#/components/headers/Content-Language'
         X-Correlation-ID:
           $ref: '#/components/headers/X-Correlation-ID'
-      description: Unauthorized - The request has not been applied because it provides no valid authentication credentials for the target resource.
+      description: |
+        Unauthorized - The request has not been applied because it provides no valid authentication credentials for the target resource.
+
+        Examples:
+        - InvalidToken:
+        type: /problems/INSUFFICIENT_PRIVILEGES
+        title: Insufficient privileges to access resource
+        detail: The provided token is not valid
+        instance: path/to/corresponding/resource
+
+        - ExpiredToken:
+        type: /problems/EXPIRED_TOKEN
+        title: The OAuth Token is expired
+        detail: The token is no longer valid
+        instance: path/to/corresponding/resource
       content:
         application/problem+json:
           schema:
@@ -1352,12 +1738,6 @@ components:
         type: /problems/INSUFFICIENT_PRIVILEGES
         title: No privileges for the requested operation
         detail: Insufficient privileges for the requested operation
-        instance: path/to/corresponding/resource
-
-        - ExpiredToken:
-        type: /problems/EXPIRED_TOKEN
-        title: The OAuth Token is expired
-        detail: The token is no longer valid
         instance: path/to/corresponding/resource
 
         - NoFutureDateSupported:
@@ -1384,12 +1764,6 @@ components:
         type: /problems/INSUFFICIENT_PRIVILEGES
         title: Insufficient privileges to access resource
         detail: The provided token does not grant access to the requested account
-        instance: path/to/corresponding/resource
-
-        - InvalidToken:
-        type: /problems/INSUFFICIENT_PRIVILEGES
-        title: Insufficient privileges to access resource
-        detail: The provided token is not valid
         instance: path/to/corresponding/resource
 
         - WrongEndpointUrl:
@@ -1422,6 +1796,29 @@ components:
         title: This HTTP operation is not allowed on this endpoint
         detail: Only GET operations are allowed
         instance: path/to/corresponding/resource
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/CommonErrorResponse'
+    standard409:
+      headers:
+        Content-Language:
+          $ref: '#/components/headers/Content-Language'
+        X-Correlation-ID:
+          $ref: '#/components/headers/X-Correlation-ID'
+      description: |
+        Conflict - The request conflicts with the current state of the target resource.
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/CommonErrorResponse'
+    standard429:
+      headers:
+        Content-Language:
+          $ref: '#/components/headers/Content-Language'
+        X-Correlation-ID:
+          $ref: '#/components/headers/X-Correlation-ID'
+      description: Too many requests - The user has sent too many requests in a given amount of time.
       content:
         application/problem+json:
           schema:
@@ -1471,6 +1868,17 @@ components:
         application/problem+json:
           schema:
             $ref: '#/components/schemas/CommonErrorResponse'
+    standard502:
+      headers:
+        Content-Language:
+          $ref: '#/components/headers/Content-Language'
+        X-Correlation-ID:
+          $ref: '#/components/headers/X-Correlation-ID'
+      description: Bad Gateway - The server received an invalid response from the upstream server.
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/CommonErrorResponse'
     standard503:
       headers:
         Content-Language:
@@ -1478,6 +1886,17 @@ components:
         X-Correlation-ID:
           $ref: '#/components/headers/X-Correlation-ID'
       description: Service Unavailable - The server is currently unable to handle the request due to a temporary overload or scheduled maintenance.
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/CommonErrorResponse'
+    standard504:
+      headers:
+        Content-Language:
+          $ref: '#/components/headers/Content-Language'
+        X-Correlation-ID:
+          $ref: '#/components/headers/X-Correlation-ID'
+      description: Gateway Timeout - The server did not get a response in time that it needed in order to complete the request.
       content:
         application/problem+json:
           schema:
@@ -1496,7 +1915,7 @@ components:
     agent:
       in: header
       name: User-Agent
-      description: Name and version of the of the Client software.
+      description: Name and version of the of the Service User software.
       required: true
       schema:
         type: string
@@ -1510,7 +1929,7 @@ components:
     client_id:
       in: header
       name: X-CorAPI-Client-ID
-      description: 'ID of the client forwarded to the provider (SCOPE: FI).'
+      description: ID of the Service User forwarded to the Service Provider.
       required: true
       schema:
         type: string
@@ -1521,10 +1940,14 @@ components:
       required: true
       schema:
         type: string
+        maxLength: 64
+        pattern: ^[A-Za-z0-9\-._#{}]{5,64}$
     cursor:
       in: query
       name: cursor
-      description: Optional parameter for pagination. Use the ID of the last item from the previous response to retrieve the next set of results.
+      description: |
+        An opaque string value used for pagination. Use the value returned in the X-Next-Cursor response header of the previous request to retrieve the
+        next page of results. The cursor is server-defined and must not be interpreted, modified or constructed by Service Users.
       required: false
       schema:
         type: string
@@ -1532,7 +1955,8 @@ components:
     date:
       in: query
       name: date
-      description: 'The date to query, formatted as yyyy-mm-dd. Default value: current date.'
+      description: |
+        The date to query, formatted as yyyy-mm-dd. Default value: current date.
       schema:
         $ref: '#/components/schemas/Date'
     date_from:
@@ -1571,6 +1995,26 @@ components:
           - pending
           - both
         default: booked
+    event_subscription_id:
+      in: path
+      name: eventSubscriptionId
+      description: |
+        Unique identification as assigned by the API exposing party to uniquely identify the callback URL resource.
+      required: true
+      schema:
+        type: string
+        minLength: 1
+        maxLength: 36
+        example: 7c5f40fc-1b29-4263-a2dd-e127a22a947
+    from_event_date_time:
+      in: query
+      name: from_event_date_time
+      description: |
+        Returns only events from this timestamp onwards.
+      schema:
+        type: string
+        format: date-time
+      example: '2022-10-26T07:58:30.996+01:00'
     limit:
       in: query
       name: limit
@@ -1586,15 +2030,15 @@ components:
     psu_ip:
       in: header
       name: X-PSU-IP-Address
-      description: 'IP address of the user initiating the operation (SCOPE: FI - optional).'
-      required: false
+      description: IP address of the user initiating the operation or AUTO for system triggered processes.
+      required: true
       schema:
         type: string
     psu_user_agent:
       in: header
       name: X-PSU-User-Agent
-      description: 'User of the client software (SCOPE: FI - optional).'
-      required: false
+      description: User agent of the user initiating the operation or AUTO for system triggered processes.
+      required: true
       schema:
         type: string
     report_id:
@@ -1608,8 +2052,8 @@ components:
     target_id:
       in: header
       name: X-CorAPI-Target-ID
-      description: 'ID of the target, e.g., a financial institution (SCOPE: FI - optional).'
-      required: false
+      description: ID that identifies the Service Provider.
+      required: true
       schema:
         type: string
   headers:
@@ -1618,9 +2062,11 @@ components:
       schema:
         type: string
     X-Correlation-ID:
-      description: Client defined ID from request to correlates HTTP requests between a client and server.
+      description: Service User defined ID from request to correlate HTTP requests between a Service User and a Service Provider.
       schema:
         type: string
+        maxLength: 64
+        pattern: ^[A-Za-z0-9\-._#{}]{5,64}$
         example: f058ebd6-02f7-4d3f-942e-904344e8cde5
     X-Next-Cursor:
       description: |

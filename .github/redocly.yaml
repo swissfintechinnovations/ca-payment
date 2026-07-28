@@ -5,4 +5,9 @@ apis:
   account:
     root: ../src/accountAPI.yaml
     output: ../accountAPI.yaml
-    
+  webhook-account:
+    root: ../src/accountAPI-eventNotificationWebhook.yaml
+    output: ../accountAPI-eventNotificationWebhook.yaml
+  webhook-payment:
+    root: ../src/paymentAPI-eventNotificationWebhook.yaml
+    output: ../paymentAPI-eventNotificationWebhook.yaml

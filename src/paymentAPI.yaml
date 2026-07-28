@@ -26,7 +26,7 @@ info:
     name: Apache 2.0
     url: https://www.apache.org/licenses/LICENSE-2.0.html
 servers:
-  - url: payment.common-api.ch/api/v5
+  - url: payment.common-api.ch/api/v6
 externalDocs:
   description: Find out more about SFTI API specifications.
   url: https://www.common-api.ch
@@ -45,6 +45,17 @@ tags:
     description: |
       Third party payment service considering pain.001 and pain.002 operations (XML). PUT operation can be used for both payment submission
       and payment initiation (PSS/pss), depending on security implementation.
+  - name: accounts
+    description: Third party access to bank account information.
+  - name: event subscription
+    description: |
+      Event subscription operations in the context of OAuth2 consent authentication. One subscription is bound to exactly
+      one consent and supports create, retrieve, update and delete operations. Multiple event types are managed within the single
+      subscription resource.
+  - name: event notification aggregated polling
+    description: |
+      Aggregated polling operations in the context of Service User authentication, used for catch-up retrieval of event notifications.
+      Consists of an optional search step to identify subscriptions with pending events, followed by retrieval of the actual notifications.
 security:
   - OAuth2:
       - read
@@ -101,8 +112,12 @@ paths:
           $ref: ./components/responses/standard500.yaml
         '501':
           $ref: ./components/responses/standard501.yaml
+        '502':
+          $ref: ./components/responses/standard502.yaml
         '503':
           $ref: ./components/responses/standard503.yaml
+        '504':
+          $ref: ./components/responses/standard504.yaml
     post:
       tags:
         - standing orders
@@ -151,8 +166,12 @@ paths:
           $ref: ./components/responses/standard500.yaml
         '501':
           $ref: ./components/responses/standard501.yaml
+        '502':
+          $ref: ./components/responses/standard502.yaml
         '503':
           $ref: ./components/responses/standard503.yaml
+        '504':
+          $ref: ./components/responses/standard504.yaml
   /standing-orders/{submissionId}:
     get:
       tags:
@@ -194,8 +213,12 @@ paths:
           $ref: ./components/responses/standard500.yaml
         '501':
           $ref: ./components/responses/standard501.yaml
+        '502':
+          $ref: ./components/responses/standard502.yaml
         '503':
           $ref: ./components/responses/standard503.yaml
+        '504':
+          $ref: ./components/responses/standard504.yaml
     delete:
       tags:
         - standing orders
@@ -237,8 +260,12 @@ paths:
           $ref: ./components/responses/standard500.yaml
         '501':
           $ref: ./components/responses/standard501.yaml
+        '502':
+          $ref: ./components/responses/standard502.yaml
         '503':
           $ref: ./components/responses/standard503.yaml
+        '504':
+          $ref: ./components/responses/standard504.yaml
   /standing-orders/{submissionId}/status:
     get:
       tags:
@@ -280,8 +307,12 @@ paths:
           $ref: ./components/responses/standard500.yaml
         '501':
           $ref: ./components/responses/standard501.yaml
+        '502':
+          $ref: ./components/responses/standard502.yaml
         '503':
           $ref: ./components/responses/standard503.yaml
+        '504':
+          $ref: ./components/responses/standard504.yaml
   /payments:
     get:
       tags:
@@ -333,8 +364,12 @@ paths:
           $ref: ./components/responses/standard500.yaml
         '501':
           $ref: ./components/responses/standard501.yaml
+        '502':
+          $ref: ./components/responses/standard502.yaml
         '503':
           $ref: ./components/responses/standard503.yaml
+        '504':
+          $ref: ./components/responses/standard504.yaml
     post:
       tags:
         - payments
@@ -383,8 +418,12 @@ paths:
           $ref: ./components/responses/standard500.yaml
         '501':
           $ref: ./components/responses/standard501.yaml
+        '502':
+          $ref: ./components/responses/standard502.yaml
         '503':
           $ref: ./components/responses/standard503.yaml
+        '504':
+          $ref: ./components/responses/standard504.yaml
   /payments/{submissionId}:
     delete:
       tags:
@@ -427,8 +466,12 @@ paths:
           $ref: ./components/responses/standard500.yaml
         '501':
           $ref: ./components/responses/standard501.yaml
+        '502':
+          $ref: ./components/responses/standard502.yaml
         '503':
           $ref: ./components/responses/standard503.yaml
+        '504':
+          $ref: ./components/responses/standard504.yaml
   /payments/{submissionId}/status:
     get:
       tags:
@@ -470,8 +513,12 @@ paths:
           $ref: ./components/responses/standard500.yaml
         '501':
           $ref: ./components/responses/standard501.yaml
+        '502':
+          $ref: ./components/responses/standard502.yaml
         '503':
           $ref: ./components/responses/standard503.yaml
+        '504':
+          $ref: ./components/responses/standard504.yaml
   /single-payments:
     get:
       tags:
@@ -526,8 +573,12 @@ paths:
           $ref: ./components/responses/standard500.yaml
         '501':
           $ref: ./components/responses/standard501.yaml
+        '502':
+          $ref: ./components/responses/standard502.yaml
         '503':
           $ref: ./components/responses/standard503.yaml
+        '504':
+          $ref: ./components/responses/standard504.yaml
     post:
       tags:
         - single payments
@@ -576,8 +627,12 @@ paths:
           $ref: ./components/responses/standard500.yaml
         '501':
           $ref: ./components/responses/standard501.yaml
+        '502':
+          $ref: ./components/responses/standard502.yaml
         '503':
           $ref: ./components/responses/standard503.yaml
+        '504':
+          $ref: ./components/responses/standard504.yaml
   /single-payments/{submissionId}:
     get:
       tags:
@@ -619,8 +674,12 @@ paths:
           $ref: ./components/responses/standard500.yaml
         '501':
           $ref: ./components/responses/standard501.yaml
+        '502':
+          $ref: ./components/responses/standard502.yaml
         '503':
           $ref: ./components/responses/standard503.yaml
+        '504':
+          $ref: ./components/responses/standard504.yaml
     delete:
       tags:
         - single payments
@@ -662,8 +721,12 @@ paths:
           $ref: ./components/responses/standard500.yaml
         '501':
           $ref: ./components/responses/standard501.yaml
+        '502':
+          $ref: ./components/responses/standard502.yaml
         '503':
           $ref: ./components/responses/standard503.yaml
+        '504':
+          $ref: ./components/responses/standard504.yaml
   /single-payments/{submissionId}/status:
     get:
       tags:
@@ -705,8 +768,12 @@ paths:
           $ref: ./components/responses/standard500.yaml
         '501':
           $ref: ./components/responses/standard501.yaml
+        '502':
+          $ref: ./components/responses/standard502.yaml
         '503':
           $ref: ./components/responses/standard503.yaml
+        '504':
+          $ref: ./components/responses/standard504.yaml
   /iso20022/payments:
     post:
       tags:
@@ -724,7 +791,7 @@ paths:
         - $ref: ./components/parameters/header/psu_user_agent.yaml
         - $ref: ./components/parameters/header/psu_accept_lang.yaml
       requestBody:
-        description: The XML pain.001.
+        description: Payment instruction details as defined by data model.
         required: true
         content:
           application/xml:
@@ -756,8 +823,12 @@ paths:
           $ref: ./components/responses/standard500.yaml
         '501':
           $ref: ./components/responses/standard501.yaml
+        '502':
+          $ref: ./components/responses/standard502.yaml
         '503':
           $ref: ./components/responses/standard503.yaml
+        '504':
+          $ref: ./components/responses/standard504.yaml
   /iso20022/payments/{submissionId}:
     get:
       tags:
@@ -799,8 +870,12 @@ paths:
           $ref: ./components/responses/standard500.yaml
         '501':
           $ref: ./components/responses/standard501.yaml
+        '502':
+          $ref: ./components/responses/standard502.yaml
         '503':
           $ref: ./components/responses/standard503.yaml
+        '504':
+          $ref: ./components/responses/standard504.yaml
     delete:
       tags:
         - iso20022
@@ -842,8 +917,12 @@ paths:
           $ref: ./components/responses/standard500.yaml
         '501':
           $ref: ./components/responses/standard501.yaml
+        '502':
+          $ref: ./components/responses/standard502.yaml
         '503':
           $ref: ./components/responses/standard503.yaml
+        '504':
+          $ref: ./components/responses/standard504.yaml
   /iso20022/payments/{submissionId}/status:
     get:
       tags:
@@ -871,6 +950,114 @@ paths:
             application/xml:
               schema:
                 type: string
+                format: binary
+        '400':
+          $ref: ./components/responses/standard400.yaml
+        '401':
+          $ref: ./components/responses/standard401.yaml
+        '403':
+          $ref: ./components/responses/standard403.yaml
+        '404':
+          $ref: ./components/responses/standard404.yaml
+        '405':
+          $ref: ./components/responses/standard405.yaml
+        '500':
+          $ref: ./components/responses/standard500.yaml
+        '501':
+          $ref: ./components/responses/standard501.yaml
+        '502':
+          $ref: ./components/responses/standard502.yaml
+        '503':
+          $ref: ./components/responses/standard503.yaml
+        '504':
+          $ref: ./components/responses/standard504.yaml
+  /accounts:
+    get:
+      tags:
+        - accounts
+      summary: Get a list of all accounts
+      description: |
+        Get a list of all accounts for the authenticated context. The response contains an `accounts` array;
+        if no accounts are available, the array is empty (for example: `{"accounts": []}`).
+
+        Pagination is controlled via the `cursor` and `limit` query parameters.
+        If more accounts are available, the `X-Next-Cursor` response header provides the cursor value for the next page.
+      operationId: listAccounts
+      parameters:
+        - $ref: ./components/parameters/query/cursor.yaml
+        - $ref: ./components/parameters/query/limit.yaml
+        - $ref: ./components/parameters/header/authorization.yaml
+        - $ref: ./components/parameters/header/client_id.yaml
+        - $ref: ./components/parameters/header/correlation.yaml
+        - $ref: ./components/parameters/header/agent.yaml
+        - $ref: ./components/parameters/header/target_id.yaml
+        - $ref: ./components/parameters/header/psu_ip.yaml
+        - $ref: ./components/parameters/header/psu_user_agent.yaml
+        - $ref: ./components/parameters/header/psu_accept_lang.yaml
+      responses:
+        '200':
+          description: Paginated list of all accounts.
+          headers:
+            X-Correlation-ID:
+              $ref: ./components/headers/X-Correlation-ID.yaml
+            X-Next-Cursor:
+              $ref: ./components/headers/X-Next-Cursor.yaml
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - accounts
+                properties:
+                  accounts:
+                    type: array
+                    items:
+                      $ref: ./components/schemas/pss/AccountItem.yaml
+        '400':
+          $ref: ./components/responses/standard400.yaml
+        '401':
+          $ref: ./components/responses/standard401.yaml
+        '403':
+          $ref: ./components/responses/standard403.yaml
+        '404':
+          $ref: ./components/responses/standard404.yaml
+        '405':
+          $ref: ./components/responses/standard405.yaml
+        '500':
+          $ref: ./components/responses/standard500.yaml
+        '501':
+          $ref: ./components/responses/standard501.yaml
+        '502':
+          $ref: ./components/responses/standard502.yaml
+        '503':
+          $ref: ./components/responses/standard503.yaml
+        '504':
+          $ref: ./components/responses/standard504.yaml
+  /event-subscriptions:
+    get:
+      tags:
+        - event subscription
+      summary: Get event subscription
+      description: Retrieve the event subscription for the current consent.
+      operationId: listEventSubscription
+      parameters:
+        - $ref: ./components/parameters/header/authorization.yaml
+        - $ref: ./components/parameters/header/client_id.yaml
+        - $ref: ./components/parameters/header/correlation.yaml
+        - $ref: ./components/parameters/header/agent.yaml
+        - $ref: ./components/parameters/header/target_id.yaml
+        - $ref: ./components/parameters/header/psu_ip.yaml
+        - $ref: ./components/parameters/header/psu_user_agent.yaml
+      responses:
+        '200':
+          description: Returns the event subscription associated with the current consent.
+          headers:
+            X-Correlation-ID:
+              $ref: ./components/headers/X-Correlation-ID.yaml
+          content:
+            application/json:
+              schema:
+                $ref: ./components/schemas/pss/EventSubscription.yaml
         '400':
           $ref: ./components/responses/standard400.yaml
         '401':
@@ -887,6 +1074,247 @@ paths:
           $ref: ./components/responses/standard501.yaml
         '503':
           $ref: ./components/responses/standard503.yaml
+        '504':
+          $ref: ./components/responses/standard504.yaml
+    post:
+      tags:
+        - event subscription
+      summary: Create event subscription
+      description: Create an event subscription for the current consent.
+      operationId: createEventSubscription
+      parameters:
+        - $ref: ./components/parameters/header/authorization.yaml
+        - $ref: ./components/parameters/header/client_id.yaml
+        - $ref: ./components/parameters/header/correlation.yaml
+        - $ref: ./components/parameters/header/agent.yaml
+        - $ref: ./components/parameters/header/target_id.yaml
+        - $ref: ./components/parameters/header/psu_ip.yaml
+        - $ref: ./components/parameters/header/psu_user_agent.yaml
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: ./components/schemas/pss/EventSubscription.yaml
+      responses:
+        '201':
+          description: Returns created event subscription.
+          headers:
+            X-Correlation-ID:
+              $ref: ./components/headers/X-Correlation-ID.yaml
+          content:
+            application/json:
+              schema:
+                $ref: ./components/schemas/pss/EventSubscription.yaml
+        '400':
+          $ref: ./components/responses/standard400.yaml
+        '401':
+          $ref: ./components/responses/standard401.yaml
+        '403':
+          $ref: ./components/responses/standard403.yaml
+        '404':
+          $ref: ./components/responses/standard404.yaml
+        '405':
+          $ref: ./components/responses/standard405.yaml
+        '409':
+          $ref: ./components/responses/standard409.yaml
+        '500':
+          $ref: ./components/responses/standard500.yaml
+        '501':
+          $ref: ./components/responses/standard501.yaml
+        '502':
+          $ref: ./components/responses/standard502.yaml
+        '503':
+          $ref: ./components/responses/standard503.yaml
+        '504':
+          $ref: ./components/responses/standard504.yaml
+  /event-subscriptions/{eventSubscriptionId}:
+    get:
+      tags:
+        - event subscription
+      summary: Get event subscription
+      description: Retrieve the event subscription for the current consent.
+      operationId: getEventSubscription
+      parameters:
+        - $ref: ./components/parameters/path/event_subscription_id.yaml
+        - $ref: ./components/parameters/header/authorization.yaml
+        - $ref: ./components/parameters/header/client_id.yaml
+        - $ref: ./components/parameters/header/correlation.yaml
+        - $ref: ./components/parameters/header/agent.yaml
+        - $ref: ./components/parameters/header/target_id.yaml
+        - $ref: ./components/parameters/header/psu_ip.yaml
+        - $ref: ./components/parameters/header/psu_user_agent.yaml
+      responses:
+        '200':
+          description: Returns an event subscription.
+          headers:
+            X-Correlation-ID:
+              $ref: ./components/headers/X-Correlation-ID.yaml
+          content:
+            application/json:
+              schema:
+                $ref: ./components/schemas/pss/EventSubscription.yaml
+        '400':
+          $ref: ./components/responses/standard400.yaml
+        '401':
+          $ref: ./components/responses/standard401.yaml
+        '403':
+          $ref: ./components/responses/standard403.yaml
+        '404':
+          $ref: ./components/responses/standard404.yaml
+        '405':
+          $ref: ./components/responses/standard405.yaml
+        '500':
+          $ref: ./components/responses/standard500.yaml
+        '501':
+          $ref: ./components/responses/standard501.yaml
+        '502':
+          $ref: ./components/responses/standard502.yaml
+        '503':
+          $ref: ./components/responses/standard503.yaml
+        '504':
+          $ref: ./components/responses/standard504.yaml
+    put:
+      tags:
+        - event subscription
+      summary: Update event subscription
+      description: Update the event subscription for the current consent.
+      operationId: updateEventSubscription
+      parameters:
+        - $ref: ./components/parameters/path/event_subscription_id.yaml
+        - $ref: ./components/parameters/header/authorization.yaml
+        - $ref: ./components/parameters/header/client_id.yaml
+        - $ref: ./components/parameters/header/correlation.yaml
+        - $ref: ./components/parameters/header/agent.yaml
+        - $ref: ./components/parameters/header/target_id.yaml
+        - $ref: ./components/parameters/header/psu_ip.yaml
+        - $ref: ./components/parameters/header/psu_user_agent.yaml
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: ./components/schemas/pss/EventSubscription.yaml
+            example:
+              eventTypes:
+                - accounts:listUpdated
+      responses:
+        '204':
+          description: Subscription updated (empty response).
+          headers:
+            X-Correlation-ID:
+              $ref: ./components/headers/X-Correlation-ID.yaml
+        '400':
+          $ref: ./components/responses/standard400.yaml
+        '401':
+          $ref: ./components/responses/standard401.yaml
+        '403':
+          $ref: ./components/responses/standard403.yaml
+        '404':
+          $ref: ./components/responses/standard404.yaml
+        '405':
+          $ref: ./components/responses/standard405.yaml
+        '500':
+          $ref: ./components/responses/standard500.yaml
+        '501':
+          $ref: ./components/responses/standard501.yaml
+        '502':
+          $ref: ./components/responses/standard502.yaml
+        '503':
+          $ref: ./components/responses/standard503.yaml
+        '504':
+          $ref: ./components/responses/standard504.yaml
+    delete:
+      tags:
+        - event subscription
+      summary: Delete event subscription
+      description: Delete the event subscription for the current consent.
+      operationId: deleteEventSubscription
+      parameters:
+        - $ref: ./components/parameters/path/event_subscription_id.yaml
+        - $ref: ./components/parameters/header/authorization.yaml
+        - $ref: ./components/parameters/header/client_id.yaml
+        - $ref: ./components/parameters/header/correlation.yaml
+        - $ref: ./components/parameters/header/agent.yaml
+        - $ref: ./components/parameters/header/target_id.yaml
+        - $ref: ./components/parameters/header/psu_ip.yaml
+        - $ref: ./components/parameters/header/psu_user_agent.yaml
+      responses:
+        '204':
+          description: Subscription deleted (empty response).
+          headers:
+            X-Correlation-ID:
+              $ref: ./components/headers/X-Correlation-ID.yaml
+        '400':
+          $ref: ./components/responses/standard400.yaml
+        '401':
+          $ref: ./components/responses/standard401.yaml
+        '403':
+          $ref: ./components/responses/standard403.yaml
+        '404':
+          $ref: ./components/responses/standard404.yaml
+        '405':
+          $ref: ./components/responses/standard405.yaml
+        '500':
+          $ref: ./components/responses/standard500.yaml
+        '501':
+          $ref: ./components/responses/standard501.yaml
+        '502':
+          $ref: ./components/responses/standard502.yaml
+        '503':
+          $ref: ./components/responses/standard503.yaml
+        '504':
+          $ref: ./components/responses/standard504.yaml
+  /event-subscriptions/{eventSubscriptionId}/event-notifications:
+    get:
+      tags:
+        - event notification aggregated polling
+      summary: Get event notifications list
+      description: Get aggregated list of event-notifications for the specified subscription.
+      operationId: getEventNotificationsByEventSubscriptionId
+      parameters:
+        - $ref: ./components/parameters/path/event_subscription_id.yaml
+        - $ref: ./components/parameters/query/from_event_date_time.yaml
+        - $ref: ./components/parameters/query/cursor.yaml
+        - $ref: ./components/parameters/query/limit.yaml
+        - $ref: ./components/parameters/header/client_id.yaml
+        - $ref: ./components/parameters/header/correlation.yaml
+        - $ref: ./components/parameters/header/agent.yaml
+        - $ref: ./components/parameters/header/target_id.yaml
+        - $ref: ./components/parameters/header/psu_ip.yaml
+        - $ref: ./components/parameters/header/psu_user_agent.yaml
+      responses:
+        '200':
+          description: Returns aggregated event notifications for the specified subscription.
+          headers:
+            X-Correlation-ID:
+              $ref: ./components/headers/X-Correlation-ID.yaml
+            X-nextCursor:
+              $ref: ./components/headers/X-Next-Cursor.yaml
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: ./components/schemas/pss/EventNotification.yaml
+        '400':
+          $ref: ./components/responses/standard400.yaml
+        '401':
+          $ref: ./components/responses/standard401.yaml
+        '403':
+          $ref: ./components/responses/standard403.yaml
+        '404':
+          $ref: ./components/responses/standard404.yaml
+        '429':
+          $ref: ./components/responses/standard429.yaml
+        '500':
+          $ref: ./components/responses/standard500.yaml
+        '501':
+          $ref: ./components/responses/standard501.yaml
+        '502':
+          $ref: ./components/responses/standard502.yaml
+        '503':
+          $ref: ./components/responses/standard503.yaml
+        '504':
+          $ref: ./components/responses/standard504.yaml
 components:
   securitySchemes:
     OAuth2:

@@ -14,5 +14,5 @@ properties:
       - Last 3 characters (optional) - branch code, specifying a particular branch of the bank (letters and digits)
     example: DEUTDE5M101
   clearingSystemMemberIdentification:
-    description: The clearing system member identification of the creditor agend of a payment.
+    # description: The clearing system member identification of the creditor agend of a payment.
     $ref: ./CommonClearingSystemMemberIdentification.yaml

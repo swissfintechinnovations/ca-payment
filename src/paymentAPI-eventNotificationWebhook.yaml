@@ -1,0 +1,60 @@
+openapi: 3.0.0
+info:
+  version: 6.0.0
+  title: event-notification webhook
+  description: |
+    This is the specification of the 'event-notification' webhook.
+  contact:
+    email: info@common-api.ch
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+servers:
+  - url: https://webhook-notification.common-api.ch
+externalDocs:
+  description: Find out more about SFTI API specifications.
+  url: https://www.common-api.ch
+tags:
+  - name: event notification webhook
+    description: Event notification webhook operations.
+security: []
+paths:
+  /event-notifications:
+    post:
+      tags:
+        - event notification webhook
+      summary: Push notification towards service users
+      description: Push notifications for subscribed event notifications.
+      operationId: postEventNotification
+      parameters:
+        - $ref: ./components/parameters/header/client_id.yaml
+        - $ref: ./components/parameters/header/correlation.yaml
+        - $ref: ./components/parameters/header/agent.yaml
+        - $ref: ./components/parameters/header/target_id.yaml
+        - $ref: ./components/parameters/header/psu_ip.yaml
+        - $ref: ./components/parameters/header/psu_user_agent.yaml
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: ./components/schemas/pss/EventNotification.yaml
+      responses:
+        '202':
+          description: Notification accepted.
+          headers:
+            X-Correlation-ID:
+              $ref: ./components/headers/X-Correlation-ID.yaml
+        '400':
+          $ref: ./components/responses/standard400.yaml
+        '404':
+          $ref: ./components/responses/standard404.yaml
+        '429':
+          $ref: ./components/responses/standard429.yaml
+        '500':
+          $ref: ./components/responses/standard500.yaml
+        '501':
+          $ref: ./components/responses/standard501.yaml
+        '503':
+          $ref: ./components/responses/standard503.yaml
+        '504':
+          $ref: ./components/responses/standard504.yaml

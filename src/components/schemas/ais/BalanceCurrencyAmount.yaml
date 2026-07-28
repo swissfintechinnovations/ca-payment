@@ -13,4 +13,4 @@ properties:
     example: '10.25'
   currency:
     $ref: ../generic/Currency.yaml
-    description: The ISO currency three-letter code in which the balance and the account are held.
+    # description: The ISO currency three-letter code in which the balance and the account are held.

@@ -1,0 +1,61 @@
+title: Account Information Item
+description: The account object.
+type: object
+required:
+  - account
+  - accountOwnerName
+  - accountTypeCode
+  - designation
+  - id
+properties:
+  account:
+    $ref: ./PaymentIbanAccount.yaml
+  accountOwnerName:
+    $ref: ../generic/AccountOwnerName.yaml
+  accountTypeCode:
+    type: string
+    description: |
+      Contains the account type code according to the ISO20022 external cash account type code list. It is strongly recommended to use only
+      the 5 codes below as follows:
+      * LOAN: Account used for loans (loan and mortgage accounts) - DE: Darlehenskonto, Kreditkonto, Baukreditkonto, Hypothekarkonto
+      * LLSV: Account used for savings with special interest and withdrawal terms (pension provision and vested benefits accounts) - DE:
+      Vorsorge- und Freizügigkeitskonten
+      * SVGS: Account used for savings (all types of saving accounts)
+      * TRAN: Account used for transactions (all types of personal, current and payment accounts) - DE: Privat-, Kontokorrent- und
+      Zahlungsverkehrskonten
+      * OTHR: Account not otherwise specified (gathering pool for all other accounts)
+
+      Note: This attribute is required in the Account API, while optional in SPS. Reason: Necessary for the multibanking use case. Ref: Issue#97
+    example: TRAN
+    enum:
+      - CACC
+      - CARD
+      - CASH
+      - CHAR
+      - CISH
+      - COMM
+      - CPAC
+      - LLSV
+      - LOAN
+      - MGLD
+      - MOMA
+      - NFCA
+      - NREX
+      - ODFT
+      - ONDP
+      - OTHR
+      - SACC
+      - SLRY
+      - SVGS
+      - TAXE
+      - TRAN
+      - TRAS
+      - VACC
+  currency:
+    $ref: ../generic/Currency.yaml
+    #description: The ISO currency three-letter code denominated and set for the account at the time it is opened.
+    #The attribute currency can be omitted only for multicurrency accounts.
+  designation:
+    $ref: ../generic/Designation.yaml
+  id:
+    $ref: ../generic/CommonAccountId.yaml

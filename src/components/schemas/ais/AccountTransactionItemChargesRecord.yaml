@@ -7,10 +7,10 @@ required:
 properties:
   amount:
     $ref: ../generic/Amount.yaml
-    description: The amount of individual charges.
+    # description: The amount of individual charges.
   transactionType:
     $ref: ./AccountTransactionTransactionType.yaml
-    description: Corresponds to the attribute _Chrgs ⇾ Rcrd ⇾ CdtDbtInd_ in SPS/ISO-20022.
+    # description: Corresponds to the attribute _Chrgs ⇾ Rcrd ⇾ CdtDbtInd_ in SPS/ISO-20022.
   chargesIncludedIndicator:
     description: |
       Indicates whether the charges are included in the entry amount or not. Corresponds to the attribute _ChrgInclInd_ in SPS/ISO-20022.
@@ -18,7 +18,7 @@ properties:
     example: true
   currency:
     $ref: ../generic/Currency.yaml
-    description: The ISO currency three-letter code in which the amount of individual charges was posed based.
+    # description: The ISO currency three-letter code in which the amount of individual charges was posed based.
   type:
     type: string
     maxLength: 35
