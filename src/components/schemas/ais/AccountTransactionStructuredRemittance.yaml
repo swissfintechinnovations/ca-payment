@@ -1,0 +1,17 @@
+title: Account Transaction Structured Remittance
+description: |
+  One block of structured remittance information. Corresponds to the attribute _RmtInf ⇾ Strd_ in SPS/ISO-20022.
+type: object
+properties:
+  creditorReferenceInformation:
+    $ref: ./AccountTransactionRemittanceReference.yaml
+  additionalRemittanceInformation:
+    type: array
+    maxItems: 3
+    description: |
+      Additional, free text remittance information to complement the structured reference. Corresponds to the attribute
+      _RmtInf ⇾ Strd ⇾ AddtlRmtInf_ in SPS/ISO-20022.
+    items:
+      type: string
+      maxLength: 140
+      example: Zahlung für Rechnung Q1 2026
