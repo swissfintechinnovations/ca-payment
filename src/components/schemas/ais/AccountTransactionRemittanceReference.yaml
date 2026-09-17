@@ -1,5 +1,6 @@
 title: Account Transaction Remittance Reference
-description: The remittance reference of the account transaction. Specifies the structured reference.
+description: |
+  Structured creditor reference. Corresponds to the attribute _RmtInf ⇾ Strd ⇾ CdtrRefInf_ in SPS/ISO-20022.
 type: object
 required:
   - reference
@@ -9,8 +10,7 @@ properties:
     type: string
     maxLength: 35
     description: |
-      The reference number associated to the chosen remittance type. Corresponds to the attribute _RmtInf ⇾ Strd ⇾ CdtrRefInf ⇾ Ref_ in
-      SPS/ISO-20022.
+      The reference number associated to the chosen remittance type. Corresponds to the attribute _RmtInf ⇾ Strd ⇾ CdtrRefInf ⇾ Ref_ in SPS/ISO-20022.
     example: '210000000003139471430009017'
   type:
     type: string
@@ -20,3 +20,10 @@ properties:
       - QRR
     description: The reference type (QRR, SCOR, ISR). Corresponds to the attribute _RmtInf ⇾ Strd ⇾ CdtrRefInf ⇾ Tp_ in SPS/ISO-20022.
     example: SCOR
+  issuer:
+    type: string
+    maxLength: 35
+    description: |
+      Issuer of the creditor reference. When set to "ISO", the reference follows the ISO 11649 structured creditor reference (RF) pattern.
+      Corresponds to the attribute _RmtInf ⇾ Strd ⇾ CdtrRefInf ⇾ Tp ⇾ Issr_ in SPS/ISO-20022.
+    example: ISO
