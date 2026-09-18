@@ -1,13 +1,10 @@
 title: Account Transaction Remittance Information
-description: |
-  Information that enables the matching of a payment with the items it is intended to settle. Either `unstructured` or `structured`
-  (or both) may be present. Corresponds to the attribute _TxDtls ⇾ RmtInf_ in SPS/ISO-20022.
+description: The remittance information of the account transaction. Corresponds to the attribute _RmtInf_ in SPS/ISO-20022.
 type: object
 properties:
   unstructured:
     type: array
-    description: |
-      Specifies the unstructured remittance information. Corresponds to the attribute _RmtInf ⇾ Ustrd_ in SPS/ISO-20022.
+    description: The unstructured remittance information. Corresponds to the attribute _RmtInf ⇾ Ustrd_ in SPS/ISO-20022.
     items:
       type: string
       maxLength: 140
@@ -15,7 +12,7 @@ properties:
   structured:
     type: array
     description: |
-      Specifies the structured remittance information. This element is defined as an array to allow multiple occurrences in the future.
+      The structured remittance information. This element is defined as an array to allow multiple occurrences in the future.
       Currently, only a single occurrence is provided. Corresponds to the attribute RmtInf ⇾ Strd in SPS/ISO-20022.
     items:
       $ref: ./AccountTransactionStructuredRemittance.yaml
