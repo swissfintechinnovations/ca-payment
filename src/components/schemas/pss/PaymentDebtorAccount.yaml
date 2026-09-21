@@ -1,5 +1,5 @@
 title: Payment Debtor Account
-description: IBAN of the debtor account. PSS restricts debtor accounts to IBAN. Corresponds to the attribute _PmtInf ⇾ DbtrAcct ⇾ Id ⇾ IBAN_ in SPS/ISO-20022.
+description: The IBAN account object of the debtor. Corresponds to the attribute _PmtInf ⇾ DbtrAcct ⇾ Id_ in SPS/ISO-20022.
 type: object
 required:
   - identification
