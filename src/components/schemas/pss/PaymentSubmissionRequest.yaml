@@ -27,6 +27,7 @@ properties:
     $ref: ../generic/Date.yaml
   transactions:
     type: array
-    description: The transaction items.
+    description: |
+      List of credit transfer transaction information items. Corresponds to the attribute PmtInf ⇾ CdtTrfTxInf in SPS/ISO-20022.
     items:
       $ref: ./PaymentInstructionItem.yaml
