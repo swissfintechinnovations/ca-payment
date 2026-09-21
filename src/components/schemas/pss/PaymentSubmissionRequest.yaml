@@ -10,7 +10,6 @@ required:
   - transactions
 properties:
   bookingInstruction:
-    # description: The payment booking instruction. Corresponds to the attribute _DbtrAcct ⇾ Tp ⇾ Prtry_ in SPS/ISO-20022.
     $ref: ./PaymentBookingInstruction.yaml
   debtorAccount:
     $ref: ./PaymentDebtorAccount.yaml
