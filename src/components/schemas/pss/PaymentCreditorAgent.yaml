@@ -9,5 +9,4 @@ properties:
       The bank identifier code (BIC) of the creditor agent of a payment. Corresponds to the attribute CdtrAgt ⇾ FinInstnId ⇾ BICFI in SPS/ISO-20022.
     example: DEUTDE5M101
   clearingSystemMemberIdentification:
-    # description: The clearing system member identification of the creditor agend of a payment.
     $ref: ./CommonClearingSystemMemberIdentification.yaml
