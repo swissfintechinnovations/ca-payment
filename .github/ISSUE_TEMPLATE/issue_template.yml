@@ -30,7 +30,7 @@ body:
           - Compliance - Issue is related to comply with existing specifications, i.e. RFC, ISO, etc.
           - Documentation - Issue is related to improve the existing documentation only
           - Bugfix - Issue is related to an existing production issue
-          - Not applicable - None of the catagories above fit for the issue
+          - Not applicable - None of the categories above fit for the issue
       options:
         - Refinement
         - Enhancement
@@ -67,17 +67,34 @@ body:
     validations:
       required: true
   - type: textarea
+    id: affected_components
+    attributes:
+      label: Affected endpoints and components
+      description: |
+        Please list the affected endpoints, schemas, or component files if known.
+        This helps reviewers — and AI agents implementing the change — to locate the right places in the specification.
+      placeholder: |
+        ex.
+        - POST /payments
+        - src/components/schemas/PaymentSubmissionRequest.yaml
+        - src/components/parameters/header/psu_ip.yaml
+    validations:
+      required: false
+  - type: textarea
     id: proposed_change
     attributes:
       label: Proposed change
-      description: Please specify the desired adjustments if considerations are already in place.
+      description: |
+        Please specify the desired adjustments if considerations are already in place.
+        Describe the current state under "As-Is" and the desired state under "To-Be", ideally as OpenAPI/YAML snippets.
+        A precise To-Be section allows the change to be implemented (semi-)automatically after approval by the working group.
       value: |
         <<<<<<< Section As-Is
-        
+
         ========
-        
+
         >>>>>>> Section To-Be
-      render: oasv2-yaml
+      render: yaml
     validations:
       required: false
   - type: dropdown
