@@ -2171,7 +2171,7 @@ components:
         bookingInstruction:
           $ref: '#/components/schemas/PaymentBookingInstruction'
         debtorAccount:
-          $ref: '#/components/schemas/PaymentIbanAccount'
+          $ref: '#/components/schemas/PaymentDebtorAccount'
         endToEndId:
           $ref: '#/components/schemas/EndToEndId'
         initiatingPartyId:
@@ -2216,7 +2216,7 @@ components:
         - startDate
       properties:
         debtorAccount:
-          $ref: '#/components/schemas/PaymentIbanAccount'
+          $ref: '#/components/schemas/PaymentDebtorAccount'
         endToEndId:
           $ref: '#/components/schemas/EndToEndId'
         frequency:
