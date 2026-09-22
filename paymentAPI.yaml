@@ -1859,15 +1859,19 @@ components:
         - statusCode
       properties:
         originalEndToEndId:
+          type: string
+          maxLength: 35
           description: |
             The endToEndId of the original instruction item, as provided in the attribute endToEndId of the payment submission request.
             Corresponds to the attribute _TxInfAndSts ⇾ OrgnlEndToEndId_ in SPS/ISO-20022.
-          $ref: '#/components/schemas/EndToEndId'
+          example: ENDTOENDID-001
         originalInstructionId:
+          type: string
+          maxLength: 35
           description: |
             The unique identifier of the original instruction item, as provided in the attribute instructionId of the payment submission request.
             Corresponds to the attribute _TxInfAndSts ⇾ OrgnlInstrId_ in SPS/ISO-20022.
-          $ref: '#/components/schemas/InstructionId'
+          example: INSTR-001
         statusCode:
           type: string
           description: |
