@@ -1406,15 +1406,15 @@ components:
           type: string
           maxLength: 5
           description: |
-            Identification code of a clearing system. Only "CHBCC" is permitted inSwitzerland. Corresponds to the attribute _ClrSysId ⇾ Cd_
-            inSPS/ISO-20022.
+            Identification code of a clearing system. Only "CHBCC" is permitted in Switzerland.
+            Corresponds to the attribute ClrSysMmbId ⇾ ClrSysId ⇾ Cd in SPS/ISO-20022.
           example: CHBCC
         memberId:
           type: string
           maxLength: 35
           description: |
             The identification of a clearing system member. Clearing ID (Bank Code, "National Identifier") of the financial institution.
-            Corresponds to the attribute _ClrSysId ⇾ MmbId_ in SPS/ISO-20022.
+            Corresponds to the attribute ClrSysMmbId ⇾ MmbId in SPS/ISO-20022.
           example: '00230'
     CommonErrorResponse:
       title: Common Error Response
@@ -1530,7 +1530,8 @@ components:
       format: date
       example: '2018-04-13'
     EndToEndId:
-      description: The endToEndId of the instruction item. Corresponds to the attribute _EndToEndId_ in SPS/ISO-20022.
+      description: |
+        The endToEndId of the instruction item. Corresponds to the attribute CdtTrfTxInf ⇾ PmtId ⇾ EndToEndId in SPS/ISO-20022.
       type: string
       maxLength: 35
       example: ENDTOENDID-001
@@ -1629,18 +1630,25 @@ components:
         - Annual
       example: Daily
     IbanIdentification:
-      description: The International Bank Account Number (IBAN), associated with the account.
+      description: The International Bank Account Number (IBAN), associated with the account. Corresponds to the attribute *Acct ⇾ Id in SPS/ISO-20022.
       type: string
       maxLength: 34
       pattern: ^[A-Z]{2,2}[0-9]{2,2}[a-zA-Z0-9]{1,30}$
       example: CH5481230000001998736
     InitiatingPartyId:
-      description: The identifier of the third party provider (TPP) who created the payment instruction message derived from the OAuth 2.0 flow.
+      description: |
+        The identification of the party initiating the payment submission, i.e. the third party provider (TPP) acting on behalf of the debtor.
+        The value is derived from the OAuth 2.0 flow and identifies the initiating system towards the financial institution.
+        Corresponds to the attribute InitgPty ⇾ Id ⇾ OrgId ⇾ Othr ⇾ Id in SPS/ISO-20022.
       type: string
       maxLength: 32
       example: TPP01746
     InstructionId:
-      description: The unique identifier of the instruction item. Corresponds to the attribute _InstrId_ in SPS/ISO-20022.
+      description: |
+        The unique identifier of the instruction item, assigned by the initiating party. Corresponds to the attribute CdtTrfTxInf ⇾ PmtId ⇾ InstrId in SPS/ISO-20022.
+        In SPS the element is optional with the recommendation to use it. In this specification it is mandatory, since it is the reference used to report the status
+        of an individual instruction back to the initiating party. The value must be unique within the transactions of a single submission (B-level).
+        Only the restricted character set for reference elements defined by SPS is permitted.
       type: string
       maxLength: 35
       example: INSTR-001
@@ -1652,15 +1660,8 @@ components:
     PaymentBookingInstruction:
       title: Payment Booking Instruction
       description: |
-        The payment booking instruction, i.e. the method for processing and grouping a payment. Corresponds to the attribute _DbtrAcct ⇾ Tp ⇾
-        Prtry_ in SPS/ISO-20022. Possible methods are:
-        - SINGLEBOOKING_SIA
-        - SINGLEBOOKING_NOA
-        - BATCHBOOKING_SALA_NOA
-        - BATCHBOOKING_SALA_CND
-        - BATCHBOOKING_NOA
-        - BATCHBOOKING_CND
-        - BATCHBOOKING_CWD
+        Combined booking and advice instruction for the payment submission. Encodes the SPS attributes batch booking (PmtInf ⇾ BtchBookg),
+        category purpose code (PmtInf ⇾ CtgyPurp ⇾ Cd, e.g. SALA for confidential salary payments) and advice steering (NOA, CND, CWD, SIA).
       type: string
       enum:
         - SINGLEBOOKING_SIA
@@ -1674,8 +1675,8 @@ components:
     PaymentChargeBearerMethod:
       title: Payment Charge Bearer Method
       description: |
-        The payment charge bearer method, i.e. who is responsible for paying the transaction fees associated with a payment. Corresponds to the
-        attribute _SvcLvl ⇾ Cd_ in SPS/ISO-20022. Possible methods are: - DEBT (debtor) - CRED (creditor) - SHAR (shared) - SLEV (service level)
+        The payment charge bearer method, i.e. who is responsible for paying the transaction fees associated with a payment.
+        Corresponds to the attribute CdtTrfTxInf ⇾ ChrgBr in SPS/ISO-20022.
       type: string
       enum:
         - DEBT
@@ -1694,7 +1695,9 @@ components:
         name:
           type: string
           maxLength: 140
-          description: The name of the creditor of a payment. Restriction for payment type SEPA is 70 characters.
+          description: |
+            The name of the creditor of a payment. Restriction for payment type SEPA is 70 characters.
+            Corresponds to the attribute CdtTrfTxInf ⇾ Cdtr ⇾ Nm in SPS/ISO-20022.
           example: Hans Muster
         postalAddress:
           $ref: '#/components/schemas/PaymentPostalAddress'
@@ -1702,32 +1705,15 @@ components:
       description: The creditor agent of a payment.
       type: object
       properties:
-        bic:
+        bicfi:
           type: string
           minLength: 8
           maxLength: 11
           description: |
-            The bank identifier code (BIC) of the creditor agent of a payment. Corresponds to the attribute _CdtrAgt ⇾ FinInstnId ⇾ BIC_ in
-            SPS/ISO-20022. The BIC is an 8 or 11-character code that breaks down as follows:
-            - First 4 characters - bank code (letters only)
-            - Next 2 characters - ISO 3166-1 alpha-2 country code (letters only)
-            - Next 2 characters - location code (letters and digits)
-            - Last 3 characters (optional) - branch code, specifying a particular branch of the bank (letters and digits)
+            The bank identifier code (BIC) of the creditor agent of a payment. Corresponds to the attribute CdtrAgt ⇾ FinInstnId ⇾ BICFI in SPS/ISO-20022.
           example: DEUTDE5M101
         clearingSystemMemberIdentification:
           $ref: '#/components/schemas/CommonClearingSystemMemberIdentification'
-    PaymentCurrencyAmount:
-      title: Payment Currency-Amount
-      description: Specifies the entry amount according to the account currency.
-      type: object
-      required:
-        - amount
-        - currency
-      properties:
-        amount:
-          $ref: '#/components/schemas/Amount'
-        currency:
-          $ref: '#/components/schemas/Currency'
     PaymentDebtor:
       title: Payment Debtor
       description: The debtor of a payment.
@@ -1743,6 +1729,28 @@ components:
           example: Hans Muster
         postalAddress:
           $ref: '#/components/schemas/PaymentPostalAddress'
+    PaymentDebtorAccount:
+      title: Payment Debtor Account
+      description: The IBAN account object of the debtor. Corresponds to the attribute _PmtInf ⇾ DbtrAcct ⇾ Id_ in SPS/ISO-20022.
+      type: object
+      required:
+        - identification
+        - type
+      properties:
+        identification:
+          type: string
+          maxLength: 34
+          pattern: ^[A-Z]{2,2}[0-9]{2,2}[a-zA-Z0-9]{1,30}$
+          description: |
+            IBAN of the debtor account. PSS restricts debtor accounts to IBAN. Corresponds to the attribute _PmtInf ⇾ DbtrAcct ⇾ Id ⇾ IBAN_ in
+            SPS/ISO-20022.
+          example: CH5481230000001998736
+        type:
+          type: string
+          description: The account identification type. The debtor account must always be an IBAN.
+          enum:
+            - IBAN
+          example: IBAN
     PaymentIbanAccount:
       title: Payment IBAN Account
       description: The IBAN account object.
@@ -1756,8 +1764,8 @@ components:
         type:
           type: string
           description: |
-            The allowed account identification type for the creditor account depends on the payment type. The debtor account must always be an
-            IBAN.
+            The allowed account identification type for the creditor account depends on the payment type. The debtor account must always be an IBAN.
+            Corresponds to the attribute *Acct ⇾ Id ⇾ IBAN in SPS/ISO-20022.
           enum:
             - IBAN
           example: IBAN
@@ -1803,6 +1811,19 @@ components:
             - SCOR
             - QRR
           example: SCOR
+    PaymentInstructedAmount:
+      title: Payment Instructed Amount
+      description: |
+        The amount and currency of the payment instruction. Corresponds to the attribute _CdtTrfTxInf ⇾ Amt ⇾ InstdAmt_ in SPS/ISO-20022.
+      type: object
+      required:
+        - amount
+        - currency
+      properties:
+        amount:
+          $ref: '#/components/schemas/Amount'
+        currency:
+          $ref: '#/components/schemas/Currency'
     PaymentInstructionItem:
       title: Payment Instruction Item
       description: The payment instruction item object.
@@ -1815,7 +1836,7 @@ components:
         endToEndId:
           $ref: '#/components/schemas/EndToEndId'
         instructedAmount:
-          $ref: '#/components/schemas/PaymentCurrencyAmount'
+          $ref: '#/components/schemas/PaymentInstructedAmount'
         instructionId:
           $ref: '#/components/schemas/InstructionId'
         ibanDetails:
@@ -1836,9 +1857,6 @@ components:
         - instructionId
         - statusCode
       properties:
-        instructionId:
-          description: The unique identifier of the payment instruction item.
-          $ref: '#/components/schemas/InstructionId'
         statusCode:
           type: string
           description: |
@@ -1855,14 +1873,23 @@ components:
             - ACWC
             - RJCT
           example: RJCT
+        originalEndToEndId:
+          description: |
+            The endToEndId of the original instruction item, as provided in the attribute endToEndId of the payment submission request.
+            Corresponds to the attribute _TxInfAndSts ⇾ OrgnlEndToEndId_ in SPS/ISO-20022.
+        originalInstructionId:
+          description: |
+            The unique identifier of the original instruction item, as provided in the attribute instructionId of the payment submission request.
+            Corresponds to the attribute _TxInfAndSts ⇾ OrgnlInstrId_ in SPS/ISO-20022.
+          $ref: '#/components/schemas/InstructionId'
         reasonCode:
           type: string
-          description: The reason code for the instruction item. Corresponds to the attribute _StsRsnInf_ in SPS/ISO-20022.
+          description: The reason code for the instruction item. Corresponds to the attribute StsRsnInf ⇾ Rsn in SPS/ISO-20022.
           example: CURR
         reasonInformation:
           type: string
           maxLength: 105
-          description: The reason information for the instruction item. Corresponds to the attribute _StsRsnInf ⇾ Rsn ⇾ Prtry_ in SPS/ISO-20022.
+          description: The reason information for the instruction item. Corresponds to the attribute TxInfAndSts ⇾ StsRsnInf ⇾ AddtlInf in SPS/ISO-20022.
           example: currency USD not allowed for payment type IBAN
     PaymentIsrDetail:
       title: Payment ISR Detail
@@ -1968,15 +1995,15 @@ components:
           type: string
           maxLength: 70
           description: |
-            Additional address information, which cannot be supplied in structured elements. Corresponds to the attribute _AdrLine_ in
-            SPS/ISO-20022.
+            Additional address information, which cannot be supplied in structured elements. Data that is already provided in another element must not be repeated.
+            Corresponds to the attribute AdrLine in SPS/ISO-20022.
           example: Carribean At Keppel Bay
         addressLine2:
           type: string
           maxLength: 70
           description: |
-            Additional address information, which cannot be supplied in structured elements. Corresponds to the attribute _AdrLine_ in
-            SPS/ISO-20022.
+            Additional address information, which cannot be supplied in structured elements. Data that is already provided in another element must not be repeated.
+            Corresponds to the attribute AdrLine in SPS/ISO-20022.
           example: 05-66
         buildingNumber:
           type: string
@@ -2051,16 +2078,17 @@ components:
         bookingInstruction:
           $ref: '#/components/schemas/PaymentBookingInstruction'
         debtorAccount:
-          $ref: '#/components/schemas/PaymentIbanAccount'
+          $ref: '#/components/schemas/PaymentDebtorAccount'
         initiatingPartyId:
           $ref: '#/components/schemas/InitiatingPartyId'
         messageId:
           $ref: '#/components/schemas/MessageId'
         requestedExecutionDate:
-          $ref: '#/components/schemas/Date'
+          $ref: '#/components/schemas/RequestedExecutionDate'
         transactions:
           type: array
-          description: The transaction items.
+          description: |
+            List of credit transfer transaction information items. Corresponds to the attribute PmtInf ⇾ CdtTrfTxInf in SPS/ISO-20022.
           items:
             $ref: '#/components/schemas/PaymentInstructionItem'
     PaymentSubmissionResponse:
@@ -2118,6 +2146,14 @@ components:
       type: string
       maxLength: 35
       example: '210000000003139471430009017'
+    RequestedExecutionDate:
+      title: Requested Execution Date
+      description: |
+        The requested execution date of the payment. In some cases, the financial institution can/will change this date, if the requested date
+        is a bank / post holiday. Corresponds to the attribute _PmtInf ⇾ ReqdExctnDt_ in SPS/ISO-20022.
+      type: string
+      format: date
+      example: '2018-04-13'
     SinglepaymentsSubmissionRequest:
       title: Single Payment Submission Request
       description: The single payment submission request object.
@@ -2141,13 +2177,13 @@ components:
         initiatingPartyId:
           $ref: '#/components/schemas/InitiatingPartyId'
         instructedAmount:
-          $ref: '#/components/schemas/PaymentCurrencyAmount'
+          $ref: '#/components/schemas/PaymentInstructedAmount'
         instructionId:
           $ref: '#/components/schemas/InstructionId'
         messageId:
           $ref: '#/components/schemas/MessageId'
         requestedExecutionDate:
-          $ref: '#/components/schemas/Date'
+          $ref: '#/components/schemas/RequestedExecutionDate'
         ibanDetails:
           $ref: '#/components/schemas/PaymentIbanDetail'
         isrDetails:
@@ -2188,7 +2224,7 @@ components:
         initiatingPartyId:
           $ref: '#/components/schemas/InitiatingPartyId'
         instructedAmount:
-          $ref: '#/components/schemas/PaymentCurrencyAmount'
+          $ref: '#/components/schemas/PaymentInstructedAmount'
         instructionId:
           $ref: '#/components/schemas/InstructionId'
         messageId:
@@ -2231,7 +2267,7 @@ components:
         qrDetails:
           $ref: '#/components/schemas/PaymentQrDetail'
         requestedExecutionDate:
-          $ref: '#/components/schemas/Date'
+          $ref: '#/components/schemas/RequestedExecutionDate'
     StandingOrderSubmissionResponse:
       title: Standing Order Submission Response
       description: The standing order submission response object.
@@ -2279,8 +2315,8 @@ components:
       example: 618d4ac6e8a64e3d9f26aa3d8c4f323e
     Uetr:
       description: |
-        Globally unique reference Reference assigned by the debtor (optional) or by the debtor agent. Corresponds to the attribute _CdtTrfTxInf ⇾
-        PmtId ⇾ UETR_ in SPS/ISO-20022.
+        Globally unique reference assigned by the debtor (optional) or by the debtor agent.
+        Corresponds to the attribute CdtTrfTxInf ⇾ PmtId ⇾ UETR in SPS/ISO-20022.
       type: string
       pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$
       example: fdc01a3e-4567-4abc-8def-1234567890ab
