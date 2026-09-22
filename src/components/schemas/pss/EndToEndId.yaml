@@ -1,4 +1,5 @@
-description: The endToEndId of the instruction item. Corresponds to the attribute _EndToEndId_ in SPS/ISO-20022.
+description: |
+  The endToEndId of the instruction item. Corresponds to the attribute CdtTrfTxInf ⇾ PmtId ⇾ EndToEndId in SPS/ISO-20022.
 type: string
 maxLength: 35
 example: ENDTOENDID-001
