@@ -8,10 +8,5 @@ required:
 properties:
   amount:
     $ref: ../generic/Amount.yaml
-    # description: The amount of the payment instruction. Corresponds to the value of _CdtTrfTxInf ⇾ Amt ⇾ InstdAmt_ in SPS/ISO-20022.
   currency:
     $ref: ../generic/Currency.yaml
-    # description: |
-    #   The currency of the payment instruction amount, expressed as a three-letter ISO 4217 code. Corresponds to the XML attribute _Ccy_ on
-    #   _CdtTrfTxInf ⇾ Amt ⇾ InstdAmt_ in SPS/ISO-20022, where the currency is carried as an attribute on the amount element rather than as a
-    #   separate field.
