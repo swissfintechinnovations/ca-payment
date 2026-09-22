@@ -2,18 +2,20 @@ title: Payment Instruction Item Status
 description: The status of the payment instruction item.
 type: object
 required:
-  - instructionId
+  - originalEndToEndId
+  - originalInstructionId
   - statusCode
 properties:
+  originalEndToEndId:
+    description: |
+      The endToEndId of the original instruction item, as provided in the attribute endToEndId of the payment submission request.
+      Corresponds to the attribute _TxInfAndSts ⇾ OrgnlEndToEndId_ in SPS/ISO-20022.
+    $ref: ./EndToEndId.yaml
   originalInstructionId:
     description: |
       The unique identifier of the original instruction item, as provided in the attribute instructionId of the payment submission request.
       Corresponds to the attribute _TxInfAndSts ⇾ OrgnlInstrId_ in SPS/ISO-20022.
     $ref: ./InstructionId.yaml
-  originalEndToEndId:
-    description: |
-      The endToEndId of the original instruction item, as provided in the attribute endToEndId of the payment submission request.
-      Corresponds to the attribute _TxInfAndSts ⇾ OrgnlEndToEndId_ in SPS/ISO-20022.
   statusCode:
     type: string
     description: |
