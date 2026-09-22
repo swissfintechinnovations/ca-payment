@@ -34,7 +34,7 @@ properties:
     example: RJCT
   reasonCode:
     type: string
-    description: The reason code for the instruction item. Corresponds to the attribute StsRsnInf ⇾ Rsn in SPS/ISO-20022.
+    description: The reason code for the instruction item. Corresponds to the attribute TxInfAndSts ⇾ StsRsnInf ⇾ Rsn in SPS/ISO-20022.
     example: CURR
   reasonInformation:
     type: string
