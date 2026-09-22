@@ -1169,9 +1169,7 @@ components:
             ID of the C-Level from the original payment instruction. Corresponds to the attribute _TxDtls ⇾ Refs ⇾ InstrId_ in SPS/ISO-20022.
           example: 12345ABC6789
         remittanceInformation:
-          $ref: '#/components/schemas/PaymentRemittanceInformation'
-        remittanceReference:
-          $ref: '#/components/schemas/AccountTransactionRemittanceReference'
+          $ref: '#/components/schemas/AccountTransactionRemittanceInformation'
         totalChargesAmount:
           $ref: '#/components/schemas/AccountTransactionItemCharges'
         uetr:
@@ -1222,6 +1220,25 @@ components:
           maxLength: 35
           description: The type of charge. Corresponds to the attribute _Chrgs ⇾ Rcrd ⇾ Tp_ in SPS/ISO-20022.
           example: Some type of charge
+    AccountTransactionRemittanceInformation:
+      title: Account Transaction Remittance Information
+      description: The remittance information of the account transaction. Corresponds to the attribute _RmtInf_ in SPS/ISO-20022.
+      type: object
+      properties:
+        structured:
+          type: array
+          description: |
+            The structured remittance information. This element is defined as an array to allow multiple occurrences in the future.
+            Currently, only a single occurrence is provided. Corresponds to the attribute RmtInf ⇾ Strd in SPS/ISO-20022.
+          items:
+            $ref: '#/components/schemas/AccountTransactionStructuredRemittance'
+        unstructured:
+          type: array
+          description: The unstructured remittance information. Corresponds to the attribute _RmtInf ⇾ Ustrd_ in SPS/ISO-20022.
+          items:
+            type: string
+            maxLength: 140
+            example: Invoice No. 408
     AccountTransactionRemittanceReference:
       title: Account Transaction Remittance Reference
       description: The remittance reference of the account transaction. Specifies the structured reference.
@@ -1234,8 +1251,7 @@ components:
           type: string
           maxLength: 35
           description: |
-            The reference number associated to the chosen remittance type. Corresponds to the attribute _RmtInf ⇾ Strd ⇾ CdtrRefInf ⇾ Ref_ in
-            SPS/ISO-20022.
+            The reference number associated to the chosen remittance type. Corresponds to the attribute _RmtInf ⇾ Strd ⇾ CdtrRefInf ⇾ Ref_ in SPS/ISO-20022.
           example: '210000000003139471430009017'
         type:
           type: string
@@ -1245,6 +1261,13 @@ components:
             - QRR
           description: The reference type (QRR, SCOR, ISR). Corresponds to the attribute _RmtInf ⇾ Strd ⇾ CdtrRefInf ⇾ Tp_ in SPS/ISO-20022.
           example: SCOR
+        issuer:
+          type: string
+          maxLength: 35
+          description: |
+            The Issuer of the reference. The value "ISO" indicates a reference according to the ISO 11649 (RF Creditor Reference) pattern.
+            Corresponds to the attribute _RmtInf ⇾ Strd ⇾ CdtrRefInf ⇾ Tp ⇾ Issr_ in SPS/ISO-20022.
+          example: ISO
     AccountTransactionReport:
       title: Account Transaction Report
       description: The account transaction report object.
@@ -1317,6 +1340,23 @@ components:
           $ref: '#/components/schemas/AccountTransactionStructuredAddress'
         unstructured:
           $ref: '#/components/schemas/AccountTransactionUnstructuredAddress'
+    AccountTransactionStructuredRemittance:
+      title: Account Transaction Structured Remittance
+      description: The structured remittance information. Corresponds to the attribute _RmtInf ⇾ Strd_ in SPS/ISO-20022.
+      type: object
+      properties:
+        additionalRemittanceInformation:
+          type: array
+          maxItems: 3
+          description: |
+            Additional remittance information to complement the structured reference. Corresponds to the attribute
+            _RmtInf ⇾ Strd ⇾ AddtlRmtInf_ in SPS/ISO-20022.
+          items:
+            type: string
+            maxLength: 140
+            example: Payment for invoice Q1 2026
+        creditorReferenceInformation:
+          $ref: '#/components/schemas/AccountTransactionRemittanceReference'
     AccountTransactionTransactionType:
       title: Account Transaction Transaction Type
       description: |
@@ -1633,11 +1673,6 @@ components:
           enum:
             - IBAN
           example: IBAN
-    PaymentRemittanceInformation:
-      description: Either remittanceReference or remittanceInformation must be set. Corresponds to the attribute _RmtInf ⇾ Ustrd_ in SPS/ISO-20022.
-      type: string
-      maxLength: 140
-      example: Rechnung Nr. 408
   responses:
     standard202:
       headers:
