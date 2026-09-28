@@ -3,6 +3,6 @@ description: |
   Delete the submitted ISO20022 payment instruction.
   The `submissionId` returned in the response can be used as the `submissionId` path parameter.
 
-  Example: `/iso20022/payments/618d4ac6e8a64e3d9f26aa3d8c4f323e`
+  Example: `DELETE /iso20022/payments/618d4ac6e8a64e3d9f26aa3d8c4f323e`
 parameters:
-  submissionId: '$response.body#/submissionId'
+  submissionId: $response.body#/submissionId

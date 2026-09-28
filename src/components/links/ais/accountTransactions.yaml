@@ -2,6 +2,6 @@ operationId: listAccountTransactions
 description: |
   Booked and pending entries of the selected account.
 
-  Example: `/accounts/550e8400-e29b-11d4-a716-446655440000/transactions`
+  Example: `GET /accounts/550e8400-e29b-11d4-a716-446655440000/transactions`
 parameters:
   accountId: $response.body#/id

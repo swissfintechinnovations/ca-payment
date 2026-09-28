@@ -79,11 +79,11 @@ paths:
                       $ref: ./components/schemas/ais/AccountItem.yaml
           links:
             accountDetails:
-              $ref: ./components/links/accountListDetails.yaml
+              $ref: ./components/links/ais/accountListDetails.yaml
             accountBalance:
-              $ref: ./components/links/accountListBalance.yaml
+              $ref: ./components/links/ais/accountListBalance.yaml
             accountTransactions:
-              $ref: ./components/links/accountListTransactions.yaml
+              $ref: ./components/links/ais/accountListTransactions.yaml
         '400':
           $ref: ./components/responses/standard400.yaml
         '401':
@@ -132,9 +132,9 @@ paths:
                 $ref: ./components/schemas/ais/AccountItem.yaml
           links:
             accountBalance:
-              $ref: ./components/links/accountBalance.yaml
+              $ref: ./components/links/ais/accountBalance.yaml
             accountTransactions:
-              $ref: ./components/links/accountTransactions.yaml
+              $ref: ./components/links/ais/accountTransactions.yaml
         '400':
           $ref: ./components/responses/standard400.yaml
         '401':
@@ -266,7 +266,7 @@ paths:
                 $ref: ./components/schemas/ais/AccountTransactionReport.yaml
           links:
             transactionDetails:
-              $ref: ./components/links/transactionListDetails.yaml
+              $ref: ./components/links/ais/transactionListDetails.yaml
         '202':
           # description: |
           #   Accepted - The request is valid, but the requested data is not yet available because the associated booking day is still
@@ -396,7 +396,7 @@ paths:
                       $ref: ./components/schemas/ais/Iso20022ReportReference053.yaml
           links:
             statementDocument:
-              $ref: ./components/links/statementListReport.yaml
+              $ref: ./components/links/ais/statementListReport.yaml
         '400':
           $ref: ./components/responses/standard400.yaml
         '401':
@@ -510,7 +510,7 @@ paths:
                       $ref: ./components/schemas/ais/Iso20022ReportReference052.yaml
           links:
             reportDocument:
-              $ref: ./components/links/reportListReport.yaml
+              $ref: ./components/links/ais/reportListReport.yaml
         '400':
           $ref: ./components/responses/standard400.yaml
         '401':

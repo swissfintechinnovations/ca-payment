@@ -5,4 +5,4 @@ description: |
 
   Example: `DELETE /standing-orders/618d4ac6e8a64e3d9f26aa3d8c4f323e`
 parameters:
-  submissionId: '$response.body#/submissionId'
+  submissionId: $response.body#/submissionId

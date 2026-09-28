@@ -154,11 +154,11 @@ paths:
                 $ref: ./components/schemas/pss/StandingOrderSubmissionResponse.yaml
           links:
             standingOrderDetails:
-              $ref: ./components/links/standingOrderDetails.yaml
+              $ref: ./components/links/pss/standingOrderDetails.yaml
             standingOrderStatus:
-              $ref: ./components/links/standingOrderStatus.yaml
+              $ref: ./components/links/pss/standingOrderStatus.yaml
             standingOrderDelete:
-              $ref: ./components/links/standingOrderDelete.yaml
+              $ref: ./components/links/pss/standingOrderDelete.yaml
         '400':
           $ref: ./components/responses/standard400.yaml
         '401':
@@ -413,9 +413,9 @@ paths:
                 $ref: ./components/schemas/pss/PaymentSubmissionResponse.yaml
           links:
             paymentRequestStatus:
-              $ref: ./components/links/paymentRequestStatus.yaml
+              $ref: ./components/links/pss/paymentRequestStatus.yaml
             paymentRequestDelete:
-              $ref: ./components/links/paymentRequestDelete.yaml
+              $ref: ./components/links/pss/paymentRequestDelete.yaml
         '400':
           $ref: ./components/responses/standard400.yaml
         '401':
@@ -627,11 +627,11 @@ paths:
                 $ref: ./components/schemas/pss/SinglepaymentsSubmissionResponse.yaml
           links:
             singlePaymentDetails:
-              $ref: ./components/links/singlePaymentDetails.yaml
+              $ref: ./components/links/pss/singlePaymentDetails.yaml
             singlePaymentStatus:
-              $ref: ./components/links/singlePaymentStatus.yaml
+              $ref: ./components/links/pss/singlePaymentStatus.yaml
             singlePaymentDelete:
-              $ref: ./components/links/singlePaymentDelete.yaml
+              $ref: ./components/links/pss/singlePaymentDelete.yaml
         '400':
           $ref: ./components/responses/standard400.yaml
         '401':
@@ -830,11 +830,11 @@ paths:
                 $ref: ./components/schemas/pss/PaymentSubmissionResponse.yaml
           links:
             paymentInstruction:
-              $ref: ./components/links/iso20022PaymentInstruction.yaml
+              $ref: ./components/links/pss/iso20022PaymentInstruction.yaml
             paymentStatusReport:
-              $ref: ./components/links/iso20022PaymentStatusReport.yaml
+              $ref: ./components/links/pss/iso20022PaymentStatusReport.yaml
             paymentInstructionDelete:
-              $ref: ./components/links/iso20022PaymentDelete.yaml
+              $ref: ./components/links/pss/iso20022PaymentDelete.yaml
         '400':
           $ref: ./components/responses/standard400.yaml
         '401':
