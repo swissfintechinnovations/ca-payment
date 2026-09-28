@@ -2,7 +2,7 @@ operationId: getIso20022AccountStatement
 description: |
   The `id` of any entry in the `statements` array can be used as the `reportId` path parameter.
   The expression below addresses the first entry; it applies to every entry alike.
-  
+
   Example: `/iso20022/statements/8265333`
 parameters:
-  reportId: '$response.body#/statements/0/id'
+  reportId: $response.body#/statements/0/id

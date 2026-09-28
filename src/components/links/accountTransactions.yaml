@@ -4,4 +4,4 @@ description: |
 
   Example: `/accounts/550e8400-e29b-11d4-a716-446655440000/transactions`
 parameters:
-  accountId: '$response.body#/id'
+  accountId: $response.body#/id

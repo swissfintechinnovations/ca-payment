@@ -7,4 +7,4 @@ description: |
   Example: `/accounts/550e8400-e29b-11d4-a716-446655440000/transactions/12345ABC6789`
 parameters:
   accountId: '$request.path.accountId'
-  entryId: '$response.body#/entries/0/accountServicerReference'
+  entryId: $response.body#/entries/0/accountServicerReference

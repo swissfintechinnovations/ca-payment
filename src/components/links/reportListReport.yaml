@@ -5,4 +5,4 @@ description: |
 
   Example: `/iso20022/reports/8265333`
 parameters:
-  reportId: '$response.body#/reports/0/id'
+  reportId: $response.body#/reports/0/id

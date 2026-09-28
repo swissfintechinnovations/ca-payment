@@ -2,7 +2,7 @@ operationId: getAccountBalance
 description: |
   Current or closing balance of the selected account.
   The expression below addresses the first entry; it applies to every entry alike.
-  
+
   Example: `/accounts/550e8400-e29b-11d4-a716-446655440000/balance`
 parameters:
-  accountId: '$response.body#/accounts/0/id'
+  accountId: $response.body#/accounts/0/id
