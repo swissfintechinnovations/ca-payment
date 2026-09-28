@@ -1,0 +1,8 @@
+operationId: getAccountTransaction
+description: |
+  Details of a single entry. `entryId` corresponds to `AccountTransactionEntry.accountServicerReference`; the
+  `accountServicerReference` inside `transactions[]` identifies an individual transaction within an entry and must not be used here.
+  The expression below addresses the first entry; it applies to every entry alike.
+parameters:
+  accountId: '$request.path.accountId'
+  entryId: '$response.body#/entries/0/accountServicerReference'

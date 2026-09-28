@@ -77,6 +77,13 @@ paths:
                     type: array
                     items:
                       $ref: ./components/schemas/ais/AccountItem.yaml
+          links:
+            accountDetails:
+              $ref: ./components/links/accountListDetails.yaml
+            accountBalance:
+              $ref: ./components/links/accountListBalance.yaml
+            accountTransactions:
+              $ref: ./components/links/accountListTransactions.yaml
         '400':
           $ref: ./components/responses/standard400.yaml
         '401':
@@ -123,6 +130,11 @@ paths:
             application/json:
               schema:
                 $ref: ./components/schemas/ais/AccountItem.yaml
+          links:
+            accountBalance:
+              $ref: ./components/links/accountBalance.yaml
+            accountTransactions:
+              $ref: ./components/links/accountTransactions.yaml
         '400':
           $ref: ./components/responses/standard400.yaml
         '401':
@@ -252,6 +264,9 @@ paths:
             application/json:
               schema:
                 $ref: ./components/schemas/ais/AccountTransactionReport.yaml
+          links:
+            transactionDetails:
+              $ref: ./components/links/transactionListDetails.yaml
         '202':
           # description: |
           #   Accepted - The request is valid, but the requested data is not yet available because the associated booking day is still
@@ -379,6 +394,9 @@ paths:
                     type: array
                     items:
                       $ref: ./components/schemas/ais/Iso20022ReportReference053.yaml
+          links:
+            statementDocument:
+              $ref: ./components/links/statementListReport.yaml
         '400':
           $ref: ./components/responses/standard400.yaml
         '401':
@@ -490,6 +508,9 @@ paths:
                     type: array
                     items:
                       $ref: ./components/schemas/ais/Iso20022ReportReference052.yaml
+          links:
+            reportDocument:
+              $ref: ./components/links/reportListReport.yaml
         '400':
           $ref: ./components/responses/standard400.yaml
         '401':
