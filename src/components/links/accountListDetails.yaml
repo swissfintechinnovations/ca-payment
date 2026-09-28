@@ -2,6 +2,7 @@ operationId: getAccount
 description: |
   The `id` of any entry in the `accounts` array can be used as the `accountId` path parameter.
   The expression below addresses the first entry; it applies to every entry alike.
-  Example: /accounts/550e8400-e29b-11d4-a716-446655440000
+
+  Example: `/accounts/550e8400-e29b-11d4-a716-446655440000`
 parameters:
   accountId: '$response.body#/accounts/0/id'
