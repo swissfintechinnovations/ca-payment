@@ -152,6 +152,13 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/StandingOrderSubmissionResponse'
+          links:
+            standingOrderDetails:
+              $ref: '#/components/links/standingOrderDetails'
+            standingOrderStatus:
+              $ref: '#/components/links/standingOrderStatus'
+            standingOrderDelete:
+              $ref: '#/components/links/standingOrderDelete'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -404,6 +411,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PaymentSubmissionResponse'
+          links:
+            paymentRequestStatus:
+              $ref: '#/components/links/paymentRequestStatus'
+            paymentRequestDelete:
+              $ref: '#/components/links/paymentRequestDelete'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -613,6 +625,13 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SinglepaymentsSubmissionResponse'
+          links:
+            singlePaymentDetails:
+              $ref: '#/components/links/singlePaymentDetails'
+            singlePaymentStatus:
+              $ref: '#/components/links/singlePaymentStatus'
+            singlePaymentDelete:
+              $ref: '#/components/links/singlePaymentDelete'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -809,6 +828,13 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PaymentSubmissionResponse'
+          links:
+            paymentInstruction:
+              $ref: '#/components/links/iso20022PaymentInstruction'
+            paymentStatusReport:
+              $ref: '#/components/links/iso20022PaymentStatusReport'
+            paymentInstructionDelete:
+              $ref: '#/components/links/iso20022PaymentDelete'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -2683,3 +2709,103 @@ components:
           scopes:
             read: Grants read access
             write: Grants write access
+  links:
+    iso20022PaymentDelete:
+      operationId: deleteIso20022PaymentInstruction
+      description: |
+        Delete the submitted ISO20022 payment instruction.
+        The `submissionId` returned in the response can be used as the `submissionId` path parameter.
+
+        Example: `DELETE /iso20022/payments/618d4ac6e8a64e3d9f26aa3d8c4f323e`
+      parameters:
+        submissionId: $response.body#/submissionId
+    iso20022PaymentInstruction:
+      operationId: getIso20022PaymentInstruction
+      description: |
+        The submitted ISO20022 XML pain.001 message.
+        The `submissionId` returned in the response can be used as the `submissionId` path parameter.
+
+        Example: `GET /iso20022/payments/618d4ac6e8a64e3d9f26aa3d8c4f323e`
+      parameters:
+        submissionId: $response.body#/submissionId
+    iso20022PaymentStatusReport:
+      operationId: getIso20022PaymentInstructionStatusReport
+      description: |
+        ISO20022 XML pain.002 status report of the submitted message.
+        The `submissionId` returned in the response can be used as the `submissionId` path parameter.
+
+        Example: `GET /iso20022/payments/618d4ac6e8a64e3d9f26aa3d8c4f323e/status`
+      parameters:
+        submissionId: $response.body#/submissionId
+    paymentRequestDelete:
+      operationId: deletePaymentRequest
+      description: |
+        Delete the submitted payment request.
+        The `submissionId` returned in the response can be used as the `submissionId` path parameter.
+
+        Example: `DELETE /payments/618d4ac6e8a64e3d9f26aa3d8c4f323e`
+      parameters:
+        submissionId: $response.body#/submissionId
+    paymentRequestStatus:
+      operationId: getPaymentRequestStatus
+      description: |
+        Processing status of the submitted payment request.
+        The `submissionId` returned in the response can be used as the `submissionId` path parameter.
+
+        Example: `GET /payments/618d4ac6e8a64e3d9f26aa3d8c4f323e/status`
+      parameters:
+        submissionId: $response.body#/submissionId
+    singlePaymentDelete:
+      operationId: deleteSinglePaymentRequest
+      description: |
+        Delete the submitted single payment.
+        The `submissionId` returned in the response can be used as the `submissionId` path parameter.
+
+        Example: `DELETE /single-payments/618d4ac6e8a64e3d9f26aa3d8c4f323e`
+      parameters:
+        submissionId: $response.body#/submissionId
+    singlePaymentDetails:
+      operationId: getSinglePaymentRequest
+      description: |
+        Details of the submitted single payment.
+        The `submissionId` returned in the response can be used as the `submissionId` path parameter.
+
+        Example: `GET /single-payments/618d4ac6e8a64e3d9f26aa3d8c4f323e`
+      parameters:
+        submissionId: $response.body#/submissionId
+    singlePaymentStatus:
+      operationId: getSinglePaymentRequestStatus
+      description: |
+        Processing status of the submitted single payment.
+        The `submissionId` returned in the response can be used as the `submissionId` path parameter.
+
+        Example: `GET /single-payments/618d4ac6e8a64e3d9f26aa3d8c4f323e/status`
+      parameters:
+        submissionId: $response.body#/submissionId
+    standingOrderDelete:
+      operationId: deleteStandingOrder
+      description: |
+        Delete the submitted standing order.
+        The `submissionId` returned in the response can be used as the `submissionId` path parameter.
+
+        Example: `DELETE /standing-orders/618d4ac6e8a64e3d9f26aa3d8c4f323e`
+      parameters:
+        submissionId: $response.body#/submissionId
+    standingOrderDetails:
+      operationId: getStandingOrder
+      description: |
+        Details of the submitted standing order.
+        The `submissionId` returned in the response can be used as the `submissionId` path parameter.
+
+        Example: `GET /standing-orders/618d4ac6e8a64e3d9f26aa3d8c4f323e`
+      parameters:
+        submissionId: $response.body#/submissionId
+    standingOrderStatus:
+      operationId: getStandingOrderStatus
+      description: |
+        Processing status of the submitted standing order.
+        The `submissionId` returned in the response can be used as the `submissionId` path parameter.
+
+        Example: `GET /standing-orders/618d4ac6e8a64e3d9f26aa3d8c4f323e/status`
+      parameters:
+        submissionId: $response.body#/submissionId
