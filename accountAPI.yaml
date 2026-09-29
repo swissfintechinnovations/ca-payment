@@ -77,6 +77,13 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/AccountItem'
+          links:
+            accountDetails:
+              $ref: '#/components/links/accountListDetails'
+            accountBalance:
+              $ref: '#/components/links/accountListBalance'
+            accountTransactions:
+              $ref: '#/components/links/accountListTransactions'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -123,6 +130,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AccountItem'
+          links:
+            accountBalance:
+              $ref: '#/components/links/accountBalance'
+            accountTransactions:
+              $ref: '#/components/links/accountTransactions'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -252,6 +264,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AccountTransactionReport'
+          links:
+            transactionDetails:
+              $ref: '#/components/links/transactionListDetails'
         '202':
           $ref: '#/components/responses/standard202'
         '204':
@@ -372,6 +387,9 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/Iso20022ReportReference053'
+          links:
+            statementDocument:
+              $ref: '#/components/links/statementListReport'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -483,6 +501,9 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/Iso20022ReportReference052'
+          links:
+            reportDocument:
+              $ref: '#/components/links/reportListReport'
         '400':
           $ref: '#/components/responses/standard400'
         '401':
@@ -858,19 +879,6 @@ components:
           example: CLBD
         date:
           $ref: '#/components/schemas/Date'
-        _links:
-          type: object
-          description: Contains the paths to additional resources for specific account (e.g. path to account and transactions resource).
-          properties:
-            self:
-              type: string
-              example: /accounts/550e8400-e29b-11d4-a716-446655440000/balance
-            account:
-              type: string
-              example: /accounts/550e8400-e29b-11d4-a716-446655440000
-            transactions:
-              type: string
-              example: /accounts/550e8400-e29b-11d4-a716-446655440000/transactions
     AccountItem:
       title: Account Information Item
       description: The account object.
@@ -929,19 +937,6 @@ components:
           $ref: '#/components/schemas/Designation'
         id:
           $ref: '#/components/schemas/CommonAccountId'
-        _links:
-          type: object
-          description: Contains the paths to additional resources for specific account (e.g. path to balance and transactions resource).
-          properties:
-            self:
-              type: string
-              example: /accounts/550e8400-e29b-11d4-a716-446655440000
-            balance:
-              type: string
-              example: /accounts/550e8400-e29b-11d4-a716-446655440000/balance
-            transactions:
-              type: string
-              example: /accounts/550e8400-e29b-11d4-a716-446655440000/transactions
         currency:
           $ref: '#/components/schemas/Currency'
     AccountOwnerName:
@@ -1265,19 +1260,6 @@ components:
             $ref: '#/components/schemas/AccountTransactionEntry'
         iban:
           $ref: '#/components/schemas/IbanIdentification'
-        _links:
-          type: object
-          description: Contains the paths to additional resources for specific account (e.g. path to account and balance resource).
-          properties:
-            self:
-              type: string
-              example: /accounts/550e8400e29b11d4a716446655440000/transactions
-            account:
-              type: string
-              example: /accounts/550e8400e29b11d4a716446655440000
-            balance:
-              type: string
-              example: /accounts/550e8400e29b11d4a716446655440000/balance
     AccountTransactionStructuredAddress:
       title: Structured Postal Address for Transactions
       description: Specifies the details of the counterparty structured address.
@@ -2075,3 +2057,76 @@ components:
           scopes:
             read: Grants read access
             write: Grants write access
+  links:
+    accountBalance:
+      operationId: getAccountBalance
+      description: |
+        Current or closing balance of the selected account.
+
+        Example: `GET /accounts/550e8400-e29b-11d4-a716-446655440000/balance`
+      parameters:
+        accountId: $response.body#/id
+    accountListBalance:
+      operationId: getAccountBalance
+      description: |
+        Current or closing balance of the selected account.
+        The expression below addresses the first entry; it applies to every entry alike.
+
+        Example: `GET /accounts/550e8400-e29b-11d4-a716-446655440000/balance`
+      parameters:
+        accountId: $response.body#/accounts/0/id
+    accountListDetails:
+      operationId: getAccount
+      description: |
+        The `id` of any entry in the `accounts` array can be used as the `accountId` path parameter.
+        The expression below addresses the first entry; it applies to every entry alike.
+
+        Example: `GET /accounts/550e8400-e29b-11d4-a716-446655440000`
+      parameters:
+        accountId: $response.body#/accounts/0/id
+    accountListTransactions:
+      operationId: listAccountTransactions
+      description: |
+        Booked and pending entries of the selected account.
+        The expression below addresses the first entry; it applies to every entry alike.
+
+        Example: `GET /accounts/550e8400-e29b-11d4-a716-446655440000/transactions`
+      parameters:
+        accountId: $response.body#/accounts/0/id
+    accountTransactions:
+      operationId: listAccountTransactions
+      description: |
+        Booked and pending entries of the selected account.
+
+        Example: `GET /accounts/550e8400-e29b-11d4-a716-446655440000/transactions`
+      parameters:
+        accountId: $response.body#/id
+    reportListReport:
+      operationId: getIso20022AccountReport
+      description: |
+        The `id` of any entry in the `reports` array can be used as the `reportId` path parameter.
+        The expression below addresses the first entry; it applies to every entry alike.
+
+        Example: `GET /iso20022/reports/8265333`
+      parameters:
+        reportId: $response.body#/reports/0/id
+    statementListReport:
+      operationId: getIso20022AccountStatement
+      description: |
+        The `id` of any entry in the `statements` array can be used as the `reportId` path parameter.
+        The expression below addresses the first entry; it applies to every entry alike.
+
+        Example: `GET /iso20022/statements/8265333`
+      parameters:
+        reportId: $response.body#/statements/0/id
+    transactionListDetails:
+      operationId: getAccountTransaction
+      description: |
+        Details of a single entry. `entryId` corresponds to `AccountTransactionEntry.accountServicerReference`; the
+        `accountServicerReference` inside `transactions[]` identifies an individual transaction within an entry and must not be used here.
+        The expression below addresses the first entry; it applies to every entry alike.
+
+        Example: `GET /accounts/550e8400-e29b-11d4-a716-446655440000/transactions/12345ABC6789`
+      parameters:
+        accountId: $request.path.accountId
+        entryId: $response.body#/entries/0/accountServicerReference
