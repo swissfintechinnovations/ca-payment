@@ -130,11 +130,6 @@ paths:
             application/json:
               schema:
                 $ref: ./components/schemas/ais/AccountItem.yaml
-          links:
-            accountBalance:
-              $ref: ./components/links/ais/accountBalance.yaml
-            accountTransactions:
-              $ref: ./components/links/ais/accountTransactions.yaml
         '400':
           $ref: ./components/responses/standard400.yaml
         '401':
