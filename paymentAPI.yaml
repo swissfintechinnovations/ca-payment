@@ -1661,7 +1661,7 @@ components:
       title: Payment Booking Instruction
       description: |
         Combined booking and advice instruction for the payment submission. Encodes the SPS attributes batch booking (PmtInf ⇾ BtchBookg),
-        category purpose code (PmtInf ⇾ CtgyPurp ⇾ Cd, e.g. SALA for confidential salary payments) and advice steering (NOA, CND, CWD, SIA).
+        category purpose code (PmtInf ⇾ PmtTpInf ⇾ CtgyPurp ⇾ Cd, e.g. SALA for confidential salary payments) and advice steering (PmtInf ⇾ DbtrAcct ⇾ Tp ⇾ Prtry, e.g. NOA, CND, CWD, SIA).
       type: string
       enum:
         - SINGLEBOOKING_SIA
