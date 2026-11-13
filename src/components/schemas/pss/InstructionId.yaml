@@ -1,4 +1,8 @@
-description: The unique identifier of the instruction item. Corresponds to the attribute _InstrId_ in SPS/ISO-20022.
+description: |
+  The unique identifier of the instruction item, assigned by the initiating party. Corresponds to the attribute CdtTrfTxInf ⇾ PmtId ⇾ InstrId in SPS/ISO-20022.
+  In SPS the element is optional with the recommendation to use it. In this specification it is mandatory, since it is the reference used to report the status
+  of an individual instruction back to the initiating party. The value must be unique within the transactions of a single submission (B-level).
+  Only the restricted character set for reference elements defined by SPS is permitted.
 type: string
 maxLength: 35
 example: INSTR-001

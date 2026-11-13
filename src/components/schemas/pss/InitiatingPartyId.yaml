@@ -1,4 +1,7 @@
-description: The identifier of the third party provider (TPP) who created the payment instruction message derived from the OAuth 2.0 flow.
+description: |
+  The identification of the party initiating the payment submission, i.e. the third party provider (TPP) acting on behalf of the debtor.
+  The value is derived from the OAuth 2.0 flow and identifies the initiating system towards the financial institution.
+  Corresponds to the attribute InitgPty ⇾ Id ⇾ OrgId ⇾ Othr ⇾ Id in SPS/ISO-20022.
 type: string
 maxLength: 32
 example: TPP01746

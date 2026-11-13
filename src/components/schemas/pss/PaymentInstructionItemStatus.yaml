@@ -2,12 +2,24 @@ title: Payment Instruction Item Status
 description: The status of the payment instruction item.
 type: object
 required:
-  - instructionId
+  - originalEndToEndId
+  - originalInstructionId
   - statusCode
 properties:
-  instructionId:
-    description: The unique identifier of the payment instruction item.
-    $ref: ./InstructionId.yaml
+  originalEndToEndId:
+    type: string
+    maxLength: 35
+    description: |
+      The endToEndId of the original instruction item, as provided in the attribute endToEndId of the payment submission request.
+      Corresponds to the attribute _TxInfAndSts ⇾ OrgnlEndToEndId_ in SPS/ISO-20022.
+    example: ENDTOENDID-001
+  originalInstructionId:
+    type: string
+    maxLength: 35
+    description: |
+      The unique identifier of the original instruction item, as provided in the attribute instructionId of the payment submission request.
+      Corresponds to the attribute _TxInfAndSts ⇾ OrgnlInstrId_ in SPS/ISO-20022.
+    example: INSTR-001
   statusCode:
     type: string
     description: |
@@ -26,10 +38,10 @@ properties:
     example: RJCT
   reasonCode:
     type: string
-    description: The reason code for the instruction item. Corresponds to the attribute _StsRsnInf_ in SPS/ISO-20022.
+    description: The reason code for the instruction item. Corresponds to the attribute TxInfAndSts ⇾ StsRsnInf ⇾ Rsn in SPS/ISO-20022.
     example: CURR
   reasonInformation:
     type: string
     maxLength: 105
-    description: The reason information for the instruction item. Corresponds to the attribute _StsRsnInf ⇾ Rsn ⇾ Prtry_ in SPS/ISO-20022.
+    description: The reason information for the instruction item. Corresponds to the attribute TxInfAndSts ⇾ StsRsnInf ⇾ AddtlInf in SPS/ISO-20022.
     example: currency USD not allowed for payment type IBAN
