@@ -144,8 +144,6 @@ paths:
         '201':
           description: Standing order created.
           headers:
-            Location:
-              $ref: '#/components/headers/Location'
             X-Correlation-ID:
               $ref: '#/components/headers/X-Correlation-ID'
           content:
@@ -396,8 +394,6 @@ paths:
         '201':
           description: Payment request created.
           headers:
-            Location:
-              $ref: '#/components/headers/Location'
             X-Correlation-ID:
               $ref: '#/components/headers/X-Correlation-ID'
           content:
@@ -605,8 +601,6 @@ paths:
         '201':
           description: Single payment request created.
           headers:
-            Location:
-              $ref: '#/components/headers/Location'
             X-Correlation-ID:
               $ref: '#/components/headers/X-Correlation-ID'
           content:
@@ -801,8 +795,6 @@ paths:
         '201':
           description: Payment instruction created.
           headers:
-            Location:
-              $ref: '#/components/headers/Location'
             X-Correlation-ID:
               $ref: '#/components/headers/X-Correlation-ID'
           content:
@@ -2067,6 +2059,8 @@ components:
       title: Payment Submission Response (200)
       description: The payment submission response object.
       type: object
+      required:
+        - submissionId
       properties:
         submissionId:
           $ref: '#/components/schemas/SubmissionId'
@@ -2162,6 +2156,8 @@ components:
       title: Single Payment Submission Response
       description: The single payment submission response object.
       type: object
+      required:
+        - submissionId
       properties:
         submissionId:
           $ref: '#/components/schemas/SubmissionId'
@@ -2236,6 +2232,8 @@ components:
       title: Standing Order Submission Response
       description: The standing order submission response object.
       type: object
+      required:
+        - submissionId
       properties:
         submissionId:
           $ref: '#/components/schemas/SubmissionId'
@@ -2652,11 +2650,6 @@ components:
       description: Response language - always en.
       schema:
         type: string
-    Location:
-      description: Location (URI-reference) of the submitted message. The relative path shall be returned as URI-reference.
-      schema:
-        type: string
-        example: /single-payments/618d4ac6e8a64e3d9f26aa3d8c4f323e
     X-Correlation-ID:
       description: Service User defined ID from request to correlate HTTP requests between a Service User and a Service Provider.
       schema:
