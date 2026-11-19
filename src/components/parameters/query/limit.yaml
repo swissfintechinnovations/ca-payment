@@ -1,7 +1,10 @@
 in: query
 name: limit
 description: |
-  Optional parameter for pagination, specifying the number of items to return. The actual maximum limit can be defined by the provider.
+  Optional parameter for pagination, specifying the maximum number of items to return per page. The provider may return
+  fewer items than requested. If the requested limit exceeds the provider-defined maximum, the provider returns at
+  most its maximum number of items for that page and makes the remaining items available via `X-Next-Cursor`; the
+  request must not be rejected because the limit exceeds the provider maximum.
 required: false
 schema:
   type: integer
