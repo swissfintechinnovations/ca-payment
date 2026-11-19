@@ -127,7 +127,7 @@ components:
           $ref: '#/components/schemas/EventType'
         id:
           type: string
-          description: Unique and unambiguous identification (i.e. UUID) of the event subscription.
+          description: Unique and unambiguous identification (i.e. UUID) of the event notification.
           example: 120066c9-58a1-432b-aa60-712fae7f143e
         resourceLink:
           type: string
