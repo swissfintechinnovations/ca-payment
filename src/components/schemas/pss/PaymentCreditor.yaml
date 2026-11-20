@@ -8,7 +8,9 @@ properties:
   name:
     type: string
     maxLength: 140
-    description: The name of the creditor of a payment. Restriction for payment type SEPA is 70 characters.
+    description: |
+      The name of the creditor of a payment. Restriction for payment type SEPA is 70 characters.
+      Corresponds to the attribute CdtTrfTxInf ⇾ Cdtr ⇾ Nm in SPS/ISO-20022.
     example: Hans Muster
   postalAddress:
     # description: The postal address of the creditor of a payment.

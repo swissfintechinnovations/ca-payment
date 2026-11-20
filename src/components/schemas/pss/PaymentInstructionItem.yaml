@@ -11,7 +11,7 @@ properties:
     $ref: ./EndToEndId.yaml
   instructedAmount:
     # description: The instructed amount of the payment. Corresponds to the attribute _InstdAmt_ in SPS/ISO-20022.
-    $ref: ./PaymentCurrencyAmount.yaml
+    $ref: ./PaymentInstructedAmount.yaml
   instructionId:
     # description: The identifier of the payment instruction item.
     $ref: ./InstructionId.yaml
