@@ -144,8 +144,6 @@ paths:
         '201':
           description: Standing order created.
           headers:
-            Location:
-              $ref: ./components/headers/Location.yaml
             X-Correlation-ID:
               $ref: ./components/headers/X-Correlation-ID.yaml
           content:
@@ -396,8 +394,6 @@ paths:
         '201':
           description: Payment request created.
           headers:
-            Location:
-              $ref: ./components/headers/Location.yaml
             X-Correlation-ID:
               $ref: ./components/headers/X-Correlation-ID.yaml
           content:
@@ -605,8 +601,6 @@ paths:
         '201':
           description: Single payment request created.
           headers:
-            Location:
-              $ref: ./components/headers/Location.yaml
             X-Correlation-ID:
               $ref: ./components/headers/X-Correlation-ID.yaml
           content:
@@ -801,8 +795,6 @@ paths:
         '201':
           description: Payment instruction created.
           headers:
-            Location:
-              $ref: ./components/headers/Location.yaml
             X-Correlation-ID:
               $ref: ./components/headers/X-Correlation-ID.yaml
           content:
